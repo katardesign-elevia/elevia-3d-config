@@ -1,0 +1,176 @@
+{% layout none %}
+{% if customer %}
+  <div class="account-container">
+      <h1>Account</h1>
+
+      <a href="{{ routes.account_logout_url }}" class="logout-link">Log out</a>
+
+      <div class="account-content">
+          <!-- Historie objednávek -->
+          <div class="order-history">
+              <h2>Order history</h2>
+              {% if customer.orders.size > 0 %}
+                  <table class="order-table">
+                      <thead>
+                          <tr>
+                              <th>ORDER</th>
+                              <th>DATE</th>
+                              <th>PAYMENT STATUS</th>
+                              <th>FULFILLMENT STATUS</th>
+                              <th>TOTAL</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for order in customer.orders %}
+                              <tr>
+                                  <td><a href="{{ order.customer_url }}">#{{ order.name }}</a></td>
+                                  <td>{{ order.created_at | date: "%B %d, %Y" }}</td>
+                                  <td>{{ order.financial_status }}</td>
+                                  <td>{{ order.fulfillment_status }}</td>
+                                  <td>{{ order.total_price | money }}</td>
+                              </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+              {% else %}
+                  <p>No orders found.</p>
+              {% endif %}
+          </div>
+
+          <!-- Detaily účtu -->
+          <div class="account-details">
+              <h2>Account details</h2>
+              <p>{{ customer.first_name }} {{ customer.last_name }}</p>
+              {% if customer.default_address %}
+                  <p>{{ customer.default_address.address1 }}</p>
+                  <p>{{ customer.default_address.city }}, {{ customer.default_address.province_code }} {{ customer.default_address.zip }}</p>
+                  <p>{{ customer.default_address.country }}</p>
+              {% else %}
+                  <p>No address on file.</p>
+              {% endif %}
+              <a href="{{ routes.account_addresses_url }}" class="view-addresses">View addresses ({{ customer.addresses_count }})</a>
+
+              <!-- Možnost změny hesla -->
+              <h3>Change Password</h3>
+              <form method="post" action="/account">
+                  <label>New Password:</label>
+                  <input type="password" name="password">
+                  <button type="submit">Update</button>
+              </form>
+          </div>
+      </div>
+  </div>
+
+{% else %}
+  <p>Please <a href="{{ routes.account_login_url }}">log in</a> to view your account.</p>
+{% endif %}
+
+
+<style>
+.account-container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+h1, h2 {
+    color: #222;
+}
+
+.logout-link {
+    display: block;
+    color: #007bff;
+    text-decoration: none;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.logout-link:hover {
+    text-decoration: underline;
+}
+
+.account-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.order-history, .account-details {
+    width: 48%;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.order-table th, .order-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.order-table th {
+    background: #f4f4f4;
+}
+
+.view-addresses, .btn {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.view-addresses:hover, .btn:hover {
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+}
+
+.loyalty-section, .discounts-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+form {
+    margin-top: 10px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    display: block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+</style>

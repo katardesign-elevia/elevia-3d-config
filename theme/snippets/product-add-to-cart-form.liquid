@@ -1,0 +1,55 @@
+{% comment %}
+  Product Add to Cart Form
+  Reusable add to cart form with variants, quantity selector, and error states
+
+  Parameters:
+  - product: product object (required)
+  - product_volume: string
+  - product_concentration: string
+{% endcomment %}
+
+<div class="add-to-cart">
+  {%- form "product", product, data-node-type: "commerce-add-to-cart-form", class: "w-commerce-commerceaddtocartform default-state" -%}
+
+    {%- unless product.has_only_default_variant or product.variants.size == 1 -%}
+      <div data-node-type="add-to-cart-option-list" class="option-wrapper" position-id="eeddbc66-7920-1bd3-9fc1-90130ecb321c">
+        {%- for option in product.options_with_values -%}
+          <fieldset data-node-type="add-to-cart-option" class="select-product-wrapper">
+            <select data-node-type="add-to-cart-option-select" class="flavour-select w-select" style="display: none;" name="{{ "option" | append: forloop.index }}">{%- render "product-options", option: option -%}</select>
+            <div data-node-type="block" class="flavour-text">{{ product.metafields.custom.nadpis_prichut }}</div>
+            <div data-node-type="add-to-cart-option-pill-group" class="option-group w-commerce-commerceaddtocartoptionpillgroup" aria-label="{{ "option" | append: forloop.index  }}">
+              {%- for value in option.values -%}
+                <div data-node-type="add-to-cart-option-pill" class="option-button w-commerce-commerceaddtocartoptionpill" data-option-name="{{ value | handle }}">
+                  <div data-node-type="block">{{ value }}</div>
+                </div>
+              {%- endfor -%}
+            </div>
+          </fieldset>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div data-node-type="add-to-cart-option-list" class="option-wrapper" style="display: none;"></div>
+    {%- endunless -%}
+
+    <div position-id="d827eb46-d994-ca85-78c9-a4edaec80b8c" class="div-block-2">
+      <div position-id="3da2ca77-59e8-4d72-afd1-83197b3568c2" class="q-group">
+        <a href="#" class="q-dec w-inline-block">
+          <div class="icon-16 w-embed"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33203 8H12.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+        </a><input type="number" pattern="^[0-9]+$" inputmode="numeric" id="quantity-{{ product.id }}" name="quantity" min="1" class="w-commerce-commerceaddtocartquantityinput q-num" value="1">
+        <a href="#" class="q-inc w-inline-block">
+          <div class="icon-16 w-embed"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.9987 3.33203V12.6654M3.33203 7.9987H12.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+        </a>
+      </div>
+      <input type="hidden" name="properties[Objem]" value="{{ product_volume }}">
+      <input type="hidden" name="properties[Koncentrace]" value="{{ product_concentration }}">
+      <input type="hidden" name="properties[Kategorie]" value="{% for collection in product.collections %}{{ collection.title }}{% unless forloop.last %}, {% endunless %}{% endfor %}">
+      <input data-loading-text="{{ 'tn26af42fa' | t }}" data-node-type="commerce-add-to-cart-button" class="w-commerce-commerceaddtocartbutton button is-add" fs-scrolldisable-element="disable" aria-haspopup="dialog" type="submit" aria-busy="false" position-id="eeddbc66-7920-1bd3-9fc1-90130ecb3226" value="{{ 'tn26bdceda' | t }}">
+    </div>
+  {%- render "product-variants-data-currency" product: product -%}{%- endform -%}
+  <div style="display:none" class="w-commerce-commerceaddtocartoutofstock" tabindex="0">
+    <div>{{ 't7aaa2dac' | t }}</div>
+  </div>
+  <div aria-live="assertive" data-node-type="commerce-add-to-cart-error" style="display:none" class="w-commerce-commerceaddtocarterror">
+    <div data-node-type="commerce-add-to-cart-error" data-w-add-to-cart-quantity-error="Product is not available in this quantity." data-w-add-to-cart-general-error="Something went wrong when adding this item to the cart." data-w-add-to-cart-mixed-cart-error="You can't purchase another product with a subscription." data-w-add-to-cart-buy-now-error="Something went wrong when trying to purchase this item." data-w-add-to-cart-checkout-disabled-error="Checkout is disabled on this site." data-w-add-to-cart-select-all-options-error="Please select an option in each set.">{{ 'tn1c765d0d' | t }}</div>
+  </div>
+</div>

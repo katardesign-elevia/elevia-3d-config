@@ -1,0 +1,319 @@
+<script type="module">
+  import { Application } from 'https://unpkg.com/@splinetool/runtime@1.0.48/build/runtime.js';
+
+  document.addEventListener('DOMContentLoaded', async function() {
+      // 1. Initialize Manual Canvas Spline Scenes (Legacy / specific scenes)
+      const manualElements = document.querySelectorAll('.spline-container, [data-spline-url]:not(spline-viewer)');
+      
+      const initManualSpline = (container) => {
+        if (container.dataset.splineInitialized) return;
+        container.dataset.splineInitialized = true;
+
+        // Ensure canvas exists
+        let canvas = container.querySelector('canvas');
+        if (!canvas) {
+            canvas = document.createElement('canvas');
+            container.appendChild(canvas);
+        }
+        
+        const splineUrl = container.getAttribute('data-spline-url');
+        if (!splineUrl) return;
+
+        const app = new Application(canvas);
+        app.load(splineUrl).then(() => {
+            setupScrollLogic(app, container); // Setup Scroll logic for manual app
+        });
+      };
+      
+      manualElements.forEach(initManualSpline);
+
+      // 2. Initialize Web Component Spline Viewers
+      // Wait for them to load and hook into their internal Application
+      const viewers = document.querySelectorAll('spline-viewer');
+      viewers.forEach(viewer => {
+          if (viewer.dataset.splineInitialized) return;
+          viewer.dataset.splineInitialized = true;
+
+          // Expose a global function to allow manual control (for debugger/testing)
+          window.updateSplineManual = (value) => {
+              if (typeof viewer.setVariable === 'function') {
+                  viewer.setVariable('Scroll', value);
+                  viewer.setVariable('scroll', value);
+                  console.log('Manually set Spline Scroll to:', value);
+              } else {
+                  console.warn('Spline Viewer setVariable API not found.');
+              }
+          };
+
+          // Listen for load event
+          viewer.addEventListener('load-complete', (e) => {
+             // If viewer.setVariable exists?
+             if (typeof viewer.setVariable === 'function') {
+                 // Great! It exposes the API directly.
+                 const mockApp = {
+                     setVariable: (name, val) => viewer.setVariable(name, val),
+                     load: (url) => Promise.resolve(), // Dummy load since it's already loaded
+                     getVariables: () => [] // Dummy
+                 };
+                 setupScrollLogic(mockApp, viewer);
+             } else {
+                 console.warn("Spline Viewer does not expose setVariable API. Scroll animation might not work.");
+                 // Fallback: Try to find .runtime or .spline property
+                 if (viewer.runtime) {
+                     setupScrollLogic(viewer.runtime, viewer);
+                 } else {
+                     // Last resort: poll for it
+                     const poller = setInterval(() => {
+                         if (viewer.runtime || typeof viewer.setVariable === 'function') {
+                             clearInterval(poller);
+                             const app = viewer.runtime || {
+                                setVariable: (n,v) => viewer.setVariable(n,v),
+                                load: () => Promise.resolve()
+                             };
+                             setupScrollLogic(app, viewer);
+                         }
+                     }, 500);
+                 }
+             }
+          });
+      });
+
+      // --- SHARED SCROLL LOGIC ---
+      // This function attaches the scroll loop to ANY Spline Application instance (or mock)
+      const setupScrollLogic = (app, containerElement) => {
+        // Helper to RELOAD the scene completely (State Reset)
+        let isReloading = false;
+        let lastReloadAt = 0;
+        const reloadCooldownMs = 1500; // Debounce to prevent thrashing
+        // Get URL from container or viewer
+        const splineUrl = containerElement.getAttribute('data-spline-url') || containerElement.getAttribute('url');
+
+        const resetScene = (toStart = true) => {
+            const now = Date.now();
+            if (isReloading) return;
+            if (now - lastReloadAt < reloadCooldownMs) return;
+            
+            // For <spline-viewer>, full reload might flicker or be slow.
+            // But we keep the logic if requested.
+            
+            isReloading = true;
+            
+            // If app.load is real (runtime), this works.
+            // If app.load is dummy (viewer), it resolves immediately.
+            app.load(splineUrl).then(() => {
+                lastReloadAt = Date.now();
+                lastScrollY = -1; // Force update
+
+                try {
+                    const docH = window.__splineDocHeight || cachedDocHeight;
+                    if (docH > 0) {
+                        const currentP = (window.scrollY / docH) * 100;
+                        let initialTarget = toStart ? 0 : 100;
+                        if (currentP > 0 && currentP < 35) {
+                           initialTarget = (currentP / 35) * 100;
+                        }
+                        app.setVariable('Scroll', initialTarget);
+                        app.setVariable('scroll', initialTarget);
+                    }
+                } catch(e) {}
+                
+                cacheSections();
+            }).finally(() => {
+                isReloading = false;
+            });
+        };
+
+        const splineWrapper = containerElement.closest('.spline-wrapper') || containerElement.parentElement;
+
+        // --- Optimized Scroll Logic (RAF + Caching) ---
+        let sectionCache = [];
+        let cachedDocHeight = 0;
+        let lastDocHeight = 0;
+        
+        const cacheSections = () => {
+            cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (cachedDocHeight !== lastDocHeight) {
+                lastDocHeight = cachedDocHeight;
+            }
+            window.__splineDocHeight = cachedDocHeight;
+            
+            // We use the same selector for sections as before
+            const els = Array.from(document.querySelectorAll('[data-spline-start][data-spline-end]'));
+            
+            sectionCache = els.map(el => {
+                let top, height, bottom;
+                
+                if (el.hasAttribute('data-start-pct') && el.hasAttribute('data-end-pct')) {
+                    const startPct = parseFloat(el.getAttribute('data-start-pct'));
+                    const endPct = parseFloat(el.getAttribute('data-end-pct'));
+                    top = (startPct / 100) * cachedDocHeight;
+                    bottom = (endPct / 100) * cachedDocHeight;
+                    height = bottom - top;
+                } else {
+                    const rect = el.getBoundingClientRect();
+                    top = rect.top + window.scrollY;
+                    height = rect.height;
+                    bottom = top + height;
+                }
+
+                return {
+                    el: el,
+                    top: top,
+                    bottom: bottom,
+                    height: height,
+                    start: parseFloat(el.dataset.splineStart),
+                    end: parseFloat(el.dataset.splineEnd)
+                };
+            }).sort((a, b) => a.top - b.top);
+        };
+
+        cacheSections();
+        window.addEventListener('resize', cacheSections);
+        window.addEventListener('load', cacheSections);
+        setTimeout(cacheSections, 2000);
+        setTimeout(cacheSections, 5000);
+        document.querySelectorAll('img').forEach(img => {
+            if (!img.complete) img.addEventListener('load', cacheSections);
+        });
+        const resizeObserver = new ResizeObserver(() => cacheSections());
+        resizeObserver.observe(document.documentElement);
+        setInterval(cacheSections, 1000);
+
+        let lastScrollY = -1;
+        let lastZone = 'inside'; 
+
+        const loop = () => {
+            const scrollY = window.scrollY;
+            let scrollPercent = 0;
+            
+            const docH = window.__splineDocHeight || cachedDocHeight;
+            if (docH > 0) {
+                scrollPercent = (scrollY / docH) * 100;
+            }
+            
+            if (Math.abs(scrollY - lastScrollY) > 0.5) {
+                lastScrollY = scrollY;
+                let targetValue = 0;
+                let activeIndex = -1;
+
+                for (let i = 0; i < sectionCache.length; i++) {
+                    const sec = sectionCache[i];
+                    if (scrollY >= sec.top - 1 && scrollY <= sec.bottom + 1) {
+                        activeIndex = i;
+                        let progress = (scrollY - sec.top) / sec.height;
+                        if (progress < 0) progress = 0;
+                        if (progress > 1) progress = 1;
+                        targetValue = sec.start + (progress * (sec.end - sec.start));
+                        break;
+                    }
+                }
+
+                if (activeIndex === -1 && sectionCache.length > 0) {
+                    const first = sectionCache[0];
+                    const last = sectionCache[sectionCache.length - 1];
+                    if (scrollY < first.top) {
+                        targetValue = first.start;
+                    } else if (scrollY > last.bottom) {
+                        targetValue = last.end;
+                    } else {
+                        for (let i = 0; i < sectionCache.length - 1; i++) {
+                            const current = sectionCache[i];
+                            const next = sectionCache[i + 1];
+                            if (scrollY > current.bottom && scrollY < next.top) {
+                                const gapProgress = (scrollY - current.bottom) / (next.top - current.bottom);
+                                targetValue = current.end + (gapProgress * (next.start - current.end));
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (scrollPercent < 2.0) targetValue = 0;
+                else if (scrollPercent > 33.0) targetValue = 100;
+
+                try {
+                    app.setVariable('Scroll', targetValue);
+                    app.setVariable('scroll', targetValue);
+                } catch (e) {}
+
+                const debugSplineEl = document.getElementById('debug-spline');
+                if (debugSplineEl) {
+                    debugSplineEl.innerText = `SPLINE: ${targetValue.toFixed(2)}`;
+                }
+
+                let zone = 'inside';
+                if (scrollPercent < 0.5) zone = 'top';
+                else if (scrollPercent > 35) zone = 'bottom';
+
+                if (zone !== lastZone) {
+                    if (zone === 'top') resetScene(true);
+                    else if (zone === 'bottom') resetScene(false);
+                    lastZone = zone;
+                }
+            }
+            requestAnimationFrame(loop);
+        };
+        requestAnimationFrame(loop);
+      };
+
+      // SPLINE WATERMARK BLOCKER
+      const createWatermarkBlocker = () => {
+          if (document.getElementById('spline-watermark-blocker')) return;
+          const body = document.body;
+          const bgColor = window.getComputedStyle(body).backgroundColor || '#F3F5F4';
+          const blocker = document.createElement('div');
+          blocker.id = 'spline-watermark-blocker';
+          blocker.style.cssText = `
+              position: fixed !important;
+              bottom: 16px !important;
+              right: 16px !important;
+              width: 180px !important;
+              height: 50px !important;
+              background-color: ${bgColor} !important;
+              z-index: 9999 !important;
+              pointer-events: none !important;
+          `;
+          document.body.appendChild(blocker);
+      };
+      createWatermarkBlocker();
+
+      // REMOVE WATERMARK
+      const removeWatermark = () => {
+          const clean = (root) => {
+              if (!root) return;
+              const selectors = 'a[href*="spline.design"], #spline-watermark, .spline-watermark, [id="logo"]';
+              const targets = root.querySelectorAll ? root.querySelectorAll(selectors) : [];
+              targets.forEach(el => {
+                  if (el.href && el.href.includes('spline.design')) el.remove();
+                  else if (el.textContent && el.textContent.includes('Spline')) el.remove();
+              });
+              const anchors = root.querySelectorAll ? root.querySelectorAll('a') : [];
+              anchors.forEach(a => {
+                  if (a.textContent && a.textContent.includes('Built with Spline')) {
+                      a.style.display = 'none';
+                      a.remove();
+                  }
+              });
+              if (root instanceof ShadowRoot) {
+                   if (!root.querySelector('style[data-spline-hide]')) {
+                       const style = document.createElement('style');
+                       style.setAttribute('data-spline-hide', 'true');
+                       style.textContent = `
+                           a[href*="spline.design"], #logo, #spline-watermark { display: none !important; opacity: 0 !important; pointer-events: none !important; visibility: hidden !important; }
+                       `;
+                       root.appendChild(style);
+                   }
+              }
+              const allEls = root.querySelectorAll ? root.querySelectorAll('*') : [];
+              allEls.forEach(el => {
+                  if (el.shadowRoot) clean(el.shadowRoot);
+              });
+          };
+          const viewers = document.querySelectorAll('spline-viewer');
+          viewers.forEach(v => { if (v.shadowRoot) clean(v.shadowRoot); });
+          clean(document.body);
+      };
+      setInterval(removeWatermark, 200);
+      removeWatermark();
+  });
+</script>

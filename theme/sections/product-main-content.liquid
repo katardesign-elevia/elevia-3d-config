@@ -1,0 +1,861 @@
+{%- liquid
+  assign light_color = product.metafields.custom['light-color'] | default: section.settings.light_color
+  assign bg_color = product.metafields.custom['bg-color'] | default: section.settings.bg_color
+
+  assign product_subtitle = product.metafields.custom.hero_sekce_podnadpis_produktu | default: section.settings.product_subtitle
+  assign product_volume = product.metafields.custom.hero_sekce_objem | default: section.settings.product_volume
+  assign product_concentration = product.metafields.custom.hero_sekce_koncentrace | default: section.settings.product_concentration
+  assign product_thc = product.metafields.custom.hero_sekce_obsah_thc | default: section.settings.product_thc
+
+  assign scroll_text_1 = product.metafields.custom.animovany_posuvny_text_prvni_radek | default: section.settings.scroll_text_1
+  assign scroll_text_2 = product.metafields.custom.animovany_posuvny_text_druhy_radek | default: section.settings.scroll_text_2
+  assign scroll_text_3 = product.metafields.custom.animovany_posuvny_text_treti_radek | default: section.settings.scroll_text_3
+
+  assign inside_main_headline = product.metafields.custom.sekce_co_je_uvnitr_hlavni_nadpis | default: section.settings.inside_main_headline
+  
+  assign tab_1_icon = product.metafields.custom.sekce_co_je_uvnitr_prvni_tab_ikona | default: section.settings.tab_1_icon
+  assign tab_1_headline = product.metafields.custom.sekce_co_je_uvnitr_prvni_tab_nadpis | default: section.settings.tab_1_headline
+  assign tab_1_content = product.metafields.custom.sekce_co_je_uvnitr_prvni_tab_obsah | default: section.settings.tab_1_content
+
+  assign tab_2_icon = product.metafields.custom.sekce_co_je_uvnitr_druhy_tab_ikona | default: section.settings.tab_2_icon
+  assign tab_2_headline = product.metafields.custom.sekce_co_je_uvnitr_druhy_tab_nadpis | default: section.settings.tab_2_headline
+  assign tab_2_content = product.metafields.custom.sekce_co_je_uvnitr_druhy_tab_obsah | default: section.settings.tab_2_content
+
+  assign tab_3_icon = product.metafields.custom.sekce_co_je_uvnitr_treti_tab_ikona | default: section.settings.tab_3_icon
+  assign tab_3_headline = product.metafields.custom.sekce_co_je_uvnitr_treti_tab_nadpis | default: section.settings.tab_3_headline
+  assign tab_3_content = product.metafields.custom.sekce_co_je_uvnitr_treti_tab_obsah | default: section.settings.tab_3_content
+  
+  assign dosage_main_headline = product.metafields.custom.sekce_davkovani_hlavni_nadpis | default: section.settings.dosage_main_headline
+  assign dosage_1_headline = product.metafields.custom.sekce_davkovani_nadpis_bloku_1 | default: section.settings.dosage_1_headline
+  assign dosage_1_content = product.metafields.custom.sekce_davkovani_obsah_bloku_1 | default: section.settings.dosage_1_content
+  assign dosage_2_headline = product.metafields.custom.sekce_davkovani_nadpis_bloku_2 | default: section.settings.dosage_2_headline
+  assign dosage_2_content = product.metafields.custom.sekce_davkovani_obsah_bloku_2 | default: section.settings.dosage_2_content
+  assign dosage_3_headline = product.metafields.custom.sekce_davkovani_nadpis_bloku_3 | default: section.settings.dosage_3_headline
+  assign dosage_3_content = product.metafields.custom.sekce_davkovani_obsah_bloku_3 | default: section.settings.dosage_3_content
+-%}
+
+
+{%- render 'nav-trigger' -%}
+<div class="cursor-wrapper">
+  <div data-w-id="be3ade52-c742-3b99-8d47-1dc04b4d6b78" style="display:none;opacity:0" class="button-prev">
+    <div class="circle-button-wrapper">
+      <div>{{ 't1f7907' | t }}</div>
+    </div>
+  </div>
+  <div data-w-id="be3ade52-c742-3b99-8d47-1dc04b4d6b7c" style="display:none;opacity:0" class="button-next">
+    <div class="circle-button-wrapper">
+      <div>{{ 't24ff13' | t }}</div>
+    </div>
+  </div>
+</div>
+<div class="sections-wrapper">
+  <div class="gradient"></div>
+  <div class="w-embed"><style>
+.gradient {
+    background-image: radial-gradient(circle, {{ light_color }}, #fff0);
+  }
+
+.body {
+    background-color: {{ bg_color }};
+  }
+
+/* Fix for empty space */
+.product-scroll-text-wrapper {
+    padding-bottom: 60px !important;
+}
+.wrapper-what-is-elevia {
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
+}
+.product-margin {
+    margin-top: 80px !important;
+    margin-bottom: 80px !important;
+}
+    .product-wrapper_dosage {
+    margin-top: 80px !important;
+}
+@media screen and (max-width: 991px) {
+    .section {
+        padding-top: 80px !important;
+    }
+}
+
+/* Force Spline Wrapper Visibility */
+#hero-spline-wrapper {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1; /* Above background, below text */
+    pointer-events: none;
+}
+.animation {
+    width: 100%;
+    height: 100%;
+}
+.hero-section {
+    position: relative;
+    z-index: 5; /* Text above Spline */
+    background-color: transparent !important; /* Ensure we see through to Spline */
+}
+</style></div>
+  <div id="hero-spline-wrapper" class="animation-wrapper">
+    <div class="animation u-hide-desktop-large-down">
+      <div class="spline-container" data-spline-url="https://prod.spline.design/n79PDwqHF9i3pYT0/scene.splinecode">
+           <canvas></canvas>
+      </div>
+    </div>
+    <div class="animation u-hide-desktop-large-up u-hide-tablet-down">
+      <div class="spline-container" data-spline-url="https://prod.spline.design/n79PDwqHF9i3pYT0/scene.splinecode">
+           <canvas></canvas>
+      </div>
+    </div>
+    <div class="animation u-hide-tablet-up u-hide-mobile-down">
+      <div class="spline-container" data-spline-url="https://prod.spline.design/n79PDwqHF9i3pYT0/scene.splinecode">
+           <canvas></canvas>
+      </div>
+    </div>
+    <div class="animation u-hide-mobile-up">
+      <div class="spline-container" data-spline-url="https://prod.spline.design/n79PDwqHF9i3pYT0/scene.splinecode">
+           <canvas></canvas>
+      </div>
+    </div>
+  </div>
+  <section class="hero-section" data-start-pct="0" data-end-pct="35" data-spline-start="0" data-spline-end="100">
+    <div class="w-layout-blockcontainer container-small is-relative w-container">
+      <div class="hero-wrapper">
+        <div class="hero-left">
+          <div class="info-wrapper">
+            <div class="product-headline-wrapper">
+              {%- render "categories",item: item -%}
+              <div class="product-hero">
+                <div class="heading-product-wrapper">
+                  <h1 class="h1-product">{{ product.title }}</h1>
+                </div>
+                <p class="body-large text-color-white70">{{ product_subtitle }}</p>
+                <div class="product-detail-wrapper">
+                  <p data-commerce-type="variation-price" class="body-large">{{ product.price | money_with_currency }}</p>
+                  <p class="body-large">{{ 't2f' | t }}</p>
+                  <p class="body-large">{{ product_volume }}</p>
+                  <p class="body-large">{{ 't2f' | t }}</p>
+                  <p class="body-large">{{ product_concentration }}</p>
+                  <p class="body-large">{{ 't2f' | t }}</p>
+                  <p class="body-large">{{ product_thc }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="buy-wrapper">
+            <div class="add-to-cart">
+              {%- form "product", product, data-node-type: "commerce-add-to-cart-form", class: "w-commerce-commerceaddtocartform default-state" -%}
+
+                {%- unless product.has_only_default_variant or product.variants.size == 1 -%}
+                  <div data-node-type="add-to-cart-option-list" class="option-wrapper" position-id="eeddbc66-7920-1bd3-9fc1-90130ecb321c">
+                    {%- for option in product.options_with_values -%}
+                      <fieldset data-node-type="add-to-cart-option" class="select-product-wrapper">
+                        <select data-node-type="add-to-cart-option-select" class="flavour-select w-select" style="display: none;" name="{{ "option" | append: forloop.index }}">{%- render "product-options", option: option -%}</select>
+                        <div data-node-type="block" class="flavour-text">{{ product.metafields.custom.nadpis_prichut }}</div>
+                        <div data-node-type="add-to-cart-option-pill-group" class="option-group w-commerce-commerceaddtocartoptionpillgroup" aria-label="{{ "option" | append: forloop.index  }}">
+                          {%- for value in option.values -%}
+                            <div data-node-type="add-to-cart-option-pill" class="option-button w-commerce-commerceaddtocartoptionpill" data-option-name="{{ value | handle }}">
+                              <div data-node-type="block">{{ value }}</div>
+                            </div>
+                          {%- endfor -%}
+                        </div>
+                      </fieldset>
+                    {%- endfor -%}
+                  </div>
+                {%- else -%}
+                  <div data-node-type="add-to-cart-option-list" class="option-wrapper" style="display: none;"></div>
+                {%- endunless -%}
+
+                <div position-id="d827eb46-d994-ca85-78c9-a4edaec80b8c" class="div-block-2">
+                  <div position-id="3da2ca77-59e8-4d72-afd1-83197b3568c2" class="q-group">
+                    <a href="#" class="q-dec w-inline-block">
+                      <div class="icon-16 w-embed"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33203 8H12.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                    </a><input type="number" pattern="^[0-9]+$" inputmode="numeric" id="quantity-59b2ec7cf44737366f565bd7b6544353" name="quantity" min="1" class="w-commerce-commerceaddtocartquantityinput q-num" value="1">
+                    <a href="#" class="q-inc w-inline-block">
+                      <div class="icon-16 w-embed"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.9987 3.33203V12.6654M3.33203 7.9987H12.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                    </a>
+                  </div>
+                  <input type="hidden" name="properties[Objem]" value="{{ product_volume }}">
+                  <input type="hidden" name="properties[Koncentrace]" value="{{ product_concentration }}">
+                  <input type="hidden" name="properties[Kategorie]" value="{% for collection in product.collections %}{{ collection.title }}{% unless forloop.last %}, {% endunless %}{% endfor %}">
+                  <input data-loading-text="{{ 'tn26af42fa' | t }}" data-node-type="commerce-add-to-cart-button" class="w-commerce-commerceaddtocartbutton button is-add" fs-scrolldisable-element="disable" aria-haspopup="dialog" type="submit" aria-busy="false" position-id="eeddbc66-7920-1bd3-9fc1-90130ecb3226" value="{{ 'tn26bdceda' | t }}">
+                </div>
+              {%- render "product-variants-data-currency" product: product -%}{%- endform -%}
+              <div style="display:none" class="w-commerce-commerceaddtocartoutofstock" tabindex="0">
+                <div>{{ 't7aaa2dac' | t }}</div>
+              </div>
+              <div aria-live="assertive" data-node-type="commerce-add-to-cart-error" style="display:none" class="w-commerce-commerceaddtocarterror">
+                <div data-node-type="commerce-add-to-cart-error" data-w-add-to-cart-quantity-error="Product is not available in this quantity." data-w-add-to-cart-general-error="Something went wrong when adding this item to the cart." data-w-add-to-cart-mixed-cart-error="You can’t purchase another product with a subscription." data-w-add-to-cart-buy-now-error="Something went wrong when trying to purchase this item." data-w-add-to-cart-checkout-disabled-error="Checkout is disabled on this site." data-w-add-to-cart-select-all-options-error="Please select an option in each set.">{{ 'tn1c765d0d' | t }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section data-w-id="3d063970-d973-aef2-327f-e7c1df462790" class="main-section" data-spline-start="100" data-spline-end="150">
+    <div class="cursor-wrapper">
+      <div data-w-id="e8ccabab-818f-bbc9-9bdb-4131ed3279be" class="cursor">
+        <div class="cursor-background">
+          <div>{{ 'tn6cb52d13' | t }}</div>
+        </div>
+      </div>
+    </div>
+    <div data-w-id="1b5c1d63-0b8e-ec83-615d-7a686ef3cc3b" class="product-scroll-text-wrapper">
+      <div class="blue-overlay">
+        <div class="w-embed">
+          <style>
+          .blue-overlay {
+            background: linear-gradient(117deg, {{ light_color }}, rgba(0, 0, 0, 0.00)139.69%);
+          }
+          </style>
+        </div>
+      </div>
+      <div class="animate-text-wrapper">
+        <div class="scroll-text-line-wrapper">
+          <h3 class="text-style-h1 sizing-none">{{ scroll_text_1 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+          <h3 class="text-style-h1 sizing-none">{{ scroll_text_1 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+          <h3 class="text-style-h1 sizing-none">{{ scroll_text_1 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+          <h3 class="text-style-h1 sizing-none">{{ scroll_text_1 }}</h3>
+        </div>
+        <div class="scroll-text-line-wrapper is-2">
+          <h3 class="text-style-h1 sizing-none">{{ scroll_text_2 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+          <h3 class="text-style-h1 sizing-none">{{ scroll_text_2 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+          <h3 class="text-style-h1 sizing-none">{{ scroll_text_2 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+          <h3 class="text-style-h1 sizing-none">{{ scroll_text_2 }}</h3>
+        </div>
+        <div class="scroll-text-line-wrapper">
+          <h3 class="text-style-h1 sizing-none">{{ scroll_text_3 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+          <h3 class="text-style-h1 sizing-none">{{ scroll_text_3 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+          <h3 class="text-style-h1 sizing-none">{{ scroll_text_3 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+          <h3 class="text-style-h1 sizing-none">{{ scroll_text_3 }}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="w-layout-blockcontainer container is-relative w-container">
+      <div class="wrapper-what-is-elevia" data-spline-start="35" data-spline-end="35">
+        <div class="blue-overlay is-elevia-section"></div>
+        <div class="prodcut-text w-richtext">{{ product.description }}</div>
+      </div>
+      <div class="product-margin" data-spline-start="35" data-spline-end="100">
+        <div class="text-style-display text-align-center text-style-caps max-width-990 inside-heading">{{- product.metafields.custom.sekce_co_je_uvnitr_nadpis | metafield_tag -}}</div>
+      </div>
+      <div class="product-wrapper_whats-inside" style="width: 100vw; margin-left: calc(-50vw + 50%); position: relative; left: 0; right: 0;">
+        <div class="wrapper_whats-inside" style="max-width: 100%; width: 100%;">
+          <div data-current="" data-easing="ease" data-duration-in="300" data-duration-out="100" class="tabs w-tabs">
+            <div class="whats-inside__animation u-hide-desktop-large-down" style="width: 100%; max-width: none;">
+              {{ product.metafields.custom.sekundarni_spline_objekt_desktop_large }}
+            </div>
+            <div class="whats-inside__animation u-hide-desktop-large-up u-hide-tablet-down" style="width: 100%; max-width: none;">
+              {{ product.metafields.custom.sekundarni_spline_objekt_desktop }}
+            </div>
+            <div class="whats-inside__animation u-hide-tablet-up u-hide-mobile-down" style="width: 100%; max-width: none;">
+              {{ product.metafields.custom.sekundarni_spline_objekt_tablet }}
+            </div>
+            <div class="whats-inside__animation u-hide-mobile-up" style="width: 100%; max-width: none;">
+              {{ product.metafields.custom.sekundarni_spline_objekt_mobil }}
+            </div>
+            <div class="inside-bg-wrapper w-tab-menu">
+              <a data-w-tab="Tab 1" class="inside-icon-wrapper _1 w-inline-block w-tab-link w--current"><img src="{{ tab_1_icon | image_url: width: 100 }}" alt="" loading="lazy" class="inside-icon"></a>
+              <a data-w-tab="Tab 2" class="inside-icon-wrapper _2 w-inline-block w-tab-link"><img src="{{ tab_2_icon | image_url: width: 100 }}" alt="" loading="lazy" class="inside-icon"></a>
+              <a data-w-tab="Tab 3" class="inside-icon-wrapper _3 w-inline-block w-tab-link"><img src="{{ tab_3_icon | image_url: width: 100 }}" alt="" loading="lazy" class="inside-icon"></a>
+            </div>
+            <div class="tabs-content-3 w-tab-content">
+              <div data-w-tab="Tab 1" class="w-tab-pane">
+                <div class="tab-products">
+                  <h4 class="all-caps">{{ tab_1_headline }}</h4>
+                  <p>{{ tab_1_content }}</p>
+                </div>
+              </div>
+              <div data-w-tab="Tab 2" class="w-tab-pane">
+                <div class="tab-products">
+                  <h4 class="all-caps">{{ tab_2_headline }}</h4>
+                  <p>{{ tab_2_content }}</p>
+                </div>
+              </div>
+              <div data-w-tab="Tab 3" class="w-tab-pane">
+                <div class="tab-products">
+                  <h4 class="all-caps">{{ tab_3_headline }}</h4>
+                  <p>{{ tab_3_content }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-layout-vflex flex-block-3">
+        <div class="spline-scene _1" data-animation-type="spline" data-spline-url="https://prod.spline.design/pyHe0Bv7woorc9Zh/scene.splinecode"><canvas></canvas></div>
+        <div class="spline-scene" data-animation-type="spline" data-spline-url="https://prod.spline.design/3WhTOQxu3sfCgw7M/scene.splinecode"><canvas></canvas></div>
+        <div class="spline-scene-3" data-animation-type="spline" data-spline-url="https://prod.spline.design/FWjNly9-Gr-bTTBA/scene.splinecode"><canvas></canvas></div>
+        <div class="spline-scene-4" data-animation-type="spline" data-spline-url="https://prod.spline.design/Gd4ss9vByVxO15o0/scene.splinecode"><canvas></canvas></div>
+        <div class="spline-scene-5" data-animation-type="spline" data-spline-url="https://prod.spline.design/TccGunkfw9BF3Ygx/scene.splinecode"><canvas></canvas></div>
+      </div>
+  </section>
+  <div class="shaodw-bottom"></div>
+  <div class="hidden w-embed">
+    <style>
+    .shaodw-bottom {
+      background-image: linear-gradient(#0000, {{ bg_color }});
+    }
+    </style>
+  </div>
+</div>
+<div class="page-overflow">
+  <section class="section">
+    <div class="w-layout-blockcontainer container-small w-container">
+      <div class="text-style-display text-align-center text-style-caps max-width-990 dosage-headline">{{- product.metafields.custom.sekce_davkovani_nadpis | metafield_tag -}}</div>
+      <div class="product-wrapper_dosage">
+        <div id="w-node-b1b76578-47c5-5377-8154-f8442b36bbe2-10906162" class="dosage-block">
+          <div class="dosage-header">
+            <div>{{ 't601' | t }}</div>
+            <div class="body-large">{{ dosage_1_headline }}</div><img src="{{ 'linedot.svg' | asset_url }}" loading="lazy" alt="">
+          </div>
+          <div>{{ dosage_1_content }}</div>
+        </div>
+        <div id="w-node-f3c6bc37-bfc5-51ef-f05a-ec95e1fb8e01-10906162" class="dosage-block">
+          <div class="dosage-header">
+            <div>{{ 't602' | t }}</div>
+            <div class="body-large">{{ dosage_2_headline }}</div><img src="{{ 'linedot.svg' | asset_url }}" loading="lazy" alt="">
+          </div>
+          <div>{{ dosage_2_content }}</div>
+        </div>
+        <div id="w-node-_2c8eecc2-ac72-c797-6123-f1f0b900cd0a-10906162" class="dosage-block">
+          <div class="dosage-header">
+            <div>{{ 't603' | t }}</div>
+            <div class="body-large">{{ dosage_3_headline }}</div><img src="{{ 'linedot.svg' | asset_url }}" loading="lazy" alt="">
+          </div>
+          <div>{{ dosage_3_content }}</div>
+        </div>
+      </div>
+      <div class="product-pagination">
+        <div class="swiper-pagination is-white">{{ 't2cfd794' | t }}</div>
+      </div>
+    </div>
+  </section>
+      <div>
+        <div data-w-id="f7bb7678-06d3-3d89-63f9-ee3d4168d6dd" class="prev-sec is-product"></div>
+        <div data-w-id="f7bb7678-06d3-3d89-63f9-ee3d4168d6de" class="next-sec is-product"></div>
+        
+        <div class="swiper w-dyn-list">
+            <div role="list" class="swiper-wrapper w-dyn-items">
+
+              {%- for image in product.metafields.custom.galerie.value -%}
+                <div class="swiper-slide is-product w-dyn-item">
+                  <img src="{{ image | image_url: width: 2500 }}"
+                    alt="{{ image.alt | escape }}"
+                    loading="lazy"
+                    class="swiper-image"
+                  >
+                </div>
+              {%- endfor -%}
+            </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<section class="light-section" id="product-faq-{{ product.id | handleize }}">
+  {%- assign product_faq_list = product.metafields.custom.faq_seznam.value -%}
+
+  {% if product_faq_list != blank %}
+    <div class="w-layout-blockcontainer container-small w-container">
+      <div class="faq-headline-wrapper">
+        <h4 class="text-style-caps no-shrink is-faq">
+          {%- if product.metafields.custom.faq_nadpis != blank -%}
+            {{- product.metafields.custom.faq_nadpis | metafield_tag -}}
+          {%- else -%}
+            {{ 't11818' | t }}<span class="text-underline">{{ 'td37612d' | t }}</span>
+          {%- endif -%}
+        </h4>
+        <p class="body-medium">
+          {{ 't3639bca4' | t }}<br />{{ 'tn1d8de2a7' | t }}
+        </p>
+      </div>
+
+      <div class="faq-main-wrapper">
+        <div role="list" class="faq-list">
+          {% for faq_item in product_faq_list %}
+            <div
+              data-w-id="1903e811-7c59-bb39-779c-9615c1ac25df"
+              role="listitem"
+              class="faq-wrapper w-dyn-item {% if forloop.index > 5 %}is-hidden{% endif %}"
+            >
+              <div id="showmore" class="faq-question-wrapper">
+                <div class="faq-number"></div>
+                <div class="faq-answer-wrapper">
+                  <div class="body-large">{{ faq_item.question.value }}</div>
+                  <p class="body-small">{{ faq_item.answer.value }}</p>
+                </div>
+              </div>
+              <div class="icon-faq_wrapper">
+                <div class="icon-faq w-embed">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5 10L11.2191 15.3306C11.6684 15.7158 12.3316 15.7158 12.7809 15.3306L19 10"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    {% comment %} Tlačítko je zde vykresleno vždy, ale skryté. JavaScript rozhodne, zda ho zobrazit. {% endcomment %}
+    <div class="faq-button-wrapper is-hidden">
+      <div class="button is-secondary showmore">
+        <div class="button-text-faq">{{ 't284c678' | t }}</div>
+        <div class="button-icon">
+          <div class="icon-16 is-faq-icon w-embed">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M3.33203 7.9987H12.6654M12.6654 7.9987L7.9987 3.33203M12.6654 7.9987L7.9987 12.6654"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+<style>
+  .faq-wrapper.is-hidden,
+  .faq-button-wrapper.is-hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const faqSection = document.querySelector('#product-faq-{{ product.id | handleize }}');
+    if (!faqSection) return;
+
+    const showMoreWrapper = faqSection.querySelector('.faq-button-wrapper');
+    const showMoreButton = faqSection.querySelector('.showmore');
+    const hiddenItems = faqSection.querySelectorAll('.faq-wrapper.is-hidden');
+
+    // Zobrazíme tlačítko POUZE pokud existují skryté položky
+    if (hiddenItems.length > 0) {
+      showMoreWrapper.classList.remove('is-hidden');
+    }
+
+    if (showMoreButton) {
+      showMoreButton.addEventListener('click', function() {
+        hiddenItems.forEach(item => {
+          item.classList.remove('is-hidden');
+        });
+        showMoreWrapper.style.display = 'none';
+      });
+    }
+  });
+</>
+
+<style>
+  .spline-scene-1part {
+  width: 100%;
+  display: block;
+  position: fixed;
+  top: 0;
+}
+
+.spline-scene {
+  width: 100%;
+  height: 100vh;
+  margin-top: 0;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.div-block-4 {
+  width: 100%;
+  position: relative;
+  top: 1px;
+}
+
+.spline-scene._1, .spline-scene-2, .spline-scene-3, .spline-scene-4, .spline-scene-5 {
+  display: none;
+}
+
+.spline-scene-6 {
+  width: 100%;
+}
+
+.flex-block-2 {
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.spline-scene-7, .spline-scene-8, .spline-scene-9 {
+  display: none;
+}
+
+
+@media screen and (min-width: 1280px) {
+    .spline-scene-1part {
+    width: 100%;
+    display: none;
+  }
+
+  .spline-scene {
+    width: 100%;
+    margin-top: 0;
+    display: none;
+  }
+
+  .div-block-4 {
+    width: 1490px;
+    left: -50px;
+    right: 50px;
+  }
+
+  .spline-scene._1 {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .flex-block-3 {
+    margin-top: 0;
+  }
+
+  .spline-scene-9 {
+    display: block;
+  }
+}
+@media screen and (max-width: 991px) {
+  .spline-scene-1part {
+    display: none;
+  }
+
+  .div-block-4 {
+    margin-top: 0;
+    top: -280px;
+  }
+
+  .spline-scene, .spline-scene-2 {
+    display: none;
+  }
+
+  .spline-scene-3 {
+    margin-top: -630px;
+    display: block;
+  }
+
+  .spline-scene-4, .spline-scene-5 {
+    display: none;
+  }
+
+  .spline-scene-7 {
+    display: block;
+  }
+
+  .spline-scene-8 {
+    display: none;
+  }
+}
+@media screen and (max-width: 767px) {
+  .spline-scene-2 {
+    display: block;
+  }
+
+  .spline-scene-3 {
+    display: none;
+  }
+
+  .spline-scene-4 {
+    margin-top: -660px;
+    display: block;
+  }
+
+  .spline-scene-7 {
+    display: none;
+  }
+}
+@media screen and (max-width: 479px) {
+  .spline-scene-2 {
+    margin-top: -120px;
+    display: none;
+  }
+
+  .spline-scene-4 {
+    display: none;
+  }
+
+  .spline-scene-5 {
+    width: 100%;
+    margin-top: -680px;
+    display: block;
+  }
+
+  .spline-scene-8 {
+    display: block;
+  }
+}
+</style>
+
+
+
+
+
+
+<section class="light-section">
+  <div class="w-layout-blockcontainer container-small w-container">
+    <div class="flex-default">
+      <div class="headline-pagination">
+        <h4 class="collection-headline text-style-caps max-width-380">{{- product.metafields.custom.kolekce_nadpis | metafield_tag -}}</h4>       
+        <div class="swiper-pagination1"></div>
+      </div>
+      <div class="swiper1">
+        <div data-w-id="4cecb2b0-f206-8f6d-e1a1-c8c798c48de8" class="prev-sec1"></div>
+        <div data-w-id="4cecb2b0-f206-8f6d-e1a1-c8c798c48de9" class="next-sec1"></div>
+        
+        {%- assign related_products = product.metafields.custom.elevia_collection_produkty.value -%}
+        
+        {%- if related_products != blank -%}
+          <div class="swiper-wrapper">
+            {%- for related_product in related_products -%}
+              <a href="{{ related_product.url }}" class="swiper-slide is-small-product w-inline-block" style="background-image: url('{{ related_product.featured_image | image_url: width: 800 }}')">
+                <div class="product-card-content is-small">
+                  <div class="product-card-header">
+                    {% if related_product.type != blank %}
+                      <p class="body-medium all-caps text-color-white80">{{ related_product.type }}</p>
+                    {% endif %}
+                    <h2 class="all-caps text-align-center">{{ related_product.title }}</h2>
+                  </div>
+                  <div class="btn-card"><div class="btn-card is-hover"></div></div>
+                </div>
+              </a>
+            {%- endfor -%}
+
+            <div class="swiper-slide is-small-product hide">
+              <div class="product-card-content is-last_product">
+                <h2 class="all-caps text-align-center"><span class="is-underlined">{{ 't7bdffed0' | t }}</span><br>{{ 'tn3bd42e9c' | t }}</h2>
+                <a href="#" class="button is-secondary w-inline-block">
+                  <div>{{ 'tn6f1e43f3' | t }}</div><img src="{{ 'icon-button.svg' | asset_url }}" loading="lazy" alt="" class="icon-button">
+                </a>
+              </div>
+            </div>
+
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .collection-headline strong, .dosage-headline strong, .inside-heading strong, .faq-headline-wrapper .metafield-rich_text_field strong {
+    text-decoration: underline;
+    font-weight: inherit;
+  }
+</style>
+
+{% render 'spline' %}
+
+{% schema %}
+{
+  "name": "Hlavní obsah produktu",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Barvy a Vzhled"
+    },
+    {
+    "type": "color",
+    "id": "light_color",
+    "label": "Barva přechodu (světlá)",
+    "default": "#A0B4A7"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Barva pozadí stránky",
+      "default": "#F3F5F4"
+    },
+    {
+      "type": "header",
+      "content": "Hero sekce"
+    },
+    {
+      "type": "text",
+      "id": "product_subtitle",
+      "label": "Podnadpis produktu"
+    },
+    {
+      "type": "text",
+      "id": "product_volume",
+      "label": "Objem"
+    },
+    {
+      "type": "text",
+      "id": "product_concentration",
+      "label": "Koncentrace"
+    },
+    {
+      "type": "text",
+      "id": "product_thc",
+      "label": "Obsah THC"
+    },
+    {
+      "type": "header",
+      "content": "Animovaný posuvný text"
+    },
+    {
+      "type": "text",
+      "id": "scroll_text_1",
+      "label": "První řádek"
+    },
+    {
+      "type": "text",
+      "id": "scroll_text_2",
+      "label": "Druhý řádek"
+    },
+    {
+      "type": "text",
+      "id": "scroll_text_3",
+      "label": "Třetí řádek"
+    },
+    {
+      "type": "header",
+      "content": "Sekce 'Co je uvnitř'"
+    },
+    {
+      "type": "text",
+      "id": "inside_main_headline",
+      "label": "Hlavní nadpis"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_1_icon",
+      "label": "Ikona pro záložku 1"
+    },
+    {
+      "type": "text",
+      "id": "tab_1_headline",
+      "label": "Nadpis záložky 1"
+    },
+    {
+      "type": "textarea",
+      "id": "tab_1_content",
+      "label": "Obsah záložky 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_2_icon",
+      "label": "Ikona pro záložku 2"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_headline",
+      "label": "Nadpis záložky 2"
+    },
+    {
+      "type": "textarea",
+      "id": "tab_2_content",
+      "label": "Obsah záložky 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_3_icon",
+      "label": "Ikona pro záložku 3"
+    },
+    {
+      "type": "text",
+      "id": "tab_3_headline",
+      "label": "Nadpis záložky 3"
+    },
+    {
+      "type": "textarea",
+      "id": "tab_3_content",
+      "label": "Obsah záložky 3"
+    },
+    {
+      "type": "header",
+      "content": "Sekce Dávkování"
+    },
+    {
+      "type": "text",
+      "id": "dosage_main_headline",
+      "label": "Hlavní nadpis"
+    },
+    {
+      "type": "text",
+      "id": "dosage_1_headline",
+      "label": "Nadpis bloku 1"
+    },
+    {
+      "type": "textarea",
+      "id": "dosage_1_content",
+      "label": "Obsah bloku 1"
+    },
+    {
+      "type": "text",
+      "id": "dosage_2_headline",
+      "label": "Nadpis bloku 2"
+    },
+    {
+      "type": "textarea",
+      "id": "dosage_2_content",
+      "label": "Obsah bloku 2"
+    },
+    {
+      "type": "text",
+      "id": "dosage_3_headline",
+      "label": "Nadpis bloku 3"
+    },
+    {
+      "type": "textarea",
+      "id": "dosage_3_content",
+      "label": "Obsah bloku 3"
+    },
+    {
+      "type": "header",
+      "content": "Slider 'Elevia kolekce'"
+    },
+    {
+      "type": "text",
+      "id": "elevia_collection_headline",
+      "label": "Nadpis"
+    }
+  ]
+}
+{% endschema %}

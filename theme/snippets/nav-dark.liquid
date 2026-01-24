@@ -1,0 +1,294 @@
+<nav class="nav">
+    <div class="background-nav is-light"></div>
+    <div class="nav-block">
+      <div class="main-mobile-nav">
+        <div class="mobile-nav-wrapper">
+          <a data-w-id="bc7eed1b-ebc4-5520-78af-8056b54d11a7" href="#" class="nav-link w-inline-block">
+            <div class="nav-text">{{ 't274f16' | t }}</div>
+            <div class="icon-nav w-embed"><svg fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5625" y="0.5625" width="34.875" height="34.875" rx="17.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                <path d="M19.6358 14.1819L18.8667 14.951L21.3649 17.4546H12.5449V18.5455H21.3649L18.8613 21.0492L19.6358 21.8182L23.454 18.0001L19.6358 14.1819Z" fill="currentColor"></path>
+              </svg></div>
+          </a>
+          <a href="{{ pages["elevia-lab"].url }}" class="nav-link w-inline-block">
+            <div class="nav-text">{{ 't7b34443d' | t }}</div>
+          </a>
+          <a href="{{ pages["about-us"].url }}" class="nav-link w-inline-block">
+            <div class="nav-text">{{ 't645f0031' | t }}</div>
+          </a>
+          <a href="#" class="nav-link w-inline-block">
+            <div class="nav-text">{{ 'tn64104400' | t }}</div>
+          </a>
+        </div>
+        <div class="nav-footer-wrapper">
+        <div class="footer-links-wrapper">
+          <a href="#" class="body-xsmall text-style-caps">{{ 'tn7be427eb' | t }}</a>
+          <a href="#" class="body-xsmall text-style-caps">{{ 't656f8202' | t }}</a>
+        </div>
+        <div class="bottom-wrapper">
+          <div class="footer-links-wrapper is-nav">
+            <a href="#" class="body-xsmall text-style-caps">{{ 't217bfee6' | t }}</a>
+            <a href="#" class="body-xsmall text-style-caps">{{ 't1b907b2' | t }}</a>
+          </div>
+          <div class="locales-wrapper is-nav w-locales-list mobile">
+              <div data-hover="false" data-delay="0" class="w-dropdown">
+                <div class="dropdown-toggle w-dropdown-toggle">
+                  {% assign flag_code = localization.language.iso_code %}
+                  {% if flag_code == 'cs' %}
+                    {% assign flag_code = 'cz' %}
+                  {% endif %}
+                  <img class="locale-flag" src="https://cdn.shopify.com/s/files/1/0892/9283/3113/files/{{ flag_code }}.png?v=1737303910" loading="lazy" alt="{{ localization.language.endonym_name }}">
+                  <div class="locale-text">
+                    {{ localization.language.iso_code | upcase }}
+                  </div>
+                  <img src="{{ 'chevron-down.svg' | asset_url }}" loading="lazy" alt="Dropdown Icon">
+                </div>
+                <nav class="dropdown-list w-dropdown-list">
+                  <div role="list" class="w-locales-items">
+                    {% for locale in localization.available_languages %}
+                      <div role="listitem" class="locale w-locales-item">
+                        <a hreflang="{{ locale.iso_code }}" href="{{ locale.root_url }}" 
+                          class="locale-link {% if locale.iso_code == localization.language.iso_code %}active-locale{% else %}inactive-locale{% endif %}">
+                          {% if locale.iso_code == 'cs' %}
+                            <span>CZECH</span>
+                          {% elsif locale.iso_code == 'en' %}
+                            <span>ENGLISH</span>
+                          {% endif %}
+                        </a>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </nav>
+              </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="body-xsmall text-style-caps text-color-light-gray">{{ 't19ae9789' | t }}</div>
+      </div>
+      </div>
+      <div fs-scrolldisable-element="preserve" class="main-nav">
+        <div>
+          <a data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae561c" href="#" class="nav-link is-nav w-inline-block">
+            <div class="icon-nav is-back w-embed"><svg fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5625" y="0.5625" width="34.875" height="34.875" rx="17.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                <path d="M19.6358 14.1819L18.8667 14.951L21.3649 17.4546H12.5449V18.5455H21.3649L18.8613 21.0492L19.6358 21.8182L23.454 18.0001L19.6358 14.1819Z" fill="currentColor"></path>
+              </svg></div>
+          </a>
+          <a data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae561e" href="#" class="nav-link is-nav is-last-level w-inline-block">
+            <div class="icon-nav is-back w-embed"><svg fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5625" y="0.5625" width="34.875" height="34.875" rx="17.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                <path d="M19.6358 14.1819L18.8667 14.951L21.3649 17.4546H12.5449V18.5455H21.3649L18.8613 21.0492L19.6358 21.8182L23.454 18.0001L19.6358 14.1819Z" fill="currentColor"></path>
+              </svg></div>
+          </a>
+          <div data-current="Tab 1" data-easing="linear" data-duration-in="500" data-duration-out="500" class="w-tabs">
+            <div class="tabs-menu w-tab-menu">
+              <a data-w-tab="Tab 1" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5622" class="nav-link is-product w-inline-block w-tab-link w--current">
+                <div class="nav-text">{{ 'teb0369' | t }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                    <path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></div>
+              </a>
+              <a data-w-tab="Tab 2" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5626" class="nav-link is-product w-inline-block w-tab-link">
+                <div class="nav-text">{{ 't1bd84b2' | t }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                    <path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></div>
+              </a>
+              <a data-w-tab="Tab 3" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae562a" class="nav-link is-product w-inline-block w-tab-link">
+                <div class="nav-text">{{ 't665c18f0' | t }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                    <path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></div>
+              </a>
+              <a data-w-tab="Tab 4" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae562e" class="nav-link is-product w-inline-block w-tab-link">
+                <div class="nav-text">{{ 'tn616f70be' | t }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                    <path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></div>
+              </a>
+              <a data-w-tab="Tab 5" data-w-id="01e9cda9-91f4-76ac-12b9-815e50a2c1ef" class="nav-link is-product w-inline-block w-tab-link">
+                <div class="nav-text">{{ 't18cce77d' | t }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                    <path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></div>
+              </a>
+            </div>
+            <div class="tabs-content w-tab-content">
+              <div data-w-tab="Tab 1" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5633" class="tab _01 w-tab-pane w--tab-active">
+                {%- if settings.collection_home != blank -%}{%- render "markup_for_collection_home" -%}{%- else -%}{%- render "products_where_animace_drops_eq_true" -%}{%- endif -%}
+              </div>
+              <div data-w-tab="Tab 2" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5644" class="tab _02 w-tab-pane">
+                {%- if settings.collection_2_home != blank -%}{%- render "markup_for_collection_2_home" -%}{%- else -%}{%- render "products_where_animace_sprey_eq_true" -%}{%- endif -%}
+              </div>
+              <div data-w-tab="Tab 3" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5655" class="tab _03 w-tab-pane">
+                {%- if settings.collection_3_home != blank -%}{%- render "markup_for_collection_3_home" -%}{%- else -%}{%- render "products_where_animace_cartridge_eq_true" -%}{%- endif -%}
+              </div>
+              <div data-w-tab="Tab 4" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5666" class="tab _04 w-tab-pane">
+                {%- if settings.collection_4_home != blank -%}{%- render "markup_for_collection_4_home" -%}{%- else -%}{%- render "products_where_animace_pre_roll_eq_true" -%}{%- endif -%}
+              </div>
+              <div data-w-tab="Tab 5" data-w-id="a3c2c7b3-61c3-ae4a-8a70-1413ed046d8a" class="tab _04 w-tab-pane">
+                {%- if settings.collection_5_home != blank -%}{%- render "markup_for_collection_5_home" -%}{%- else -%}{%- render "products_where_animace_buds_eq_true" -%}{%- endif -%}
+              </div>
+            </div>
+          </div>
+                      <div class="nav-footer-wrapper">
+              <div class="footer-links-wrapper">
+                <a href="#" class="body-xsmall text-style-caps">{{ 'tn7be427eb' | t }}</a>
+                <a href="#" class="body-xsmall text-style-caps">{{ 't656f8202' | t }}</a>
+              </div>
+              <div class="bottom-wrapper">
+                <div class="footer-links-wrapper is-nav">
+                  <a href="#" class="body-xsmall text-style-caps">{{ 't217bfee6' | t }}</a>
+                  <a href="#" class="body-xsmall text-style-caps">{{ 't1b907b2' | t }}</a>
+                </div>
+                <div class="locales-wrapper is-nav w-locales-list mobile">
+                    <div data-hover="false" data-delay="0" class="w-dropdown">
+                      <div class="dropdown-toggle w-dropdown-toggle">
+                        {% assign flag_code = localization.language.iso_code %}
+                        {% if flag_code == 'cs' %}
+                          {% assign flag_code = 'cz' %}
+                        {% endif %}
+                        <img class="locale-flag" src="https://cdn.shopify.com/s/files/1/0892/9283/3113/files/{{ flag_code }}.png?v=1737303910" loading="lazy" alt="{{ localization.language.endonym_name }}">
+                        <div class="locale-text">
+                          {{ localization.language.iso_code | upcase }}
+                        </div>
+                        <img src="{{ 'chevron-down.svg' | asset_url }}" loading="lazy" alt="Dropdown Icon">
+                      </div>
+                      <nav class="dropdown-list w-dropdown-list">
+                        <div role="list" class="w-locales-items">
+                          {% for locale in localization.available_languages %}
+                            <div role="listitem" class="locale w-locales-item">
+                              <a hreflang="{{ locale.iso_code }}" href="{{ locale.root_url }}" 
+                                class="locale-link {% if locale.iso_code == localization.language.iso_code %}active-locale{% else %}inactive-locale{% endif %}">
+                                {% if locale.iso_code == 'cs' %}
+                                  <span>CZECH</span>
+                                {% elsif locale.iso_code == 'en' %}
+                                  <span>ENGLISH</span>
+                                {% endif %}
+                              </a>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </nav>
+                    </div>
+                  </div>
+              </div>
+              <div class="divider"></div>
+              <div class="body-xsmall text-style-caps text-color-light-gray">{{ 't19ae9789' | t }}</div>
+            </div>
+        </div>
+      </div>
+      <div fs-scrolldisable-element="enable" data-w-id="bc7eed1b-ebc4-5520-78af-8056b54d122a" class="close-button">
+        <div class="icon-16 w-embed"><svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 12.5L12.5 3M12.5 12.5L3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"></path>
+          </svg></div>
+      </div>
+    </div>
+    <div class="w-layout-blockcontainer container w-container">
+      <div class="nav-wrapper">
+        <a href="{{ routes.root_url }}" class="w-inline-block"><img src="{{ 'logo-dark.svg' | asset_url }}" loading="lazy" alt="" class="logo"></a>
+        <div class="btn-wrapper">
+          <div fs-scrolldisable-element="disable" data-w-id="bc7eed1b-ebc4-5520-78af-8056b54d1231" class="is-shop is-dark">
+            <div class="nav-btn is-dark">{{ 't35daf6' | t }}</div>
+          </div>
+          <a data-w-id="bc7eed1b-ebc4-5520-78af-8056b54d1234" href="{{ pages["elevia-lab"].url }}" class="nav-link-small w-inline-block">
+            <div class="nav-btn is-dark">{{ 't7b34443d' | t }}</div>
+            <div class="line-hover"></div>
+          </a>
+          <a data-w-id="bc7eed1b-ebc4-5520-78af-8056b54d1238" href="{{ pages["about-us"].url }}" class="nav-link-small w-inline-block">
+            <div class="nav-btn is-dark">{{ 't60849c11' | t }}</div>
+            <div class="line-hover"></div>
+          </a>
+          <a href="#" class="nav-link-small w-inline-block">
+            <div class="nav-btn is-dark">{{ 't38b72420' | t }}</div>
+            <div class="line-hover"></div>
+          </a>
+          <div class="nav-actions-wrapper">
+            <div data-open-product="" data-wf-cart-type="rightSidebar" data-wf-cart-query="" data-wf-page-link-href-prefix="" class="w-commerce-commercecartwrapper" data-node-type="commerce-cart-wrapper" udy-collection="cart">
+              <a fs-scrolldisable-element="disable" class="w-commerce-commercecartopenlink cart-button is-dark w-inline-block" role="button" aria-haspopup="dialog" aria-label="Open cart" data-node-type="commerce-cart-open-link" href="#">
+                <div class="hide-mobile w-inline-block">{{ 't1fef40' | t }}</div>
+                <div class="w-commerce-commercecartopenlinkcount cart-quantity">{{ cart.item_count }}</div>
+              </a>
+              <div style="display:none" class="w-commerce-commercecartcontainerwrapper w-commerce-commercecartcontainerwrapper--cartType-rightSidebar cart-wrapper" data-node-type="commerce-cart-container-wrapper">
+                <div data-node-type="commerce-cart-container" role="dialog" class="w-commerce-commercecartcontainer cart-container">
+                  <div class="w-commerce-commercecartheader cart-header">
+                    <h4 class="w-commerce-commercecartheading is-cart">{{ 't41b7e5cb' | t }}</h4>
+                    <a fs-scrolldisable-element="disable" class="w-commerce-commercecartcloselink close-button is-cart w-inline-block" role="button" aria-label="Close cart" data-node-type="commerce-cart-close-link"><svg width="16px" height="16px" viewBox="0 0 16 16">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                          <g fill-rule="nonzero" fill="#333333">
+                            <polygon points="6.23223305 8 0.616116524 13.6161165 2.38388348 15.3838835 8 9.76776695 13.6161165 15.3838835 15.3838835 13.6161165 9.76776695 8 15.3838835 2.38388348 13.6161165 0.616116524 8 6.23223305 2.38388348 0.616116524 0.616116524 2.38388348 6.23223305 8"></polygon>
+                          </g>
+                        </g>
+                      </svg></a>
+                  </div>
+                  <div class="w-commerce-commercecartformwrapper">
+                    <form style="display:none" class="w-commerce-commercecartform" data-node-type="commerce-cart-form">
+                      <script type="text/x-wf-template" id="wf-template-bc7eed1b-ebc4-5520-78af-8056b54d124f"><div data-node-type="cart-item" class="cart-item w-commerce-commercecartitem" template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d1250"><img data-node-type="cart-item-image" class="cart-image w-commerce-commercecartitemimage" template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d1251" src="<%= it.image %>"><div data-node-type="cart-item-info" class="cart-item-main-block w-commerce-commercecartiteminfo" template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d1252"><div><div data-node-type="cart-product-name" template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d1254" class="w-commerce-commercecartproductname"><%= it.title %></div><div class="cart-item-details_wrapper"><div data-node-type="cart-product-name" template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d1256" class="w-commerce-commercecartproductname"><%= it.title %></div><div data-node-type="cart-product-name" template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d1257" class="w-commerce-commercecartproductname"><%= it.title %></div><div data-node-type="cart-product-name" template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d1259" class="w-commerce-commercecartproductname"><%= it.title %></div><div data-node-type="cart-product-name" template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d125a" class="w-commerce-commercecartproductname"><%= it.title %></div><div data-node-type="cart-product-name" template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d125c" class="w-commerce-commercecartproductname"><%= it.title %></div></div></div><input class="w-commerce-commercecartquantity" name="<%= it.id %>" type="number" min="0" min="1" value="<%= it.quantity %>" data-node-type="cart-quantity"><ul template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d125e" class="w-commerce-commercecartoptionlist"><% Object.entries(it.properties).forEach( data =>  { %><li data-node-type="cart-option-list-item"><span data-node-type="cart-option-list-item-label" template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d1260"><%= data[0] %></span><span data-node-type="span">{{ 't726' | t }}</span><span data-node-type="cart-option-list-item-value" template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d1263"><%= data[1] %></span></li><% }) %></ul></div><div class="cart-item-right"><a data-node-type="cart-remove-link" class="remove-button" href="#" role="button" template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d1265" data-product-id="<%= it.id %>"><img data-node-type="image" src="https://cdn.prod.website-files.com/6690d2871e233e2bb8b7f4f2/670bd6b68a3334a31359cfeb_delete.svg" loading="lazy" width="auto" height="auto" alt="__wf_reserved_inherit"></a><div template-part-bind="bc7eed1b-ebc4-5520-78af-8056b54d1267"><%= it.price %></div></div></div></script>
+                      <div class="w-commerce-commercecartlist" data-wf-collection="database.commerceOrder.userItems" data-wf-template-id="wf-template-bc7eed1b-ebc4-5520-78af-8056b54d124f"></div>
+                      <div class="w-commerce-commercecartfooter">
+                        <div aria-atomic="true" aria-live="polite" class="w-commerce-commercecartlineitem">
+                          <div>{{ 'tn2f0ec041' | t }}</div>
+                          <div>{{ 'tn60bcd831' | t }}</div>
+                        </div>
+                        <div aria-atomic="true" aria-live="polite" class="w-commerce-commercecartlineitem">
+                          <div>{{ 'tn7289f69a' | t }}</div>
+                          <div class="w-commerce-commercecartordervalue">{{ cart.items_subtotal_price | money_with_currency }}</div>
+                        </div>
+                        <div>
+                          <div data-node-type="commerce-cart-quick-checkout-actions">{{ content_for_additional_checkout_buttons }}</div>
+                          <a href="/checkout" value="Continue to Checkout" class="w-commerce-commercecartcheckoutbutton" data-loading-text="{{ 't498bd87e' | t }}" data-node-type="cart-checkout-button">{{ 'tn7941186e' | t }}</a>
+                        </div>
+                      </div>
+                    </form>
+                    <div class="w-commerce-commercecartemptystate">
+                      <div aria-label="This cart is empty" aria-live="polite">{{ 't3d503d2b' | t }}</div>
+                    </div>
+                    <div aria-live="assertive" style="display:none" data-node-type="commerce-cart-error" class="w-commerce-commercecarterrorstate">
+                      <div class="w-cart-error-msg" data-w-cart-quantity-error="Product is not available in this quantity." data-w-cart-general-error="Something went wrong when adding this item to the cart." data-w-cart-checkout-error="Checkout is disabled on this site." data-w-cart-cart_order_min-error="The order minimum was not met. Add more items to your cart to continue." data-w-cart-subscription_error-error="Before you purchase, please use your email invite to verify your address so we can send order updates.">{{ 'tn1c765d0d' | t }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>{%- unless customer -%}<button class="user-button is-dark" data-wf-user-logout="  " data-wf-user-login="  " type="button" onclick="parent.location='/account/login'">  </button>{%- endunless -%}{%- if customer -%}<button class="user-button is-dark" data-wf-user-logout="  " data-wf-user-login="  " type="button" onclick="parent.location='/account/logout'">  </button>{%- endif -%}
+          </div>
+          <div fs-scrolldisable-element="disable" data-w-id="bc7eed1b-ebc4-5520-78af-8056b54d1281" class="nav-button"><img src="{{ 'nav.svg' | asset_url }}" loading="lazy" alt="" class="icon-16"></div>
+          <div class="locales-wrapper is-nav w-locales-list">
+              <div data-hover="false" data-delay="0" class="w-dropdown">
+                <div class="dropdown-toggle w-dropdown-toggle">
+                  {% assign flag_code = localization.language.iso_code %}
+                  {% if flag_code == 'cs' %}
+                    {% assign flag_code = 'cz' %}
+                  {% endif %}
+                  <img class="locale-flag" src="https://cdn.shopify.com/s/files/1/0892/9283/3113/files/{{ flag_code }}.png?v=1737303910" loading="lazy" alt="{{ localization.language.endonym_name }}">
+                  <div class="locale-text.is-dark">
+                    {{ localization.language.iso_code | upcase }}
+                  </div>
+                  <img class="dropdown-icon" src="{{ 'chevron-down-dark.svg' | asset_url }}" loading="lazy" alt="Dropdown Icon">
+                </div>
+                <nav class="dropdown-list w-dropdown-list is-dark">
+                  <div role="list" class="w-locales-items">
+                    {% for locale in localization.available_languages %}
+                      <div role="listitem" class="locale w-locales-item">
+                        <a hreflang="{{ locale.iso_code }}" href="{{ locale.root_url }}" 
+                          class="locale-link {% if locale.iso_code == localization.language.iso_code %}active-locale{% else %}inactive-locale{% endif %}">
+                          {% if locale.iso_code == 'cs' %}
+                            <span>CZECH</span>
+                          {% elsif locale.iso_code == 'en' %}
+                            <span>ENGLISH</span>
+                          {% endif %}
+                        </a>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </nav>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </nav>

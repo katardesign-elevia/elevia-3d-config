@@ -1,0 +1,44 @@
+<div role="listitem" class="collection-item w-dyn-item">
+  <div id="w-node-_17ccaaa0-d16c-eb61-a15a-dc2116e538e9-05ae55fe" class="card-nav-wrapper">
+
+    {%- if item.metafields.custom.coming_soon.value != true -%}
+      <a href="{{ item.url }}" class="link-product-card w-inline-block"></a>
+    {%- endif -%}
+
+    <h4 class="card-nav-heading">
+      {%- if item.type != blank -%}
+        {{ item.type }}
+      {%- else -%}
+        Medical line
+      {%- endif -%}
+    </h4>
+
+    {%- if item.metafields.custom.shop_photo -%}
+
+      {%- assign basic_img_tag = item.metafields.custom.shop_photo | metafield_tag -%}
+      {%- assign styled_img_tag = basic_img_tag | replace: '<img', '<img class="image-bg" loading="lazy"' -%}
+      
+      {{ styled_img_tag }}
+
+    {%- endif -%}
+
+    {%- if item.metafields.custom.coming_soon.value == true -%}
+      <div>{{ 'navigation.coming-soon' | t }}</div>
+    {%- endif -%}
+
+    {%- if item.metafields.custom.coming_soon.value != true -%}
+      <div class="icon-nav is-card w-embed">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>

@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elevia 3D Config - Glass</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --glass-hover: rgba(255, 255, 255, 0.15);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --accent: #00D4AA;
+            --accent-glow: rgba(0, 212, 170, 0.3);
+            --danger: #FF6B6B;
+            --warning: #FFE066;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: var(--text-primary);
+            height: 500vh;
+            font-size: 13px;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 212, 170, 0.3);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 30%; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 50%; animation-delay: 4s; }
+        .particle:nth-child(4) { left: 70%; animation-delay: 6s; }
+        .particle:nth-child(5) { left: 90%; animation-delay: 8s; }
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        /* Canvas */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        /* Glass Panel */
+        #editor {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            width: 360px;
+            max-height: calc(100vh - 48px);
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 
+                0 32px 64px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #editor.hidden {
+            transform: translateX(400px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Floating Toggle Button */
+        #toggle-btn {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            z-index: 999;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+        #toggle-btn.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #toggle-btn:hover {
+            background: var(--glass-hover);
+            transform: scale(1.05);
+        }
+        #toggle-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--text-primary);
+        }
+
+        /* Header */
+        .panel-header {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00A389 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+        .logo-icon svg {
+            width: 22px;
+            height: 22px;
+            stroke: white;
+        }
+        .logo-text {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .icon-btn:hover {
+            background: var(--glass-hover);
+            border-color: var(--accent);
+        }
+        .icon-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--text-secondary);
+        }
+        .icon-btn:hover svg {
+            stroke: var(--accent);
+        }
+
+        /* Panel Body */
+        .panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+        }
+        .panel-body::-webkit-scrollbar { width: 4px; }
+        .panel-body::-webkit-scrollbar-track { background: transparent; }
+        .panel-body::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 2px; }
+
+        /* Status Bar */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--glass-bg);
+            border-radius: 14px;
+            margin-bottom: 20px;
+        }
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--text-secondary);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .status-dot.active {
+            background: var(--accent);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+        .status-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .scroll-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 24px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* URL Input */
+        .url-input-group {
+            display: flex;
+            gap: 8px;
+        }
+        .url-input {
+            flex: 1;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .url-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        .url-input::placeholder {
+            color: var(--text-secondary);
+        }
+        .btn-primary {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00A389 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--accent-glow);
+        }
+
+        /* Zoom Controls */
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: var(--glass-bg);
+            border-radius: 12px;
+        }
+        .zoom-btn {
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .zoom-btn:hover {
+            background: var(--glass-hover);
+            border-color: var(--accent);
+        }
+        .zoom-value {
+            flex: 1;
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Object Pills */
+        .object-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .object-pill {
+            padding: 8px 16px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .object-pill:hover {
+            background: var(--glass-hover);
+        }
+        .object-pill.active {
+            background: linear-gradient(135deg, var(--accent) 0%, #00A389 100%);
+            border-color: transparent;
+        }
+        .add-pill {
+            width: 36px;
+            height: 36px;
+            background: var(--glass-bg);
+            border: 1px dashed var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .add-pill:hover {
+            border-color: var(--accent);
+            background: var(--glass-hover);
+        }
+
+        /* Object Config Card */
+        .object-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        .object-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .object-name-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .object-name-input:focus {
+            outline: none;
+        }
+        .link-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .link-badge.linked {
+            background: rgba(0, 212, 170, 0.15);
+            color: var(--accent);
+        }
+        .link-badge.unlinked {
+            background: rgba(255, 107, 107, 0.15);
+            color: var(--danger);
+        }
+
+        /* Scene Objects Grid */
+        .scene-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            max-height: 120px;
+            overflow-y: auto;
+            padding: 4px;
+        }
+        .scene-item {
+            padding: 10px 12px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .scene-item:hover {
+            background: var(--glass-hover);
+            border-color: var(--accent);
+        }
+        .scene-item.added {
+            opacity: 0.5;
+            cursor: default;
+        }
+        .scene-item-icon {
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* Breakpoint Tabs */
+        .bp-tabs {
+            display: flex;
+            background: var(--glass-bg);
+            border-radius: 12px;
+            padding: 4px;
+            gap: 4px;
+        }
+        .bp-tab {
+            flex: 1;
+            padding: 10px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .bp-tab:hover {
+            color: var(--text-primary);
+        }
+        .bp-tab.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Keyframe Cards */
+        .keyframe-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .keyframe-card:hover {
+            background: var(--glass-hover);
+        }
+        .keyframe-card.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        .kf-scroll {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--accent);
+            min-width: 50px;
+        }
+        .kf-info {
+            flex: 1;
+        }
+        .kf-name {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+        .kf-meta {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        .kf-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .kf-action-btn {
+            width: 28px;
+            height: 28px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        .kf-action-btn:hover {
+            background: var(--glass-hover);
+        }
+
+        /* Add Keyframe Button */
+        .add-kf-btn {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            border: 2px dashed var(--glass-border);
+            border-radius: 14px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .add-kf-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Transform Section */
+        .transform-section {
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+        .transform-section.visible {
+            display: block;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Slider Row */
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .axis-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .axis-badge.x { background: rgba(255, 107, 107, 0.2); color: #FF6B6B; }
+        .axis-badge.y { background: rgba(0, 212, 170, 0.2); color: #00D4AA; }
+        .axis-badge.z { background: rgba(99, 179, 237, 0.2); color: #63B3ED; }
+        
+        .slider-track {
+            flex: 1;
+            height: 6px;
+            background: var(--glass-border);
+            border-radius: 3px;
+            position: relative;
+        }
+        .slider-input {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        .slider-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.15s;
+        }
+        .slider-input::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+        .value-input {
+            width: 60px;
+            padding: 8px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            text-align: center;
+            font-size: 12px;
+        }
+        .value-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Export Section */
+        .export-bar {
+            display: flex;
+            gap: 8px;
+            padding: 16px 24px;
+            border-top: 1px solid var(--glass-border);
+        }
+        .export-btn {
+            flex: 1;
+            padding: 12px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .export-btn:hover {
+            background: var(--glass-hover);
+            border-color: var(--accent);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.show {
+            display: flex;
+        }
+        .modal {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            width: 520px;
+            max-width: 90vw;
+            max-height: 80vh;
+            overflow: hidden;
+        }
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+        .modal-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .modal-tab {
+            flex: 1;
+            padding: 14px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .modal-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+        .modal-body {
+            padding: 20px 24px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 11px;
+            color: var(--accent);
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+        .btn-secondary {
+            padding: 10px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        /* Popups */
+        .popup {
+            position: fixed;
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 8px;
+            z-index: 2000;
+            display: none;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+        }
+        .popup.show { display: block; }
+        .popup-option {
+            padding: 10px 14px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 13px;
+            transition: all 0.15s;
+        }
+        .popup-option:hover { background: var(--glass-hover); }
+        .popup-option.active { background: var(--accent); color: white; }
+
+        /* Opacity Popup */
+        #opacity-popup {
+            padding: 16px 12px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        #opacity-popup.show { display: flex; }
+    </style>
+    <script type="module" src="https://unpkg.com/@splinetool/runtime@1.9.96/build/runtime.js"></script>
+</head>
+<body>
+    <!-- Background Particles -->
+    <div class="bg-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div id="canvas-container">
+        <canvas id="canvas3d"></canvas>
+    </div>
+
+    <!-- Toggle Button -->
+    <button id="toggle-btn" onclick="toggleEditor()">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+            <path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/>
+            <path d="M12 22V12"/>
+            <path d="M22 7L12 12 2 7"/>
+        </svg>
+    </button>
+
+    <!-- Popups -->
+    <div id="opacity-popup" class="popup">
+        <input type="range" style="writing-mode: bt-lr; -webkit-appearance: slider-vertical; width: 8px; height: 100px; accent-color: var(--accent);" min="0" max="100" value="100" oninput="updateOpacityFromSlider(this.value)">
+        <span style="font-size: 11px; color: var(--text-secondary);">Opacity</span>
+    </div>
+
+    <div id="easing-popup" class="popup">
+        <div class="popup-option" data-easing="linear">Linear</div>
+        <div class="popup-option" data-easing="easeInQuad">Ease In</div>
+        <div class="popup-option" data-easing="easeOutQuad">Ease Out</div>
+        <div class="popup-option" data-easing="easeInOutQuad">Ease In Out</div>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="export-modal" class="modal-overlay" onclick="if(event.target===this)closeExportModal()">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">Export Configuration</span>
+                <button class="modal-close" onclick="closeExportModal()">×</button>
+            </div>
+            <div class="modal-tabs">
+                <button class="modal-tab active" onclick="setExportTab('json')">JSON Config</button>
+                <button class="modal-tab" onclick="setExportTab('shopify')">Shopify Code</button>
+            </div>
+            <div class="modal-body">
+                <div id="export-json-content">
+                    <div class="code-block" id="export-json-code"></div>
+                </div>
+                <div id="export-shopify-content" style="display:none;">
+                    <div class="code-block" id="export-shopify-code"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeExportModal()">Close</button>
+                <button class="btn-primary" onclick="copyExportCode()">Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Panel -->
+    <div id="editor">
+        <div class="panel-header">
+            <div class="logo-group">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/>
+                    </svg>
+                </div>
+                <span class="logo-text">3D Config</span>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" onclick="openExportModal()" title="Export">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                </button>
+                <button class="icon-btn" onclick="toggleEditor()" title="Close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <!-- Status Bar -->
+            <div class="status-bar">
+                <div class="status-item">
+                    <div class="status-dot" id="preview-dot"></div>
+                    <span class="status-label" id="preview-label">Preview Off</span>
+                </div>
+                <div class="status-item" style="cursor: pointer;" onclick="togglePreview()">
+                    <span class="scroll-value" id="scroll-display">0.0%</span>
+                </div>
+            </div>
+
+            <!-- Scene URL -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-title">Scene</span>
+                </div>
+                <div class="url-input-group">
+                    <input type="text" class="url-input" id="scene-url" placeholder="Paste Spline URL...">
+                    <button class="btn-primary" onclick="loadScene()">Load</button>
+                </div>
+            </div>
+
+            <!-- Zoom -->
+            <div class="section">
+                <div class="zoom-controls">
+                    <button class="zoom-btn" onclick="changeZoom(-0.1)">−</button>
+                    <span class="zoom-value" id="zoom-value">100%</span>
+                    <button class="zoom-btn" onclick="changeZoom(0.1)">+</button>
+                    <button class="zoom-btn" onclick="resetZoom()" title="Reset">↺</button>
+                </div>
+            </div>
+
+            <!-- Objects -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-title">Objects</span>
+                </div>
+                <div class="object-pills" id="object-tags"></div>
+                <div id="object-config"></div>
+                
+                <div class="section-header" style="margin-top: 16px;">
+                    <span class="section-title" style="font-size: 10px;">Available in Scene</span>
+                </div>
+                <div class="scene-grid" id="scene-objects-list">
+                    <div style="grid-column: span 2; color: var(--text-secondary); font-size: 12px; text-align: center; padding: 16px;">Load a scene first</div>
+                </div>
+            </div>
+
+            <!-- Breakpoints -->
+            <div class="section">
+                <div class="bp-tabs">
+                    <button class="bp-tab active" id="bp-desktop" onclick="setBreakpoint('desktop')">Desktop</button>
+                    <button class="bp-tab" id="bp-tablet" onclick="setBreakpoint('tablet')">Tablet</button>
+                    <button class="bp-tab" id="bp-mobile" onclick="setBreakpoint('mobile')">Mobile</button>
+                </div>
+            </div>
+
+            <!-- Keyframes -->
+            <div class="section">
+                <div class="section-header">
+                    <span class="section-title" id="keyframes-title">Scroll Actions</span>
+                    <button class="add-pill" onclick="addKeyframe()">+</button>
+                </div>
+                <div id="keyframe-list"></div>
+            </div>
+
+            <!-- Transform -->
+            <div class="transform-section" id="transform-section">
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-title">Trigger Point</span>
+                        <button class="btn-primary" style="padding: 6px 12px; font-size: 11px;" onclick="setTriggerFromScroll()">📍 Set from scroll</button>
+                    </div>
+                    <div class="slider-row">
+                        <span style="font-size: 12px; color: var(--text-secondary); min-width: 24px;">%</span>
+                        <div class="slider-track">
+                            <input type="range" class="slider-input" id="trigger-slider" min="0" max="100" value="0" data-type="scroll" oninput="updateTransform(this)">
+                        </div>
+                        <input type="number" class="value-input" data-type="scroll" min="0" max="100" oninput="updateTransform(this)">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-title">Position</span>
+                    </div>
+                    <div class="slider-row">
+                        <span class="axis-badge x">X</span>
+                        <div class="slider-track">
+                            <input type="range" class="slider-input" min="-500" max="500" value="0" data-type="pos" data-axis="x" oninput="updateTransform(this)">
+                        </div>
+                        <input type="number" class="value-input" data-type="pos" data-axis="x" oninput="updateTransform(this)">
+                    </div>
+                    <div class="slider-row">
+                        <span class="axis-badge y">Y</span>
+                        <div class="slider-track">
+                            <input type="range" class="slider-input" min="-500" max="500" value="0" data-type="pos" data-axis="y" oninput="updateTransform(this)">
+                        </div>
+                        <input type="number" class="value-input" data-type="pos" data-axis="y" oninput="updateTransform(this)">
+                    </div>
+                    <div class="slider-row">
+                        <span class="axis-badge z">Z</span>
+                        <div class="slider-track">
+                            <input type="range" class="slider-input" min="-500" max="500" value="0" data-type="pos" data-axis="z" oninput="updateTransform(this)">
+                        </div>
+                        <input type="number" class="value-input" data-type="pos" data-axis="z" oninput="updateTransform(this)">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <span class="section-title">Rotation</span>
+                    </div>
+                    <div class="slider-row">
+                        <span class="axis-badge x">X</span>
+                        <div class="slider-track">
+                            <input type="range" class="slider-input" min="-180" max="180" value="0" data-type="rot" data-axis="x" oninput="updateTransform(this)">
+                        </div>
+                        <input type="number" class="value-input" data-type="rot" data-axis="x" oninput="updateTransform(this)">
+                    </div>
+                    <div class="slider-row">
+                        <span class="axis-badge y">Y</span>
+                        <div class="slider-track">
+                            <input type="range" class="slider-input" min="-180" max="180" value="0" data-type="rot" data-axis="y" oninput="updateTransform(this)">
+                        </div>
+                        <input type="number" class="value-input" data-type="rot" data-axis="y" oninput="updateTransform(this)">
+                    </div>
+                    <div class="slider-row">
+                        <span class="axis-badge z">Z</span>
+                        <div class="slider-track">
+                            <input type="range" class="slider-input" min="-180" max="180" value="0" data-type="rot" data-axis="z" oninput="updateTransform(this)">
+                        </div>
+                        <input type="number" class="value-input" data-type="rot" data-axis="z" oninput="updateTransform(this)">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Bar -->
+        <div class="export-bar">
+            <button class="export-btn" onclick="openExportModal()">📤 Export</button>
+            <button class="export-btn" onclick="downloadJSON()">💾 Download</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { Application } from 'https://unpkg.com/@splinetool/runtime@1.9.96/build/runtime.js';
+
+        // === STATE ===
+        const state = {
+            app: null,
+            objects: [],
+            activeObjId: null,
+            activeKeyframeId: null,
+            objectCache: new Map(),
+            currentScroll: 0,
+            previewMode: false,
+            activeBreakpoint: 'desktop',
+            breakpointWidths: { desktop: 1024, tablet: 768, mobile: 0 },
+            bgImages: { desktop: null, tablet: null, mobile: null },
+            zoomLevel: 1.0,
+            sceneObjects: []
+        };
+
+        window.editorState = state;
+
+        // === TOGGLE ===
+        window.toggleEditor = function() {
+            const editor = document.getElementById('editor');
+            const toggle = document.getElementById('toggle-btn');
+            if (editor.classList.contains('hidden')) {
+                editor.classList.remove('hidden');
+                toggle.classList.remove('visible');
+            } else {
+                editor.classList.add('hidden');
+                toggle.classList.add('visible');
+            }
+        }
+
+        window.togglePreview = function() {
+            state.previewMode = !state.previewMode;
+            const dot = document.getElementById('preview-dot');
+            const label = document.getElementById('preview-label');
+            if (state.previewMode) {
+                dot.classList.add('active');
+                label.innerText = "Preview On";
+                requestAnimationFrame(renderFrame);
+            } else {
+                dot.classList.remove('active');
+                label.innerText = "Preview Off";
+            }
+        }
+
+        // === INIT ===
+        window.addEventListener('load', () => {
+            const savedUrl = localStorage.getItem('spline_tool_url');
+            if (savedUrl) {
+                document.getElementById('scene-url').value = savedUrl;
+                loadScene();
+            }
+            addObject(true);
+        });
+
+        // === SCENE ===
+        window.loadScene = async function() {
+            const url = document.getElementById('scene-url').value;
+            if (!url) return;
+            localStorage.setItem('spline_tool_url', url);
+            const canvas = document.getElementById('canvas3d');
+            if (!state.app) state.app = new Application(canvas);
+            try {
+                await state.app.load(url);
+                state.objectCache.clear();
+                state.zoomLevel = 1.0;
+                document.getElementById('zoom-value').innerText = '100%';
+                
+                state.sceneObjects = [];
+                function findSceneObjects(node) {
+                    if (node.name && (node.name.toLowerCase().includes('scene') || node.type === 'Scene')) {
+                        if (node.children) {
+                            node.children.forEach(child => {
+                                if (child.name && 
+                                    !child.name.startsWith('__') && 
+                                    !child.name.toLowerCase().includes('light') &&
+                                    !child.name.toLowerCase().includes('camera') &&
+                                    !child.name.toLowerCase().includes('invisible') &&
+                                    child.type !== 'DirectionalLight' && 
+                                    child.type !== 'AmbientLight' && 
+                                    child.type !== 'PointLight' && 
+                                    child.type !== 'SpotLight') {
+                                    state.sceneObjects.push({
+                                        name: child.name,
+                                        type: child.type || 'Object',
+                                        uuid: child.uuid
+                                    });
+                                }
+                            });
+                        }
+                        return true;
+                    }
+                    if (node.children) {
+                        for (const child of node.children) {
+                            if (findSceneObjects(child)) return true;
+                        }
+                    }
+                    return false;
+                }
+                if (state.app._scene) {
+                    findSceneObjects(state.app._scene);
+                }
+                
+                renderSceneObjects();
+                renderObjects();
+            } catch (e) {
+                console.error(e);
+                alert("Failed to load scene");
+            }
+        }
+        
+        function renderSceneObjects() {
+            const container = document.getElementById('scene-objects-list');
+            if (!container) return;
+            
+            if (state.sceneObjects.length === 0) {
+                container.innerHTML = '<div style="grid-column: span 2; color: var(--text-secondary); font-size: 12px; text-align: center; padding: 16px;">Load a scene first</div>';
+                return;
+            }
+            
+            const addedNames = state.objects.map(o => o.name);
+            
+            container.innerHTML = state.sceneObjects.map(obj => {
+                const isAdded = addedNames.includes(obj.name);
+                return `
+                    <div class="scene-item ${isAdded ? 'added' : ''}" onclick="${isAdded ? '' : `addObjectFromScene('${obj.name}')`}">
+                        <span class="scene-item-icon"></span>
+                        <span>${obj.name}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        window.addObjectFromScene = function(name) {
+            if (state.objects.some(o => o.name === name)) return;
+            
+            const id = 'obj_' + Date.now();
+            const obj = {
+                id,
+                name: name,
+                keyframes: { desktop: [], tablet: [], mobile: [] }
+            };
+            state.objects.push(obj);
+            selectObject(id);
+            renderObjects();
+            renderSceneObjects();
+        }
+
+        // === ZOOM ===
+        window.changeZoom = function(delta) {
+            state.zoomLevel = Math.max(0.1, Math.min(3, state.zoomLevel + delta));
+            state.zoomLevel = parseFloat(state.zoomLevel.toFixed(1));
+            document.getElementById('zoom-value').innerText = Math.round(state.zoomLevel * 100) + '%';
+            if (state.app) {
+                try { state.app.setZoom(state.zoomLevel); } catch(e){}
+            }
+        }
+
+        window.resetZoom = function() {
+            state.zoomLevel = 1.0;
+            document.getElementById('zoom-value').innerText = '100%';
+            if (state.app) {
+                try { state.app.setZoom(1); } catch(e){}
+            }
+        }
+
+        // === SCROLL ===
+        window.addEventListener('scroll', () => {
+            const docH = document.body.scrollHeight - window.innerHeight;
+            state.currentScroll = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+            document.getElementById('scroll-display').innerText = state.currentScroll.toFixed(1) + '%';
+            
+            if (state.previewMode) requestAnimationFrame(renderFrame);
+        });
+
+        // === BREAKPOINTS ===
+        window.setBreakpoint = function(bp) {
+            state.activeBreakpoint = bp;
+            document.querySelectorAll('.bp-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('bp-' + bp).classList.add('active');
+            document.getElementById('keyframes-title').innerText = `Scroll Actions · ${bp.charAt(0).toUpperCase() + bp.slice(1)}`;
+            renderKeyframes();
+        }
+
+        // === OBJECTS ===
+        window.addObject = function(autoSelect = true) {
+            const id = 'obj_' + Date.now();
+            const obj = {
+                id,
+                name: 'Object ' + (state.objects.length + 1),
+                keyframes: { desktop: [], tablet: [], mobile: [] }
+            };
+            state.objects.push(obj);
+            if (autoSelect || state.objects.length === 1) selectObject(id);
+            renderObjects();
+        }
+
+        window.deleteObject = function(id) {
+            if (state.objects.length <= 1) return;
+            state.objects = state.objects.filter(o => o.id !== id);
+            if (state.activeObjId === id) {
+                state.activeObjId = state.objects[0]?.id || null;
+                state.activeKeyframeId = null;
+            }
+            renderObjects();
+            renderKeyframes();
+        }
+
+        window.selectObject = function(id) {
+            state.activeObjId = id;
+            state.activeKeyframeId = null;
+            const obj = state.objects.find(o => o.id === id);
+            if (!obj) return;
+            if (Array.isArray(obj.keyframes)) {
+                obj.keyframes = { desktop: obj.keyframes, tablet: [], mobile: [] };
+            }
+            document.getElementById('transform-section').classList.remove('visible');
+            renderObjects();
+            renderKeyframes();
+        }
+
+        window.updateObjectName = function(id, name) {
+            const obj = state.objects.find(o => o.id === id);
+            if (!obj) return;
+            state.objectCache.delete(obj.name);
+            obj.name = name;
+            if (state.app && name) {
+                try {
+                    const found = state.app.findObjectByName(name);
+                    if (found) state.objectCache.set(name, found);
+                } catch(e) {}
+            }
+            renderObjects();
+        }
+
+        function renderObjects() {
+            const tagsContainer = document.getElementById('object-tags');
+            const configContainer = document.getElementById('object-config');
+
+            tagsContainer.innerHTML = state.objects.map(o => `
+                <div class="object-pill ${o.id === state.activeObjId ? 'active' : ''}" onclick="selectObject('${o.id}')">
+                    ${o.name || 'Unnamed'}
+                </div>
+            `).join('') + `<button class="add-pill" onclick="addObject()">+</button>`;
+
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            if (!obj) {
+                configContainer.innerHTML = '';
+                return;
+            }
+
+            let isLinked = false;
+            if (state.app && obj.name) {
+                try {
+                    const found = state.app.findObjectByName(obj.name);
+                    isLinked = !!found;
+                    if (found) state.objectCache.set(obj.name, found);
+                } catch(e) {}
+            }
+
+            configContainer.innerHTML = `
+                <div class="object-card">
+                    <div class="object-card-header">
+                        <input type="text" class="object-name-input" value="${obj.name || ''}" placeholder="Object name" oninput="updateObjectName('${obj.id}', this.value)">
+                        <span class="link-badge ${isLinked ? 'linked' : 'unlinked'}">${isLinked ? 'Linked' : 'Not Found'}</span>
+                        ${state.objects.length > 1 ? `<button class="icon-btn" onclick="deleteObject('${obj.id}')" style="width:28px;height:28px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>` : ''}
+                    </div>
+                </div>
+            `;
+            
+            renderSceneObjects();
+        }
+
+        // === KEYFRAMES ===
+        function getKeyframes(obj) {
+            if (!obj) return [];
+            return obj.keyframes[state.activeBreakpoint] || [];
+        }
+
+        window.addKeyframe = function() {
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            if (!obj) return alert("Select an object first");
+            const kfs = getKeyframes(obj);
+
+            let pos = { x: 0, y: 0, z: 0 };
+            let rot = { x: 0, y: 0, z: 0 };
+            if (state.app) {
+                let splineObj = state.objectCache.get(obj.name);
+                if (!splineObj) {
+                    try { splineObj = state.app.findObjectByName(obj.name); state.objectCache.set(obj.name, splineObj); } catch(e){}
+                }
+                if (splineObj) {
+                    pos = { x: Math.round(splineObj.position.x), y: Math.round(splineObj.position.y), z: Math.round(splineObj.position.z) };
+                    rot = { x: Math.round(splineObj.rotation.x * 180/Math.PI), y: Math.round(splineObj.rotation.y * 180/Math.PI), z: Math.round(splineObj.rotation.z * 180/Math.PI) };
+                }
+            }
+
+            const kf = {
+                id: 'kf_' + Date.now(),
+                name: 'Position ' + (kfs.length + 1),
+                scroll: Math.round(state.currentScroll),
+                pos: pos,
+                rot: rot,
+                op: 100,
+                easing: 'linear'
+            };
+            kfs.push(kf);
+            selectKeyframe(kf.id);
+            renderKeyframes();
+        }
+
+        window.deleteKeyframe = function(id) {
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            if (!obj) return;
+            const kfs = getKeyframes(obj);
+            const idx = kfs.findIndex(k => k.id === id);
+            if (idx > -1) kfs.splice(idx, 1);
+            if (state.activeKeyframeId === id) {
+                state.activeKeyframeId = kfs[0]?.id || null;
+            }
+            renderKeyframes();
+            if (!state.activeKeyframeId) {
+                document.getElementById('transform-section').classList.remove('visible');
+            }
+        }
+
+        window.selectKeyframe = function(id) {
+            state.activeKeyframeId = id;
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const kf = getKeyframes(obj).find(k => k.id === id);
+            if (!kf) return;
+
+            document.getElementById('transform-section').classList.add('visible');
+            document.querySelectorAll('[data-type="scroll"]').forEach(el => el.value = kf.scroll);
+            ['x','y','z'].forEach(axis => {
+                document.querySelectorAll(`[data-type="pos"][data-axis="${axis}"]`).forEach(el => el.value = kf.pos[axis]);
+                document.querySelectorAll(`[data-type="rot"][data-axis="${axis}"]`).forEach(el => el.value = kf.rot[axis]);
+            });
+            renderKeyframes();
+
+            if (!state.previewMode && state.app) {
+                let splineObj = state.objectCache.get(obj.name);
+                if (!splineObj) {
+                    try { splineObj = state.app.findObjectByName(obj.name); state.objectCache.set(obj.name, splineObj); } catch(e){}
+                }
+                if (splineObj) {
+                    splineObj.position.set(kf.pos.x, kf.pos.y, kf.pos.z);
+                    splineObj.rotation.set(kf.rot.x * Math.PI/180, kf.rot.y * Math.PI/180, kf.rot.z * Math.PI/180);
+                    forceOpacity(splineObj, (kf.op || 100) / 100);
+                }
+            }
+        }
+
+        window.updateKeyframeName = function(id, name) {
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const kf = getKeyframes(obj).find(k => k.id === id);
+            if (kf) kf.name = name;
+        }
+
+        function renderKeyframes() {
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const container = document.getElementById('keyframe-list');
+
+            if (!obj) {
+                container.innerHTML = '<div style="color:var(--text-secondary);font-size:12px;text-align:center;padding:20px;">Select an object first</div>';
+                return;
+            }
+            const kfs = getKeyframes(obj);
+            if (kfs.length === 0) {
+                container.innerHTML = '<button class="add-kf-btn" onclick="addKeyframe()">+ Add Position</button>';
+                return;
+            }
+
+            const easingLabels = { linear: 'Lin', easeInQuad: 'In', easeOutQuad: 'Out', easeInOutQuad: 'IO' };
+
+            container.innerHTML = kfs.map(kf => `
+                <div class="keyframe-card ${kf.id === state.activeKeyframeId ? 'active' : ''}" onclick="selectKeyframe('${kf.id}')">
+                    <span class="kf-scroll">${kf.scroll}%</span>
+                    <div class="kf-info">
+                        <div class="kf-name">${kf.name || 'Unnamed'}</div>
+                        <div class="kf-meta">Opacity: ${kf.op || 100}% · ${easingLabels[kf.easing] || 'Lin'}</div>
+                    </div>
+                    <div class="kf-actions">
+                        <button class="kf-action-btn" onclick="event.stopPropagation(); showOpacitySlider('${kf.id}', this)">⚪</button>
+                        <button class="kf-action-btn" onclick="event.stopPropagation(); toggleEasingPicker('${kf.id}', this)">⚡</button>
+                        <button class="kf-action-btn" onclick="event.stopPropagation(); deleteKeyframe('${kf.id}')">×</button>
+                    </div>
+                </div>
+            `).join('') + '<button class="add-kf-btn" onclick="addKeyframe()" style="margin-top:8px;">+ Add Position</button>';
+        }
+
+        // === OPACITY POPUP ===
+        let activeOpacityKfId = null;
+        window.showOpacitySlider = function(kfId, el) {
+            activeOpacityKfId = kfId;
+            const popup = document.getElementById('opacity-popup');
+            const rect = el.getBoundingClientRect();
+            popup.style.left = (rect.left - 30) + 'px';
+            popup.style.top = (rect.bottom + 8) + 'px';
+            popup.classList.add('show');
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const kf = getKeyframes(obj).find(k => k.id === kfId);
+            if (kf) popup.querySelector('input').value = (kf.op || 100);
+        }
+
+        window.updateOpacityFromSlider = function(val) {
+            if (!activeOpacityKfId) return;
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const kf = getKeyframes(obj).find(k => k.id === activeOpacityKfId);
+            if (kf) kf.op = parseInt(val);
+        }
+
+        document.addEventListener('click', e => {
+            const popup = document.getElementById('opacity-popup');
+            if (popup && !popup.contains(e.target) && !e.target.classList.contains('kf-action-btn')) {
+                popup.classList.remove('show');
+                activeOpacityKfId = null;
+                renderKeyframes();
+            }
+        });
+
+        // === EASING POPUP ===
+        let activeEasingKfId = null;
+        window.toggleEasingPicker = function(kfId, el) {
+            activeEasingKfId = kfId;
+            const popup = document.getElementById('easing-popup');
+            const rect = el.getBoundingClientRect();
+            popup.style.left = (rect.left - 40) + 'px';
+            popup.style.top = (rect.bottom + 8) + 'px';
+            popup.classList.add('show');
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const kf = getKeyframes(obj).find(k => k.id === kfId);
+            popup.querySelectorAll('.popup-option').forEach(opt => {
+                opt.classList.toggle('active', opt.dataset.easing === kf?.easing);
+            });
+        }
+
+        document.querySelectorAll('.popup-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                if (!activeEasingKfId) return;
+                const obj = state.objects.find(o => o.id === state.activeObjId);
+                const kf = getKeyframes(obj).find(k => k.id === activeEasingKfId);
+                if (kf) kf.easing = opt.dataset.easing;
+                document.getElementById('easing-popup').classList.remove('show');
+                activeEasingKfId = null;
+                renderKeyframes();
+            });
+        });
+
+        // === TRANSFORM ===
+        window.setTriggerFromScroll = function() {
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const kf = getKeyframes(obj).find(k => k.id === state.activeKeyframeId);
+            if (!kf) return;
+            
+            const currentVal = parseFloat(state.currentScroll.toFixed(1));
+            kf.scroll = currentVal;
+            document.querySelectorAll('[data-type="scroll"]').forEach(e => e.value = currentVal);
+            renderKeyframes();
+        }
+
+        window.updateTransform = function(el) {
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const kf = getKeyframes(obj).find(k => k.id === state.activeKeyframeId);
+            if (!kf) return;
+
+            const type = el.dataset.type;
+            const axis = el.dataset.axis;
+            const val = parseFloat(el.value) || 0;
+
+            if (type === 'scroll') {
+                kf.scroll = val;
+                document.querySelectorAll('[data-type="scroll"]').forEach(e => e.value = val);
+                const docH = document.body.scrollHeight - window.innerHeight;
+                if (docH > 0) {
+                    window.scrollTo(0, (val / 100) * docH);
+                }
+            } else if (type === 'pos') {
+                kf.pos[axis] = val;
+                document.querySelectorAll(`[data-type="pos"][data-axis="${axis}"]`).forEach(e => e.value = val);
+            } else if (type === 'rot') {
+                kf.rot[axis] = val;
+                document.querySelectorAll(`[data-type="rot"][data-axis="${axis}"]`).forEach(e => e.value = val);
+            }
+
+            renderKeyframes();
+
+            if (!state.previewMode) {
+                let splineObj = state.objectCache.get(obj.name);
+                if (!splineObj && state.app) {
+                    try { splineObj = state.app.findObjectByName(obj.name); } catch(e){}
+                }
+                if (splineObj) {
+                    splineObj.position.set(kf.pos.x, kf.pos.y, kf.pos.z);
+                    splineObj.rotation.set(kf.rot.x * Math.PI/180, kf.rot.y * Math.PI/180, kf.rot.z * Math.PI/180);
+                    forceOpacity(splineObj, (kf.op || 100) / 100);
+                }
+            }
+        }
+
+        // === FORCE OPACITY ===
+        function cloneMaterial(node) {
+            if (!node.material) return;
+            if (!Array.isArray(node.material)) {
+                if (!node.material._isCloned) {
+                    node.material = node.material.clone();
+                    node.material._isCloned = true;
+                    node.material.transparent = true;
+                    node.material.depthWrite = false;
+                    node.material.needsUpdate = true;
+                }
+                return;
+            }
+            node.material = node.material.map(mat => {
+                if (!mat._isCloned) {
+                    const cloned = mat.clone();
+                    cloned._isCloned = true;
+                    cloned.transparent = true;
+                    cloned.depthWrite = false;
+                    cloned.needsUpdate = true;
+                    return cloned;
+                }
+                return mat;
+            });
+        }
+
+        function forceOpacity(node, opacityVal) {
+            if (opacityVal <= 0.01) {
+                node.visible = false;
+                return;
+            }
+            node.visible = true;
+            cloneMaterial(node);
+            if (node.material) {
+                const mats = Array.isArray(node.material) ? node.material : [node.material];
+                mats.forEach(m => {
+                    m.opacity = opacityVal;
+                    m.transparent = true;
+                    m.depthWrite = false;
+                    m.needsUpdate = true;
+                });
+            }
+            if (node.children) {
+                node.children.forEach(child => forceOpacity(child, opacityVal));
+            }
+        }
+
+        // === RENDER FRAME ===
+        const easingFunctions = {
+            linear: t => t,
+            easeInQuad: t => t * t,
+            easeOutQuad: t => t * (2 - t),
+            easeInOutQuad: t => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+        };
+
+        function renderFrame() {
+            if (!state.app) return;
+            const scroll = state.currentScroll;
+            const w = window.innerWidth;
+            let targetBp = 'mobile';
+            if (w >= state.breakpointWidths.desktop) targetBp = 'desktop';
+            else if (w >= state.breakpointWidths.tablet) targetBp = 'tablet';
+
+            state.objects.forEach(objDef => {
+                let splineObj = state.objectCache.get(objDef.name);
+                if (!splineObj) {
+                    try { splineObj = state.app.findObjectByName(objDef.name); state.objectCache.set(objDef.name, splineObj); } catch(e){}
+                }
+                if (!splineObj) return;
+
+                const kfs = objDef.keyframes[targetBp] || [];
+                if (kfs.length === 0) return;
+
+                const sorted = [...kfs].sort((a,b) => a.scroll - b.scroll);
+                let prev = sorted[0], next = sorted[0];
+                for (let i = 0; i < sorted.length; i++) {
+                    if (sorted[i].scroll <= scroll) prev = sorted[i];
+                    if (sorted[i].scroll >= scroll && next.scroll < scroll) next = sorted[i];
+                }
+                if (next.scroll < scroll) next = sorted[sorted.length - 1];
+
+                let t = 0;
+                if (prev !== next && next.scroll !== prev.scroll) {
+                    t = (scroll - prev.scroll) / (next.scroll - prev.scroll);
+                } else if (scroll >= next.scroll) {
+                    t = 1;
+                }
+
+                const easeFn = easingFunctions[next.easing] || easingFunctions.linear;
+                t = easeFn(Math.max(0, Math.min(1, t)));
+
+                const lerp = (a, b) => a + (b - a) * t;
+
+                splineObj.position.set(lerp(prev.pos.x, next.pos.x), lerp(prev.pos.y, next.pos.y), lerp(prev.pos.z, next.pos.z));
+                splineObj.rotation.set(lerp(prev.rot.x, next.rot.x) * Math.PI/180, lerp(prev.rot.y, next.rot.y) * Math.PI/180, lerp(prev.rot.z, next.rot.z) * Math.PI/180);
+                
+                const opacityVal = lerp(prev.op || 100, next.op || 100) / 100;
+                forceOpacity(splineObj, opacityVal);
+            });
+        }
+
+        // === EXPORT ===
+        let currentExportTab = 'json';
+
+        function getExportData() {
+            return {
+                breakpointWidths: state.breakpointWidths,
+                objects: state.objects.map(o => ({
+                    name: o.name,
+                    keyframes: o.keyframes
+                }))
+            };
+        }
+
+        function getShopifyCode() {
+            const sceneUrl = document.getElementById('scene-url').value || 'YOUR_SPLINE_URL_HERE';
+            const config = getExportData();
+            
+            return `<!-- Elevia 3D Scroll Animation -->
+<style>
+  .spline-scroll-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .spline-scroll-container canvas {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<div class="spline-scroll-container">
+  <canvas id="spline-canvas"></canvas>
+</div>
+
+<script type="module">
+import { Application } from 'https://unpkg.com/@splinetool/runtime@1.9.96/build/runtime.js';
+
+const CONFIG = ${JSON.stringify(config, null, 2)};
+
+const EASING = {
+  linear: t => t,
+  easeInQuad: t => t * t,
+  easeOutQuad: t => t * (2 - t),
+  easeInOutQuad: t => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+};
+
+let app, objectCache = new Map();
+
+function forceOpacity(node, opacityVal) {
+  if (opacityVal <= 0.01) { node.visible = false; return; }
+  node.visible = true;
+  if (node.material) {
+    if (!Array.isArray(node.material)) {
+        if (!node.material._isCloned) {
+            node.material = node.material.clone();
+            node.material._isCloned = true;
+        }
+    } else {
+        node.material = node.material.map(m => {
+            if (!m._isCloned) {
+                const c = m.clone();
+                c._isCloned = true;
+                return c;
+            }
+            return m;
+        });
+    }
+    const mats = Array.isArray(node.material) ? node.material : [node.material];
+    mats.forEach(m => { m.transparent = true; m.opacity = opacityVal; m.needsUpdate = true; m.depthWrite = false; });
+  }
+  if (node.children) node.children.forEach(c => forceOpacity(c, opacityVal));
+}
+
+async function init() {
+  const canvas = document.getElementById('spline-canvas');
+  app = new Application(canvas);
+  await app.load('${sceneUrl}');
+  
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+}
+
+function onScroll() {
+  const docH = document.body.scrollHeight - window.innerHeight;
+  const scroll = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+  const w = window.innerWidth;
+  
+  let bp = 'mobile';
+  if (w >= CONFIG.breakpointWidths.desktop) bp = 'desktop';
+  else if (w >= CONFIG.breakpointWidths.tablet) bp = 'tablet';
+  
+  CONFIG.objects.forEach(objDef => {
+    let obj = objectCache.get(objDef.name);
+    if (!obj) {
+      try { obj = app.findObjectByName(objDef.name); objectCache.set(objDef.name, obj); } catch(e){}
+    }
+    if (!obj) return;
+    
+    const kfs = objDef.keyframes[bp] || [];
+    if (kfs.length === 0) return;
+    
+    const sorted = [...kfs].sort((a,b) => a.scroll - b.scroll);
+    let prev = sorted[0], next = sorted[0];
+    for (let i = 0; i < sorted.length; i++) {
+      if (sorted[i].scroll <= scroll) prev = sorted[i];
+      if (sorted[i].scroll >= scroll && next.scroll < scroll) next = sorted[i];
+    }
+    if (next.scroll < scroll) next = sorted[sorted.length - 1];
+    
+    let t = 0;
+    if (prev !== next && next.scroll !== prev.scroll) {
+      t = (scroll - prev.scroll) / (next.scroll - prev.scroll);
+    } else if (scroll >= next.scroll) {
+      t = 1;
+    }
+    
+    const easeFn = EASING[next.easing] || EASING.linear;
+    t = easeFn(Math.max(0, Math.min(1, t)));
+    
+    const lerp = (a, b) => a + (b - a) * t;
+    
+    obj.position.set(lerp(prev.pos.x, next.pos.x), lerp(prev.pos.y, next.pos.y), lerp(prev.pos.z, next.pos.z));
+    obj.rotation.set(lerp(prev.rot.x, next.rot.x) * Math.PI/180, lerp(prev.rot.y, next.rot.y) * Math.PI/180, lerp(prev.rot.z, next.rot.z) * Math.PI/180);
+    
+    forceOpacity(obj, lerp(prev.op || 100, next.op || 100) / 100);
+  });
+}
+
+init();
+<\/script>`;
+        }
+
+        window.openExportModal = function() {
+            document.getElementById('export-modal').classList.add('show');
+            updateExportContent();
+        }
+
+        window.closeExportModal = function() {
+            document.getElementById('export-modal').classList.remove('show');
+        }
+
+        window.setExportTab = function(tab) {
+            currentExportTab = tab;
+            document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('export-json-content').style.display = tab === 'json' ? 'block' : 'none';
+            document.getElementById('export-shopify-content').style.display = tab === 'shopify' ? 'block' : 'none';
+            updateExportContent();
+        }
+
+        function updateExportContent() {
+            document.getElementById('export-json-code').textContent = JSON.stringify(getExportData(), null, 2);
+            document.getElementById('export-shopify-code').textContent = getShopifyCode();
+        }
+
+        window.copyExportCode = function() {
+            const code = currentExportTab === 'json' 
+                ? JSON.stringify(getExportData(), null, 2)
+                : getShopifyCode();
+            navigator.clipboard.writeText(code);
+            alert('Copied to clipboard!');
+        }
+
+        window.downloadJSON = function() {
+            const blob = new Blob([JSON.stringify(getExportData(), null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'spline-animation.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
+

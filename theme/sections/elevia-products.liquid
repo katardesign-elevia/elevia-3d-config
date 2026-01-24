@@ -1,0 +1,144 @@
+<div class="w-layout-blockcontainer container-small w-container">
+  <div class="flex-default">
+    <div class="headline-pagination">
+      <h2 class="heading-style-h1">{{ section.settings.headline }}</h2>
+      <div class="swiper-pagination1"></div>
+    </div>
+    <div class="swiper1">
+      <div data-w-id="4dc5b9f8-f5bc-4024-6cf3-e9625c55275b" class="prev-sec1"></div>
+      <div data-w-id="4dc5b9f8-f5bc-4024-6cf3-e9625c55275c" class="next-sec1"></div>
+      <div class="swiper-wrapper">
+        <div class="swiper-slide is-about">
+          {%- if section.settings.slide_1_image == nil -%}
+            <img loading="lazy" alt="" src="{{ 'drops_1.jpg' | asset_url }}" sizes="360px" srcset="{{ 'drops_1.jpg' | asset_img_url: '500x' }} 500w, {{ 'drops_1.jpg' | asset_url }} 540w" class="swiper-image is-small">
+          {%- else -%}
+            <img loading="lazy" alt="{{ section.settings.slide_1_image.alt | escape }}" src="{{ section.settings.slide_1_image.src | img_url: 'master' }}" class="swiper-image is-small">
+          {%- endif -%}
+          <div class="about-products">
+            <h2 class="all-caps">{{ section.settings.slide_1_headline }}</h2>
+            <div p-add-class="body-small">{{ section.settings.slide_1_description | newline_to_br }}</div>
+          </div>
+        </div>
+        <div class="swiper-slide is-about">
+          {%- if section.settings.slide_2_image == nil -%}
+            <img loading="lazy" alt="" src="{{ 'pre-roll.jpg' | asset_url }}" sizes="360px" srcset="{{ 'pre-roll.jpg' | asset_img_url: '500x' }} 500w, {{ 'pre-roll.jpg' | asset_url }} 540w" class="swiper-image is-small">
+          {%- else -%}
+            <img loading="lazy" alt="{{ section.settings.slide_2_image.alt | escape }}" src="{{ section.settings.slide_2_image.src | img_url: 'master' }}" class="swiper-image is-small">
+          {%- endif -%}
+          <div class="about-products">
+            <h2 class="all-caps">{{ section.settings.slide_2_headline }}</h2>
+            <div p-add-class="body-small">{{ section.settings.slide_2_description | newline_to_br }}</div>
+          </div>
+        </div>
+        <div class="swiper-slide is-about">
+          {%- if section.settings.slide_3_image == nil -%}
+            <img loading="lazy" alt="" src="{{ 'vape_1.jpg' | asset_url }}" sizes="360px" srcset="{{ 'vape_1.jpg' | asset_img_url: '500x' }} 500w, {{ 'vape_1.jpg' | asset_url }} 540w" class="swiper-image is-small">
+          {%- else -%}
+            <img loading="lazy" alt="{{ section.settings.slide_3_image.alt | escape }}" src="{{ section.settings.slide_3_image.src | img_url: 'master' }}" class="swiper-image is-small">
+          {%- endif -%}
+          <div class="about-products">
+            <h2 class="all-caps">{{ section.settings.slide_3_headline }}</h2>
+            <div p-add-class="body-small">{{ section.settings.slide_3_description | newline_to_br }}</div>
+          </div>
+        </div>
+        <div class="swiper-slide is-about">
+          {%- if section.settings.slide_4_image == nil -%}
+            <img loading="lazy" alt="" src="{{ 'pre-roll.jpg' | asset_url }}" sizes="360px" srcset="{{ 'pre-roll.jpg' | asset_img_url: '500x' }} 500w, {{ 'pre-roll.jpg' | asset_url }} 540w" class="swiper-image is-small">
+          {%- else -%}
+            <img loading="lazy" alt="{{ section.settings.slide_4_image.alt | escape }}" src="{{ section.settings.slide_4_image.src | img_url: 'master' }}" class="swiper-image is-small">
+          {%- endif -%}
+          <div class="about-products">
+            <h2 class="all-caps">{{ section.settings.slide_4_headline }}</h2>
+            <div p-add-class="body-small">{{ section.settings.slide_4_description | newline_to_br }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>var currentSection = document.currentScript.closest('.shopify-section');currentSection.setAttribute("class","section-default");</script>
+
+{% schema %}
+{
+  "name": "Elevia products",
+  "tag": "section",
+  "class": "section-default",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "slide_4_description",
+      "label": "Slide 4 - Description",
+      "default": "<p>Automated controls empower growers with the data to increase yields while saving time, energy, and resources.</p>"
+    },
+    {
+      "type": "text",
+      "id": "slide_4_headline",
+      "label": "Slide 4 - Headline",
+      "default": "Sample Text"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_4_image",
+      "label": "Slide 4 - Image"
+    },
+    {
+      "type": "richtext",
+      "id": "slide_3_description",
+      "label": "Slide 3 - Description",
+      "default": "<p>Automated controls empower growers with the data to increase yields while saving time, energy, and resources.</p>"
+    },
+    {
+      "type": "text",
+      "id": "slide_3_headline",
+      "label": "Slide 3 - Headline",
+      "default": "Sample Text"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_3_image",
+      "label": "Slide 3 - Image"
+    },
+    {
+      "type": "richtext",
+      "id": "slide_2_description",
+      "label": "Slide 2 - Description",
+      "default": "<p>Precision Growing with the combination of stone wool growing media, innovative growing tools and personal advice.</p>"
+    },
+    {
+      "type": "text",
+      "id": "slide_2_headline",
+      "label": "Slide 2 - Headline",
+      "default": "Sample Text"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_2_image",
+      "label": "Slide 2 - Image"
+    },
+    {
+      "type": "richtext",
+      "id": "slide_1_description",
+      "label": "Slide 1 - Description",
+      "default": "<p>With the EVO series, we present you the top of the evolution chain in Led luminaires for the cultivation of plants.</p>"
+    },
+    {
+      "type": "text",
+      "id": "slide_1_headline",
+      "label": "Slide 1 - Headline",
+      "default": "Sample Text"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_1_image",
+      "label": "Slide 1 - Image"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Sample Text"
+    }
+  ]
+}
+{% endschema %}

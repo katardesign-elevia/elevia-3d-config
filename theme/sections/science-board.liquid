@@ -1,0 +1,76 @@
+<div class="w-layout-blockcontainer container-small w-container">
+  <div class="flex-default">
+    <h2 class="heading-style-h1">{{ section.settings.headline | rich_text }}</h2>
+    <div class="wrapper-people">
+      {% for block in section.blocks %}
+        <div class="people-block">
+          {% if block.settings.image != blank %}
+            <img src="{{ block.settings.image | img_url: 'medium' }}" loading="lazy" alt="{{ block.settings.name | strip_html }}" class="people-photo">
+          {% endif %}
+          <div class="people-main-block">
+            <div class="people-name">
+              <p>{{ block.settings.position }}</p>
+              <h2>{{ block.settings.name | rich_text }}</h2>
+            </div>
+            <div class="divider-people"></div>
+            <p class="body-medium">{{ block.settings.description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Section - Science Board",
+  "tag": "section",
+  "class": "section-default",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "headline",
+      "label": "Headline",
+      "default": "<p>Vědecká rada</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "person",
+      "name": "Člen rady",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Fotografie"
+        },
+        {
+          "type": "text",
+          "id": "position",
+          "label": "Pozice",
+          "default": "Předseda vědecké rady"
+        },
+        {
+          "type": "richtext",
+          "id": "name",
+          "label": "Jméno",
+          "default": "<p>Doc. Ing. Martin Kuchař, <br>Ph.D.</p>"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Popis",
+          "default": "Vedoucí laboratoře forenzní analýzy biologicky aktivních látek, VŠCHT Praha"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Vědecká rada",
+      "category": "Sekce"
+    }
+  ]
+}
+{% endschema %}

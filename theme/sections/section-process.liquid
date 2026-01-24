@@ -1,0 +1,255 @@
+<div class="w-layout-blockcontainer container-small w-container">
+      <div class="flex-default">
+        <div class="headline-pagination">
+          <h2 class="heading-style-h1">{{ section.settings.headline | rich_text }}</h2>
+        </div>
+        <div data-current="Tab 1" data-easing="linear" data-duration-in="500" data-duration-out="500" class="tabs-wrapper w-tabs">
+          <div class="tabs-lab w-tab-menu">
+            <a data-w-tab="Tab 1" data-w-id="475536b8-723e-933b-c316-ef42c8b1b085" class="tab-lab w-inline-block w-tab-link w--current">
+              <div class="p-contents">{{ section.settings.tab_1 | newline_to_br }}</div>
+            </a>
+            <a data-w-tab="Tab 2" data-w-id="475536b8-723e-933b-c316-ef42c8b1b088" class="tab-lab w-inline-block w-tab-link">
+              <div class="p-contents">{{ section.settings.tab_2 | newline_to_br }}</div>
+            </a>
+            <a data-w-tab="Tab 3" data-w-id="475536b8-723e-933b-c316-ef42c8b1b08b" class="tab-lab w-inline-block w-tab-link">
+              <div class="p-contents">{{ section.settings.tab_3 | newline_to_br }}</div>
+            </a>
+            <a data-w-tab="Tab 4" data-w-id="475536b8-723e-933b-c316-ef42c8b1b08e" class="tab-lab w-inline-block w-tab-link">
+              <div class="p-contents">{{ section.settings.tab_4 | newline_to_br }}</div>
+            </a>
+            <a data-w-tab="Tab 5" data-w-id="475536b8-723e-933b-c316-ef42c8b1b091" class="tab-lab w-inline-block w-tab-link">
+              <div class="p-contents">{{ section.settings.tab_5 | newline_to_br }}</div>
+            </a>
+          </div>
+          <div class="tabs-content-2 w-tab-content">
+            <div data-w-tab="Tab 1" class="tab-pane w-tab-pane w--tab-active">
+              <div class="lab-tab">
+                <p data-w-id="475536b8-723e-933b-c316-ef42c8b1b097" class="body-large space-left">{{ section.settings.tab_1_description | newline_to_br }}</p>
+                <div class="elevia-pagination">
+                  <div class="swiper-pagination1"></div>
+                </div>
+                <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b09b" class="swiper1">
+                  <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b09c" class="prev-sec1"></div>
+                  <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b09d" class="next-sec1"></div>
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide is-photo-large">{%- if section.settings.tab_1_image_1 == nil -%}<img loading="lazy" alt="" src="{{ 'plant-clonning-1.jpg' | asset_url }}" sizes="(max-width: 991px) 100vw, 1023.994140625px" srcset="{{ 'plant-clonning-1.jpg' | asset_img_url: '500x' }} 500w, {{ 'plant-clonning-1.jpg' | asset_img_url: '800x' }} 800w, {{ 'plant-clonning-1.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'plant-clonning-1.jpg' | asset_img_url: '1600x' }} 1600w, {{ 'plant-clonning-1.jpg' | asset_url }} 1706w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.tab_1_image_1.alt | escape }}" src="{{ section.settings.tab_1_image_1.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+                    <div class="swiper-slide is-photo">{%- if section.settings.tab_1_image_2 == nil -%}<img loading="lazy" alt="" src="{{ 'plant-clonning-2.jpg' | asset_url }}" sizes="(max-width: 767px) 360.99609375px, (max-width: 991px) 55vw, 550px" srcset="{{ 'plant-clonning-2.jpg' | asset_img_url: '500x' }} 500w, {{ 'plant-clonning-2.jpg' | asset_img_url: '800x' }} 800w, {{ 'plant-clonning-2.jpg' | asset_url }} 827w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.tab_1_image_2.alt | escape }}" src="{{ section.settings.tab_1_image_2.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+                    <div class="swiper-slide is-photo-large">{%- if section.settings.tab_1_image_3 == nil -%}<img loading="lazy" alt="" src="{{ 'plant-clonning-3.jpg' | asset_url }}" sizes="(max-width: 991px) 100vw, 1023.994140625px" srcset="{{ 'plant-clonning-3.jpg' | asset_img_url: '500x' }} 500w, {{ 'plant-clonning-3.jpg' | asset_img_url: '800x' }} 800w, {{ 'plant-clonning-3.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'plant-clonning-3.jpg' | asset_img_url: '1600x' }} 1600w, {{ 'plant-clonning-3.jpg' | asset_url }} 1706w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.tab_1_image_3.alt | escape }}" src="{{ section.settings.tab_1_image_3.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div data-w-tab="Tab 2" class="tab-pane w-tab-pane">
+              <div class="lab-tab">
+                <p data-w-id="475536b8-723e-933b-c316-ef42c8b1b0a7" class="body-large space-left">{{ section.settings.tab_2_description | newline_to_br }}</p>
+                <div class="elevia-pagination">
+                  <div class="swiper-pagination2"></div>
+                </div>
+                <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b0ab" class="swiper2">
+                  <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b0ac" class="prev-sec2"></div>
+                  <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b0ad" class="next-sec2"></div>
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide is-photo-large">{%- if section.settings.tab_2_image_1 == nil -%}<img loading="lazy" alt="" src="{{ 'indoor-growing-1.jpg' | asset_url }}" sizes="(max-width: 991px) 100vw, 1023.994140625px" srcset="{{ 'indoor-growing-1.jpg' | asset_img_url: '500x' }} 500w, {{ 'indoor-growing-1.jpg' | asset_img_url: '800x' }} 800w, {{ 'indoor-growing-1.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'indoor-growing-1.jpg' | asset_img_url: '1600x' }} 1600w, {{ 'indoor-growing-1.jpg' | asset_url }} 1706w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.tab_2_image_1.alt | escape }}" src="{{ section.settings.tab_2_image_1.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+                    <div class="swiper-slide is-photo">{%- if section.settings.tab_2_image_2 == nil -%}<img loading="lazy" alt="" src="{{ 'indoor-growing-2.jpg' | asset_url }}" sizes="(max-width: 767px) 360.99609375px, (max-width: 991px) 55vw, 550px" srcset="{{ 'indoor-growing-2.jpg' | asset_img_url: '500x' }} 500w, {{ 'indoor-growing-2.jpg' | asset_img_url: '800x' }} 800w, {{ 'indoor-growing-2.jpg' | asset_url }} 827w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.tab_2_image_2.alt | escape }}" src="{{ section.settings.tab_2_image_2.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div data-w-tab="Tab 3" class="tab-pane w-tab-pane">
+              <div class="lab-tab">
+                <p data-w-id="475536b8-723e-933b-c316-ef42c8b1b0b5" class="body-large space-left">{{ section.settings.tab_3_description | newline_to_br }}</p>
+                <div class="elevia-pagination">
+                  <div class="swiper-pagination3"></div>
+                </div>
+                <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b0b9" class="swiper3">
+                  <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b0ba" class="prev-sec3"></div>
+                  <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b0bb" class="next-sec3"></div>
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide is-photo-large">{%- if section.settings.tab_3_image_1 == nil -%}<img loading="lazy" alt="" src="{{ 'extraction-1.jpg' | asset_url }}" sizes="(max-width: 991px) 100vw, 1023.994140625px" srcset="{{ 'extraction-1.jpg' | asset_img_url: '500x' }} 500w, {{ 'extraction-1.jpg' | asset_img_url: '800x' }} 800w, {{ 'extraction-1.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'extraction-1.jpg' | asset_img_url: '1600x' }} 1600w, {{ 'extraction-1.jpg' | asset_url }} 1706w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.tab_3_image_1.alt | escape }}" src="{{ section.settings.tab_3_image_1.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+                    <div class="swiper-slide is-photo">{%- if section.settings.tab_3_image_2 == nil -%}<img loading="lazy" alt="" src="{{ 'indoor-growing-1.jpg' | asset_url }}" sizes="(max-width: 767px) 360.99609375px, (max-width: 991px) 55vw, 550px" srcset="{{ 'indoor-growing-1.jpg' | asset_img_url: '500x' }} 500w, {{ 'indoor-growing-1.jpg' | asset_img_url: '800x' }} 800w, {{ 'indoor-growing-1.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'indoor-growing-1.jpg' | asset_img_url: '1600x' }} 1600w, {{ 'indoor-growing-1.jpg' | asset_url }} 1706w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.tab_3_image_2.alt | escape }}" src="{{ section.settings.tab_3_image_2.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+                    <div class="swiper-slide is-photo-large">{%- if section.settings.tab_3_image_3 == nil -%}<img loading="lazy" alt="" src="{{ 'extraction-3.jpg' | asset_url }}" sizes="(max-width: 991px) 100vw, 1023.994140625px" srcset="{{ 'extraction-3.jpg' | asset_img_url: '500x' }} 500w, {{ 'extraction-3.jpg' | asset_img_url: '800x' }} 800w, {{ 'extraction-3.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'extraction-3.jpg' | asset_img_url: '1600x' }} 1600w, {{ 'extraction-3.jpg' | asset_url }} 1706w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.tab_3_image_3.alt | escape }}" src="{{ section.settings.tab_3_image_3.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div data-w-tab="Tab 4" class="tab-pane w-tab-pane">
+              <div class="lab-tab">
+                <p data-w-id="475536b8-723e-933b-c316-ef42c8b1b0c5" class="body-large space-left">{{ section.settings.tab_4_description | newline_to_br }}</p>
+                <div class="elevia-pagination">
+                  <div class="swiper-pagination4"></div>
+                </div>
+                <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b0c9" class="swiper4">
+                  <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b0ca" class="prev-sec4"></div>
+                  <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b0cb" class="next-sec4"></div>
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide is-photo-large">{%- if section.settings.tab_4_image_1 == nil -%}<img loading="lazy" alt="" src="{{ 'testing-1.jpg' | asset_url }}" sizes="(max-width: 991px) 100vw, 1023.994140625px" srcset="{{ 'testing-1.jpg' | asset_img_url: '500x' }} 500w, {{ 'testing-1.jpg' | asset_img_url: '800x' }} 800w, {{ 'testing-1.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'testing-1.jpg' | asset_img_url: '1600x' }} 1600w, {{ 'testing-1.jpg' | asset_url }} 1706w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.tab_4_image_1.alt | escape }}" src="{{ section.settings.tab_4_image_1.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+                    <div class="swiper-slide is-photo">{%- if section.settings.tab_4_image_2 == nil -%}<img loading="lazy" alt="" src="{{ 'testing-2.jpg' | asset_url }}" sizes="(max-width: 767px) 360.99609375px, (max-width: 991px) 55vw, 550px" srcset="{{ 'testing-2.jpg' | asset_img_url: '500x' }} 500w, {{ 'testing-2.jpg' | asset_img_url: '800x' }} 800w, {{ 'testing-2.jpg' | asset_url }} 827w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.tab_4_image_2.alt | escape }}" src="{{ section.settings.tab_4_image_2.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+                    <div class="swiper-slide is-photo-large">{%- if section.settings.tab_4_image_3 == nil -%}<img loading="lazy" alt="" src="{{ 'testing-3.jpg' | asset_url }}" sizes="(max-width: 991px) 100vw, 1023.994140625px" srcset="{{ 'testing-3.jpg' | asset_img_url: '500x' }} 500w, {{ 'testing-3.jpg' | asset_img_url: '800x' }} 800w, {{ 'testing-3.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'testing-3.jpg' | asset_img_url: '1600x' }} 1600w, {{ 'testing-3.jpg' | asset_url }} 1706w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.tab_4_image_3.alt | escape }}" src="{{ section.settings.tab_4_image_3.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div data-w-tab="Tab 5" class="tab-pane w-tab-pane">
+              <div class="lab-tab">
+                <p data-w-id="475536b8-723e-933b-c316-ef42c8b1b0d5" class="body-large space-left">{{ section.settings.tab_5_description | newline_to_br }}</p>
+                <div class="elevia-pagination">
+                  <div class="swiper-pagination5"></div>
+                </div>
+                <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b0d9" class="swiper5">
+                  <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b0da" class="prev-sec5"></div>
+                  <div data-w-id="475536b8-723e-933b-c316-ef42c8b1b0db" class="next-sec5"></div>
+                  <div class="swiper-wrapper">
+                    <div class="swiper-slide is-photo-large">{%- if section.settings.tab_5_image_1 == nil -%}<img loading="lazy" alt="" src="{{ 'production-1.jpg' | asset_url }}" sizes="(max-width: 991px) 100vw, 1023.994140625px" srcset="{{ 'production-1.jpg' | asset_img_url: '500x' }} 500w, {{ 'production-1.jpg' | asset_img_url: '800x' }} 800w, {{ 'production-1.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'production-1.jpg' | asset_img_url: '1600x' }} 1600w, {{ 'production-1.jpg' | asset_url }} 1706w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.tab_5_image_1.alt | escape }}" src="{{ section.settings.tab_5_image_1.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+                    <div class="swiper-slide is-photo">{%- if section.settings.tab_5_image_2 == nil -%}<img loading="lazy" alt="" src="{{ 'production-2.jpg' | asset_url }}" sizes="(max-width: 767px) 360.99609375px, (max-width: 991px) 55vw, 550px" srcset="{{ 'production-2.jpg' | asset_img_url: '500x' }} 500w, {{ 'production-2.jpg' | asset_img_url: '800x' }} 800w, {{ 'production-2.jpg' | asset_url }} 827w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.tab_5_image_2.alt | escape }}" src="{{ section.settings.tab_5_image_2.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+<script>var currentSection = document.currentScript.closest('.shopify-section');currentSection.setAttribute("class","section-default");</script>
+        
+{% schema %}
+{
+  "name": "Section - Process",
+  "tag": "section",
+  "class": "section-default",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "tab_5_image_2",
+      "label": "Tab 5 - Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_5_image_1",
+      "label": "Tab 5 - Image 1"
+    },
+    {
+      "type": "html",
+      "id": "tab_5_description",
+      "label": "Tab 5 - Description",
+      "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque egestas mi quis metus tempor interdum. Donec sodales laoreet purus, id convallis sapien tempor quis. Proin dignissim, libero vulputate feugiat pulvinar, turpis urna pellentesque sem, a rutrum diam diam ut neque. Donec sit amet risus vel risus dapibus ornare non id quam."
+    },
+    {
+      "type": "richtext",
+      "id": "tab_5",
+      "label": "Tab 5",
+      "default": "<p>Production</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_4_image_3",
+      "label": "Tab 4 - Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_4_image_2",
+      "label": "Tab 4 - Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_4_image_1",
+      "label": "Tab 4 - Image 1"
+    },
+    {
+      "type": "html",
+      "id": "tab_4_description",
+      "label": "Tab 4 - Description",
+      "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque egestas mi quis metus tempor interdum. Donec sodales laoreet purus, id convallis sapien tempor quis. Proin dignissim, libero vulputate feugiat pulvinar, turpis urna pellentesque sem, a rutrum diam diam ut neque. Donec sit amet risus vel risus dapibus ornare non id quam."
+    },
+    {
+      "type": "richtext",
+      "id": "tab_4",
+      "label": "Tab 4",
+      "default": "<p>Testing</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_3_image_3",
+      "label": "Tab 3 - Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_3_image_2",
+      "label": "Tab 3 - Image 2"
+    },
+    {
+      "type": "html",
+      "id": "tab_3_description",
+      "label": "Tab 3 - Description",
+      "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque egestas mi quis metus tempor interdum. Donec sodales laoreet purus, id convallis sapien tempor quis. Proin dignissim, libero vulputate feugiat pulvinar, turpis urna pellentesque sem, a rutrum diam diam ut neque. Donec sit amet risus vel risus dapibus ornare non id quam."
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_3_image_1",
+      "label": "Tab 3 - Image 1"
+    },
+    {
+      "type": "richtext",
+      "id": "tab_3",
+      "label": "Tab 3",
+      "default": "<p>Extraction</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_2_image_2",
+      "label": "Tab 2 - Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_2_image_1",
+      "label": "Tab 2 - Image 1"
+    },
+    {
+      "type": "html",
+      "id": "tab_2_description",
+      "label": "Tab 2 - Description",
+      "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque egestas mi quis metus tempor interdum. Donec sodales laoreet purus, id convallis sapien tempor quis. Proin dignissim, libero vulputate feugiat pulvinar, turpis urna pellentesque sem, a rutrum diam diam ut neque. Donec sit amet risus vel risus dapibus ornare non id quam."
+    },
+    {
+      "type": "richtext",
+      "id": "tab_2",
+      "label": "Tab 2",
+      "default": "<p>Indoor growing</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_1_image_3",
+      "label": "Tab 1 - Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_1_image_2",
+      "label": "Tab 1 - Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "tab_1_image_1",
+      "label": "Tab 1 - Image 1"
+    },
+    {
+      "type": "html",
+      "id": "tab_1_description",
+      "label": "Tab 1 - Description",
+      "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque egestas mi quis metus tempor interdum. Donec sodales laoreet purus, id convallis sapien tempor quis. Proin dignissim, libero vulputate feugiat pulvinar, turpis urna pellentesque sem, a rutrum diam diam ut neque. Donec sit amet risus vel risus dapibus ornare non id quam."
+    },
+    {
+      "type": "richtext",
+      "id": "tab_1",
+      "label": "Tab 1",
+      "default": "<p>Plants clonning</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "headline",
+      "label": "Headline",
+      "default": "<p>Elevia</p>"
+    },
+  ]
+}
+{% endschema %}

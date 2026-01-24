@@ -1,0 +1,30 @@
+{% capture listItems %}
+                         {% assign subCollection = product.metafields.udesly['faqs'] | map: "handle" %}
+                        {% for loopItem in subCollection %}
+{% assign itemHandle = "faq/" | append: loopItem %}
+{% assign item = articles[itemHandle] %}         
+                        <div data-w-id="d709c7b2-7e3b-a7a0-f69f-b952455cbfb8" style="border-color:rgba(0,0,0,0.05)" role="listitem" class="faq-wrapper w-dyn-item">
+            <div id="showmore" class="faq-question-wrapper">
+              <div class="faq-number"></div>
+              <div class="faq-answer-wrapper">
+                <div class="body-large">{{ item.title }}</div>
+                <p style="opacity:0;display:none" class="body-small">{{ item.metafields.udesly['answer'] }}</p>
+              </div>
+            </div>
+            <div style="background-color:rgba(85,236,59,0);border-color:rgb(184,184,188)" class="icon-faq_wrapper">
+              <div style="-webkit-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);-moz-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);-ms-transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);transform:translate3d(0, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0deg) skew(0, 0);color:rgb(184,184,188)" class="icon-faq w-embed"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 10L11.2191 15.3306C11.6684 15.7158 12.3316 15.7158 12.7809 15.3306L19 10" stroke="currentColor" stroke-linecap="round"></path>
+                </svg></div>
+            </div>
+          </div>
+                        {% endfor %}
+                        {% endcapture %}
+{% assign items_length = listItems | strip | size %}
+    <div class="faq-main-wrapper w-dyn-list" udy-collection="faq">
+        {%- unless items_length == 0 -%}<div fs-cmsload-resetix="true" fs-cmsload-element="list" role="list" class="faq-list w-dyn-items">
+          {{ listItems }}
+        </div>{%- endunless -%}
+        {%- if items_length == 0 -%}<div class="w-dyn-empty">
+          <div>No items found.</div>
+        </div>{%- endif -%}
+      </div>

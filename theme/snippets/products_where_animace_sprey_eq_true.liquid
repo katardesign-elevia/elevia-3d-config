@@ -1,0 +1,31 @@
+{% capture listItems %}
+{% paginate collections.all.products by 999 %}
+{%- assign allItems = collections.all.products -%}
+{%- for item in allItems -%}{% assign condition_0 = false %}                  
+                {% if item.metafields.udesly['animace---sprey'] == "true" %}
+                    {% assign condition_0 = true %}
+                {% endif %}{% if condition_0 %}
+ <div role="listitem" class="collection-item w-dyn-item">
+                      <div id="w-node-c0c0f585-9d3f-b548-478f-e9f09317f8f5-05ae55fe" class="card-nav-wrapper">
+                        {%- if item.metafields.udesly['coming-soon'] != true and item.metafields.udesly['coming-soon'] != 'true' -%} <a href="{{ item.url }}" class="link-product-card w-inline-block"></a>{%- endif -%}
+                        <h4 class="card-nav-heading">{{ item.type | default: 'Medical line' }}</h4><img loading="lazy" src="{{ item.metafields.udesly['shop---photo'].src }}" alt="" class="image-bg">
+                        {%- if item.metafields.udesly['coming-soon'] == "true" -%}<div>Coming soon</div>{%- endif -%}
+                        {%- if item.metafields.udesly['coming-soon'] != true and item.metafields.udesly['coming-soon'] != 'true' -%} <div class="icon-nav is-card w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                          </svg></div>{%- endif -%}
+                      </div>
+                    </div>
+{% endif %}
+{%- endfor -%}
+{% endpaginate %}
+{% endcapture %}
+{% assign items_length = listItems | strip | size %}
+
+<div class="nav-products w-dyn-list" udy-collection="product">
+                  {%- unless items_length == 0 -%}<div role="list" class="nav-product-wrapper w-dyn-items">
+                    {{ listItems }}
+                  </div>{%- endunless -%}
+                  {%- if items_length == 0 -%}<div class="w-dyn-empty">
+                    <div>No items found.</div>
+                  </div>{%- endif -%}
+                </div>

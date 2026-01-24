@@ -1,0 +1,69 @@
+
+    <div class="w-layout-blockcontainer container-small w-container">
+      <div class="flex-default">
+        <h2 class="heading-style-h1">{{ section.settings.headline }}</h2>
+        <div class="about-content-block">
+          <div p-add-class="body-xxlarge text-indent">{{ section.settings.description | newline_to_br }}</div>
+          <a href="{% if section.settings.button_link %}{{ section.settings.button_link }}{% else %}{{ pages["about-us"].url }}{% endif %}" class="button is-secondary w-inline-block">
+            <div class="p-contents">{{ section.settings.button_text | newline_to_br }}</div><img src="{{ 'icon-button_1.svg' | asset_url }}" loading="lazy" alt="" class="icon-button">
+          </a>
+        </div>
+        <div class="elevia-pagination">
+          <div class="swiper-pagination2"></div>
+        </div>
+        <div class="swiper2">
+          <div data-w-id="1cc5f7c3-6e40-4ce2-30e1-78a9eba39247" class="prev-sec2"></div>
+          <div data-w-id="1cc5f7c3-6e40-4ce2-30e1-78a9eba39248" class="next-sec2"></div>
+          <div class="swiper-wrapper">
+            <div class="swiper-slide is-photo">{%- if section.settings.image_1 == nil -%}<img loading="lazy" alt="" src="{{ 'image-303.jpg' | asset_url }}" sizes="(max-width: 767px) 360.99609375px, (max-width: 991px) 55vw, 550px" srcset="{{ 'image-303.jpg' | asset_img_url: '500x' }} 500w, {{ 'image-303.jpg' | asset_img_url: '800x' }} 800w, {{ 'image-303.jpg' | asset_url }} 827w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.image_1.alt | escape }}" src="{{ section.settings.image_1.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+            <div class="swiper-slide is-photo-large">{%- if section.settings.image_2 == nil -%}<img loading="lazy" alt="" src="{{ 'image-304.jpg' | asset_url }}" sizes="(max-width: 991px) 100vw, 1023.994140625px" srcset="{{ 'image-304.jpg' | asset_img_url: '500x' }} 500w, {{ 'image-304.jpg' | asset_img_url: '800x' }} 800w, {{ 'image-304.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'image-304.jpg' | asset_img_url: '1600x' }} 1600w, {{ 'image-304.jpg' | asset_url }} 1806w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.image_2.alt | escape }}" src="{{ section.settings.image_2.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+<script>var currentSection = document.currentScript.closest('.shopify-section');currentSection.setAttribute("class","section-default");</script>
+        
+{% schema %}
+{
+  "name": "Section - Behind Elevia L",
+  "tag": "section",
+  "class": "section-default",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "richtext",
+      "id": "button_text",
+      "label": "Button - Text",
+      "default": "<p>more about lab</p>"
+    },
+    {
+      "id": "button_link",
+      "label": "Button - Link",
+      "type": "url"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Our advanced cultivation and extraction methods leverage the latest grow tech to guarantee quality, purity, and potency. Sourced from carefully selected Swiss strains.</p>"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "behind"
+    }
+  ]
+}
+{% endschema %}

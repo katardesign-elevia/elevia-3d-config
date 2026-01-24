@@ -1,0 +1,277 @@
+/**
+ * Product Page Styles - OPTIMIZED
+ * Consolidated and optimized styles for product page functionality
+ * Removes unused Webflow classes and organizes by component
+ */
+
+/* ===================================
+   GLOBAL STYLES
+   =================================== */
+
+/* Font Smoothing - Apply to body for better readability */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
+}
+
+/* Cart Wrapper */
+.cart-wrapper {
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ===================================
+   NAVIGATION & DROPDOWN
+   =================================== */
+
+/* Dropdown Active State */
+.dropdown-link.w-dropdown-link.w--current {
+  color: #000;
+}
+
+/* ===================================
+   SWIPER / CAROUSEL
+   =================================== */
+
+/* Hide disabled navigation buttons */
+.prev-sec.disabled,
+.next-sec.disabled,
+.prev-sec1.disabled,
+.next-sec1.disabled {
+  display: none;
+}
+
+/* ===================================
+   PRODUCT TABS
+   =================================== */
+
+/* Tab Icon Pulse Animation */
+.inside-icon-wrapper {
+  animation: pulse-animation 2s infinite;
+}
+
+@keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+  }
+}
+
+/* ===================================
+   FAQ SECTION
+   =================================== */
+
+.faq-wrapper.is-hidden,
+.faq-button-wrapper.is-hidden {
+  display: none;
+}
+
+/* ===================================
+   TYPOGRAPHY & TEXT STYLES
+   =================================== */
+
+/* Strong text decoration for specific sections */
+.collection-headline strong,
+.dosage-headline strong,
+.inside-heading strong,
+.faq-headline-wrapper .metafield-rich_text_field strong {
+  text-decoration: underline;
+  font-weight: inherit;
+}
+
+/* ===================================
+   SPLINE 3D ANIMATIONS - RESPONSIVE
+   =================================== */
+
+/* Base Spline Styles */
+.spline-scene-1part {
+  width: 100%;
+  display: block;
+  position: fixed;
+  top: 0;
+}
+
+.spline-scene {
+  width: 100%;
+  height: 1000px;
+  margin-top: -1160px;
+  display: block;
+}
+
+.div-block-4 {
+  width: 100%;
+  position: relative;
+  top: 1px;
+}
+
+/* Hide scenes by default (shown conditionally via media queries) */
+.spline-scene._1,
+.spline-scene-2,
+.spline-scene-3,
+.spline-scene-4,
+.spline-scene-5 {
+  display: none;
+}
+
+.spline-scene-6 {
+  width: 100%;
+}
+
+.flex-block-2 {
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.spline-scene-7,
+.spline-scene-8,
+.spline-scene-9 {
+  display: none;
+}
+
+/* ===================================
+   RESPONSIVE BREAKPOINTS
+   =================================== */
+
+/* Desktop: 1280px and above */
+@media screen and (min-width: 1280px) {
+  .spline-scene-1part {
+    width: 100%;
+    display: none;
+  }
+
+  .spline-scene {
+    width: 100%;
+    margin-top: 0;
+    display: none;
+  }
+
+  .div-block-4 {
+    width: 1490px;
+    left: -50px;
+    right: 50px;
+  }
+
+  .spline-scene._1 {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .flex-block-3 {
+    margin-top: -1200px;
+  }
+
+  .spline-scene-9 {
+    display: block;
+  }
+}
+
+/* Tablet: 991px and below */
+@media screen and (max-width: 991px) {
+  .spline-scene-1part {
+    display: none;
+  }
+
+  .div-block-4 {
+    margin-top: 0;
+    top: -280px;
+  }
+
+  .spline-scene,
+  .spline-scene-2 {
+    display: none;
+  }
+
+  .spline-scene-3 {
+    margin-top: -630px;
+    display: block;
+  }
+
+  .spline-scene-4,
+  .spline-scene-5 {
+    display: none;
+  }
+
+  .spline-scene-7 {
+    display: block;
+  }
+
+  .spline-scene-8 {
+    display: none;
+  }
+}
+
+/* Mobile Landscape: 767px and below */
+@media screen and (max-width: 767px) {
+  .spline-scene-2 {
+    display: block;
+  }
+
+  .spline-scene-3 {
+    display: none;
+  }
+
+  .spline-scene-4 {
+    margin-top: -660px;
+    display: block;
+  }
+
+  .spline-scene-7 {
+    display: none;
+  }
+}
+
+/* Mobile Portrait: 479px and below */
+@media screen and (max-width: 479px) {
+  .spline-scene-2 {
+    margin-top: -120px;
+    display: none;
+  }
+
+  .spline-scene-4 {
+    display: none;
+  }
+
+  .spline-scene-5 {
+    width: 100%;
+    margin-top: -680px;
+    display: block;
+  }
+
+  .spline-scene-8 {
+    display: block;
+  }
+}
+
+/* ===================================
+   PERFORMANCE OPTIMIZATIONS
+   =================================== */
+
+/* Lazy loading hint for browsers */
+.spline-scene[loading="lazy"],
+spline-viewer[loading="lazy"] {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 500px;
+}
+
+/* Reduce animation complexity on lower-end devices */
+@media (prefers-reduced-motion: reduce) {
+  .inside-icon-wrapper {
+    animation: none;
+  }
+}
+
+/* GPU acceleration for smoother animations */
+.spline-scene,
+spline-viewer,
+.inside-icon-wrapper {
+  will-change: transform;
+  transform: translateZ(0);
+}

@@ -1,0 +1,395 @@
+  <nav class="nav">
+    <div class="background-nav"></div>
+    <div class="nav-block">
+      <div class="main-mobile-nav">
+        <div class="mobile-nav-wrapper">
+         <a data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5602" href="#" class="nav-link w-inline-block">
+            <div class="nav-text">{{ 'navigation.shop' | t }}</div>
+            <div class="icon-nav w-embed"><svg fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5625" y="0.5625" width="34.875" height="34.875" rx="17.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                <path d="M19.6358 14.1819L18.8667 14.951L21.3649 17.4546H12.5449V18.5455H21.3649L18.8613 21.0492L19.6358 21.8182L23.454 18.0001L19.6358 14.1819Z" fill="currentColor"></path>
+              </svg></div>
+          </a>
+          <a href="{{ pages["elevia-lab"].url }}" class="nav-link w-inline-block">
+            <div class="nav-text">{{ 'navigation.lab' | t }}</div>
+          </a>
+          <a href="{{ pages["about-us"].url }}" class="nav-link w-inline-block">
+            <div class="nav-text">{{ 'navigation.about' | t }}</div>
+          </a>
+          <a href="{{ pages["contact"].url }}" class="nav-link w-inline-block">
+            <div class="nav-text">{{ 'navigation.contact' | t }}</div>
+          </a>
+        </div>
+        <div class="nav-footer-wrapper">
+        <div class="footer-links-wrapper">
+          <a href="mailto:info@elevia.com" class="body-xsmall text-style-caps">info@elevia.com</a>
+          <a href="tel:420 123 298 987" class="body-xsmall text-style-caps">+420 123 298 987</a>
+        </div>
+        <div class="bottom-wrapper">
+          <div class="footer-links-wrapper is-nav">
+            <a href="#" class="body-xsmall text-style-caps">Facebook</a>
+            <a href="#" class="body-xsmall text-style-caps">Instagram</a>
+          </div>
+          <div class="locales-wrapper is-nav w-locales-list mobile">
+              <div data-hover="false" data-delay="0" class="w-dropdown">
+                <div class="dropdown-toggle w-dropdown-toggle">
+                  {% assign flag_code = localization.language.iso_code %}
+                  {% if flag_code == 'cs' %}
+                    {% assign flag_code = 'cz' %}
+                  {% endif %}
+                  <img class="locale-flag" src="https://cdn.shopify.com/s/files/1/0892/9283/3113/files/{{ flag_code }}.png?v=1737303910" loading="lazy" alt="{{ localization.language.endonym_name }}">
+                  <div class="locale-text">
+                    {{ localization.language.iso_code | upcase }}
+                  </div>
+                  <img src="{{ 'chevron-down.svg' | asset_url }}" loading="lazy" alt="Dropdown Icon">
+                </div>
+                <nav class="dropdown-list w-dropdown-list">
+                  <div role="list" class="w-locales-items">
+                    {% for locale in localization.available_languages %}
+                      <div role="listitem" class="locale w-locales-item">
+                        <a hreflang="{{ locale.iso_code }}" href="{{ locale.root_url }}" 
+                          class="locale-link {% if locale.iso_code == localization.language.iso_code %}active-locale{% else %}inactive-locale{% endif %}">
+                          {% if locale.iso_code == 'cs' %}
+                            <span>CZECH</span>
+                          {% elsif locale.iso_code == 'en' %}
+                            <span>ENGLISH</span>
+                          {% endif %}
+                        </a>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </nav>
+              </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="body-xsmall text-style-caps text-color-light-gray">{{ 'rights_reserved' | t }}</div>
+      </div>
+      </div>
+      <div fs-scrolldisable-element="preserve" class="main-nav">
+        <div>
+          <a data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae561c" href="#" class="nav-link is-nav w-inline-block">
+            <div class="icon-nav is-back w-embed"><svg fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5625" y="0.5625" width="34.875" height="34.875" rx="17.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                <path d="M19.6358 14.1819L18.8667 14.951L21.3649 17.4546H12.5449V18.5455H21.3649L18.8613 21.0492L19.6358 21.8182L23.454 18.0001L19.6358 14.1819Z" fill="currentColor"></path>
+              </svg></div>
+          </a>
+          <a data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae561e" href="#" class="nav-link is-nav is-last-level w-inline-block">
+            <div class="icon-nav is-back w-embed"><svg fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5625" y="0.5625" width="34.875" height="34.875" rx="17.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                <path d="M19.6358 14.1819L18.8667 14.951L21.3649 17.4546H12.5449V18.5455H21.3649L18.8613 21.0492L19.6358 21.8182L23.454 18.0001L19.6358 14.1819Z" fill="currentColor"></path>
+              </svg></div>
+          </a>
+          <div data-current="Tab 1" data-easing="linear" data-duration-in="500" data-duration-out="500" class="w-tabs">
+            <div class="tabs-menu w-tab-menu">
+              <a data-w-tab="Tab 1" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5622" class="nav-link is-product w-inline-block w-tab-link w--current">
+                <div class="nav-text">{{ 'navigation.drops' | t }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                    <path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></div>
+              </a>
+              <a data-w-tab="Tab 2" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5626" class="nav-link is-product w-inline-block w-tab-link">
+                <div class="nav-text">{{ 'navigation.sprays' | t }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                    <path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></div>
+              </a>
+              <a data-w-tab="Tab 3" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae562a" class="nav-link is-product w-inline-block w-tab-link">
+                <div class="nav-text">{{ 'navigation.cartridges' | t }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                    <path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></div>
+              </a>
+              <a data-w-tab="Tab 4" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae562e" class="nav-link is-product w-inline-block w-tab-link">
+                <div class="nav-text">{{ 'navigation.pre_rolls' | t }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                    <path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></div>
+              </a>
+              <a data-w-tab="Tab 5" data-w-id="01e9cda9-91f4-76ac-12b9-815e50a2c1ef" class="nav-link is-product w-inline-block w-tab-link">
+                <div class="nav-text">{{ 'navigation.buds' | t }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                    <path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg></div>
+              </a>
+            </div>
+            <div class="tabs-content w-tab-content">
+              
+              {% comment %} --- ZÁLOŽKA 1: DROPS --- {% endcomment %}
+              <div data-w-tab="Tab 1" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5633" class="tab _01 w-tab-pane w--tab-active">
+                <div class="nav-products w-dyn-list">
+                  {%- if collections['drops'].products.size > 0 -%}
+                    <div role="list" class="nav-product-wrapper w-dyn-items">
+                      {%- for item in collections['drops'].products -%}
+                        {%- render 'nav-product-card-v2', item: item -%}
+                      {%- endfor -%}
+                    </div>
+                  {%- else -%}
+                    <div class="w-dyn-empty"><div>No items found.</div></div>
+                  {%- endif -%}
+                </div>
+              </div>
+
+              {% comment %} --- ZÁLOŽKA 2: SPRAYS --- {% endcomment %}
+              <div data-w-tab="Tab 2" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5644" class="tab _02 w-tab-pane">
+                <div class="nav-products w-dyn-list">
+                  {%- if collections['sprays'].products.size > 0 -%}
+                    <div role="list" class="nav-product-wrapper w-dyn-items">
+                      {%- for item in collections['sprays'].products -%}
+                        {%- render 'nav-product-card-v2', item: item -%}
+                      {%- endfor -%}
+                    </div>
+                  {%- else -%}
+                    <div class="w-dyn-empty"><div>No items found.</div></div>
+                  {%- endif -%}
+                </div>
+              </div>
+
+              {% comment %} --- ZÁLOŽKA 3: CARTRIDGES --- {% endcomment %}
+              <div data-w-tab="Tab 3" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5655" class="tab _03 w-tab-pane">
+                <div class="nav-products w-dyn-list">
+                  {%- if collections['cartridges'].products.size > 0 -%}
+                    <div role="list" class="nav-product-wrapper w-dyn-items">
+                      {%- for item in collections['cartridges'].products -%}
+                        {%- render 'nav-product-card-v2', item: item -%}
+                      {%- endfor -%}
+                    </div>
+                  {%- else -%}
+                    <div class="w-dyn-empty"><div>No items found.</div></div>
+                  {%- endif -%}
+                </div>
+              </div>
+
+              {% comment %} --- ZÁLOŽKA 4: PRE-ROLLS --- {% endcomment %}
+              <div data-w-tab="Tab 4" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5666" class="tab _04 w-tab-pane">
+                <div class="nav-products w-dyn-list">
+                  {%- if collections['pre-rolls'].products.size > 0 -%}
+                    <div role="list" class="nav-product-wrapper w-dyn-items">
+                      {%- for item in collections['pre-rolls'].products -%}
+                        {%- render 'nav-product-card-v2', item: item -%}
+                      {%- endfor -%}
+                    </div>
+                  {%- else -%}
+                    <div class="w-dyn-empty"><div>No items found.</div></div>
+                  {%- endif -%}
+                </div>
+              </div>
+
+              {% comment %} --- ZÁLOŽKA 5: BUDS --- {% endcomment %}
+              <div data-w-tab="Tab 5" data-w-id="a3c2c7b3-61c3-ae4a-8a70-1413ed046d8a" class="tab _04 w-tab-pane">
+                <div class="nav-products w-dyn-list">
+                  {%- if collections['buds'].products.size > 0 -%}
+                    <div role="list" class="nav-product-wrapper w-dyn-items">
+                      {%- for item in collections['buds'].products -%}
+                        {%- render 'nav-product-card-v2', item: item -%}
+                      {%- endfor -%}
+                    </div>
+                  {%- else -%}
+                    <div class="w-dyn-empty"><div>No items found.</div></div>
+                  {%- endif -%}
+                </div>
+              </div>
+
+            </div>
+          </div>
+            <div class="nav-footer-wrapper">
+              <div class="footer-links-wrapper">
+                <a href="#" class="body-xsmall text-style-caps">{{ 'footer.email' | t }}</a>
+                <a href="#" class="body-xsmall text-style-caps">{{ 'footer.phone' | t }}</a>
+              </div>
+              <div class="bottom-wrapper">
+                <div class="footer-links-wrapper is-nav">
+                  <a href="#" class="body-xsmall text-style-caps">{{ 'footer.facebook' | t }}</a>
+                  <a href="#" class="body-xsmall text-style-caps">{{ 'footer.instagram' | t }}</a>
+                </div>
+                <div class="locales-wrapper is-nav w-locales-list mobile">
+                    <div data-hover="false" data-delay="0" class="w-dropdown">
+                      <div class="dropdown-toggle w-dropdown-toggle">
+                        {% assign flag_code = localization.language.iso_code %}
+                        {% if flag_code == 'cs' %}
+                          {% assign flag_code = 'cz' %}
+                        {% endif %}
+                        <img class="locale-flag" src="https://cdn.shopify.com/s/files/1/0892/9283/3113/files/{{ flag_code }}.png?v=1737303910" loading="lazy" alt="{{ localization.language.endonym_name }}">
+                        <div class="locale-text">
+                          {{ localization.language.iso_code | upcase }}
+                        </div>
+                        <img src="{{ 'chevron-down.svg' | asset_url }}" loading="lazy" alt="Dropdown Icon">
+                      </div>
+                      <nav class="dropdown-list w-dropdown-list">
+                        <div role="list" class="w-locales-items">
+                          {% for locale in localization.available_languages %}
+                            <div role="listitem" class="locale w-locales-item">
+                              <a hreflang="{{ locale.iso_code }}" href="{{ locale.root_url }}" 
+                                class="locale-link {% if locale.iso_code == localization.language.iso_code %}active-locale{% else %}inactive-locale{% endif %}">
+                                {% if locale.iso_code == 'cs' %}
+                                  <span>CZECH</span>
+                                {% elsif locale.iso_code == 'en' %}
+                                  <span>ENGLISH</span>
+                                {% endif %}
+                              </a>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </nav>
+                    </div>
+                  </div>
+              </div>
+              <div class="divider"></div>
+              <div class="body-xsmall text-style-caps text-color-light-gray">{{ 'rights_reserved' | t }}</div>
+            </div>
+        </div>
+      </div>
+      <div fs-scrolldisable-element="enable" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5682" class="close-button">
+        <div class="icon-16 w-embed"><svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 12.5L12.5 3M12.5 12.5L3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"></path>
+          </svg></div>
+      </div>
+    </div>
+    <div class="w-layout-blockcontainer container w-container">
+      <div class="nav-wrapper">
+        <a href="{{ routes.root_url }}" aria-current="page" class="w-inline-block w--current"><img src="{{ 'logo-elevia.png' | asset_url }}" loading="lazy" alt="" class="logo"></a>
+        <div class="btn-wrapper">
+     <div id="shop" fs-scrolldisable-element="disable" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5689" class="is-shop">
+            <div class="nav-btn">{{ 'navigation.shop' | t }}</div>
+          </div>
+          <a data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae568c" href="{{ pages["elevia-lab"].url }}" class="nav-link-small w-inline-block">
+            <div class="nav-btn">{{ 'navigation.lab' | t }}</div>
+            <div class="line-hover"></div>
+          </a>
+          <a href="{{ pages["about-us"].url }}" class="nav-link-small w-inline-block">
+            <div class="nav-btn">{{ 'navigation.about' | t }}</div>
+            <div class="line-hover"></div>
+          </a>
+          <a href="{{ pages["contact"].url }}" class="nav-link-small w-inline-block">
+            <div class="nav-btn">{{ 'navigation.contact' | t }}</div>
+            <div class="line-hover"></div>
+          </a>
+          <div class="nav-actions-wrapper">
+            <div data-open-product="" data-wf-cart-type="rightSidebar" data-wf-cart-query="" data-wf-page-link-href-prefix="" class="w-commerce-commercecartwrapper" data-node-type="commerce-cart-wrapper" udy-collection="cart">
+              <a fs-scrolldisable-element="disable" class="w-commerce-commercecartopenlink cart-button w-inline-block" role="button" aria-haspopup="dialog" aria-label="Open cart" data-node-type="commerce-cart-open-link" href="#">
+                <div class="w-commerce-commercecartopenlinkcount cart-quantity">{{ cart.item_count }}</div>
+              </a>
+              <div fs-scrolldisable-element="enable" style="display:none" class="w-commerce-commercecartcontainerwrapper w-commerce-commercecartcontainerwrapper--cartType-rightSidebar cart-wrapper" data-node-type="commerce-cart-container-wrapper">
+                <div data-node-type="commerce-cart-container" role="dialog" class="w-commerce-commercecartcontainer cart-container">
+                  <div class="w-commerce-commercecartheader cart-header">
+                    <h4 class="w-commerce-commercecartheading is-cart">{{ 't41b7e5cb' | t }}</h4>
+                    <a fs-scrolldisable-element="enable" class="w-commerce-commercecartcloselink close-button-nav is-cart w-inline-block" role="button" aria-label="Close cart" data-node-type="commerce-cart-close-link"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="cart-icon">
+                        <path d="M4.69876 4.69889L11.2984 11.2985M4.69876 11.2985L11.2984 4.69889" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="round"></path>
+                      </svg></a>
+                  </div>
+                  <div class="w-commerce-commercecartformwrapper">
+                    <form style="display:none" class="w-commerce-commercecartform default-state-2" data-node-type="commerce-cart-form">
+                    <script type="text/x-wf-template" id="wf-template-518ab7e8-44ca-8ff3-aceb-156905ae56a7">
+                      <div data-node-type="cart-item" class="cart-item w-commerce-commercecartitem" template-part-bind="518ab7e8-44ca-8ff3-aceb-156905ae56a8">
+                        <div class="div-block">
+                          <img data-node-type="cart-item-image" class="cart-image w-commerce-commercecartitemimage" template-part-bind="518ab7e8-44ca-8ff3-aceb-156905ae56a9" src="<%= it.image %>">
+                          <div data-node-type="cart-item-info" class="cart-item-main-block w-commerce-commercecartiteminfo" template-part-bind="518ab7e8-44ca-8ff3-aceb-156905ae56aa">
+                            <div>
+                              <a data-node-type="link" class="cart-name" template-part-bind="9740335f-e9c4-cecc-9377-f0c3cf43637a" href="<%= it.url%>"><%= it.title %></a>
+                              <div class="cart-item-details_wrapper">
+                                <div data-node-type="cart-product-name" class="w-commerce-commercecartproductname">
+                                  <%= it.properties['Kategorie'] ? it.properties['Kategorie'] : 'N/A' %> / 
+                                  <%= it.properties['Objem'] ? it.properties['Objem'] : 'N/A' %> / 
+                                  <%= it.properties['Koncentrace'] ? it.properties['Koncentrace'] : 'N/A' %>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="q-group">
+                              <a data-node-type="link" class="q-dec secondary" data-action="decrement"></a>
+                              <input class="w-commerce-commercecartquantity q-num" name="<%= it.id %>" type="number" min="1" value="<%= it.quantity %>" data-node-type="cart-quantity">
+                              <a data-node-type="link" class="q-inc secondary" data-action="increment"></a>
+                            </div>
+                            <ul class="hidden w-commerce-commercecartoptionlist" template-part-bind="518ab7e8-44ca-8ff3-aceb-156905ae56ad">
+                              <% Object.entries(it.properties).forEach(data => { %>
+                                <li data-node-type="cart-option-list-item">
+                                  <span data-node-type="cart-option-list-item-label"><%= data[0] %></span>
+                                  <span data-node-type="span">{{ 't726' | t }}</span>
+                                  <span data-node-type="cart-option-list-item-value"><%= data[1] %></span>
+                                </li>
+                              <% }) %>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="cart-item-right">
+                          <a data-node-type="cart-remove-link" class="remove-button" href="#" role="button" data-product-id="<%= it.id %>">
+                            <img data-node-type="image" src="https://cdn.prod.website-files.com/6690d2871e233e2bb8b7f4f2/670bd6b68a3334a31359cfeb_delete.svg" loading="lazy" width="auto" height="auto" alt="__wf_reserved_inherit">
+                          </a>
+                          <div><%= it.price %></div>
+                        </div>
+                      </div>
+                    </script>
+
+      <div class="w-commerce-commercecartlist cart-list" data-wf-collection="database.commerceOrder.userItems" data-wf-template-id="wf-template-518ab7e8-44ca-8ff3-aceb-156905ae56a7"></div>
+                  <div class="w-commerce-commercecartfooter cart-footer">
+                    <div class="body-medium">{{ 't2b2f39f0' | t }}</div>
+                    <div class="summary-wrapper">
+                      <div aria-atomic="true" aria-live="polite" class="w-commerce-commercecartlineitem cart-line-item">
+                        <div>{{ 'tn2f0ec041' | t }}</div>
+                        <div>{{ 'tn60bcd831' | t }}</div>
+                      </div>
+                      <div aria-atomic="true" aria-live="polite" class="w-commerce-commercecartlineitem cart-line-item">
+                        <div>{{ 'tn7289f69a' | t }}</div>
+                        <div class="w-commerce-commercecartordervalue text-style-bold">{{ cart.items_subtotal_price | money_with_currency }}</div>
+                      </div>
+                    </div>
+                    <div>
+                      <div data-node-type="commerce-cart-quick-checkout-actions" class="hidden">{{ content_for_additional_checkout_buttons }}</div>
+                      <div class="btn-cart">
+                        <a href="/checkout" value="Continue to Checkout" class="w-commerce-commercecartcheckoutbutton button is-secondary is-cart-detail" data-loading-text="{{ 't498bd87e' | t }}" data-node-type="cart-checkout-button">{{ 'tn7941186e' | t }}</a><img id="w-node-_8ac098a2-c6be-4180-9257-576844da5838-05ae55fe" loading="lazy" alt="" src="{{ 'icon-button.svg' | asset_url }}" class="icon-button is-contact">
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div class="w-commerce-commercecartemptystate empty-state"><img src="{{ 'emtpy-bin.svg' | asset_url }}" loading="lazy" alt="">
+                  <div aria-label="This cart is empty" aria-live="polite" class="body-large text-align-center">{{ 't55c8d1c0' | t }}</div>
+                </div>
+                <div aria-live="assertive" style="display:none" data-node-type="commerce-cart-error" class="w-commerce-commercecarterrorstate">
+                  <div class="w-cart-error-msg" data-w-cart-quantity-error="Product is not available in this quantity." data-w-cart-general-error="Something went wrong when adding this item to the cart." data-w-cart-checkout-error="Checkout is disabled on this site." data-w-cart-cart_order_min-error="The order minimum was not met. Add more items to your cart to continue." data-w-cart-subscription_error-error="Before you purchase, please use your email invite to verify your address so we can send order updates.">{{ 'tn1c765d0d' | t }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+          {%- comment -%} <a href="/account/login" class="user-button" type="button" ></a> {%- endcomment -%}
+      </div>
+          <div fs-scrolldisable-element="disable" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae56cb" class="nav-button"><img src="{{ 'menu.svg' | asset_url }}" loading="lazy" alt="" class="icon-16"></div>
+            <div class="locales-wrapper is-nav w-locales-list">
+              <div data-hover="false" data-delay="0" class="w-dropdown">
+                <div class="dropdown-toggle w-dropdown-toggle">
+                  {% assign flag_code = localization.language.iso_code %}
+                  {% if flag_code == 'cs' %}
+                    {% assign flag_code = 'cz' %}
+                  {% endif %}
+                  <img class="locale-flag" src="https://cdn.shopify.com/s/files/1/0892/9283/3113/files/{{ flag_code }}.png?v=1737303910" loading="lazy" alt="{{ localization.language.endonym_name }}">
+                  <div class="locale-text">
+                    {{ localization.language.iso_code | upcase }}
+                  </div>
+                  <img class="dropdown-icon" src="{{ 'chevron-down.svg' | asset_url }}" loading="lazy" alt="Dropdown Icon">
+                </div>
+                <nav class="dropdown-list w-dropdown-list">
+                  <div role="list" class="w-locales-items">
+                    {% for locale in localization.available_languages %}
+                      <div role="listitem" class="locale w-locales-item">
+                        <a hreflang="{{ locale.iso_code }}" href="{{ locale.root_url }}" 
+                          class="locale-link {% if locale.iso_code == localization.language.iso_code %}active-locale{% else %}inactive-locale{% endif %}">
+                          {% if locale.iso_code == 'cs' %}
+                            <span>CZECH</span>
+                          {% elsif locale.iso_code == 'en' %}
+                            <span>ENGLISH</span>
+                          {% endif %}
+                        </a>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </nav>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </nav>

@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elevia 3D Config - Dock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0c0c0f;
+            --dock-bg: #18181c;
+            --panel-bg: #1e1e24;
+            --surface: #26262e;
+            --border: #32323c;
+            --text: #f4f4f5;
+            --text-muted: #71717a;
+            --accent: #a78bfa;
+            --accent-dim: rgba(167, 139, 250, 0.15);
+            --success: #34d399;
+            --error: #fb7185;
+            --dock-width: 64px;
+            --panel-width: 340px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 500vh;
+            font-size: 13px;
+        }
+
+        /* Canvas */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: var(--dock-width);
+            width: calc(100vw - var(--dock-width));
+            height: 100vh;
+            z-index: 1;
+            transition: width 0.3s ease;
+        }
+        #canvas-container.panel-open {
+            width: calc(100vw - var(--dock-width) - var(--panel-width));
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        /* Dock */
+        #dock {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--dock-width);
+            height: 100vh;
+            background: var(--dock-bg);
+            border-right: 1px solid var(--border);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+        }
+        .dock-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent) 0%, #8b5cf6 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .dock-logo svg {
+            width: 22px;
+            height: 22px;
+            stroke: white;
+        }
+        .dock-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+        .dock-btn {
+            width: 44px;
+            height: 44px;
+            background: transparent;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .dock-btn svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--text-muted);
+            transition: stroke 0.2s;
+        }
+        .dock-btn:hover {
+            background: var(--surface);
+        }
+        .dock-btn:hover svg {
+            stroke: var(--text);
+        }
+        .dock-btn.active {
+            background: var(--accent-dim);
+        }
+        .dock-btn.active svg {
+            stroke: var(--accent);
+        }
+        .dock-btn.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 0 2px 2px 0;
+        }
+        .dock-divider {
+            width: 32px;
+            height: 1px;
+            background: var(--border);
+            margin: 8px 0;
+        }
+        .dock-footer {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        /* Status indicator in dock */
+        .dock-status {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .status-dot.on {
+            background: var(--success);
+            box-shadow: 0 0 12px rgba(52, 211, 153, 0.5);
+        }
+        .status-text {
+            font-size: 9px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Panel */
+        #panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: var(--panel-width);
+            height: 100vh;
+            background: var(--panel-bg);
+            border-left: 1px solid var(--border);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        #panel.open {
+            transform: translateX(0);
+        }
+
+        /* Panel Header */
+        .panel-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .panel-title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+        .panel-close {
+            width: 32px;
+            height: 32px;
+            background: var(--surface);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .panel-close svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--text-muted);
+        }
+        .panel-close:hover svg {
+            stroke: var(--text);
+        }
+
+        /* Panel Body */
+        .panel-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .panel-body::-webkit-scrollbar { width: 4px; }
+        .panel-body::-webkit-scrollbar-track { background: transparent; }
+        .panel-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+        /* Scroll Display */
+        .scroll-display {
+            padding: 16px;
+            background: var(--surface);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .scroll-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+        .scroll-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Input Group */
+        .input-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .input {
+            flex: 1;
+            padding: 12px 14px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 13px;
+        }
+        .input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .input::placeholder {
+            color: var(--text-muted);
+        }
+        .btn {
+            padding: 12px 18px;
+            background: var(--accent);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            filter: brightness(1.1);
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        /* Zoom Controls */
+        .zoom-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: var(--surface);
+            border-radius: 10px;
+        }
+        .zoom-btn {
+            width: 36px;
+            height: 36px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .zoom-btn:hover {
+            background: var(--border);
+        }
+        .zoom-value {
+            flex: 1;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Object Cards */
+        .object-card {
+            padding: 14px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .object-card:hover {
+            border-color: var(--text-muted);
+        }
+        .object-card.active {
+            border-color: var(--accent);
+            background: var(--accent-dim);
+        }
+        .object-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .object-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--panel-bg);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .object-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--text-muted);
+        }
+        .object-card.active .object-icon {
+            background: var(--accent);
+        }
+        .object-card.active .object-icon svg {
+            stroke: white;
+        }
+        .object-info {
+            flex: 1;
+        }
+        .object-name {
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .object-status {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .object-status.linked {
+            color: var(--success);
+        }
+        .object-delete {
+            width: 28px;
+            height: 28px;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .object-card:hover .object-delete {
+            opacity: 1;
+        }
+        .object-delete svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--text-muted);
+        }
+        .object-delete:hover svg {
+            stroke: var(--error);
+        }
+
+        /* Add Button */
+        .add-btn {
+            width: 100%;
+            padding: 14px;
+            background: transparent;
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .add-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Scene Objects */
+        .scene-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        .scene-item {
+            padding: 10px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .scene-item:hover {
+            border-color: var(--accent);
+        }
+        .scene-item.added {
+            opacity: 0.4;
+            cursor: default;
+        }
+
+        /* Breakpoint Tabs */
+        .bp-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 4px;
+            background: var(--surface);
+            border-radius: 10px;
+        }
+        .bp-tab {
+            flex: 1;
+            padding: 10px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .bp-tab:hover {
+            color: var(--text);
+        }
+        .bp-tab.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Keyframe Timeline */
+        .kf-timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+        .kf-timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+        .kf-item {
+            position: relative;
+            padding: 12px 14px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .kf-item::before {
+            content: '';
+            position: absolute;
+            left: -21px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 50%;
+        }
+        .kf-item:hover {
+            border-color: var(--text-muted);
+        }
+        .kf-item.active {
+            border-color: var(--accent);
+        }
+        .kf-item.active::before {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+        .kf-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        .kf-scroll {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .kf-actions {
+            display: flex;
+            gap: 4px;
+        }
+        .kf-action {
+            width: 24px;
+            height: 24px;
+            background: var(--panel-bg);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            transition: all 0.15s;
+        }
+        .kf-action:hover {
+            background: var(--border);
+            color: var(--text);
+        }
+        .kf-name {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Transform Controls */
+        .transform-section {
+            display: none;
+        }
+        .transform-section.visible {
+            display: block;
+        }
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .axis-label {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+        }
+        .axis-label.x { background: rgba(251, 113, 133, 0.2); color: #fb7185; }
+        .axis-label.y { background: rgba(52, 211, 153, 0.2); color: #34d399; }
+        .axis-label.z { background: rgba(96, 165, 250, 0.2); color: #60a5fa; }
+        .slider-wrap {
+            flex: 1;
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+        }
+        .slider {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            cursor: pointer;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(167, 139, 250, 0.4);
+        }
+        .value-input {
+            width: 60px;
+            padding: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 12px;
+            text-align: center;
+        }
+        .value-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Panel Footer */
+        .panel-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 8px;
+        }
+        .footer-btn {
+            flex: 1;
+            padding: 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .footer-btn:hover {
+            border-color: var(--accent);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.show {
+            display: flex;
+        }
+        .modal {
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 500px;
+            max-width: 90vw;
+            max-height: 80vh;
+            overflow: hidden;
+        }
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            background: var(--surface);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+        .modal-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+        }
+        .modal-tab {
+            flex: 1;
+            padding: 14px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .modal-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+        .modal-body {
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .code-block {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--success);
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        /* Popups */
+        .popup {
+            position: fixed;
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            z-index: 2000;
+            display: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        .popup.show { display: block; }
+        .popup-option {
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.15s;
+        }
+        .popup-option:first-child { border-radius: 9px 9px 0 0; }
+        .popup-option:last-child { border-radius: 0 0 9px 9px; }
+        .popup-option:hover { background: var(--surface); }
+        .popup-option.active { background: var(--accent); color: white; }
+
+        #opacity-popup {
+            padding: 16px 12px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        #opacity-popup.show { display: flex; }
+    </style>
+    <script type="module" src="https://unpkg.com/@splinetool/runtime@1.9.96/build/runtime.js"></script>
+</head>
+<body>
+    <div id="canvas-container">
+        <canvas id="canvas3d"></canvas>
+    </div>
+
+    <!-- Dock -->
+    <div id="dock">
+        <div class="dock-logo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/>
+            </svg>
+        </div>
+        
+        <div class="dock-nav">
+            <button class="dock-btn active" onclick="openPanel('scene')" title="Scene" id="dock-scene">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M2 12h20"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                </svg>
+            </button>
+            <button class="dock-btn" onclick="openPanel('objects')" title="Objects" id="dock-objects">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                </svg>
+            </button>
+            <button class="dock-btn" onclick="openPanel('keyframes')" title="Keyframes" id="dock-keyframes">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                    <path d="M12 2v20"/>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+            </button>
+            <button class="dock-btn" onclick="openPanel('transform')" title="Transform" id="dock-transform">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                    <path d="M21 3L3 21"/>
+                    <path d="M21 21L3 3"/>
+                </svg>
+            </button>
+            
+            <div class="dock-divider"></div>
+            
+            <button class="dock-btn" onclick="openPanel('export')" title="Export" id="dock-export">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="dock-footer">
+            <div class="dock-status" onclick="togglePreview()">
+                <div class="status-dot" id="preview-dot"></div>
+                <span class="status-text" id="scroll-display">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popups -->
+    <div id="opacity-popup" class="popup">
+        <input type="range" style="writing-mode: bt-lr; -webkit-appearance: slider-vertical; width: 8px; height: 100px; accent-color: var(--accent);" min="0" max="100" value="100" oninput="updateOpacityFromSlider(this.value)">
+        <span style="font-size: 10px; color: var(--text-muted);">Opacity</span>
+    </div>
+
+    <div id="easing-popup" class="popup">
+        <div class="popup-option" data-easing="linear">Linear</div>
+        <div class="popup-option" data-easing="easeInQuad">Ease In</div>
+        <div class="popup-option" data-easing="easeOutQuad">Ease Out</div>
+        <div class="popup-option" data-easing="easeInOutQuad">Ease In Out</div>
+    </div>
+
+    <!-- Export Modal -->
+    <div id="export-modal" class="modal-overlay" onclick="if(event.target===this)closeExportModal()">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">Export Configuration</span>
+                <button class="modal-close" onclick="closeExportModal()">×</button>
+            </div>
+            <div class="modal-tabs">
+                <button class="modal-tab active" onclick="setExportTab('json')">JSON</button>
+                <button class="modal-tab" onclick="setExportTab('shopify')">Shopify</button>
+            </div>
+            <div class="modal-body">
+                <div id="export-json-content">
+                    <div class="code-block" id="export-json-code"></div>
+                </div>
+                <div id="export-shopify-content" style="display:none;">
+                    <div class="code-block" id="export-shopify-code"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="footer-btn" style="flex:0;" onclick="closeExportModal()">Close</button>
+                <button class="btn" onclick="copyExportCode()">Copy to Clipboard</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Panel -->
+    <div id="panel">
+        <div class="panel-header">
+            <span class="panel-title" id="panel-title">Scene</span>
+            <button class="panel-close" onclick="closePanel()">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="panel-body">
+            <!-- Scene Panel -->
+            <div id="panel-scene" class="panel-content">
+                <div class="scroll-display">
+                    <div class="scroll-value" id="scroll-value-lg">0.0%</div>
+                    <div class="scroll-label">Current Scroll Position</div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">Spline Scene</div>
+                    <div class="input-group">
+                        <input type="text" class="input" id="scene-url" placeholder="Paste Spline URL...">
+                        <button class="btn" onclick="loadScene()">Load</button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Zoom</div>
+                    <div class="zoom-row">
+                        <button class="zoom-btn" onclick="changeZoom(-0.1)">−</button>
+                        <span class="zoom-value" id="zoom-value">100%</span>
+                        <button class="zoom-btn" onclick="changeZoom(0.1)">+</button>
+                        <button class="zoom-btn" onclick="resetZoom()">↺</button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Breakpoint</div>
+                    <div class="bp-tabs">
+                        <button class="bp-tab active" id="bp-desktop" onclick="setBreakpoint('desktop')">Desktop</button>
+                        <button class="bp-tab" id="bp-tablet" onclick="setBreakpoint('tablet')">Tablet</button>
+                        <button class="bp-tab" id="bp-mobile" onclick="setBreakpoint('mobile')">Mobile</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Objects Panel -->
+            <div id="panel-objects" class="panel-content" style="display:none;">
+                <div class="section">
+                    <div class="section-title">Target Objects</div>
+                    <div id="object-list"></div>
+                    <button class="add-btn" onclick="addObject()">+ Add Object</button>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Available in Scene</div>
+                    <div class="scene-grid" id="scene-objects-list">
+                        <div class="scene-item" style="grid-column: span 2; cursor: default;">Load scene first</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Keyframes Panel -->
+            <div id="panel-keyframes" class="panel-content" style="display:none;">
+                <div class="section">
+                    <div class="section-title" id="keyframes-title">Keyframes</div>
+                    <div class="kf-timeline" id="keyframe-list"></div>
+                    <button class="add-btn" onclick="addKeyframe()">+ Add Keyframe</button>
+                </div>
+            </div>
+
+            <!-- Transform Panel -->
+            <div id="panel-transform" class="panel-content" style="display:none;">
+                <div class="transform-section visible" id="transform-section">
+                    <div class="section">
+                        <div class="section-title">Trigger Point</div>
+                        <div class="control-row">
+                            <span class="axis-label" style="background: var(--accent-dim); color: var(--accent);">%</span>
+                            <div class="slider-wrap">
+                                <input type="range" class="slider" id="trigger-slider" min="0" max="100" value="0" data-type="scroll" oninput="updateTransform(this)">
+                            </div>
+                            <input type="number" class="value-input" data-type="scroll" min="0" max="100" oninput="updateTransform(this)">
+                        </div>
+                        <button class="add-btn" onclick="setTriggerFromScroll()" style="margin-top:8px;">📍 Set from current scroll</button>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Position</div>
+                        <div class="control-row">
+                            <span class="axis-label x">X</span>
+                            <div class="slider-wrap">
+                                <input type="range" class="slider" min="-500" max="500" value="0" data-type="pos" data-axis="x" oninput="updateTransform(this)">
+                            </div>
+                            <input type="number" class="value-input" data-type="pos" data-axis="x" oninput="updateTransform(this)">
+                        </div>
+                        <div class="control-row">
+                            <span class="axis-label y">Y</span>
+                            <div class="slider-wrap">
+                                <input type="range" class="slider" min="-500" max="500" value="0" data-type="pos" data-axis="y" oninput="updateTransform(this)">
+                            </div>
+                            <input type="number" class="value-input" data-type="pos" data-axis="y" oninput="updateTransform(this)">
+                        </div>
+                        <div class="control-row">
+                            <span class="axis-label z">Z</span>
+                            <div class="slider-wrap">
+                                <input type="range" class="slider" min="-500" max="500" value="0" data-type="pos" data-axis="z" oninput="updateTransform(this)">
+                            </div>
+                            <input type="number" class="value-input" data-type="pos" data-axis="z" oninput="updateTransform(this)">
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-title">Rotation</div>
+                        <div class="control-row">
+                            <span class="axis-label x">X</span>
+                            <div class="slider-wrap">
+                                <input type="range" class="slider" min="-180" max="180" value="0" data-type="rot" data-axis="x" oninput="updateTransform(this)">
+                            </div>
+                            <input type="number" class="value-input" data-type="rot" data-axis="x" oninput="updateTransform(this)">
+                        </div>
+                        <div class="control-row">
+                            <span class="axis-label y">Y</span>
+                            <div class="slider-wrap">
+                                <input type="range" class="slider" min="-180" max="180" value="0" data-type="rot" data-axis="y" oninput="updateTransform(this)">
+                            </div>
+                            <input type="number" class="value-input" data-type="rot" data-axis="y" oninput="updateTransform(this)">
+                        </div>
+                        <div class="control-row">
+                            <span class="axis-label z">Z</span>
+                            <div class="slider-wrap">
+                                <input type="range" class="slider" min="-180" max="180" value="0" data-type="rot" data-axis="z" oninput="updateTransform(this)">
+                            </div>
+                            <input type="number" class="value-input" data-type="rot" data-axis="z" oninput="updateTransform(this)">
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="no-keyframe-msg" style="color: var(--text-muted); text-align: center; padding: 40px 20px;">
+                    Select a keyframe to edit transform
+                </div>
+            </div>
+
+            <!-- Export Panel -->
+            <div id="panel-export" class="panel-content" style="display:none;">
+                <div class="section">
+                    <div class="section-title">Export Options</div>
+                    <button class="footer-btn" onclick="openExportModal()" style="margin-bottom:8px;">📤 Export Configuration</button>
+                    <button class="footer-btn" onclick="downloadJSON()">💾 Download JSON</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <button class="footer-btn" onclick="openExportModal()">📤 Export</button>
+            <button class="footer-btn" onclick="downloadJSON()">💾 Save</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { Application } from 'https://unpkg.com/@splinetool/runtime@1.9.96/build/runtime.js';
+
+        const state = {
+            app: null,
+            objects: [],
+            activeObjId: null,
+            activeKeyframeId: null,
+            objectCache: new Map(),
+            currentScroll: 0,
+            previewMode: false,
+            activeBreakpoint: 'desktop',
+            breakpointWidths: { desktop: 1024, tablet: 768, mobile: 0 },
+            zoomLevel: 1.0,
+            sceneObjects: [],
+            activePanel: 'scene'
+        };
+
+        window.editorState = state;
+
+        // Panel Navigation
+        window.openPanel = function(panelId) {
+            // Update dock buttons
+            document.querySelectorAll('.dock-btn').forEach(btn => btn.classList.remove('active'));
+            const dockBtn = document.getElementById('dock-' + panelId);
+            if (dockBtn) dockBtn.classList.add('active');
+
+            // Update panel content
+            document.querySelectorAll('.panel-content').forEach(p => p.style.display = 'none');
+            const panelContent = document.getElementById('panel-' + panelId);
+            if (panelContent) panelContent.style.display = 'block';
+
+            // Update title
+            const titles = { scene: 'Scene', objects: 'Objects', keyframes: 'Keyframes', transform: 'Transform', export: 'Export' };
+            document.getElementById('panel-title').textContent = titles[panelId] || panelId;
+
+            // Open panel
+            document.getElementById('panel').classList.add('open');
+            document.getElementById('canvas-container').classList.add('panel-open');
+            state.activePanel = panelId;
+
+            // Update transform visibility
+            if (panelId === 'transform') {
+                updateTransformVisibility();
+            }
+        }
+
+        window.closePanel = function() {
+            document.getElementById('panel').classList.remove('open');
+            document.getElementById('canvas-container').classList.remove('panel-open');
+            document.querySelectorAll('.dock-btn').forEach(btn => btn.classList.remove('active'));
+        }
+
+        function updateTransformVisibility() {
+            const hasKeyframe = !!state.activeKeyframeId;
+            document.getElementById('transform-section').style.display = hasKeyframe ? 'block' : 'none';
+            document.getElementById('no-keyframe-msg').style.display = hasKeyframe ? 'none' : 'block';
+        }
+
+        window.togglePreview = function() {
+            state.previewMode = !state.previewMode;
+            const dot = document.getElementById('preview-dot');
+            if (state.previewMode) {
+                dot.classList.add('on');
+                requestAnimationFrame(renderFrame);
+            } else {
+                dot.classList.remove('on');
+            }
+        }
+
+        window.addEventListener('load', () => {
+            const savedUrl = localStorage.getItem('spline_tool_url');
+            if (savedUrl) {
+                document.getElementById('scene-url').value = savedUrl;
+                loadScene();
+            }
+            addObject(true);
+            openPanel('scene');
+        });
+
+        window.loadScene = async function() {
+            const url = document.getElementById('scene-url').value;
+            if (!url) return;
+            localStorage.setItem('spline_tool_url', url);
+            const canvas = document.getElementById('canvas3d');
+            if (!state.app) state.app = new Application(canvas);
+            try {
+                await state.app.load(url);
+                state.objectCache.clear();
+                state.zoomLevel = 1.0;
+                document.getElementById('zoom-value').innerText = '100%';
+                
+                state.sceneObjects = [];
+                function findSceneObjects(node) {
+                    if (node.name && (node.name.toLowerCase().includes('scene') || node.type === 'Scene')) {
+                        if (node.children) {
+                            node.children.forEach(child => {
+                                if (child.name && 
+                                    !child.name.startsWith('__') && 
+                                    !child.name.toLowerCase().includes('light') &&
+                                    !child.name.toLowerCase().includes('camera') &&
+                                    !child.name.toLowerCase().includes('invisible') &&
+                                    child.type !== 'DirectionalLight' && 
+                                    child.type !== 'AmbientLight' && 
+                                    child.type !== 'PointLight' && 
+                                    child.type !== 'SpotLight') {
+                                    state.sceneObjects.push({ name: child.name, type: child.type || 'Object', uuid: child.uuid });
+                                }
+                            });
+                        }
+                        return true;
+                    }
+                    if (node.children) {
+                        for (const child of node.children) {
+                            if (findSceneObjects(child)) return true;
+                        }
+                    }
+                    return false;
+                }
+                if (state.app._scene) findSceneObjects(state.app._scene);
+                
+                renderSceneObjects();
+                renderObjects();
+            } catch (e) {
+                console.error(e);
+                alert("Failed to load scene");
+            }
+        }
+        
+        function renderSceneObjects() {
+            const container = document.getElementById('scene-objects-list');
+            if (state.sceneObjects.length === 0) {
+                container.innerHTML = '<div class="scene-item" style="grid-column: span 2; cursor: default;">Load scene first</div>';
+                return;
+            }
+            const addedNames = state.objects.map(o => o.name);
+            container.innerHTML = state.sceneObjects.map(obj => {
+                const isAdded = addedNames.includes(obj.name);
+                return `<div class="scene-item ${isAdded ? 'added' : ''}" onclick="${isAdded ? '' : `addObjectFromScene('${obj.name}')`}">${obj.name}</div>`;
+            }).join('');
+        }
+        
+        window.addObjectFromScene = function(name) {
+            if (state.objects.some(o => o.name === name)) return;
+            const id = 'obj_' + Date.now();
+            const obj = { id, name, keyframes: { desktop: [], tablet: [], mobile: [] } };
+            state.objects.push(obj);
+            selectObject(id);
+            renderObjects();
+            renderSceneObjects();
+        }
+
+        window.changeZoom = function(delta) {
+            state.zoomLevel = Math.max(0.1, Math.min(3, state.zoomLevel + delta));
+            state.zoomLevel = parseFloat(state.zoomLevel.toFixed(1));
+            document.getElementById('zoom-value').innerText = Math.round(state.zoomLevel * 100) + '%';
+            if (state.app) try { state.app.setZoom(state.zoomLevel); } catch(e){}
+        }
+
+        window.resetZoom = function() {
+            state.zoomLevel = 1.0;
+            document.getElementById('zoom-value').innerText = '100%';
+            if (state.app) try { state.app.setZoom(1); } catch(e){}
+        }
+
+        window.addEventListener('scroll', () => {
+            const docH = document.body.scrollHeight - window.innerHeight;
+            state.currentScroll = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+            document.getElementById('scroll-display').innerText = Math.round(state.currentScroll) + '%';
+            document.getElementById('scroll-value-lg').innerText = state.currentScroll.toFixed(1) + '%';
+            if (state.previewMode) requestAnimationFrame(renderFrame);
+        });
+
+        window.setBreakpoint = function(bp) {
+            state.activeBreakpoint = bp;
+            document.querySelectorAll('.bp-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('bp-' + bp).classList.add('active');
+            document.getElementById('keyframes-title').innerText = `Keyframes · ${bp}`;
+            renderKeyframes();
+        }
+
+        window.addObject = function(autoSelect = true) {
+            const id = 'obj_' + Date.now();
+            const obj = { id, name: 'Object ' + (state.objects.length + 1), keyframes: { desktop: [], tablet: [], mobile: [] } };
+            state.objects.push(obj);
+            if (autoSelect || state.objects.length === 1) selectObject(id);
+            renderObjects();
+        }
+
+        window.deleteObject = function(id) {
+            if (state.objects.length <= 1) return;
+            state.objects = state.objects.filter(o => o.id !== id);
+            if (state.activeObjId === id) {
+                state.activeObjId = state.objects[0]?.id || null;
+                state.activeKeyframeId = null;
+            }
+            renderObjects();
+            renderKeyframes();
+        }
+
+        window.selectObject = function(id) {
+            state.activeObjId = id;
+            state.activeKeyframeId = null;
+            const obj = state.objects.find(o => o.id === id);
+            if (!obj) return;
+            if (Array.isArray(obj.keyframes)) obj.keyframes = { desktop: obj.keyframes, tablet: [], mobile: [] };
+            renderObjects();
+            renderKeyframes();
+            updateTransformVisibility();
+        }
+
+        window.updateObjectName = function(id, name) {
+            const obj = state.objects.find(o => o.id === id);
+            if (!obj) return;
+            state.objectCache.delete(obj.name);
+            obj.name = name;
+            if (state.app && name) {
+                try { const found = state.app.findObjectByName(name); if (found) state.objectCache.set(name, found); } catch(e) {}
+            }
+            renderObjects();
+        }
+
+        function renderObjects() {
+            const container = document.getElementById('object-list');
+
+            container.innerHTML = state.objects.map(o => {
+                let isLinked = false;
+                if (state.app && o.name) {
+                    try { isLinked = !!state.app.findObjectByName(o.name); } catch(e) {}
+                }
+                return `<div class="object-card ${o.id === state.activeObjId ? 'active' : ''}" onclick="selectObject('${o.id}')">
+                    <div class="object-card-header">
+                        <div class="object-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                            </svg>
+                        </div>
+                        <div class="object-info">
+                            <div class="object-name">${o.name || 'Unnamed'}</div>
+                            <div class="object-status ${isLinked ? 'linked' : ''}">${isLinked ? '● Linked' : '○ Not Found'}</div>
+                        </div>
+                        ${state.objects.length > 1 ? `<button class="object-delete" onclick="event.stopPropagation(); deleteObject('${o.id}')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>` : ''}
+                    </div>
+                </div>`;
+            }).join('');
+            
+            renderSceneObjects();
+        }
+
+        function getKeyframes(obj) {
+            if (!obj) return [];
+            return obj.keyframes[state.activeBreakpoint] || [];
+        }
+
+        window.addKeyframe = function() {
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            if (!obj) return alert("Select an object first");
+            const kfs = getKeyframes(obj);
+
+            let pos = { x: 0, y: 0, z: 0 }, rot = { x: 0, y: 0, z: 0 };
+            if (state.app) {
+                let splineObj = state.objectCache.get(obj.name);
+                if (!splineObj) try { splineObj = state.app.findObjectByName(obj.name); state.objectCache.set(obj.name, splineObj); } catch(e){}
+                if (splineObj) {
+                    pos = { x: Math.round(splineObj.position.x), y: Math.round(splineObj.position.y), z: Math.round(splineObj.position.z) };
+                    rot = { x: Math.round(splineObj.rotation.x * 180/Math.PI), y: Math.round(splineObj.rotation.y * 180/Math.PI), z: Math.round(splineObj.rotation.z * 180/Math.PI) };
+                }
+            }
+
+            const kf = { id: 'kf_' + Date.now(), name: 'Position ' + (kfs.length + 1), scroll: Math.round(state.currentScroll), pos, rot, op: 100, easing: 'linear' };
+            kfs.push(kf);
+            selectKeyframe(kf.id);
+            renderKeyframes();
+        }
+
+        window.deleteKeyframe = function(id) {
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            if (!obj) return;
+            const kfs = getKeyframes(obj);
+            const idx = kfs.findIndex(k => k.id === id);
+            if (idx > -1) kfs.splice(idx, 1);
+            if (state.activeKeyframeId === id) state.activeKeyframeId = kfs[0]?.id || null;
+            renderKeyframes();
+            updateTransformVisibility();
+        }
+
+        window.selectKeyframe = function(id) {
+            state.activeKeyframeId = id;
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const kf = getKeyframes(obj).find(k => k.id === id);
+            if (!kf) return;
+
+            document.querySelectorAll('[data-type="scroll"]').forEach(el => el.value = kf.scroll);
+            ['x','y','z'].forEach(axis => {
+                document.querySelectorAll(`[data-type="pos"][data-axis="${axis}"]`).forEach(el => el.value = kf.pos[axis]);
+                document.querySelectorAll(`[data-type="rot"][data-axis="${axis}"]`).forEach(el => el.value = kf.rot[axis]);
+            });
+            renderKeyframes();
+            updateTransformVisibility();
+
+            if (!state.previewMode && state.app) {
+                let splineObj = state.objectCache.get(obj.name);
+                if (!splineObj) try { splineObj = state.app.findObjectByName(obj.name); state.objectCache.set(obj.name, splineObj); } catch(e){}
+                if (splineObj) {
+                    splineObj.position.set(kf.pos.x, kf.pos.y, kf.pos.z);
+                    splineObj.rotation.set(kf.rot.x * Math.PI/180, kf.rot.y * Math.PI/180, kf.rot.z * Math.PI/180);
+                    forceOpacity(splineObj, (kf.op || 100) / 100);
+                }
+            }
+        }
+
+        function renderKeyframes() {
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const container = document.getElementById('keyframe-list');
+
+            if (!obj) { container.innerHTML = '<div style="color:var(--text-muted);font-size:12px;padding:16px;text-align:center;">Select object first</div>'; return; }
+            const kfs = getKeyframes(obj);
+            if (kfs.length === 0) { container.innerHTML = ''; return; }
+
+            const easingLabels = { linear: 'Lin', easeInQuad: 'In', easeOutQuad: 'Out', easeInOutQuad: 'IO' };
+
+            container.innerHTML = kfs.map(kf => `<div class="kf-item ${kf.id === state.activeKeyframeId ? 'active' : ''}" onclick="selectKeyframe('${kf.id}')">
+                <div class="kf-header">
+                    <span class="kf-scroll">${kf.scroll}%</span>
+                    <div class="kf-actions">
+                        <button class="kf-action" onclick="event.stopPropagation(); showOpacitySlider('${kf.id}', this)">◐</button>
+                        <button class="kf-action" onclick="event.stopPropagation(); toggleEasingPicker('${kf.id}', this)">${easingLabels[kf.easing] || 'Lin'}</button>
+                        <button class="kf-action" onclick="event.stopPropagation(); deleteKeyframe('${kf.id}')">×</button>
+                    </div>
+                </div>
+                <div class="kf-name">${kf.name || 'Unnamed'} · Op: ${kf.op || 100}%</div>
+            </div>`).join('');
+        }
+
+        let activeOpacityKfId = null;
+        window.showOpacitySlider = function(kfId, el) {
+            activeOpacityKfId = kfId;
+            const popup = document.getElementById('opacity-popup');
+            const rect = el.getBoundingClientRect();
+            popup.style.left = (rect.left - 30) + 'px';
+            popup.style.top = (rect.bottom + 8) + 'px';
+            popup.classList.add('show');
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const kf = getKeyframes(obj).find(k => k.id === kfId);
+            if (kf) popup.querySelector('input').value = (kf.op || 100);
+        }
+
+        window.updateOpacityFromSlider = function(val) {
+            if (!activeOpacityKfId) return;
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const kf = getKeyframes(obj).find(k => k.id === activeOpacityKfId);
+            if (kf) kf.op = parseInt(val);
+        }
+
+        document.addEventListener('click', e => {
+            const popup = document.getElementById('opacity-popup');
+            if (popup && !popup.contains(e.target) && !e.target.classList.contains('kf-action')) {
+                popup.classList.remove('show');
+                activeOpacityKfId = null;
+                renderKeyframes();
+            }
+        });
+
+        let activeEasingKfId = null;
+        window.toggleEasingPicker = function(kfId, el) {
+            activeEasingKfId = kfId;
+            const popup = document.getElementById('easing-popup');
+            const rect = el.getBoundingClientRect();
+            popup.style.left = (rect.left - 40) + 'px';
+            popup.style.top = (rect.bottom + 8) + 'px';
+            popup.classList.add('show');
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const kf = getKeyframes(obj).find(k => k.id === kfId);
+            popup.querySelectorAll('.popup-option').forEach(opt => opt.classList.toggle('active', opt.dataset.easing === kf?.easing));
+        }
+
+        document.querySelectorAll('.popup-option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                if (!activeEasingKfId) return;
+                const obj = state.objects.find(o => o.id === state.activeObjId);
+                const kf = getKeyframes(obj).find(k => k.id === activeEasingKfId);
+                if (kf) kf.easing = opt.dataset.easing;
+                document.getElementById('easing-popup').classList.remove('show');
+                activeEasingKfId = null;
+                renderKeyframes();
+            });
+        });
+
+        window.setTriggerFromScroll = function() {
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const kf = getKeyframes(obj).find(k => k.id === state.activeKeyframeId);
+            if (!kf) return;
+            const currentVal = parseFloat(state.currentScroll.toFixed(1));
+            kf.scroll = currentVal;
+            document.querySelectorAll('[data-type="scroll"]').forEach(e => e.value = currentVal);
+            renderKeyframes();
+        }
+
+        window.updateTransform = function(el) {
+            const obj = state.objects.find(o => o.id === state.activeObjId);
+            const kf = getKeyframes(obj).find(k => k.id === state.activeKeyframeId);
+            if (!kf) return;
+
+            const type = el.dataset.type, axis = el.dataset.axis, val = parseFloat(el.value) || 0;
+
+            if (type === 'scroll') {
+                kf.scroll = val;
+                document.querySelectorAll('[data-type="scroll"]').forEach(e => e.value = val);
+                const docH = document.body.scrollHeight - window.innerHeight;
+                if (docH > 0) window.scrollTo(0, (val / 100) * docH);
+            } else if (type === 'pos') {
+                kf.pos[axis] = val;
+                document.querySelectorAll(`[data-type="pos"][data-axis="${axis}"]`).forEach(e => e.value = val);
+            } else if (type === 'rot') {
+                kf.rot[axis] = val;
+                document.querySelectorAll(`[data-type="rot"][data-axis="${axis}"]`).forEach(e => e.value = val);
+            }
+
+            renderKeyframes();
+
+            if (!state.previewMode) {
+                let splineObj = state.objectCache.get(obj.name);
+                if (!splineObj && state.app) try { splineObj = state.app.findObjectByName(obj.name); } catch(e){}
+                if (splineObj) {
+                    splineObj.position.set(kf.pos.x, kf.pos.y, kf.pos.z);
+                    splineObj.rotation.set(kf.rot.x * Math.PI/180, kf.rot.y * Math.PI/180, kf.rot.z * Math.PI/180);
+                    forceOpacity(splineObj, (kf.op || 100) / 100);
+                }
+            }
+        }
+
+        function cloneMaterial(node) {
+            if (!node.material) return;
+            if (!Array.isArray(node.material)) {
+                if (!node.material._isCloned) {
+                    node.material = node.material.clone();
+                    node.material._isCloned = true;
+                    node.material.transparent = true;
+                    node.material.depthWrite = false;
+                    node.material.needsUpdate = true;
+                }
+                return;
+            }
+            node.material = node.material.map(mat => {
+                if (!mat._isCloned) {
+                    const cloned = mat.clone();
+                    cloned._isCloned = true;
+                    cloned.transparent = true;
+                    cloned.depthWrite = false;
+                    cloned.needsUpdate = true;
+                    return cloned;
+                }
+                return mat;
+            });
+        }
+
+        function forceOpacity(node, opacityVal) {
+            if (opacityVal <= 0.01) { node.visible = false; return; }
+            node.visible = true;
+            cloneMaterial(node);
+            if (node.material) {
+                const mats = Array.isArray(node.material) ? node.material : [node.material];
+                mats.forEach(m => { m.opacity = opacityVal; m.transparent = true; m.depthWrite = false; m.needsUpdate = true; });
+            }
+            if (node.children) node.children.forEach(child => forceOpacity(child, opacityVal));
+        }
+
+        const easingFunctions = {
+            linear: t => t,
+            easeInQuad: t => t * t,
+            easeOutQuad: t => t * (2 - t),
+            easeInOutQuad: t => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+        };
+
+        function renderFrame() {
+            if (!state.app) return;
+            const scroll = state.currentScroll;
+            const w = window.innerWidth;
+            let targetBp = 'mobile';
+            if (w >= state.breakpointWidths.desktop) targetBp = 'desktop';
+            else if (w >= state.breakpointWidths.tablet) targetBp = 'tablet';
+
+            state.objects.forEach(objDef => {
+                let splineObj = state.objectCache.get(objDef.name);
+                if (!splineObj) try { splineObj = state.app.findObjectByName(objDef.name); state.objectCache.set(objDef.name, splineObj); } catch(e){}
+                if (!splineObj) return;
+
+                const kfs = objDef.keyframes[targetBp] || [];
+                if (kfs.length === 0) return;
+
+                const sorted = [...kfs].sort((a,b) => a.scroll - b.scroll);
+                let prev = sorted[0], next = sorted[0];
+                for (let i = 0; i < sorted.length; i++) {
+                    if (sorted[i].scroll <= scroll) prev = sorted[i];
+                    if (sorted[i].scroll >= scroll && next.scroll < scroll) next = sorted[i];
+                }
+                if (next.scroll < scroll) next = sorted[sorted.length - 1];
+
+                let t = 0;
+                if (prev !== next && next.scroll !== prev.scroll) t = (scroll - prev.scroll) / (next.scroll - prev.scroll);
+                else if (scroll >= next.scroll) t = 1;
+
+                const easeFn = easingFunctions[next.easing] || easingFunctions.linear;
+                t = easeFn(Math.max(0, Math.min(1, t)));
+                const lerp = (a, b) => a + (b - a) * t;
+
+                splineObj.position.set(lerp(prev.pos.x, next.pos.x), lerp(prev.pos.y, next.pos.y), lerp(prev.pos.z, next.pos.z));
+                splineObj.rotation.set(lerp(prev.rot.x, next.rot.x) * Math.PI/180, lerp(prev.rot.y, next.rot.y) * Math.PI/180, lerp(prev.rot.z, next.rot.z) * Math.PI/180);
+                forceOpacity(splineObj, lerp(prev.op || 100, next.op || 100) / 100);
+            });
+        }
+
+        let currentExportTab = 'json';
+
+        function getExportData() {
+            return { breakpointWidths: state.breakpointWidths, objects: state.objects.map(o => ({ name: o.name, keyframes: o.keyframes })) };
+        }
+
+        function getShopifyCode() {
+            const sceneUrl = document.getElementById('scene-url').value || 'YOUR_SPLINE_URL';
+            const config = getExportData();
+            return `<!-- Elevia 3D -->\n<script type="module">\nimport { Application } from 'https://unpkg.com/@splinetool/runtime@1.9.96/build/runtime.js';\nconst CONFIG = ${JSON.stringify(config, null, 2)};\n// ... full code ...\n<\/script>`;
+        }
+
+        window.openExportModal = function() {
+            document.getElementById('export-modal').classList.add('show');
+            document.getElementById('export-json-code').textContent = JSON.stringify(getExportData(), null, 2);
+            document.getElementById('export-shopify-code').textContent = getShopifyCode();
+        }
+
+        window.closeExportModal = function() { document.getElementById('export-modal').classList.remove('show'); }
+
+        window.setExportTab = function(tab) {
+            currentExportTab = tab;
+            document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('export-json-content').style.display = tab === 'json' ? 'block' : 'none';
+            document.getElementById('export-shopify-content').style.display = tab === 'shopify' ? 'block' : 'none';
+        }
+
+        window.copyExportCode = function() {
+            const code = currentExportTab === 'json' ? JSON.stringify(getExportData(), null, 2) : getShopifyCode();
+            navigator.clipboard.writeText(code);
+            alert('Copied!');
+        }
+
+        window.downloadJSON = function() {
+            const blob = new Blob([JSON.stringify(getExportData(), null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'spline-config.json'; a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,247 @@
+
+    <div class="w-layout-blockcontainer container-small w-container">
+      <div class="footer-top-wrapper">
+        <a href="{% if section.settings.email_link %}{{ section.settings.email_link }}{% else %}mailto:info@elevia.com{% endif %}" class="w-inline-block">
+          <h4 class="text-style-caps">{{ section.settings.email }}</h4>
+        </a>
+        <a href="{% if section.settings.phone_link %}{{ section.settings.phone_link }}{% else %}tel:+420123298987{% endif %}" class="w-inline-block">
+          <h4 class="text-style-caps">{{ section.settings.phone }}</h4>
+        </a>
+      </div>
+      <div class="footer-middle-wrapper">
+  <!-- <div class="footer-links-wrapper">
+          <a href="{% if section.settings.column_1_link_1 %}{{ section.settings.column_1_link_1 }}{% else %}{{ pages["terms-and-conditions"].url }}{% endif %}" class="body-xsmall text-style-caps">{{ section.settings.column_1_item_1 }}</a>
+          <a href="{% if section.settings.column_1_link_2 %}{{ section.settings.column_1_link_2 }}{% else %}{{ pages["privacy-and-cookies-policy"].url }}{% endif %}" class="body-xsmall text-style-caps">{{ section.settings.column_1_item_2 }}</a>
+          <a href="{% if section.settings.column_1_link_3 %}{{ section.settings.column_1_link_3 }}{% else %}#{% endif %}" class="body-xsmall text-style-caps">{{ section.settings.column_1_item_3 }}</a>
+          <a href="{% if section.settings.column_1_link_4 %}{{ section.settings.column_1_link_4 }}{% else %}#{% endif %}" class="body-xsmall text-style-caps">{{ section.settings.column_1_item_4 }}</a>
+        </div>
+        <div class="footer-links-wrapper">
+          <a href="{% if section.settings.column_2_link_1 %}{{ section.settings.column_2_link_1 }}{% else %}#{% endif %}" class="body-xsmall text-style-caps">{{ section.settings.column_2_item_1 }}</a>
+          <a href="{% if section.settings.column_2_link_2 %}{{ section.settings.column_2_link_2 }}{% else %}#{% endif %}" class="body-xsmall text-style-caps">{{ section.settings.column_2_item_2 }}</a>
+          <a href="{% if section.settings.column_2_link_3 %}{{ section.settings.column_2_link_3 }}{% else %}#{% endif %}" class="body-xsmall text-style-caps">{{ section.settings.column_2_item_3 }}</a>
+          <a href="{% if section.settings.column_2_link_4 %}{{ section.settings.column_2_link_4 }}{% else %}#{% endif %}" class="body-xsmall text-style-caps">{{ section.settings.column_2_item_4 }}</a>
+        </div> -->
+        <div class="footer-links-wrapper">
+     <!-- <a href="{% if section.settings.column_3_link_1 %}{{ section.settings.column_3_link_1 }}{% else %}{{ routes.root_url }}{% endif %}" aria-current="page" class="body-xsmall text-style-caps w--current">{{ section.settings.column_3_item_1 }}</a> -->
+          <a href="{% if section.settings.column_3_link_2 %}{{ section.settings.column_3_link_2 }}{% else %}{{ pages["about-us"].url }}{% endif %}" class="body-xsmall text-style-caps">{{ section.settings.column_3_item_2 }}</a>
+          <a href="{% if section.settings.column_3_link_3 %}{{ section.settings.column_3_link_3 }}{% else %}{{ pages["contact"].url }}{% endif %}" class="body-xsmall text-style-caps">{{ section.settings.column_3_item_3 }}</a>
+        </div>{%- if section.settings.logo == nil -%}<img src="{{ 'logo-claim-white.svg' | asset_url }}" loading="lazy" alt="" class="logo-footer">{%- else -%}<img src="{{ section.settings.logo.src | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.logo.alt | escape }}" class="logo-footer">{%- endif -%}
+      </div>
+      <div class="footer-top-wrapper">
+        <div class="body-xsmall text-style-caps text-color-white">{{ section.settings.copyright }}</div>
+   <!--     <div class="payment-logos-wrapper">{%- if section.settings.payment_logo_1 == nil -%}<img src="{{ 'visa.svg' | asset_url }}" loading="lazy" alt="" class="payment-logo">{%- else -%}<img src="{{ section.settings.payment_logo_1.src | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.payment_logo_1.alt | escape }}" class="payment-logo">{%- endif -%}{%- if section.settings.payment_logo_2 == nil -%}<img src="{{ 'mastercard.svg' | asset_url }}" loading="lazy" alt="" class="payment-logo">{%- else -%}<img src="{{ section.settings.payment_logo_2.src | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.payment_logo_2.alt | escape }}" class="payment-logo">{%- endif -%}{%- if section.settings.payment_logo_3 == nil -%}<img src="{{ 'apple-pay.svg' | asset_url }}" loading="lazy" alt="" class="payment-logo">{%- else -%}<img src="{{ section.settings.payment_logo_3.src | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.payment_logo_3.alt | escape }}" class="payment-logo">{%- endif -%}{%- if section.settings.payment_logo_4 == nil -%}<img src="{{ 'g-pay.svg' | asset_url }}" loading="lazy" alt="" class="payment-logo">{%- else -%}<img src="{{ section.settings.payment_logo_4.src | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.payment_logo_4.alt | escape }}" class="payment-logo">{%- endif -%}</div>
+        --> <div class="footer-socials-wrapper">
+          <!-- <a href="{% if section.settings.socials_1_link %}{{ section.settings.socials_1_link }}{% else %}#{% endif %}" class="body-xsmall text-style-caps">{{ section.settings.socials_1_item }}</a> -->
+          <a href="{% if section.settings.socials_2_link %}{{ section.settings.socials_2_link }}{% else %}#{% endif %}" class="body-xsmall text-style-caps">{{ section.settings.socials_2_item }}</a>
+        </div>
+      </div>
+    </div>
+  
+
+<script>var currentSection = document.currentScript.closest('.shopify-section');currentSection.setAttribute("class","section-footer");</script>
+        
+{% schema %}
+{
+  "name": "footer",
+  "tag": "section",
+  "class": "section-footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "socials_2_item",
+      "label": "Socials 2 - Item",
+      "default": "Instagram"
+    },
+    {
+      "id": "socials_2_link",
+      "label": "Socials 2 - Link",
+      "type": "url"
+    },
+    {
+      "type": "text",
+      "id": "socials_1_item",
+      "label": "Socials 1 - Item",
+      "default": "facebook"
+    },
+    {
+      "id": "socials_1_link",
+      "label": "Socials 1 - Link",
+      "type": "url"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_logo_4",
+      "label": "Payment logo - 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_logo_3",
+      "label": "Payment logo - 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_logo_2",
+      "label": "Payment logo - 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_logo_1",
+      "label": "Payment logo - 1"
+    },
+    {
+      "type": "text",
+      "id": "column_3_item_3",
+      "label": "Column 3 - Item 3",
+      "default": "contact"
+    },
+    {
+      "id": "column_3_link_3",
+      "label": "Column 3 - Link 3",
+      "type": "url"
+    },
+    {
+      "type": "text",
+      "id": "column_3_item_2",
+      "label": "Column 3 - Item 2",
+      "default": "about us"
+    },
+    {
+      "id": "column_3_link_2",
+      "label": "Column 3 - Link 2",
+      "type": "url"
+    },
+    {
+      "type": "text",
+      "id": "column_3_item_1",
+      "label": "Column 3 - Item 1",
+      "default": "Shop"
+    },
+    {
+      "id": "column_3_link_1",
+      "label": "Column 3 - Link 1",
+      "type": "url"
+    },
+    {
+      "type": "text",
+      "id": "column_2_item_2",
+      "label": "Column 2 - Item 2",
+      "default": "vibe produkty"
+    },
+    {
+      "id": "column_2_link_2",
+      "label": "Column 2 - Link 2",
+      "type": "url"
+    },
+    {
+      "type": "text",
+      "id": "column_2_item_3",
+      "label": "Column 2 - Item 3",
+      "default": "medical produkty"
+    },
+    {
+      "id": "column_2_link_3",
+      "label": "Column 2 - Link 3",
+      "type": "url"
+    },
+    {
+      "type": "text",
+      "id": "column_2_item_4",
+      "label": "Column 2 - Item 4",
+      "default": "všechny produkty elevia"
+    },
+    {
+      "id": "column_2_link_4",
+      "label": "Column 2 - Link 4",
+      "type": "url"
+    },
+    {
+      "type": "text",
+      "id": "column_1_item_4",
+      "label": "Column 1 - Item 4",
+      "default": "faq"
+    },
+    {
+      "id": "column_1_link_4",
+      "label": "Column 1 - Link 4",
+      "type": "url"
+    },
+    {
+      "type": "text",
+      "id": "column_2_item_1",
+      "label": "Column 2 - Item 1",
+      "default": "wellness produkty"
+    },
+    {
+      "id": "column_2_link_1",
+      "label": "Column 2 - Link 1",
+      "type": "url"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "text",
+      "id": "copyright",
+      "label": "Copyright",
+      "default": "Copyright 2024 elevia. Všechna práva vyhrazena."
+    },
+    {
+      "id": "column_1_link_3",
+      "label": "Column 1 - Link 3",
+      "type": "url"
+    },
+    {
+      "type": "text",
+      "id": "column_1_item_3",
+      "label": "Column 1 - Item 3",
+      "default": "doprava"
+    },
+    {
+      "type": "text",
+      "id": "column_1_item_2",
+      "label": "Column 1 - Item 2",
+      "default": "ochrana osobnich údajů"
+    },
+    {
+      "id": "column_1_link_2",
+      "label": "Column 1 - Link 2",
+      "type": "url"
+    },
+    {
+      "type": "text",
+      "id": "column_1_item_1",
+      "label": "Column 1 - Item 1",
+      "default": "obchodní podmínky"
+    },
+    {
+      "id": "column_1_link_1",
+      "label": "Column 1 - Link 1",
+      "type": "url"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone",
+      "default": "+420 123 298 987"
+    },
+    {
+      "id": "phone_link",
+      "label": "Phone - Link",
+      "type": "url"
+    },
+    {
+      "id": "email_link",
+      "label": "Email - Link",
+      "type": "url"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email",
+      "default": "info@elevia.com"
+    }
+  ]
+}
+{% endschema %}

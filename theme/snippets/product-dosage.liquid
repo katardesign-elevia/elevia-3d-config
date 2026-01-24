@@ -1,0 +1,45 @@
+{% comment %}
+  Product Dosage Section
+  Displays three dosage blocks with headlines and content
+
+  Parameters:
+  - product: product object (required)
+  - dosage_1_headline: string
+  - dosage_1_content: string
+  - dosage_2_headline: string
+  - dosage_2_content: string
+  - dosage_3_headline: string
+  - dosage_3_content: string
+{% endcomment %}
+
+<section class="section">
+  <div class="w-layout-blockcontainer container-small w-container">
+    <div class="text-style-display text-align-center text-style-caps max-width-990 dosage-headline">{{- product.metafields.custom.sekce_davkovani_nadpis | metafield_tag -}}</div>
+    <div class="product-wrapper_dosage">
+      <div id="w-node-b1b76578-47c5-5377-8154-f8442b36bbe2-10906162" class="dosage-block">
+        <div class="dosage-header">
+          <div>{{ 't601' | t }}</div>
+          <div class="body-large">{{ dosage_1_headline }}</div><img src="{{ 'linedot.svg' | asset_url }}" loading="lazy" alt="">
+        </div>
+        <div>{{ dosage_1_content }}</div>
+      </div>
+      <div id="w-node-f3c6bc37-bfc5-51ef-f05a-ec95e1fb8e01-10906162" class="dosage-block">
+        <div class="dosage-header">
+          <div>{{ 't602' | t }}</div>
+          <div class="body-large">{{ dosage_2_headline }}</div><img src="{{ 'linedot.svg' | asset_url }}" loading="lazy" alt="">
+        </div>
+        <div>{{ dosage_2_content }}</div>
+      </div>
+      <div id="w-node-_2c8eecc2-ac72-c797-6123-f1f0b900cd0a-10906162" class="dosage-block">
+        <div class="dosage-header">
+          <div>{{ 't603' | t }}</div>
+          <div class="body-large">{{ dosage_3_headline }}</div><img src="{{ 'linedot.svg' | asset_url }}" loading="lazy" alt="">
+        </div>
+        <div>{{ dosage_3_content }}</div>
+      </div>
+    </div>
+    <div class="product-pagination">
+      <div class="swiper-pagination is-white">{{ 't2cfd794' | t }}</div>
+    </div>
+  </div>
+</section>

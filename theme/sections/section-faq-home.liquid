@@ -1,0 +1,100 @@
+<div class="w-layout-blockcontainer container-small w-container">
+  <div class="faq-headline-wrapper">
+    <h4 class="text-style-caps no-shrink is-faq">{{ section.settings.headline | rich_text }}</h4>
+    <div p-add-class="body-medium">{{ section.settings.description | newline_to_br }}</div>
+  </div>
+
+  <div class="faq-main-wrapper">
+    <div role="list" class="faq-list">
+      {% for block in section.blocks %}
+        <div data-w-id="1903e811-7c59-bb39-779c-9615c1ac25df" role="listitem" class="faq-wrapper w-dyn-item">
+          <div id="showmore" class="faq-question-wrapper">
+            <div class="faq-number"></div>
+            <div class="faq-answer-wrapper">
+              <div class="body-large">{{ block.settings.question }}</div>
+              <p class="body-small">{{ block.settings.answer }}</p>
+            </div>
+          </div>
+          <div class="icon-faq_wrapper">
+            <div class="icon-faq w-embed">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 10L11.2191 15.3306C11.6684 15.7158 12.3316 15.7158 12.7809 15.3306L19 10" stroke="currentColor" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="faq-button-wrapper">
+  <div class="button is-secondary showmore"
+       data-show-more="{{ 'faq.show_more' | t }}"
+       data-show-less="{{ 'faq.show_less' | t }}">
+       
+    <div class="button-text-faq">{{ 'faq.show_more' | t }}</div>
+    
+    <div class="button-icon">
+      <div class="icon-16 is-faq-icon w-embed">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.33203 7.9987H12.6654M12.6654 7.9987L7.9987 3.33203M12.6654 7.9987L7.9987 12.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+  var currentSection = document.currentScript.closest('.shopify-section');
+  currentSection.setAttribute("class","light-section");
+</script>
+
+{% schema %}
+{
+  "name": "Section - FAQ",
+  "tag": "section",
+  "class": "light-section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "headline",
+      "label": "Headline",
+      "default": "<p><u>FAQ</u></p>"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>We've got answers. Dive into our most common questions.<br>Can't find what you're looking for? Reach out to us anytime at our mail.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How does shipping work?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "We ship worldwide! Shipping times vary depending on location."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "FAQ"
+    }
+  ]
+}
+{% endschema %}

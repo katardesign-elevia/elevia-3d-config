@@ -1,0 +1,112 @@
+<div class="w-layout-blockcontainer container-small w-container">
+  <h2 class="heading-style-h1">{{ section.settings.headline | rich_text }}</h2>
+  <div class="flex-default top-48">
+    <div class="elevia-benefits">
+      <div class="benefit-wrapper">
+        {%- if section.settings.column_1_image == nil -%}
+          <img src="{{ 'perfection.svg' | asset_url }}" loading="lazy" alt="" class="benefit-icon">
+        {%- else -%}
+          <img src="{{ section.settings.column_1_image.src | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.column_1_image.alt | escape }}" class="benefit-icon">
+        {%- endif -%}
+        <div class="benefit-block">
+          <h2 class="all-caps text-align-center two-rows">{{ section.settings.column_1_headline }}</h2>
+          <div p-add-class="text-align-center">{{ section.settings.column_1_description | newline_to_br }}</div>
+        </div>
+      </div>
+      <div class="benefit-wrapper">
+        {%- if section.settings.column_2_image == nil -%}
+          <img src="{{ 'openness.svg' | asset_url }}" loading="lazy" alt="" class="benefit-icon">
+        {%- else -%}
+          <img src="{{ section.settings.column_2_image.src | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.column_2_image.alt | escape }}" class="benefit-icon">
+        {%- endif -%}
+        <div class="benefit-block">
+          <h2 class="all-caps text-align-center two-rows">{{ section.settings.column_2_headline }}</h2>
+          <div p-add-class="text-align-center">{{ section.settings.column_2_description | newline_to_br }}</div>
+        </div>
+      </div>
+      <div class="benefit-wrapper">
+        {%- if section.settings.column_3_image == nil -%}
+          <img src="{{ 'purity.svg' | asset_url }}" loading="lazy" alt="" class="benefit-icon">
+        {%- else -%}
+          <img src="{{ section.settings.column_3_image.src | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.column_3_image.alt | escape }}" class="benefit-icon">
+        {%- endif -%}
+        <div class="benefit-block">
+          <h2 class="all-caps text-align-center two-rows">{{ section.settings.column_3_headline }}</h2>
+          <div p-add-class="text-align-center">{{ section.settings.column_3_description | newline_to_br }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var currentSection = document.currentScript.closest('.shopify-section');
+  currentSection.setAttribute("class", "section-default");
+</script>
+
+{% schema %}
+{
+  "name": "Section - We belive",
+  "tag": "section",
+  "class": "section-default",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "headline",
+      "label": "Headline",
+      "default": "<p>What <u>we believe</u></p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_1_image",
+      "label": "Column 1 - Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_2_image",
+      "label": "Column 2 - Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "column_3_image",
+      "label": "Column 3 - Image"
+    },
+    {
+      "type": "text",
+      "id": "column_1_headline",
+      "label": "Column 1 - Headline",
+      "default": "Sample Text"
+    },
+    {
+      "type": "text",
+      "id": "column_2_headline",
+      "label": "Column 2 - Headline",
+      "default": "Sample Text"
+    },
+    {
+      "type": "text",
+      "id": "column_3_headline",
+      "label": "Column 3 - Headline",
+      "default": "Sample Text"
+    },
+    {
+      "type": "richtext",
+      "id": "column_1_description",
+      "label": "Column 1 - Description",
+      "default": "<p>We prioritize exceptional quality through attention to detail, advanced processes, and expert knowledge, ensuring we meet the highest standards and deliver on our promises.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "column_2_description",
+      "label": "Column 2 - Description",
+      "default": "<p>We maintain full transparency, acting with honesty and integrity. We prioritize open communication, listening to customer needs to foster trust in all our relationships.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "column_3_description",
+      "label": "Column 3 - Description",
+      "default": "<p>For us, cleanliness reflects the highest production quality. We minimize waste, monitor cleanliness at every stage, and ensure clear, straightforward communication.</p>"
+    }
+  ]
+}
+{% endschema %}

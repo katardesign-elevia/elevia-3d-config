@@ -1,0 +1,52 @@
+{% comment %}
+  Product Tabs - What's Inside Section
+  Displays three tabs with icons, headlines, and content
+
+  Parameters:
+  - product: product object (required)
+  - tab_1_icon: image
+  - tab_1_headline: string
+  - tab_1_content: string
+  - tab_2_icon: image
+  - tab_2_headline: string
+  - tab_2_content: string
+  - tab_3_icon: image
+  - tab_3_headline: string
+  - tab_3_content: string
+{% endcomment %}
+
+<div class="product-margin">
+  <div class="text-style-display text-align-center text-style-caps max-width-990 inside-heading">{{- product.metafields.custom.sekce_co_je_uvnitr_nadpis | metafield_tag -}}</div>
+</div>
+<div class="product-wrapper_whats-inside">
+  <div class="wrapper_whats-inside">
+    <div data-current="" data-easing="ease" data-duration-in="300" data-duration-out="100" class="tabs w-tabs">
+      {% render 'spline' %}
+      <div class="inside-bg-wrapper w-tab-menu">
+        <a data-w-tab="Tab 1" class="inside-icon-wrapper _1 w-inline-block w-tab-link w--current"><img src="{{ tab_1_icon | image_url: width: 100 }}" alt="" loading="lazy" class="inside-icon"></a>
+        <a data-w-tab="Tab 2" class="inside-icon-wrapper _2 w-inline-block w-tab-link"><img src="{{ tab_2_icon | image_url: width: 100 }}" alt="" loading="lazy" class="inside-icon"></a>
+        <a data-w-tab="Tab 3" class="inside-icon-wrapper _3 w-inline-block w-tab-link"><img src="{{ tab_3_icon | image_url: width: 100 }}" alt="" loading="lazy" class="inside-icon"></a>
+      </div>
+      <div class="tabs-content-3 w-tab-content">
+        <div data-w-tab="Tab 1" class="w-tab-pane">
+          <div class="tab-products">
+            <h4 class="all-caps">{{ tab_1_headline }}</h4>
+            <p>{{ tab_1_content }}</p>
+          </div>
+        </div>
+        <div data-w-tab="Tab 2" class="w-tab-pane">
+          <div class="tab-products">
+            <h4 class="all-caps">{{ tab_2_headline }}</h4>
+            <p>{{ tab_2_content }}</p>
+          </div>
+        </div>
+        <div data-w-tab="Tab 3" class="w-tab-pane">
+          <div class="tab-products">
+            <h4 class="all-caps">{{ tab_3_headline }}</h4>
+            <p>{{ tab_3_content }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

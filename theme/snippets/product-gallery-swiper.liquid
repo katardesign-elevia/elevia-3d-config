@@ -1,0 +1,26 @@
+{% comment %}
+  Product Gallery Swiper
+  Displays product images in a swiper carousel
+
+  Parameters:
+  - product: product object (required)
+{% endcomment %}
+
+<div>
+  <div data-w-id="f7bb7678-06d3-3d89-63f9-ee3d4168d6dd" class="prev-sec is-product"></div>
+  <div data-w-id="f7bb7678-06d3-3d89-63f9-ee3d4168d6de" class="next-sec is-product"></div>
+
+  <div class="swiper w-dyn-list">
+    <div role="list" class="swiper-wrapper w-dyn-items">
+      {%- for image in product.metafields.custom.galerie.value -%}
+        <div class="swiper-slide is-product w-dyn-item">
+          <img src="{{ image | image_url: width: 2500 }}"
+            alt="{{ image.alt | escape }}"
+            loading="lazy"
+            class="swiper-image"
+          >
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>

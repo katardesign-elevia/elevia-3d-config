@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Opacity Test - onBeforeRender</title>
+    <style>
+        body { margin: 0; background: #EC162A; font-family: sans-serif; }
+        canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; }
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #000;
+            color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            min-width: 250px;
+        }
+        input[type=range] { width: 100%; }
+        .value { text-align: center; font-size: 24px; margin: 10px 0; }
+        button { background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-top: 10px; width: 100%; }
+        button:hover { background: #c0392b; }
+    </style>
+    <script type="module" src="https://unpkg.com/@splinetool/runtime@1.9.96/build/runtime.js"></script>
+</head>
+<body>
+    <canvas id="canvas3d"></canvas>
+    
+    <div class="controls">
+        <h3>Opacity Test</h3>
+        <div>Red drop opacity:</div>
+        <input type="range" id="opacity-slider" min="0" max="100" value="100" step="1">
+        <div class="value"><span id="opacity-value">100</span>%</div>
+        <button onclick="testOpacity()">Apply Opacity</button>
+        <div id="status" style="margin-top: 10px; font-size: 12px; color: #888;"></div>
+    </div>
+
+    <script type="module">
+        import { Application } from 'https://unpkg.com/@splinetool/runtime@1.9.96/build/runtime.js';
+
+        const canvas = document.getElementById('canvas3d');
+        const app = new Application(canvas);
+        
+        let redDropObj = null;
+        let opacityTargets = new Map();
+        const __ELEVIA_CALLBACK_ATTACHED = '__eleviaCallbackAttached';
+
+        function attachOpacityCallbacks(node, targetAlpha) {
+            console.log('[ELEVIA] attachOpacityCallbacks called with:', node?.name, 'traverse exists:', typeof node?.traverse);
+            
+            if (!node) {
+                console.error('[ELEVIA] Node is null!');
+                return 0;
+            }
+            
+            if (!node.traverse) {
+                console.error('[ELEVIA] Node does not have traverse method! Type:', node.type, 'Constructor:', node.constructor.name);
+                return 0;
+            }
+            
+            const nodeName = node.name;
+            let callbackCount = 0;
+            
+            console.log('[ELEVIA] Starting traverse for:', nodeName, 'type:', node.type);
+            
+            node.traverse((child) => {
+                console.log('[ELEVIA] Checking child:', child.name, 'type:', child.type, 'hasMaterial:', !!child.material);
+                
+                // Skip if no material
+                if (!child.material) return;
+                if (child[__ELEVIA_CALLBACK_ATTACHED]) {
+                    console.log('[ELEVIA] Already attached to:', child.name);
+                    return;
+                }
+                child[__ELEVIA_CALLBACK_ATTACHED] = true;
+                callbackCount++;
+                
+                console.log('[ELEVIA] Attaching callback to:', child.name, 'material:', child.material.type);
+                
+                child.onBeforeRender = function(renderer, scene, camera, geometry, material) {
+                    const alpha = opacityTargets.get(nodeName);
+                    if (alpha === undefined) return;
+                    
+                    if (alpha <= 0.01) {
+                        child.visible = false;
+                        return;
+                    }
+                    child.visible = true;
+                    
+                    if (material) {
+                        material.transparent = true;
+                        material.opacity = alpha;
+                        material.depthWrite = (alpha >= 0.99);
+                        material.needsUpdate = true;
+                    }
+                    
+                    child.renderOrder = (alpha < 1.0) ? 999 : 0;
+                };
+            });
+            
+            console.log(`[ELEVIA] Attached ${callbackCount} onBeforeRender callbacks to:`, nodeName);
+            return callbackCount;
+        }
+
+        function forceOpacity(node, opacityVal) {
+            if (!node || !node.name) return;
+            const alpha = Math.max(0, Math.min(1, Number(opacityVal) || 0));
+            opacityTargets.set(node.name, alpha);
+            const count = attachOpacityCallbacks(node, alpha);
+            console.log(`[ELEVIA] Set opacity target:`, node.name, '=', alpha, `(${count} callbacks)`);
+            document.getElementById('status').textContent = `✓ Applied to ${count} meshes`;
+        }
+
+        // Load scene
+        app.load('https://prod.spline.design/n79PDwqHF9i3pYT0/scene.splinecode')
+            .then(() => {
+                console.log('[TEST] Scene loaded');
+                
+                // Find Red drop by traversing the Three.js scene
+                let found = null;
+                if (app._scene && app._scene.traverse) {
+                    app._scene.traverse((child) => {
+                        console.log('[TEST] Traversing:', child.name, 'type:', child.type);
+                        if (child.name === 'Red drop') {
+                            found = child;
+                        }
+                    });
+                }
+                
+                if (found) {
+                    redDropObj = found;
+                    console.log('[TEST] ✓ Found Three.js Red drop:', redDropObj, 'has traverse:', typeof redDropObj.traverse);
+                    document.getElementById('status').textContent = '✓ Red drop loaded (Three.js)';
+                    forceOpacity(redDropObj, 1.0);
+                } else {
+                    console.error('[TEST] Red drop not found in scene!');
+                    document.getElementById('status').textContent = '✗ Red drop not found';
+                }
+            })
+            .catch(err => {
+                console.error('[TEST] Failed to load scene:', err);
+                document.getElementById('status').textContent = '✗ Failed to load scene';
+            });
+
+        // Controls
+        const slider = document.getElementById('opacity-slider');
+        const valueDisplay = document.getElementById('opacity-value');
+        
+        slider.addEventListener('input', (e) => {
+            valueDisplay.textContent = e.target.value;
+        });
+
+        window.testOpacity = function() {
+            if (!redDropObj) {
+                alert('Red drop not loaded yet!');
+                return;
+            }
+            
+            const value = parseInt(slider.value);
+            const alpha = value / 100;
+            forceOpacity(redDropObj, alpha);
+            
+            console.log(`[TEST] Testing opacity: ${value}% (alpha: ${alpha})`);
+        };
+    </script>
+</body>
+</html>
+

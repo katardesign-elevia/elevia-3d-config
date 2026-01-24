@@ -1,0 +1,104 @@
+{% comment %}
+  =====================================================================================
+  KROK 1: DEFINUJTE MENU, KTERÉ OBSAHUJE VAŠE KOLEKCE PRO NAVIGACI
+  V administraci Shopify (Navigace -> Menus) vytvořte menu a vložte do něj
+  odkazy na kolekce, které chcete zobrazit jako taby. Zde doplňte jeho "handle".
+  =====================================================================================
+{% endcomment %}
+{% assign menu_handle = 'main-menu-with-collections' %}
+{% assign collections_menu = linklists[menu_handle] %}
+
+<div class="tabs-navigation-wrapper">
+
+  {% comment %}
+    =====================================================================================
+    KROK 2: VYTVOŘENÍ NAVIGAČNÍCH TABŮ
+    Tato část kódu prochází odkazy ve vašem menu a vytváří z nich klikací taby.
+    První tab bude automaticky aktivní.
+    =====================================================================================
+  {% endcomment %}
+  <div class="tabs-menu" role="tablist">
+    {% for link in collections_menu.links %}
+      <a
+        href="#{{ link.handle }}"
+        class="nav-text w-inline-block w-tab-link {% if forloop.first %}w--current{% endif %}"
+        role="tab"
+      >
+        <div>{{ link.title }}</div>
+      </a>
+    {% endfor %}
+  </div>
+
+  {% comment %}
+    =====================================================================================
+    KROK 3: VYTVOŘENÍ OBSAHU PRO JEDNOTLIVÉ TABY
+    Tato část prochází stejné menu, ale tentokrát vytváří panely s obsahem (produkty)
+    pro každý tab. Zobrazí se vždy jen obsah aktivního tabu.
+    =====================================================================================
+  {% endcomment %}
+  <div class="tabs-content">
+    {% for link in collections_menu.links %}
+      {% assign collection = link.object %}
+      <div
+        class="tab-pane w-tab-pane {% if forloop.first %}w--current{% endif %}"
+        role="tabpanel"
+      >
+        <div class="nav-products w-dyn-list">
+          <div role="list" class="nav-product-wrapper w-dyn-items">
+
+            {% comment %} Načtení produktů pro danou kolekci {% endcomment %}
+            {% for item in collection.products %}
+              <div role="listitem" class="collection-item w-dyn-item">
+                <div class="card-nav-wrapper">
+
+                  {% comment %} Odkaz na produkt, pokud není "Coming Soon" {% endcomment %}
+                  {% unless item.metafields.custom.coming_soon.value == true %}
+                    <a href="{{ item.url }}" class="link-product-card w-inline-block"></a>
+                  {% endunless %}
+
+                  {% comment %} Název se bere z Product -> Type {% endcomment %}
+                  <h4 class="card-nav-heading">{{ item.type | default: 'Medical line' }}</h4>
+
+                  {% comment %} Obrázek z metafieldu custom.shop_photo {% endcomment %}
+                  {%- if item.metafields.custom.shop_photo.value -%}
+                    <img
+                      loading="lazy"
+                      src="{{ item.metafields.custom.shop_photo.value | image_url: 'master' }}"
+                      alt="{{ item.metafields.custom.shop_photo.value.alt | escape }}"
+                      class="image-bg"
+                    >
+                  {%- endif -%}
+
+                  {% comment %} Zobrazení textu "Coming Soon" {% endcomment %}
+                  {% if item.metafields.custom.coming_soon.value == true %}
+                    <div class="coming-soon-badge">Coming soon</div>
+                  {% endif %}
+
+                  {% comment %} Ikona šipky (zobrazí se vždy, pokud není coming soon) {% endcomment %}
+                   {% unless item.metafields.custom.coming_soon.value == true %}
+                    <div class="icon-nav is-card w-embed">
+                      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654"
+                          stroke="currentColor"
+                          stroke-width="1.6"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        ></path>
+                      </svg>
+                    </div>
+                  {% endunless %}
+                </div>
+              </div>
+            {% else %}
+              <div class="w-dyn-empty">
+                <div>No items found in this collection.</div>
+              </div>
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

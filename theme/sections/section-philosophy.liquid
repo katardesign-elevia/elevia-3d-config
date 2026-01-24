@@ -1,0 +1,42 @@
+<div class="w-layout-blockcontainer container-small w-container">
+  <div class="flex-default">
+    <h2 class="heading-style-h1">{{ section.settings.headline | rich_text }}</h2>
+    <div class="about-content-block space-24">
+      <div p-add-class="body-xxlarge text-indent">{{ section.settings.subheadline | newline_to_br }}</div>
+      <div p-add-class="body-large">{{ section.settings.content | newline_to_br }}</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var currentSection = document.currentScript.closest('.shopify-section');
+  currentSection.setAttribute("class", "section-default");
+</script>
+
+{% schema %}
+{
+  "name": "Section - Philosophy",
+  "tag": "section",
+  "class": "section-default",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "headline",
+      "label": "Headline",
+      "default": "<p><u>Our</u> philosophy</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "<p>We understand that true well-being extends beyond physical health, encompassing emotional and mental equilibrium.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Through our expertise, deep understanding of nature, and commitment to excellence, we strive to create products that foster meaningful improvements in overall well-being. Our goal is to enable individuals to experience and embrace the beauty of a balanced life.</p>"
+    }
+  ]
+}
+{% endschema %}

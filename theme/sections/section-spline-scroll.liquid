@@ -1,0 +1,182 @@
+<div class="section-spline-scroll-wrapper" style="{% if section.settings.position_mode == 'sticky' %}height: {{ section.settings.section_height }}vh;{% endif %}">
+  <section class="section-spline-scroll" 
+           data-spline-start="{{ section.settings.scroll_start }}" 
+           data-spline-end="{{ section.settings.scroll_end }}"
+           data-position-mode="{{ section.settings.position_mode }}"
+           style="{% if section.settings.position_mode == 'sticky' %}height: 100%; position: relative;{% endif %}">
+    
+    <div class="spline-sticky-container" style="{% if section.settings.position_mode == 'fixed' %}position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: {{ section.settings.z_index }}; pointer-events: none;{% else %}position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden;{% endif %}">
+      <div class="spline-wrapper spline-wrapper-custom">
+          {% if section.settings.spline_url != blank %}
+            <div class="spline-container" data-spline-url="{{ section.settings.spline_url }}">
+                <canvas></canvas>
+            </div>
+          {% else %}
+            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #eee;">
+              <p>Please add a Spline URL in section settings</p>
+            </div>
+          {% endif %}
+      </div>
+    </div>
+    
+    <script type="application/json" data-spline-config>
+      [
+        {% for block in section.blocks %}
+          {
+            "target_object": "{{ block.settings.target_object }}",
+            "property": "{{ block.settings.property }}",
+            "val_start": {{ block.settings.val_start | default: 0 }},
+            "val_end": {{ block.settings.val_end | default: 0 }},
+            "scroll_start": {{ block.settings.scroll_start | default: 0 }},
+            "scroll_end": {{ block.settings.scroll_end | default: 100 }}
+          }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    </script>
+
+  </section>
+</div>
+
+<style>
+.spline-wrapper-custom {
+    width: 100%;
+    height: 100%;
+}
+.spline-wrapper-custom .spline-container {
+    width: 100%;
+    height: 100%;
+}
+</style>
+
+{% render 'spline' %}
+
+{% schema %}
+{
+  "name": "Spline Scroll Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "spline_url",
+      "label": "Spline Scene URL",
+      "default": "https://prod.spline.design/YOUR_SCENE/scene.splinecode"
+    },
+    {
+      "type": "select",
+      "id": "position_mode",
+      "label": "Position Mode",
+      "options": [
+        {
+          "value": "sticky",
+          "label": "Sticky (Section Scroll)"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed Background (Global Scroll)"
+        }
+      ],
+      "default": "sticky"
+    },
+    {
+      "type": "range",
+      "id": "z_index",
+      "min": -10,
+      "max": 90,
+      "step": 1,
+      "label": "Z-Index (Fixed Mode)",
+      "default": -1
+    },
+    {
+      "type": "number",
+      "id": "scroll_start",
+      "label": "Scroll Start Value (Spline Variable - Sticky Mode)",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "scroll_end",
+      "label": "Scroll End Value (Spline Variable - Sticky Mode)",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "min": 100,
+      "max": 1000,
+      "step": 50,
+      "unit": "vh",
+      "label": "Section Height (Sticky Mode)",
+      "default": 300
+    }
+  ],
+  "blocks": [
+    {
+      "type": "animation",
+      "name": "Animation",
+      "settings": [
+        {
+          "type": "text",
+          "id": "target_object",
+          "label": "Target Object Name (Spline)",
+          "info": "Exact name of the object in Spline scene"
+        },
+        {
+          "type": "select",
+          "id": "property",
+          "label": "Property to Animate",
+          "options": [
+            { "value": "position.x", "label": "Position X" },
+            { "value": "position.y", "label": "Position Y" },
+            { "value": "position.z", "label": "Position Z" },
+            { "value": "rotation.x", "label": "Rotation X" },
+            { "value": "rotation.y", "label": "Rotation Y" },
+            { "value": "rotation.z", "label": "Rotation Z" },
+            { "value": "scale.x", "label": "Scale X" },
+            { "value": "scale.y", "label": "Scale Y" },
+            { "value": "scale.z", "label": "Scale Z" }
+          ],
+          "default": "position.y"
+        },
+        {
+          "type": "number",
+          "id": "val_start",
+          "label": "Start Value",
+          "default": 0
+        },
+        {
+          "type": "number",
+          "id": "val_end",
+          "label": "End Value",
+          "default": 100
+        },
+        {
+          "type": "range",
+          "id": "scroll_start",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "Start Trigger (Scroll %)",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "scroll_end",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%",
+          "label": "End Trigger (Scroll %)",
+          "default": 100
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spline Scroll Section",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}
+

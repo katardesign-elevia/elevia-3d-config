@@ -1,0 +1,646 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "favicon": "shopify://shop_images/favicon.png",
+    "apple_touch_icon": "shopify://shop_images/favicon.png",
+    "collection_home": "medical",
+    "sections": {
+      "section-drop-lines": {
+        "type": "section-drop-lines",
+        "blocks": {
+          "slide_RfrHHC": {
+            "type": "slide",
+            "settings": {
+              "image": "shopify://shop_images/Medical_rada_small_banner_HP_Drops.jpg",
+              "headline": "CBD EXTRACT KAPKY",
+              "description": "<p>Denní podpora při stresu, úzkosti či bolestech – kapky s jednoduchým dávkováním a spolehlivým efektem.</p>",
+              "link": "https://elevia.cz/products/cbd-buds-flavour-medical?variant=54048722714969"
+            }
+          },
+          "slide_6tVJmR": {
+            "type": "slide",
+            "settings": {
+              "image": "shopify://shop_images/Medical_rada_small_banner_HP_Sprey.jpg",
+              "headline": "CBD EXTRACT  SPREJ",
+              "description": "<p>Snadné a přesné dávkování v kapesním balení – sprej, který je vždy po ruce a připraven pomoci.</p>",
+              "link": "https://elevia.cz/products/cbd-sprey-flavour-medical?variant=54048718356825"
+            }
+          },
+          "slide_dV6kxm": {
+            "type": "slide",
+            "settings": {
+              "image": "shopify://shop_images/Medical_rada_small_banner_HP_Pre-roll.jpg",
+              "headline": "CBD PRE-ROLL",
+              "description": "<p>Spojení tradičního rituálu s moderní kvalitou – pre-rolly s terapeutickým účinkem a certifikovanou čistotou.</p>",
+              "link": "https://elevia.cz/products/cbd-pre-roll-flavour-medical?variant=54048715047257"
+            }
+          },
+          "slide_fWXgTw": {
+            "type": "slide",
+            "settings": {
+              "image": "shopify://shop_images/Medical_rada_small_banner_HP_Cartridge.jpg",
+              "headline": "CBD EXTRACT CARTRIDGE",
+              "description": "<p>Cartridge nabízí rychlou, účinnou a pohodlnou formu užívání s garantovaným terapeutickým efektem.</p>",
+              "link": "https://elevia.cz/products/cbd-cartridge-flavour-1?variant=54044459303257"
+            }
+          }
+        },
+        "block_order": [
+          "slide_RfrHHC",
+          "slide_6tVJmR",
+          "slide_dV6kxm",
+          "slide_fWXgTw"
+        ],
+        "settings": {
+          "headline": "<p>Objevte ELEVIA<br/><span style=\"text-decoration:underline\">MEDICAL</span> ŘADU</p>"
+        }
+      },
+      "section-flavours": {
+        "type": "section-flavours",
+        "blocks": {
+          "slide_gb8Cq7": {
+            "type": "slide",
+            "name": "Slide 1",
+            "settings": {
+              "slide_size": "is-large",
+              "image": "shopify://shop_images/Drops_Medical_Flavour_01.jpg",
+              "headline": "Úleva s chutí pomeranče.",
+              "description": "<p>CBD Kapky z řady Medical spojují terapeutický účinek s jemnou chutí pomeranče.</p>",
+              "link": "https://elevia.cz/products/cbd-buds-flavour-medical?variant=54048722714969"
+            }
+          },
+          "slide_6iedmf": {
+            "type": "slide",
+            "name": "Slide 2",
+            "settings": {
+              "slide_size": "is-medium",
+              "image": "shopify://shop_images/Vibe_CBD_drops.jpg",
+              "headline": "Svěží limetka, čistá energie.",
+              "description": "<p>CBD Kapky z řady Wellness s příchutí máty přinášejí klid, energii a vnitřní harmonii.</p>",
+              "link": ""
+            }
+          }
+        },
+        "block_order": [
+          "slide_gb8Cq7",
+          "slide_6iedmf"
+        ],
+        "settings": {
+          "headline": "<p>Vybrané příchutě.<br/><span style=\"text-decoration:underline\">Dokonalý účinek.</span></p>"
+        }
+      },
+      "section-products": {
+        "type": "section-products",
+        "settings": {
+          "headline": "Elevia produkty",
+          "row_1_visibility": true,
+          "row_1_image": "shopify://shop_images/Elevia_overview_Medical_Drops_HP_Desktop.jpg",
+          "row_1_headline": "KAPKY",
+          "row_1_button_1": "medical",
+          "row_1_link_1": "https://elevia.cz/products/cbd-buds-flavour-medical?variant=54048722714969",
+          "row_1_button_2": "vibe",
+          "row_1_link_2": "",
+          "row_1_button_3": "wellness",
+          "row_1_link_3": "",
+          "row_2_visibility": true,
+          "row_2_image": "shopify://shop_images/Elevia_overview_Medical_Sprey_HP_Desktop.jpg",
+          "row_2_headline": "spreJ",
+          "row_2_button_1": "<p>medical</p>",
+          "row_2_link_1": "https://elevia.cz/products/cbd-sprey-flavour-medical?variant=54048718356825",
+          "row_2_button_2": "vibe",
+          "row_2_link_2": "",
+          "row_2_button_3": "wellness",
+          "row_2_link_3": "",
+          "row_3_visibility": true,
+          "row_3_image": "shopify://shop_images/Elevia_overview_Medical_Catridge_HP_Desktop.jpg",
+          "row_3_headline": "cartridge",
+          "row_3_button_1": "medical",
+          "row_3_link_1": "https://elevia.cz/products/cbd-cartridge-flavour-1?variant=54044459303257",
+          "row_3_button_2": "vibe",
+          "row_3_link_2": "",
+          "row_3_button_3": "wellness",
+          "row_3_link_3": "",
+          "row_4_visibility": true,
+          "row_4_image": "shopify://shop_images/Elevia_overview_Medical_Pre-roll_HP_Desktop.jpg",
+          "row_4_headline": "pre-roll",
+          "row_4_button_1": "medical",
+          "row_4_link_1": "https://elevia.cz/products/cbd-pre-roll-flavour-medical?variant=54048715047257",
+          "row_4_button_2": "vibe",
+          "row_4_link_2": "",
+          "row_4_button_3": "wellness",
+          "row_4_link_3": "",
+          "row_5_visibility": false,
+          "row_5_headline": "buds",
+          "row_5_button_1": "medical",
+          "row_5_link_1": "",
+          "row_5_button_2": "vibe",
+          "row_5_link_2": "",
+          "row_5_button_3": "wellness",
+          "row_5_link_3": "",
+          "row_6_visibility": false,
+          "row_6_headline": "buds",
+          "row_6_button_1": "medical",
+          "row_6_link_1": "",
+          "row_6_button_2": "vibe",
+          "row_6_link_2": "",
+          "row_6_button_3": "wellness",
+          "row_6_link_3": ""
+        }
+      },
+      "section-usp": {
+        "type": "section-usp",
+        "settings": {
+          "column_1_description": "<p>Objednávky odesíláme do 24 hodin, aby se k vám produkty dostaly co nejrychleji.</p>",
+          "column_2_description": "<p>Ke každé objednávce přidáváme vzorek zdarma, abyste mohli objevovat nové příchutě.</p>",
+          "column_3_description": "<p>Každá šarže je laboratorně ověřená pro maximální čistotu, bezpečnost a účinek.</p>",
+          "column_3_headline": "Testované produkty",
+          "column_2_headline": "Vzorky zdarma",
+          "column_1_headline": "EXPRESNÍ DORUČENÍ",
+          "column_3_image": "shopify://shop_images/design_for_purity.svg"
+        }
+      },
+      "section-behind-elevia-labs": {
+        "type": "section-behind-elevia-labs",
+        "settings": {
+          "image_2": "shopify://shop_images/IMG_2784.jpg",
+          "image_1": "shopify://shop_images/O_nas_profile_picture.jpg",
+          "button_text": "<p>Více o Labu</p>",
+          "button_link": "https://elevia.cz/pages/elevia-lab",
+          "description": "<p>Elevia Lab představuje spojení vědy, technologie a čistoty. Od vlastní genetiky po nanoformulaci řídíme každý detail výroby, abychom zajistili špičkovou kvalitu, konzistenci a sledovatelnost. Certifikace GMP a GACP a naše technologické zázemí posouvají standardy konopného výzkumu i produkce na novou úroveň.</p>",
+          "headline": "ELEVIA LAB"
+        }
+      },
+      "section-subscription": {
+        "type": "section-subscription",
+        "settings": {
+          "description": "<p>Přihlaste se k odběru a získejte exkluzivní informace o našich nejmodernějších metodách pěstování a prvotřídní genetice.</p>",
+          "subheadline": "<p>Buďte mezi prvními, kdo se dozví<br/>o exkluzivních nabídkách.</p>",
+          "placeholder": "Váš e-mail",
+          "headline": "Buďte stále v obraze"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "socials_2_item": "Instagram",
+          "socials_2_link": "https://www.instagram.com/elevialab/",
+          "socials_1_item": "Instagram",
+          "socials_1_link": "https://www.instagram.com/elevialab/",
+          "column_3_item_3": "Kontakt",
+          "column_3_link_3": "",
+          "column_3_item_2": "O nás",
+          "column_3_link_2": "",
+          "column_3_item_1": "Shop",
+          "column_3_link_1": "",
+          "column_2_item_2": "vibe produkty",
+          "column_2_link_2": "",
+          "column_2_item_3": "medical produkty",
+          "column_2_link_3": "",
+          "column_2_item_4": "všechny produkty elevia",
+          "column_2_link_4": "",
+          "column_1_item_4": "faq",
+          "column_1_link_4": "",
+          "column_2_item_1": "wellness produkty",
+          "column_2_link_1": "",
+          "logo": "shopify://shop_images/Logo_elevia_footer.png",
+          "copyright": "Copyright 2024 elevia. Všechna práva vyhrazena.",
+          "column_1_link_3": "",
+          "column_1_item_3": "doprava",
+          "column_1_item_2": "ochrana osobnich údajů",
+          "column_1_link_2": "",
+          "column_1_item_1": "obchodní podmínky",
+          "column_1_link_1": "",
+          "phone": "",
+          "phone_link": "",
+          "email_link": "",
+          "email": "petr.moravec@elevia.cz"
+        }
+      },
+      "content-page": {
+        "type": "content-page",
+        "settings": {
+          "rich_text": "<p>‍</p><p>‍</p><p>Společnost Advanced Networks s.r.o., se sídlem Kolma 611, Statenice, 252 62, IČ 08244693</p><p>pro prodej zboží prostřednictvím on-line obchodu umístěného na internetové adrese <a href=\"http://www.elevia.cz/\" target=\"_blank\">www.elevia.cz</a>  </p><p>‍</p><h3>01 Úvodní ustanovení</h3><ol start=\"\" role=\"list\">\n<li>Tyto obchodní podmínky (dále jen „obchodní podmínky“) společnosti GAdvanced Networks s.r.o., se sídlem Kolma 611, Statenice, 252 62, IČ 08244693 (dále jen „prodávající“) upravují v souladu s ustanovením § 1751 odst. 1 zákona č. 89/2012 Sb., občanský zákoník, ve znění pozdějších předpisů (dále jen „občanský zákoník“) vzájemná práva a povinnosti smluvních stran vzniklé v souvislosti nebo na základě kupní smlouvy (dále jen „kupní smlouva“) uzavírané mezi prodávajícím a jinou fyzickou osobou (dále jen „kupující“) prostřednictvím internetového obchodu prodávajícího. Internetový obchod je prodávajícím provozován na webové stránce umístěné na internetové adrese <a href=\"http://www.elevia.cz/\" target=\"_blank\">www.elevia.cz</a>(dále jen „webová stránka“), a to prostřednictvím rozhraní webové stránky (dále jen „webové rozhraní obchodu“).</li>\n<li>Obchodní podmínky se nevztahují na případy, kdy osoba, která má v úmyslu nakoupit zboží od prodávajícího, je právnickou osobou či osobou, jež jedná při objednávání zboží v rámci své podnikatelské činnosti nebo v rámci svého samostatného výkonu povolání.</li>\n<li>Ustanovení odchylná od obchodních podmínek je možné sjednat v kupní smlouvě. Odchylná ujednání v kupní smlouvě mají přednost před ustanoveními obchodních podmínek.</li>\n<li>Ustanovení obchodních podmínek jsou nedílnou součástí kupní smlouvy. Kupní smlouva a obchodní podmínky jsou vyhotoveny v českém jazyce. Kupní smlouvu lze uzavřít v českém jazyce.</li>\n<li>Znění obchodních podmínek může prodávající měnit či doplňovat. Tímto ustanovením nejsou dotčena práva a povinnosti vzniklá po dobu účinnosti předchozího znění obchodních podmínek</li>\n</ol><h3>02 UŽIVATELSKÝ ÚČET</h3><ol role=\"list\">\n<li>Na základě registrace kupujícího provedené na webové stránce může kupující přistupovat do svého uživatelského rozhraní. Ze svého uživatelského rozhraní může kupující provádět objednávání zboží (dále jen „uživatelský účet“). V případě, že to webové rozhraní obchodu umožňuje, může kupující provádět objednávání zboží též bez registrace přímo z webového rozhraní obchodu.</li>\n<li>Při registraci na webové stránce a při objednávání zboží je kupující povinen uvádět správně a pravdivě všechny údaje. Údaje uvedené v uživatelském účtu je kupující při jakékoliv jejich změně povinen aktualizovat. Údaje uvedené kupujícím v uživatelském účtu a při objednávání zboží jsou prodávajícím považovány za správné.</li>\n<li>Přístup k uživatelskému účtu je zabezpečen uživatelským jménem a heslem. Kupující je povinen zachovávat mlčenlivost ohledně informací nezbytných k přístupu do jeho uživatelského účtu.</li>\n<li>Kupující není oprávněn umožnit využívání uživatelského účtu třetím osobám.</li>\n<li>Prodávající může zrušit uživatelský účet, a to zejména v případě, kdy kupující svůj uživatelský účet déle než 6 měsíců nevyužívá, či v případě, kdy kupující poruší své povinnosti z kupní smlouvy (včetně obchodních podmínek).</li>\n<li>Kupující bere na vědomí, že uživatelský účet nemusí být dostupný nepřetržitě, a to zejména s ohledem na nutnou údržbu hardwarového a softwarového vybavení prodávajícího, popř. nutnou údržbu hardwarového a softwarového vybavení třetích osob.</li>\n</ol><h3>03 UZAVŘENÍ KUPNÍ SMLOUVY</h3><ol role=\"list\">\n<li>Veškerá prezentace zboží umístěná ve webovém rozhraní obchodu je informativního charakteru a prodávající není povinen uzavřít kupní smlouvu ohledně tohoto zboží. Ustanovení § 1732 odst. 2 občanského zákoníku se nepoužije.</li>\n<li>Webové rozhraní obchodu obsahuje informace o zboží, a to včetně uvedení cen jednotlivého zboží a nákladů za navrácení zboží, jestliže toto zboží ze své podstaty nemůže být navráceno obvyklou poštovní cestou. Ceny zboží jsou uvedeny včetně daně z přidané hodnoty a všech souvisejících poplatků. Ceny zboží zůstávají v platnosti po dobu, kdy jsou zobrazovány ve webovém rozhraní obchodu. Ceny zboží nejsou přizpůsobovány osobě kupujícího na základě automatizovaného rozhodování. Tímto ustanovením není omezena možnost prodávajícího uzavřít kupní smlouvu za individuálně sjednaných podmínek.</li>\n<li>Webové rozhraní obchodu obsahuje také informace o nákladech spojených s balením a dodáním zboží, a o způsobu a času dodání zboží. Informace o nákladech spojených s balením a dodáním zboží uvedené ve webovém rozhraní obchodu platí pouze v případech, kdy je zboží doručováno v rámci území České republiky. V případě, kdy prodávající nabízí dopravu zboží zdarma, je předpokladem vzniku práva na bezplatnou dopravu zboží na straně kupujícího zaplacení minimální celkové kupní ceny dopravovaného zboží ve výši stanovené ve webovém rozhraní obchodu. V případě, kdy dojde k částečnému odstoupení od kupní smlouvy kupujícím a celková kupní cena zboží, u kterého nedošlo k odstoupení od smlouvy kupujícím, nedosahuje minimální výše, jež je potřebná pro vznik práva na dopravu zboží zdarma podle předchozí věty, právo kupujícího na dopravu zboží zdarma zaniká a kupující je povinen dopravu zboží prodávajícímu uhradit.</li>\n<li>Pro objednání zboží vyplní kupující objednávkový formulář ve webovém rozhraní obchodu. Objednávkový formulář obsahuje zejména informace o:<ol role=\"list\">\n<li>objednávaném zboží (objednávané zboží „vloží“ kupující do elektronického nákupního košíku webového rozhraní obchodu),</li>\n<li>způsobu úhrady kupní ceny zboží, údaje o požadovaném způsobu doručení objednávaného zboží a</li>\n<li>informace o nákladech spojených s dodáním zboží (dále společně jen jako „objednávka“).</li>\n</ol>\n</li>\n<li>Před zasláním objednávky prodávajícímu je kupujícímu umožněno zkontrolovat a měnit vstupní údaje, které do objednávky kupující vložil, a to i s ohledem na možnost kupujícího zjišťovat a opravovat chyby vzniklé při zadávání dat do objednávky. Objednávku odešle kupující prodávajícímu kliknutím na tlačítko „DOKONČIT OBJEDNÁVKU\". Údaje uvedené v objednávce jsou prodávajícím považovány za správné. Prodávající neprodleně po obdržení objednávky toto obdržení kupujícímu potvrdí elektronickou poštou, a to na adresu elektronické pošty kupujícího uvedenou v uživatelském účtu či v objednávce (dále jen „elektronická adresa kupujícího“).</li>\n<li>Prodávající je vždy oprávněn v závislosti na charakteru objednávky (množství zboží, výše kupní ceny, předpokládané náklady na dopravu) požádat kupujícího o dodatečné potvrzení objednávky (například písemně či telefonicky).</li>\n<li>Smluvní vztah mezi prodávajícím a kupujícím vzniká doručením přijetí objednávky (akceptací), jež je prodávajícím zasláno kupujícímu elektronickou poštou, a to na adresu elektronické pošty kupujícího. </li>\n<li>Kupující souhlasí s použitím komunikačních prostředků na dálku při uzavírání kupní smlouvy. Náklady vzniklé kupujícímu při použití komunikačních prostředků na dálku v souvislosti s uzavřením kupní smlouvy (náklady na internetové připojení, náklady na telefonní hovory) si hradí kupující sám, přičemž tyto náklady se neliší od základní sazby.</li>\n</ol><h3>04 CENA ZBOŽÍ A PLATEBNÍ PODMÍNKY</h3><ol role=\"list\">\n<li>Cenu zboží a případné náklady spojené s dodáním zboží dle kupní smlouvy může kupující uhradit prodávajícímu následujícími způsoby:<ul role=\"list\">\n<li>v hotovosti v provozovně prodávajícího na adrese Kolma 611, Statenice, 252 62;</li>\n<li>v hotovosti na dobírku v místě určeném kupujícím v objednávce;</li>\n<li>bezhotovostně platební kartou;</li>\n<li>v hotovosti při osobním odběru ve výdejně zásilek;</li>\n</ul>\n</li>\n<li>Společně s kupní cenou je kupující povinen zaplatit prodávajícímu také náklady spojené s balením a dodáním zboží ve smluvené výši. Není-li uvedeno výslovně jinak, rozumí se dále kupní cenou i náklady spojené s dodáním zboží.</li>\n<li>Prodávající nepožaduje od kupujícího zálohu či jinou obdobnou platbu. Tímto není dotčeno ustanovení čl. 4.6 obchodních podmínek ohledně povinnosti uhradit kupní cenu zboží předem.</li>\n<li>V případě platby v hotovosti, na dobírku či ve výdejně zásilek je kupní cena splatná při převzetí zboží. V případě bezhotovostní platby je kupní cena splatná do 7 dnů od uzavření kupní smlouvy.</li>\n<li>V případě bezhotovostní platby je kupující povinen uhrazovat kupní cenu zboží společně s uvedením variabilního symbolu platby. V případě bezhotovostní platby je závazek kupujícího uhradit kupní cenu splněn okamžikem připsání příslušné částky na účet prodávajícího.</li>\n<li>Prodávající je oprávněn, zejména v případě, že ze strany kupujícího nedojde k dodatečnému potvrzení objednávky (čl. 3.6), požadovat uhrazení celé kupní ceny ještě před odesláním zboží kupujícímu. Ustanovení § 2119 odst. 1 občanského zákoníku se nepoužije.</li>\n<li>Případné slevy z ceny zboží poskytnuté prodávajícím kupujícímu nelze vzájemně kombinovat.</li>\n<li>Je-li to v obchodním styku obvyklé nebo je-li tak stanoveno obecně závaznými právními předpisy, vystaví prodávající ohledně plateb prováděných na základě kupní smlouvy kupujícímu daňový doklad – fakturu. Prodávající je plátcem daně z přidané hodnoty. Daňový doklad – fakturu vystaví prodávající kupujícímu po uhrazení ceny zboží a zašle jej v elektronické podobě na elektronickou adresu kupujícího.</li>\n</ol><h3>05 ODSTOUPENÍ OD KUPNÍ SMLOUVY</h3><ol role=\"list\">\n<li>Kupující bere na vědomí, že dle ustanovení § 1837 občanského zákoníku nelze mimo jiné odstoupit od kupní smlouvy o dodávce:<ol role=\"list\">\n<li>zboží vyrobeného podle požadavků kupujícího nebo přizpůsobeného jeho osobním potřebám,</li>\n<li>zboží, které podléhá rychlé zkáze, nebo zboží s krátkou dobou spotřeby, jakož i zboží, které bylo po dodání vzhledem ke své povaze nenávratně smíseno s jiným zbožím,</li>\n<li>zboží v zapečetěném obalu, které z důvodu ochrany zdraví nebo z hygienických důvodů není vhodné vrátit poté, co jej kupující porušil, a </li>\n<li>zvukové nebo obrazové nahrávky nebo počítačového programu v zapečetěném obalu, pokud jej kupující porušil.</li>\n</ol>\n</li>\n<li>Nejedná-li se o případ uvedený v čl. 5.1 obchodních podmínek či o jiný případ, kdy nelze od kupní smlouvy odstoupit, má kupující v souladu s ustanovením § 1829 odst. 1 a odst. 2 občanského zákoníku právo od kupní smlouvy odstoupit, a to do čtrnácti (14) dnů ode dne, kdy kupující nebo jím určená třetí osoba odlišná od dopravce převezme zboží, nebo:<ol role=\"list\">\n<li>poslední kus zboží, objedná-li kupující v rámci jedné objednávky více kusů zboží, které jsou dodávány samostatně,</li>\n<li>poslední položku nebo část dodávky zboží sestávajícího z několika položek nebo částí, nebo</li>\n<li>první dodávku zboží, je-li ve smlouvě ujednána pravidelná dodávka zboží po ujednanou dobu.</li>\n</ol>\n</li>\n<li>Odstoupení od kupní smlouvy musí být prodávajícímu odesláno ve lhůtě uvedené v čl. 5.2 obchodních podmínek Pro odstoupení od kupní smlouvy může kupující využit vzorový formulář poskytovaný prodávajícím, jenž tvoří přílohu obchodních podmínek. Odstoupení od kupní smlouvy může kupující zasílat mimo jiné na adresu provozovny prodávajícího či na adresu elektronické pošty prodávajícího <a href=\"mailto:info@elevia.cz\" target=\"_blank\">info@elevia.cz</a>.</li>\n<li>V případě odstoupení od kupní smlouvy se kupní smlouva od počátku ruší. Zboží kupující zašle nebo předá prodávajícímu zpět bez zbytečného odkladu, nejpozději do čtrnácti (14) dnů od odstoupení od smlouvy, ledaže mu prodávající nabídl, že si zboží sám vyzvedne. Lhůta podle předchozí věty je zachována, pokud kupující odešle zboží před jejím uplynutím. Odstoupí-li kupující od kupní smlouvy, nese kupující náklady spojené s navrácením zboží prodávajícímu, a to i v tom případě, kdy zboží nemůže být vráceno pro svou povahu obvyklou poštovní cestou.</li>\n<li>V případě odstoupení od kupní smlouvy dle čl. 5.2 obchodních podmínek vrátí prodávající peněžní prostředky přijaté od kupujícího do čtrnácti (14) dnů od odstoupení od kupní smlouvy kupujícím, a to stejným způsobem, jakým je prodávající od kupujícího přijal. Prodávající je taktéž oprávněn vrátit plnění poskytnuté kupujícím již při vrácení zboží kupujícím či jiným způsobem, pokud s tím kupující bude souhlasit a nevzniknou tím kupujícímu další náklady. Odstoupí-li kupující od kupní smlouvy, prodávající není povinen vrátit přijaté peněžní prostředky kupujícímu dříve, než prodávající obdrží zboží, nebo než mu kupující prokáže, že zboží odeslal zpět, podle toho, co nastane dříve.</li>\n<li>Nárok na úhradu škody vzniklé na zboží je prodávající oprávněn jednostranně započíst proti nároku kupujícího na vrácení kupní ceny.</li>\n<li>V případech, kdy má kupující v souladu s ustanovením § 1829 odst. 1 občanského zákoníku právo od kupní smlouvy odstoupit, je prodávající také oprávněn kdykoliv od kupní smlouvy odstoupit, a to až do doby převzetí zboží kupujícím. V takovém případě vrátí prodávající kupujícímu kupní cenu bez zbytečného odkladu, a to bezhotovostně na účet určený kupujícím.</li>\n<li>Je-li společně se zbožím poskytnut kupujícímu dárek, je darovací smlouva mezi prodávajícím a kupujícím uzavřena s rozvazovací podmínkou, že dojde-li k odstoupení od kupní smlouvy kupujícím, pozbývá darovací smlouva ohledně takového dárku účinnosti a kupující je povinen spolu se zbožím prodávajícímu vrátit i poskytnutý dárek.</li>\n</ol><h3>06 PŘEPRAVA A DODÁNÍ ZBOŽÍ</h3><ol role=\"list\">\n<li>V případě, že je způsob dopravy smluven na základě zvláštního požadavku kupujícího, nese kupující riziko a případné dodatečné náklady spojené s tímto způsobem dopravy.</li>\n<li>Je-li prodávající podle kupní smlouvy povinen dodat zboží na místo určené kupujícím v objednávce, je kupující povinen převzít zboží při dodání. </li>\n<li>V případě, že je z důvodů na straně kupujícího nutno zboží doručovat opakovaně nebo jiným způsobem, než bylo uvedeno v objednávce, je kupující povinen uhradit náklady spojené s opakovaným doručováním zboží, resp. náklady spojené s jiným způsobem doručení.</li>\n<li>Při převzetí zboží od přepravce je kupující povinen zkontrolovat neporušenost obalů zboží a v případě jakýchkoliv závad toto neprodleně oznámit přepravci. V případě shledání porušení obalu svědčícího o neoprávněném vniknutí do zásilky nemusí kupující zásilku od přepravce převzít. Tímto nejsou dotčena práva kupujícího z odpovědnosti za vady zboží a další práva kupujícího vyplývající z obecně závazných právních předpisů.</li>\n<li>Další práva a povinnosti stran při přepravě zboží mohou upravit zvláštní dodací podmínky prodávajícího, jsou-li prodávajícím vydány.</li>\n</ol><p>‍</p><ol start=\"\" role=\"list\">\n<li>Cenu zboží a případné náklady spojené s dodáním zboží dle kupní smlouvy může kupující uhradit prodávajícímu následujícími způsoby:<ul role=\"list\" class=\"list\">\n<li>v hotovosti při převzetí;</li>\n<li>prostřednictvím platební brány za použití platební karty kupujícího</li>\n<li>dobírkou při převzetí zboží od dopravce</li>\n<li>bezhotovostně převodem na účet příslušného prodávajícího uvedený v potvrzení objednávky.</li>\n</ul>\n</li>\n<li>Společně s kupní cenou je kupující povinen zaplatit prodávajícímu také náklady spojené s balením a dodáním zboží, případně platbou na dobírku. Způsob doručení a úhrady zboží a s ním spojené poplatky jsou definovány v sekci informace o dopravě. Není-li uvedeno výslovně jinak, rozumí se dále kupní cenou i náklady spojené s dodáním a úhradou zboží.</li>\n<li>V případě platby v hotovosti je kupní cena splatná při převzetí zboží. V případě bezhotovostní platby je kupní cena splatná do 14 dnů od uzavření kupní smlouvy.</li>\n<li>V případě bezhotovostní platby je kupující povinen uhrazovat kupní cenu zboží společně s uvedením variabilního symbolu platby. V případě bezhotovostní platby je závazek kupujícího uhradit kupní cenu splněn okamžikem připsání příslušné částky na účet prodávajícího.</li>\n<li>Případné slevy z ceny zboží poskytnuté prodávajícím kupujícímu nelze vzájemně kombinovat.</li>\n<li>Prodávající vystaví ohledně plateb prováděných na základě kupní smlouvy kupujícímu daňový doklad – fakturu.</li>\n<li>Spotřebitelské recenze zboží zveřejněné před účinností těchto obchodních podmínek (tj. před datem 14.02.2023) nebyly ze strany společnosti ZZ ani prodávajících nijak ověřovány co do pravosti či původu. Spotřebitelské recenze zboží zveřejněné po účinností těchto obchodních podmínek (od 14.02.2023) pochází od zákazníků, u nichž bylo před zveřejněním ověřeno, že zboží skutečně zakoupili. ZZ způsobem dle předchozí věty ověřuje od účinnosti těchto obchodních podmínek pravost těchto recenzí před tím, než je zveřejní.</li>\n</ol><p>‍</p><h3>07 PRÁVA Z VADNÉHO PLNĚNÍ</h3><ol role=\"list\">\n<li>Práva a povinnosti smluvních stran ohledně práv z vadného plnění se řídí příslušnými obecně závaznými právními předpisy (zejména ustanoveními § 1914 až 1925, § 2099 až 2117 a § 2161 až 2174b občanského zákoníku a zákonem č. 634/1992 Sb., o ochraně spotřebitele, ve znění pozdějších předpisů).</li>\n<li>Je-li předmětem koupě hmotná movitá věc, která je propojena s digitálním obsahem nebo službou digitálního obsahu takovým způsobem, že by bez nich nemohla plnit své funkce (dále jen „věc s digitálními vlastnostmi“), použijí se ustanovení ohledně odpovědnosti za vady prodávajícího také na poskytování digitálního obsahu nebo služby digitálního obsahu, i když je poskytuje třetí osoba. To neplatí, je-li z obsahu kupní smlouvy i z povahy věci zjevné, že jsou poskytovány samostatně.</li>\n<li>Prodávající odpovídá kupujícímu, že věc při převzetí nemá vady. Zejména prodávající odpovídá kupujícímu, že věc:<ol role=\"list\">\n<li>odpovídá ujednanému popisu, druhu a množství, jakož i jakosti, funkčnosti, kompatibilitě, interoperabilitě a jiným ujednaným vlastnostem,</li>\n<li>je vhodná k účelu, pro který ji kupující požaduje a s nímž prodávající souhlasil, a</li>\n<li>je dodána s ujednaným příslušenstvím a pokyny k použití, včetně návodu k montáži nebo instalaci.</li>\n</ol>\n</li>\n<li>Prodávající odpovídá kupujícímu, že vedle ujednaných vlastností:<ol role=\"list\">\n<li>je věc vhodná k účelu, k němuž se věc tohoto druhu obvykle používá, i s ohledem na práva třetích osob, právní předpisy, technické normy nebo kodexy chování daného odvětví, není-li technických norem,</li>\n<li>věc množstvím, jakostí a dalšími vlastnostmi, včetně životnosti, funkčnosti, kompatibility a bezpečnosti, odpovídá obvyklým vlastnostem věcí téhož druhu, které může kupující rozumně očekávat, i s ohledem na veřejná prohlášení učiněná prodávajícím nebo jinou osobou v témže smluvním řetězci, zejména reklamou nebo označením, ledaže prodávající prokáže, že si ho nebyl vědom nebo že bylo v době uzavření kupní smlouvy upraveno alespoň srovnatelným způsobem, jakým bylo učiněno, anebo že na rozhodnutí o koupi nemohlo mít vliv,</li>\n<li>je věc dodána s příslušenstvím, včetně obalu, návodu k montáži a jiných pokynů k použití, které může kupující rozumně očekávat, a</li>\n<li>věc odpovídá jakostí nebo provedením vzorku nebo předloze, které prodávající kupujícímu poskytl před uzavřením kupní smlouvy.</li>\n</ol>\n</li>\n<li>Ustanovení čl. 7.4 obchodních podmínek se nepoužije v případě, že prodávající kupujícího před uzavřením kupní smlouvy zvlášť upozornil, že se některá vlastnost věci liší a kupující s tím při uzavírání kupní smlouvy výslovně souhlasil.</li>\n<li>Prodávající odpovídá kupujícímu také za vadu způsobenou nesprávnou montáží nebo instalací, která byla podle kupní smlouvy provedena prodávajícím nebo na jeho odpovědnost. To platí i v případě, že byla montáž nebo instalace provedena kupujícím a vada nastala v důsledku nedostatku v návodu, který k ní poskytl prodávající nebo poskytovatel digitálního obsahu nebo služby digitálního obsahu, jde-li o věc s digitálními vlastnostmi.</li>\n<li>Projeví-li se vada v průběhu jednoho roku od převzetí, má se za to, že věc byla vadná již při převzetí, ledaže to povaha věci nebo vady vylučuje. Tato doba neběží po dobu, po kterou kupující nemůže věc užívat, v případě, že vadu vytkl oprávněně.</li>\n<li>Je-li předmětem koupě věc s digitálními vlastnostmi, prodávající zabezpečí, že budou kupujícímu poskytovány ujednané aktualizace digitálního obsahu nebo služby digitálního obsahu. Vedle ujednaných aktualizací prodávající zabezpečí, že budou kupujícímu poskytovány aktualizace, které jsou nezbytné, aby si věc po převzetí uchovala vlastnosti podle čl. 7.3 a čl. 7.4 obchodních podmínek, a že bude na jejich dostupnost upozorněn<ol role=\"list\">\n<li>po dobu dvou let, mají-li být podle kupní smlouvy digitální obsah nebo služba digitálního obsahu poskytovány soustavně po určitou dobu, a je-li ujednáno poskytování po dobu delší dvou let, po celou tuto dobu,</li>\n<li>po dobu, po kterou to kupující může rozumně očekávat, mají-li být podle kupní smlouvy digitální obsah nebo služba digitálního obsahu poskytnuty jednorázově; to se posoudí podle druhu a účelu věci, povahy digitálního obsahu nebo služby digitálního obsahu a s přihlédnutím k okolnostem při uzavření kupní smlouvy a povaze závazku.</li>\n</ol>\n</li>\n<li>Ustanovení čl. 7.8 obchodních podmínek neplatí v případě, že prodávající kupujícího před uzavřením kupní smlouvy zvlášť upozornil, že aktualizace poskytovány nebudou a kupující s tím při uzavírání kupní smlouvy výslovně souhlasil.</li>\n<li>Neprovedl-li kupující aktualizaci v přiměřené době, nemá práva z vady, která vznikla pouze v důsledku neprovedené aktualizace. To neplatí v případě, že kupující nebyl upozorněn na aktualizaci nebo na důsledky jejího neprovedení anebo aktualizaci neprovedl či ji provedl nesprávně v důsledku nedostatku v návodu. Mají-li být podle kupní smlouvy digitální obsah nebo služba digitálního obsahu poskytovány soustavně po určitou dobu a projeví-li se nebo vyskytne-li se vada v době podle čl. 7.8.1 a čl. 7.8.2 obchodních podmínek, má se za to, že jsou digitální obsah nebo služba digitálního obsahu poskytovány vadně.</li>\n<li>Kupující může vytknout vadu, která se na věci projeví v době dvou let od převzetí. Je-li předmětem koupě věc s digitálními vlastnostmi a mají-li být podle kupní smlouvy digitální obsah nebo služba digitálního obsahu poskytovány soustavně po určitou dobu, může kupující vytknout vadu, která se na nich vyskytne nebo projeví v době dvou let od převzetí. Má-li být plněno po dobu delší dvou let, má kupující právo z vady, která se vyskytne nebo projeví v této době. Vytkl-li kupující prodávajícímu vadu oprávněně, doba pro vytčení vady věci neběží po dobu, po kterou kupující nemůže věc užívat.</li>\n<li>Má-li věc vadu, může kupující požadovat její odstranění. Podle své volby může požadovat dodání nové věci bez vady nebo opravu věci, ledaže je zvolený způsob odstranění vady nemožný nebo ve srovnání s druhým nepřiměřeně nákladný; to se posoudí zejména s ohledem na význam vady, hodnotu, kterou by věc měla bez vady, a to, zda může být druhým způsobem vada odstraněna bez značných obtíží pro kupujícího. Prodávající může odmítnout vadu odstranit, je-li to nemožné nebo nepřiměřeně nákladné zejména s ohledem na význam vady a hodnotu, kterou by věc měla bez vady.</li>\n<li>Prodávající odstraní vadu v přiměřené době po jejím vytknutí tak, aby tím kupujícímu nezpůsobil značné obtíže, přičemž se zohlední povaha věci a účel, pro který kupující věc koupil. K odstranění vady převezme prodávající věc na vlastní náklady. Vyžaduje-li to demontáž věci, jejíž montáž byla provedena v souladu s povahou a účelem věci předtím, než se vada projevila, prodávající provede demontáž vadné věci a montáž opravené nebo nové věci anebo uhradí náklady s tím spojené.</li>\n<li>Kupující může požadovat přiměřenou slevu nebo odstoupit od kupní smlouvy, pokud:<ol role=\"list\">\n<li>prodávající vadu odmítl odstranit nebo ji neodstranil v souladu s čl. 7.13 obchodních podmínek</li>\n<li>se vada projeví opakovaně,</li>\n<li>je vada podstatným porušením kupní smlouvy, nebo</li>\n<li>je z prohlášení prodávajícího nebo z okolností zjevné, že vada nebude odstraněna v přiměřené době nebo bez značných obtíží pro kupujícího.</li>\n</ol>\n</li>\n<li>Je-li vada věci nevýznamná, kupující nemůže odstoupit od kupní smlouvy (ve smyslu čl. 7.14 obchodních podmínek); má se za to, že vada věci není nevýznamná. Odstoupí-li kupující od kupní smlouvy, prodávající vrátí kupujícímu kupní cenu bez zbytečného odkladu poté, co obdrží věc nebo co mu kupující prokáže, že věc odeslal.</li>\n<li>Vadu lze vytknout prodávajícímu, u kterého věc byla koupena. Je-li však k opravě určena jiná osoba, která je v místě prodávajícího nebo v místě pro kupujícího bližším, kupující vytkne vadu tomu, kdo je určen k provedení opravy.</li>\n<li>S výjimkou případů, kdy je k provedení opravy určena jiná osoba, je prodávající povinen přijmout reklamaci v kterékoli provozovně, v níž je přijetí reklamace možné s ohledem na sortiment prodávaných výrobků nebo poskytovaných služeb, případně i ve svém sídle. Prodávající je povinen kupujícímu vydat při uplatnění reklamace písemné potvrzení, ve kterém uvede datum, kdy kupující reklamaci uplatnil, co je jejím obsahem, jaký způsob vyřízení reklamace kupující požaduje a kontaktní údaje kupujícího pro účely poskytnutí informace o vyřízení reklamace. Tato povinnost se vztahuje i na jiné osoby určené k provedení opravy.</li>\n<li>Reklamace včetně odstranění vady musí být vyřízena a kupující o tom musí být informován nejpozději do třiceti (30) dnů ode dne uplatnění reklamace, pokud se prodávající s kupujícím nedohodne na delší lhůtě. Je-li předmětem závazku poskytnutí digitálního obsahu, včetně digitálního obsahu dodaného na hmotném nosiči, nebo služby digitálního obsahu, musí být reklamace vyřízena v přiměřené době s přihlédnutím k povaze digitálního obsahu nebo služby digitálního obsahu a k účelu, pro nějž je kupující požadoval.</li>\n<li>Po marném uplynutí lhůty podle čl. 7.18 obchodních podmínek může kupující od kupní smlouvy odstoupit nebo požadovat přiměřenou slevu.</li>\n<li>Prodávající je povinen vydat kupujícímu potvrzení o datu a způsobu vyřízení reklamace, včetně potvrzení o provedení opravy, a době jejího trvání, případně písemné odůvodnění zamítnutí reklamace. Tato povinnost se vztahuje i na jiné osoby určené k provedení opravy.</li>\n<li>Práva z odpovědnosti za vady zboží může kupující konkrétně uplatnit zejména osobně na adrese Kolma 611, Statenice, 252 62, telefonicky na čísle 776 076 469 či elektronickou poštou na adrese <a href=\"mailto:info@elevia.cz\" target=\"_blank\">info@elevia.cz</a>\n</li>\n<li>Kdo má právo z vadného plnění, náleží mu i náhrada nákladů účelně vynaložených při uplatnění tohoto práva. Neuplatní-li však kupující právo na náhradu do jednoho měsíce po uplynutí lhůty, ve které je třeba vytknout vadu, soud právo nepřizná, pokud prodávající namítne, že právo na náhradu nebylo uplatněno včas.</li>\n<li>Další práva a povinnosti stran související s odpovědností prodávajícího za vady může upravit reklamační řád prodávajícího.</li>\n<li>Prodávající či jiná osoba může kupujícímu poskytnout nad rámec jeho zákonných práv z vadného plnění také záruku za jakost.</li>\n</ol><h3>08 DALŠÍ PRÁVA A POVINNOSTI SMLUVNÍCH STRAN</h3><ol role=\"list\">\n<li>Kupující nabývá vlastnictví ke zboží zaplacením celé kupní ceny zboží.</li>\n<li>Prodávající není ve vztahu ke kupujícímu vázán žádnými kodexy chování ve smyslu ustanovení § 1820 odst. 1 písm. n) občanského zákoníku.</li>\n<li>Vyřizování stížností spotřebitelů zajišťuje prodávající prostřednictvím elektronické pošty. Stížnosti je možné zasílat na elektronickou adresu prodávajícího. Informaci o vyřízení stížnosti kupujícího zašle prodávající na elektronickou adresu kupujícího. Jiná pravidla vyřizování stížností nejsou prodávajícím stanovena.</li>\n<li>K mimosoudnímu řešení spotřebitelských sporů z kupní smlouvy je příslušná Česká obchodní inspekce, se sídlem Štěpánská 567/15, 120 00 Praha 2, IČ: 000 20 869, internetová adresa: <a href=\"https://adr.coi.cz/cs\" target=\"_blank\">https://adr.coi.cz/cs</a>. Platformu pro řešení sporů on-line nacházející se na internetové adrese <a href=\"http://ec.europa.eu/consumers/odr\" target=\"_blank\">http://ec.europa.eu/consumers/odr</a> je možné využít při řešení sporů mezi prodávajícím a kupujícím z kupní smlouvy.</li>\n<li>Evropské spotřebitelské centrum Česká republika, se sídlem Štěpánská 567/15, 120 00 Praha 2, internetová adresa: <a href=\"http://www.evropskyspotrebitel.cz/\" target=\"_blank\">http://www.evropskyspotrebitel.cz</a> je kontaktním místem podle Nařízení Evropského parlamentu a Rady (EU) č. 524/2013 ze dne 21. května 2013 o řešení spotřebitelských sporů on-line a o změně nařízení (ES) č. 2006/2004 a směrnice 2009/22/ES (nařízení o řešení spotřebitelských sporů on-line).</li>\n<li>Kupující se může obrátit se stížností na orgán dohledu nebo státního dozoru. Prodávající je oprávněn k prodeji zboží na základě živnostenského oprávnění. Živnostenskou kontrolu provádí v rámci své působnosti příslušný živnostenský úřad. Dozor nad oblastí ochrany osobních údajů vykonává Úřad pro ochranu osobních údajů. Česká obchodní inspekce vykonává ve vymezeném rozsahu mimo jiné dozor nad dodržováním občanského zákoníku a zákona č. 634/1992 Sb., o ochraně spotřebitele, ve znění pozdějších předpisů.</li>\n<li>Kupující tímto přebírá na sebe nebezpečí změny okolností ve smyslu § 1765 odst. 2 občanského zákoníku.</li>\n</ol><h3>09 OCHRANA OSOBNÍCH ÚDAJŮ</h3><ol role=\"list\"><li>Svou informační povinnost vůči kupujícímu ve smyslu čl. 13 Nařízení Evropského parlamentu a Rady 2016/679 o ochraně fyzických osob v souvislosti se zpracováním osobních údajů a o volném pohybu těchto údajů a o zrušení směrnice 95/46/ES (obecné nařízení o ochraně osobních údajů) (dále jen „nařízení GDPR“) související se zpracováním osobních údajů kupujícího pro účely plnění kupní smlouvy, pro účely jednání o kupní smlouvě a pro účely plnění veřejnoprávních povinností prodávajícího plní prodávající prostřednictvím zvláštního dokumentu.</li></ol><h3>10 ZASÍLÁNÍ OBCHODNÍCH SDĚLENÍ A UKLÁDÁNÍ COOKIES</h3><ol role=\"list\">\n<li>Kupující souhlasí ve smyslu ustanovení § 7 odst. 2 zákona č. 480/2004 Sb., o některých službách informační společnosti a o změně některých zákonů (zákon o některých službách informační společnosti), ve znění pozdějších předpisů, se zasíláním obchodních sdělení prodávajícím na elektronickou adresu či na telefonní číslo kupujícího. Svou informační povinnost vůči kupujícímu ve smyslu čl. 13 nařízení GDPR související se zpracováním osobních údajů kupujícího pro účely zasílání obchodních sdělení plní prodávající prostřednictvím zvláštního dokumentu.</li>\n<li>Své zákonné povinnosti související s případným ukládáním cookies na zařízení kupujícího plní prodávající prostřednictvím zvláštního dokumentu.</li>\n</ol><h3>11 DORUČOVÁNÍ</h3><ol role=\"list\"><li>Kupujícímu může být doručováno na elektronickou adresu kupujícího.</li></ol><p>12 ZÁVĚREČNÁ USTANOVENÍ</p><ol role=\"list\">\n<li>Pokud vztah založený kupní smlouvou obsahuje mezinárodní (zahraniční) prvek, pak strany sjednávají, že vztah se řídí českým právem. Volbou práva podle předchozí věty není kupující, který je spotřebitelem, zbaven ochrany, kterou mu poskytují ustanovení právního řádu, od nichž se nelze smluvně odchýlit, a jež by se v případě neexistence volby práva jinak použila dle ustanovení čl. 6 odst. 1 Nařízení Evropského parlamentu a Rady (ES) č. 593/2008 ze dne 17. června 2008 o právu rozhodném pro smluvní závazkové vztahy (Řím I).</li>\n<li>Je-li některé ustanovení obchodních podmínek neplatné nebo neúčinné, nebo se takovým stane, namísto neplatných ustanovení nastoupí ustanovení, jehož smysl se neplatnému ustanovení co nejvíce přibližuje. Neplatností nebo neúčinností jednoho ustanovení není dotčena platnost ostatních ustanovení.</li>\n<li>Kupní smlouva včetně obchodních podmínek je archivována prodávajícím v elektronické podobě a není přístupná.</li>\n<li>Přílohu obchodních podmínek tvoří vzorový formulář pro odstoupení od kupní smlouvy.</li>\n<li>Kontaktní údaje prodávajícího: adresa sídla Kolma 611, Statenice, 252 62 adresa elektronické pošty <a href=\"mailto:info@elevia.cz\" target=\"_blank\">info@elevia.cz</a>, telefon 776 076 469 Prodávající neposkytuje jiný prostředek on-line komunikace.</li>\n</ol><p>‍</p><p>V Praze dne 6.1.2025</p><p><br></p>",
+          "headline": "Privacy and Cookies Policy"
+        }
+      },
+      "section-top-grade": {
+        "type": "section-top-grade",
+        "settings": {
+          "image_2": "shopify://shop_images/IMG_3224.jpg",
+          "image_1": "shopify://shop_images/IMG_3045_1.jpg",
+          "content_2": "<p>                            Díky softwaru Growlink a pokročilým senzorům nepřetržitě sledujeme a jemně ladíme pěstební podmínky. Získaná data nám umožňují precizně optimalizovat prostředí pro maximální vitalitu a výnos, aby rostliny mohly růst v naprosto ideálních podmínkách.<br/><br/>Do naší produkce pečlivě vybíráme pouze špičkové genetické odrůdy, čímž zajišťujeme nejvyšší možnou kvalitu vstupního materiálu. Během celého růstového cyklu systematicky provádíme vizuální i analytické kontroly a dodržujeme přísné standardy kvality.<br/><br/>Naše zařízení pracuje v souladu se správnou výrobní praxí (GMP), což zajišťuje, že každý produkt splňuje nejvyšší výrobní standardy. V produkci naších rostlin dodržujeme zásady GACP (Pravidla správné pěstitelské praxe), což zaručuje zdravý a produktivní proces pěstování.<br/><br/>Pro další rozvoj našich odborných znalostí spolupracujeme s předními experty, včetně akademiků, což nám umožňuje neustále inovovat a udržovat špičkovou kvalitu našich metod.</p>",
+          "content_1": "<p>                            Jako jedni z mála využíváme pro pěstování konopí substrát ROCKWOOL, konkrétně systém Grodan Max. Ten nám umožňuje precizně řídit každý aspekt pěstebního procesu a garantovat nejvyšší mikrobiologickou čistotu výsledných produktů — zcela bez bakteriální a plísňové kontaminace.</p>",
+          "headline": "<p><span style=\"text-decoration:underline\">DOKONALOST</span> na každém kroku</p>"
+        }
+      },
+      "section-technologies": {
+        "type": "section-technologies",
+        "settings": {
+          "headline": "<p>TOP <span style=\"text-decoration:underline\">TECHNOLOGIE</span></p>",
+          "column_1_headline": "Vysoce účinné led",
+          "column_1_description": "<p>V naší produkci využíváme vrcholové LED technologie, které jsou navrženy tak, aby optimalizovaly růst rostlin, maximalizovaly výnosy a zároveň byly šetrné k životnímu prostředí.</p>",
+          "column_2_headline": "Chytřejší řízení růstu",
+          "column_2_description": "<p>Substrát ROCKWOOL představuje vysoce efektivní pěstební médium, které umožňuje precizní kontrolu závlahy a živin, čímž přispívá k dosažení stabilní kvality produkce, vyšších výnosů a optimalizovaného využívání zdrojů. </p>",
+          "column_3_headline": "Výkon řízený daty",
+          "column_3_description": "<p>Automatizovaný systém poskytuje pokročilé ovládání a data v reálném čase pro optimalizaci pěstebních procesů. Analýza klíčových proměnných přispívá k vyšším výnosům při nižší spotřebě času, energie a zdrojů.</p>"
+        }
+      },
+      "section-process": {
+        "type": "section-process",
+        "settings": {
+          "tab_5_image_2": "shopify://shop_images/Drop_asset.jpg",
+          "tab_5_image_1": "shopify://shop_images/Pre-roll-1.png",
+          "tab_5_description": "Naše důsledné pěstitelské a testovací postupy zaručují, že každý produkt splňuje nejvyšší standardy kvality a bezpečnosti. Klíčovým pilířem naší produkce je špičková úroveň extraktů i květin. Výroba probíhá v laboratoři s certifikací GMP, což nám umožňuje zajistit přesné a přirozené zastoupení kanabinoidů v každém výrobku. Všechny produkty jsou vyráběny pouze z přírodně získaných kanabinoidů, což zaručuje jejich čistotu, stabilitu a konzistenci.",
+          "tab_5": "<p>Produkce</p>",
+          "tab_4_description": "Každá šarže prochází důkladným testováním na přítomnost pesticidů, těžkých kovů, mikrobiologických kontaminantů a dalších potenciálně rizikových látek. Tento proces zajišťuje, že všechny naše produkty splňují nejpřísnější bezpečnostní a kvalitativní standardy.",
+          "tab_4": "<p>Testování</p>",
+          "tab_3_description": "K výrobě našich produktů využíváme výhradně extrakt z vlastního pěstování, což nám umožňuje udržet plnou kontrolu nad kvalitou vstupních surovin. Proces extrakce probíhá za nízkých teplot a tlaků, díky čemuž dochází k maximálnímu zachování přirozeného terpenového profilu a čistoty kanabinoidů. Výsledkem je vysoce kvalitní, přírodní produkt.",
+          "tab_3": "<p>Extrakce</p>",
+          "tab_2_image_2": "shopify://shop_images/IMG_2772.jpg",
+          "tab_2_image_1": "shopify://shop_images/IMG_2784.jpg",
+          "tab_2_description": "Veškerá naše produkce probíhá v nejmodernějších vnitřních prostorách, což nám umožňuje udržovat nejvyšší standardy kvality vzduchu, čistoty a podmínek sušení. Toto kontrolované prostředí zajišťuje optimální podmínky pro pěstování a výsledkem jsou vždy prvotřídní a konzistentní produkty.",
+          "tab_2": "<p>Pěstování indoor</p>",
+          "tab_1_image_3": "shopify://shop_images/Cloning-landscape-1.jpg",
+          "tab_1_image_2": "shopify://shop_images/Cloning-portrait-2.jpg",
+          "tab_1_image_1": "shopify://shop_images/Cloning-portrait-1.jpg",
+          "tab_1_description": "V rámci naší produkce využíváme pečlivě vybraný soubor vlastních genetik, zvolených s ohledem na jejich výjimečnou kvalitu a stabilitu. Do pěstebního procesu jsou zařazovány výhradně nejlepší odrůdy, což zaručuje špičkovou úroveň výsledného produktu. Před zahájením výroby uplatňujeme přísná opatření virové a kvalitativní kontroly. Pro dosažení optimálního růstu spoléháme na pokročilá pěstební média společnosti Grodan, která zajišťují konzistentní a spolehlivé výsledky.",
+          "tab_1": "<p>Klonování rostlin</p>",
+          "headline": "<p><span style=\"text-decoration:underline\">ELEVIA</span> PROCES</p>"
+        }
+      },
+      "who-we-are": {
+        "type": "who-we-are",
+        "settings": {
+          "headline": "<p><span style=\"text-decoration:underline\">KDO</span> JSME</p>",
+          "description": "<p>                           Jsme vertikálně integrovaný výrobce s hlubokými odbornými znalostmi v oblasti pěstování i vývoje značky. Díky dlouholetým zkušenostem v pěstitelském průmyslu a silnému zázemí v oblasti brandingu a marketingu spojujeme vědu, preciznost a vyprávění příběhů, abychom vytvořili vysoce kvalitní a konzistentní kanabinoidní produkty.</p>",
+          "description_2": "<p>                           Od vlastní genetiky květů až po pokročilou extrakci a nanoformulaci kontrolujeme každý krok procesu, abychom zajistili čistotu, konzistenci a sledovatelnost. Pomocí substrátu Grodan Max, automatizovaných systémů a monitorování prostředí v reálném čase udržujeme nejvyšší mikrobiologické standardy.<br/><br/>Náš provoz, certifikovaný podle GMP a GACP a podporovaný předními odborníky, kombinuje průmyslové know-how s inovacemi a stanovuje nová měřítka kvality a výkonu.</p>",
+          "image_1": "shopify://shop_images/O_nas_profile_picture.jpg",
+          "image_2": "shopify://shop_images/Adobe_Express_-_file.jpg"
+        }
+      },
+      "section-philosophy": {
+        "type": "section-philosophy",
+        "settings": {
+          "headline": "<p>NAŠE <span style=\"text-decoration:underline\">FILOZOFIE</span></p>",
+          "subheadline": "<p>                           Chápeme, že skutečná pohoda přesahuje rámec fyzického zdraví a zahrnuje i emocionální a duševní rovnováhu.</p>",
+          "content": "<p>Spojujeme vášeň pro přírodu, vědecké know-how a hluboké porozumění lidskému tělu, abychom pro vás tvořili produkty, které znatelně pozvednou každodenní vitalitu a celkovou pohodu.</p>"
+        }
+      },
+      "elevia-products": {
+        "type": "elevia-products",
+        "settings": {
+          "slide_4_description": "<p>Automated controls empower growers with the data to increase yields while saving time, energy, and resources.</p>",
+          "slide_4_headline": "Sample Text",
+          "slide_3_description": "<p>Automated controls empower growers with the data to increase yields while saving time, energy, and resources.</p>",
+          "slide_3_headline": "Sample Text",
+          "slide_2_description": "<p>Precision Growing with the combination of stone wool growing media, innovative growing tools and personal advice.</p>",
+          "slide_2_headline": "Sample Text",
+          "slide_1_description": "<p>With the EVO series, we present you the top of the evolution chain in Led luminaires for the cultivation of plants.</p>",
+          "slide_1_headline": "Sample Text",
+          "headline": "Sample Text"
+        }
+      },
+      "section-hero-small-about-us": {
+        "type": "section-hero-small-about-us",
+        "settings": {
+          "slide_1_image": "shopify://shop_images/Hero_Carousel_Medical_HP_Desktop_01.jpg",
+          "slide_1_image_mobile": "shopify://shop_images/Home_page_-_Mobile_Banner_Drops_red.jpg",
+          "slide_1_headline": "<p><span style=\"text-decoration:underline\">Kvalita</span> začíná<br/>v detailu.</p>",
+          "slide_1_description": "<p>Záleží nám na složení i designu.</p>",
+          "slide_1_button": "<p>Kontaktujte nás</p>",
+          "slide_1_link": "https://elevia.cz/pages/contact",
+          "slide_2_image": "shopify://shop_images/Banner_-_Desktop_-_Blue_Sprey_1.jpg",
+          "slide_2_image_mobile": "shopify://shop_images/About_you_-_Mobile_Banner_Sprey_blue.jpg",
+          "slide_2_headline": "<p><span style=\"text-decoration:underline\">Elevia</span> přináší preciznost.</p>",
+          "slide_2_description": "<p>Kvalita, která má vědecký základ.</p>",
+          "slide_2_button": "<p>Kontaktujte nás</p>",
+          "slide_2_link": "",
+          "slide_3_image": "shopify://shop_images/Banner_-_Desktop_green_drops_multi.jpg",
+          "slide_3_image_mobile": "shopify://shop_images/Banner_-_Mobile_green_drops.jpg",
+          "slide_3_headline": "<p><span style=\"text-decoration:underline\">Silný příběh.</span> Silný produkt.</p>",
+          "slide_3_description": "<p>Když forma i obsah dávají smysl.</p>",
+          "slide_3_button": "<p>Kontaktujte nás</p>",
+          "slide_3_link": "https://elevia.cz/pages/contact"
+        }
+      },
+      "section-we-belive-about-us": {
+        "type": "section-we-belive-about-us",
+        "settings": {
+          "headline": "<p>ČEMU <span style=\"text-decoration:underline\">VĚŘÍME</span></p>",
+          "column_1_headline": "DOKONALOST",
+          "column_2_headline": "Otevřenost",
+          "column_3_headline": "ČISTOTA",
+          "column_1_description": "<p>Dbáme na špičkovou kvalitu v každém kroku – od precizních detailů a pokročilých výrobních procesů až po odbornost našeho týmu. Díky tomu spolehlivě naplňujeme nejpřísnější standardy a pokaždé dodáváme to, co slibujeme.</p>",
+          "column_2_description": "<p>Jasně sdílíme každý krok naší cesty, jednáme čestně a vždy férově. Otevřenou komunikací a aktivním nasloucháním potřebám zákazníků budujeme vzájemnou důvěru a dlouhodobá partnerství.</p>",
+          "column_3_description": "<p>Čistota pro nás znamená výrobu bez kompromisů: minimalizujeme odpad, dodržujeme nejpřísnější normy a komunikujeme přímo a otevřeně, abychom vždy garantovali špičkovou kvalitu každé šarže.</p>"
+        }
+      },
+      "section-faq-about": {
+        "type": "section-faq-about",
+        "blocks": {
+          "faq_item_E6pJrE": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Co nás motivovalo začít s výrobou vlastních kanabinoidních produktů?",
+              "answer": "Naším hlavním motivem bylo spojit odborné znalosti z pěstitelského průmyslu s moderními technologiemi, abychom vytvořili produkty, na které se zákazníci mohou spolehnout. Věříme, že díky vlastní genetice a inovativním procesům můžeme nabídnout jedinečnou kvalitu, která podporuje zdraví a pohodu. Naše vášeň pro přírodu a vědu nás vedla k tomu, abychom přinesli na trh produkty, které skutečně dělají rozdíl."
+            }
+          },
+          "faq_item_GBceYq": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Jaké hodnoty a filozofii vaše společnost zastává?",
+              "answer": "Naše filozofie vychází z přesvědčení, že skutečná pohoda zahrnuje nejen fyzické zdraví, ale i emocionální a duševní rovnováhu. Jsme oddáni vědeckým poznatkům i hlubokému porozumění přírodě a lidskému tělu. Usilujeme o maximální transparentnost a otevřenost v komunikaci se zákazníky, abychom budovali dlouhodobou důvěru. Naším cílem je vytvářet produkty, které nejen zlepšují kvalitu života, ale také pomáhají lidem najít krásu vyváženého a zdravého života."
+            }
+          },
+          "faq_item_FThfFE": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Jaké zkušenosti máte v oblasti pěstování konopí?",
+              "answer": "Spojujeme dlouholeté zkušenosti s nejmodernějšími postupy: vlastní prémiovou genetiku zlepšujeme pečlivým výběrem fenotypů a pěstujeme v substrátu Grodan Max pod nepřetržitým dohledem chytrých senzorů. Díky tomu garantujeme bezkonkurenční čistotu, stálou kvalitu a stoprocentní dohledatelnost – a to vše v úzké spolupráci s předními světovými experty a lídry konopného odvětví."
+            }
+          },
+          "faq_item_98Hfrq": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Jak vám pomáhají zkušenosti v marketingu při budování značky?",
+              "answer": "Opíráme se o roky praxe v brandingu a marketingu, takže umíme naše hodnoty převést do příběhů, které zákazníci opravdu vnímají. Vědeckou preciznost kombinujeme s poutavým storytellingem – díky tomu jsou naše produkty nejen špičkově kvalitní, ale i srozumitelné a maximálně důvěryhodné. Tato symbióza nám umožňuje vytvářet dlouhodobá partnerství a formovat nabídku přesně podle potřeb lidí, pro které tvoříme."
+            }
+          },
+          "faq_item_WFKyBa": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Jakou roli hraje vaše odborná znalost v oblasti IT v celém výrobním procesu?",
+              "answer": "Protože IT máme v malíčku, můžeme nasadit chytré algoritmy a plně automatizované systémy, které v reálném čase hlídají a řídí celé pěstební prostředí – od teploty až po mikroskopické odchylky pH. Díky tomu se vyhýbáme lidským chybám, zrychlujeme výrobu a hlídáme špičkovou kvalitu každého květu. Moderní technologie tak tvoří páteř našeho end-to-end přístupu, který zaručuje naprostou konzistenci, křišťálovou čistotu a 100 % dohledatelnost na každém kroku cesty k hotovému produktu."
+            }
+          },
+          "faq_item_jtb6bb": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Jaká je vize společnosti Elevia?",
+              "answer": "Chceme být první volbou, když hledáte kanabinoidní produkty, které spojují špičkovou technologii s úctou k přírodě – a k vám. Neustále inovujeme, transparentně sdílíme každý krok a opíráme se o hluboké know-how, abychom zvedli laťku kvality, čistoty a účinnosti. Díky tomu vám pomáháme žít vyváženěji, cítit se lépe a naplno si užívat každý den."
+            }
+          },
+          "faq_item_iCCEp6": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Navrhujete a budujete vlastní high-tech výrobní zázemí?",
+              "answer": "Všechno držíme pevně ve svých rukou: pěstební haly i výrobní linky si sami navrhujeme a stavíme tak, aby splňovaly ty nejpřísnější standardy efektivity a čistoty. Díky této úplné kontrole – od semínka přes extrakci až po finální balení – udržujeme stálou kvalitu, křišťálovou čistotu a stoprocentní sledovatelnost každého produktu, který k vám dorazí."
+            }
+          }
+        },
+        "block_order": [
+          "faq_item_E6pJrE",
+          "faq_item_GBceYq",
+          "faq_item_FThfFE",
+          "faq_item_98Hfrq",
+          "faq_item_WFKyBa",
+          "faq_item_jtb6bb",
+          "faq_item_iCCEp6"
+        ],
+        "settings": {
+          "headline": "<p>PŘEJÍT NA <span style=\"text-decoration:underline\">OTÁZKY</span></p>",
+          "description": "<p>Máme odpovědi. Ponořte se do našich nejčastějších otázek.  Nemůžete najít, co hledáte? Obraťte se na nás kdykoli na našem mailu.</p>"
+        }
+      },
+      "section-we-belive-home": {
+        "type": "section-we-belive-home",
+        "settings": {
+          "headline": "<p>To <span style=\"text-decoration:underline\">nejdůležitější</span></p>",
+          "column_1_image": "shopify://shop_images/genetika.svg",
+          "column_2_image": "shopify://shop_images/design_for_purity.svg",
+          "column_3_image": "shopify://shop_images/scientist.svg",
+          "column_1_headline": "Genetika v našich rukou",
+          "column_2_headline": "Navrženo pro čistotu",
+          "column_3_headline": "Věda v každé kapce",
+          "column_1_description": "<p>Vyvíjíme a vlastníme genetiku květin. V rámci naší produkce se zaměřujeme na pečlivý výběr a pěstování pouze těch fenotypů, které vykazují nejvyšší výkonnost a kvalitu napříč celým výrobním procesem.</p>",
+          "column_2_description": "<p>Naše pokročilá automatizace řídí téměř celý proces pěstování i sklizně. Díky tomu eliminujeme lidské chyby, garantujeme čistotu každé šarže a posouváme efektivitu na novou úroveň.</p>",
+          "column_3_description": "<p>Od automatizované extrakce po špičkovou nanoformulaci — každý krok našich procesů je navržen tak, aby vznikaly produkty s jedinečnou kvalitou a spolehlivým účinkem v každé dávce.</p>"
+        }
+      },
+      "section-faq-home": {
+        "type": "section-faq-home",
+        "blocks": {
+          "faq_item_7apQhf": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Čím se vaše produkty liší od ostatních značek CBD?",
+              "answer": "Celý proces - od genetiky a pěstování až po extrakci a složení - řídíme pomocí nejmodernějších technologií a metod. To zajišťuje bezkonkurenční konzistenci, čistotu a kvalitu."
+            }
+          },
+          "faq_item_hy3GJc": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Jak zajišťujete kvalitu výrobků?",
+              "answer": "Provádíme přísné kontroly kvality v každé fázi - od vizuálních kontrol během růstu až po kompletní analytické testování konečného produktu. Každá šarže je testována na přítomnost pesticidů, těžkých kovů a mikrobiálních kontaminantů."
+            }
+          },
+          "faq_item_rynwnX": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Čím je váš proces extrakce výjimečný?",
+              "answer": "Pro zachování maximální kvality uplatňujeme výrobní procesy probíhající za nízkého tlaku a při nízkých teplotách. Veškerá biomasa určená k extrakci prochází přísným testováním na přítomnost pesticidů, těžkých kovů a mikrobiálních kontaminantů."
+            }
+          },
+          "faq_item_K8Km9D": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Jaké metody pěstování používáte?",
+              "answer": "Naše rostliny pěstujeme v substrátu ROCKWOOL, který umožňuje přesnou kontrolu závlahy a živinných podmínek prostředí, což zajišťuje čistou úrodu bez plísní a s vysokým výnosem. Naše technologie nám umožňuje kontrolovat vnitřní klima s možností regulovat teplotu, vlhkost a intenzitu světelného záření."
+            }
+          },
+          "faq_item_dNWrxJ": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Jsou vaše produkty vyrobeny z přírodních kanabinoidů?",
+              "answer": "Rozhodně. Všechny naše produkty jsou vyrobeny z přírodních kanabinoidů získaných z našich vlastních rostlin, které jsou pěstovány za přísných kvalitativních standardů. V každé fázi výroby klademe důraz na čistotu a transparentnost a rozhodně se vyhýbáme jakýmkoli syntetickým látkám, přísadám nebo umělým sloučeninám. Získáte tak čistý, bezpečný a přírodní produkt, kterému můžete důvěřovat."
+            }
+          },
+          "faq_item_4z93kz": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Jaké certifikáty používáte?",
+              "answer": "Naše výrobní postupy jsou auditovaně certifikovány podle GMP (Good Manufacturing Practice) a veškeré kultivační operace probíhají v souladu se standardy GACP (Good Agricultural and Collection Practice). Kombinace těchto systémů řízení kvality zaručuje plnou regulatorní compliance, úplnou dohledatelnost šarží a maximální bezpečnost i uniformitu finálních produktů."
+            }
+          },
+          "faq_item_xB9hPG": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Nabízíte výsledky laboratorních testů třetích stran?",
+              "answer": "Ano, ke každé výrobní šarži standardně přikládáme kompletní certifikát analýzy (CoA), který uvádí kvantitativní profil hlavních i minoritních kanabinoidů, detailní terpenové spektrum, multireziduální screening pesticidů, stanovení těžkých kovů (Pb, Cd, Hg, As) a mikrobiologické parametry včetně celkové aerobní mezní hodnoty, kvasinek/plísní, E. coli a Salmonella spp."
+            }
+          },
+          "faq_item_N7CTBd": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Používáte vlastní genetiku?",
+              "answer": "Ano, veškerá kultivace probíhá výhradně s genotypy, které byly jejich šlechtitelským programem cíleně vyselektovány na základě detailní fenotypové a chemotypové charakterizace, čímž se dociluje vysoké uniformity, reproducibilní jakosti a robustního kanabinoidního profilu finálních šarží."
+            }
+          },
+          "faq_item_m8xQAX": {
+            "type": "faq_item",
+            "settings": {
+              "question": "Jak je váš kultivační proces monitorován?",
+              "answer": "Integrovaná platforma Growlink, propojená s hustou sítí IoT senzorů, provádí 24/7 kontinuální záznam a analýzu klíčových mikroklimatických veličin (teplota, relativní vlhkost, VPD, CO₂, PPFD a EC/ pH živného roztoku). Díky algoritmům prediktivní regulace systém v reálném čase optimalizuje ventilační, topné, zavlažovací a osvětlovací režimy, čímž zajišťuje stabilní fyziologické podmínky a maximalizuje biometrický i chemický výnos porostu."
+            }
+          }
+        },
+        "block_order": [
+          "faq_item_7apQhf",
+          "faq_item_hy3GJc",
+          "faq_item_rynwnX",
+          "faq_item_K8Km9D",
+          "faq_item_dNWrxJ",
+          "faq_item_4z93kz",
+          "faq_item_xB9hPG",
+          "faq_item_N7CTBd",
+          "faq_item_m8xQAX"
+        ],
+        "settings": {
+          "headline": "<p>PŘEJÍT NA <span style=\"text-decoration:underline\">OTÁZKY</span></p>",
+          "description": "<p>Máme odpovědi. Ponořte se do našich nejčastějších otázek.  Nemůžete najít, co hledáte? Obraťte se na nás kdykoli na našem mailu.</p>"
+        }
+      },
+      "section-hero-contact": {
+        "type": "section-hero-contact",
+        "settings": {
+          "image": "shopify://shop_images/Elevia_contact.jpg",
+          "headline": "<p>Jsme <span style=\"text-decoration:underline\">připraveni</span> vám pomoci.</p>",
+          "subheadline": "<p>Ve společnosti Elevia je vaše spokojenost naší nejvyšší prioritou.</p>"
+        }
+      },
+      "section-contact": {
+        "type": "section-contact",
+        "settings": {
+          "headline": "<p><span style=\"text-decoration:underline\">MÁTE OTÁZKY?</span> Napište nám!</p>",
+          "description": "<p>Jsme tu, abychom vám pomohli objevit kvalitu naší genetiky a technologií.</p>",
+          "placeholder_name": "Jméno",
+          "placeholder_email": "E-mail",
+          "placeholder_phone": "Telefon",
+          "placeholder_company": "Společnost",
+          "placeholder_message": "Vaše zpráva",
+          "submit_text": "Odeslat",
+          "submit_wait_text": "Odesílání..."
+        }
+      },
+      "section-hero-small": {
+        "type": "section-hero-small",
+        "settings": {
+          "slide_1_image": "shopify://shop_images/Hero_Carousel_Medical_HP_Desktop_03.jpg",
+          "slide_1_image_mobile": "shopify://shop_images/Hero_Carousel_Medical_HP_Mobile_03.jpg",
+          "slide_1_headline": "<p>Tradiční forma <span style=\"text-decoration:underline\">úlevy</span></p>",
+          "slide_1_description": "<p>Prémiové pre-rolly řady Medical s garantovaným obsahem účinných látek.</p>",
+          "slide_1_button": "<p>Objev Medical Pre-roll</p>",
+          "slide_1_link": "https://elevia.cz/products/cbd-pre-roll-flavour-medical?variant=54048715047257",
+          "slide_2_image": "shopify://shop_images/Hero_Carousel_Vibe_HP_Desktop_02.jpg",
+          "slide_2_image_mobile": "shopify://shop_images/Hero_Carousel_Vibe_HP_Mobile_02.jpg",
+          "slide_2_headline": "<p><span style=\"text-decoration:underline\">Klid</span> v kapse</p>",
+          "slide_2_description": "<p>Vibe sprej kdykoli po ruce – rychlá pomoc při stresu i po náročném dni</p>",
+          "slide_2_button": "<p>Již brzy</p>",
+          "slide_2_link": "",
+          "slide_3_image": "shopify://shop_images/Hero_Carousel_Wellness_HP_Desktop_01.jpg",
+          "slide_3_image_mobile": "shopify://shop_images/Hero_Carousel_Wellness_HP_Mobile_01.jpg",
+          "slide_3_headline": "<p><span style=\"text-decoration:underline\">WELLNESS</span> na cesty</p>",
+          "slide_3_description": "<p>Jemná podpora nálady a flow – ideální pro chvíle relaxu i kreativní práci.</p>",
+          "slide_3_button": "",
+          "slide_3_link": ""
+        }
+      },
+      "navigation": {
+        "type": "navigation",
+        "settings": {}
+      },
+      "science-board": {
+        "type": "science-board",
+        "blocks": {
+          "person_wgUd3D": {
+            "type": "person",
+            "settings": {
+              "image": "shopify://shop_images/Martin_Kuchar.jpg",
+              "position": "Předseda vědecké rady",
+              "name": "<p>Doc. Ing. Martin Kuchař, Ph.D.</p>",
+              "description": "Vedoucí laboratoře forenzní analýzy biologicky aktivních látek, VŠCHT Praha"
+            }
+          },
+          "person_C3N4Ry": {
+            "type": "person",
+            "settings": {
+              "image": "shopify://shop_images/Denisa_L_profile_picture.png",
+              "position": "Členka vědecké rady",
+              "name": "<p>Ing. Denisa Lizonová, Ph.D.</p>",
+              "description": "Odborná asistentka a seniorní vědecká pracovnice, Ústav chemického inženýrství, VŠCHT Praha"
+            }
+          }
+        },
+        "block_order": [
+          "person_wgUd3D",
+          "person_C3N4Ry"
+        ],
+        "settings": {
+          "headline": "<p><span style=\"text-decoration:underline\">Vědecká</span> </p><p>rada</p>"
+        }
+      },
+      "product-main-content": {
+        "type": "product-main-content",
+        "settings": {
+          "light_color": "#000000",
+          "bg_color": "#000000",
+          "product_subtitle": "",
+          "product_volume": "",
+          "product_concentration": "",
+          "product_thc": "",
+          "scroll_text_1": "",
+          "scroll_text_2": "",
+          "scroll_text_3": "",
+          "inside_main_headline": "",
+          "tab_1_headline": "",
+          "tab_1_content": "",
+          "tab_2_headline": "",
+          "tab_2_content": "",
+          "tab_3_icon": "shopify://shop_images/scientist.svg",
+          "tab_3_headline": "",
+          "tab_3_content": "",
+          "dosage_main_headline": "",
+          "dosage_1_headline": "",
+          "dosage_1_content": "",
+          "dosage_2_headline": "",
+          "dosage_2_content": "",
+          "dosage_3_headline": "",
+          "dosage_3_content": "",
+          "elevia_collection_headline": "Elevia collection"
+        }
+      },
+      "section-hero-small-lab": {
+        "type": "section-hero-small-lab",
+        "settings": {
+          "slide_1_image": "shopify://shop_images/Hero_banner_01_56b777d5-825e-4ae1-a25d-2819dac4f001.jpg",
+          "slide_1_image_mobile": "shopify://shop_images/Hero_banner_01_mobile_2d5d5a7d-a2ec-4557-8178-acd5ca7cced8.jpg",
+          "slide_1_headline": "<p><span style=\"text-decoration:underline\">Preciznost</span>, která není vidět – ale je cítit</p>",
+          "slide_1_description": "<p>Dodáváme špičkové modely laděné do detailu pro maximální účinek a spolehlivost.</p>",
+          "slide_1_button": "<p>Zjisti více</p>",
+          "slide_1_link": "https://elevia.cz/pages/about-us",
+          "slide_2_image": "shopify://shop_images/Hero_Carousel_Wellness_Elevia_Lab_Desktop_01.jpg",
+          "slide_2_image_mobile": "shopify://shop_images/Hero_Carousel_Wellness_Elevia_Lab_Mobile_01.jpg",
+          "slide_2_headline": "<p><span style=\"text-decoration:underline\">Elevia.</span>Smysl pro detail.</p>",
+          "slide_2_description": "<p>Každý produkt mluví za sebe – jednoduchý design, promyšlené složení, maximální kvalita.</p>",
+          "slide_2_button": "<p>Zjisti více</p>",
+          "slide_2_link": "",
+          "slide_3_image": "shopify://shop_images/Hero_banner_02.jpg",
+          "slide_3_image_mobile": "shopify://shop_images/Hero_banner_02_mobile.jpg",
+          "slide_3_headline": "<p><span style=\"text-decoration:underline\">Každá fáze</span> v našich rukou</p>",
+          "slide_3_description": "<p>Od genetiky po produkt – vše vzniká precizně, cíleně a bez kompromisů.</p>",
+          "slide_3_button": "<p>Zjisti více</p>",
+          "slide_3_link": ""
+        }
+      }
+    },
+    "content_for_index": []
+  }
+}

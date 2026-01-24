@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Variants V2 - 3D Box</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #0a0a0a;
+            color: white;
+            padding: 40px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 300;
+            color: #888;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #141414;
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid #222;
+        }
+        .card h3 {
+            color: #EC162A;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .logo-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #1a1a1a;
+            border-radius: 8px;
+        }
+        .sizes {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .size-label {
+            font-size: 10px;
+            color: #666;
+            text-align: center;
+        }
+        .with-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-text {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .logo-text span {
+            color: #EC162A;
+        }
+        .desc {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Varianta 2: 3D Box - Více možností</h1>
+    
+    <div class="grid">
+        <!-- 2A: Původní -->
+        <div class="card">
+            <h3>2A: Původní verze</h3>
+            <div class="logo-row">
+                <div class="sizes">
+                    <div>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2">
+                            <rect x="6" y="10" width="20" height="20" rx="2"/>
+                            <line x1="26" y1="10" x2="34" y2="4"/>
+                            <line x1="26" y1="30" x2="34" y2="24"/>
+                            <line x1="6" y1="10" x2="14" y2="4"/>
+                            <rect x="14" y="4" width="20" height="20" rx="2" opacity="0.5"/>
+                        </svg>
+                        <div class="size-label">40px</div>
+                    </div>
+                    <div>
+                        <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                            <rect x="6" y="10" width="20" height="20" rx="2"/>
+                            <line x1="26" y1="10" x2="34" y2="4"/>
+                            <line x1="26" y1="30" x2="34" y2="24"/>
+                            <line x1="6" y1="10" x2="14" y2="4"/>
+                            <rect x="14" y="4" width="20" height="20" rx="2" opacity="0.5"/>
+                        </svg>
+                        <div class="size-label">24px</div>
+                    </div>
+                    <div>
+                        <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="3">
+                            <rect x="6" y="10" width="20" height="20" rx="2"/>
+                            <line x1="26" y1="10" x2="34" y2="4"/>
+                            <line x1="26" y1="30" x2="34" y2="24"/>
+                            <line x1="6" y1="10" x2="14" y2="4"/>
+                            <rect x="14" y="4" width="20" height="20" rx="2" opacity="0.5"/>
+                        </svg>
+                        <div class="size-label">16px</div>
+                    </div>
+                </div>
+                <div class="with-text">
+                    <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                        <rect x="6" y="10" width="20" height="20" rx="2"/>
+                        <line x1="26" y1="10" x2="34" y2="4"/>
+                        <line x1="26" y1="30" x2="34" y2="24"/>
+                        <line x1="6" y1="10" x2="14" y2="4"/>
+                        <rect x="14" y="4" width="20" height="20" rx="2" opacity="0.5"/>
+                    </svg>
+                    <span class="logo-text">Elevia <span>3D</span> Config</span>
+                </div>
+            </div>
+            <p class="desc">Dva čtverce s 3D spojnicemi</p>
+        </div>
+
+        <!-- 2B: Jednodušší -->
+        <div class="card">
+            <h3>2B: Minimalistický box</h3>
+            <div class="logo-row">
+                <div class="sizes">
+                    <div>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2">
+                            <rect x="4" y="12" width="22" height="22" rx="2"/>
+                            <polyline points="4,12 14,4 36,4 36,26 26,34"/>
+                            <line x1="26" y1="12" x2="36" y2="4"/>
+                        </svg>
+                        <div class="size-label">40px</div>
+                    </div>
+                    <div>
+                        <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                            <rect x="4" y="12" width="22" height="22" rx="2"/>
+                            <polyline points="4,12 14,4 36,4 36,26 26,34"/>
+                            <line x1="26" y1="12" x2="36" y2="4"/>
+                        </svg>
+                        <div class="size-label">24px</div>
+                    </div>
+                    <div>
+                        <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="3">
+                            <rect x="4" y="12" width="22" height="22" rx="2"/>
+                            <polyline points="4,12 14,4 36,4 36,26 26,34"/>
+                            <line x1="26" y1="12" x2="36" y2="4"/>
+                        </svg>
+                        <div class="size-label">16px</div>
+                    </div>
+                </div>
+                <div class="with-text">
+                    <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                        <rect x="4" y="12" width="22" height="22" rx="2"/>
+                        <polyline points="4,12 14,4 36,4 36,26 26,34"/>
+                        <line x1="26" y1="12" x2="36" y2="4"/>
+                    </svg>
+                    <span class="logo-text">Elevia <span>3D</span> Config</span>
+                </div>
+            </div>
+            <p class="desc">Čistý 3D box bez zadní stěny</p>
+        </div>
+
+        <!-- 2C: Silnější -->
+        <div class="card">
+            <h3>2C: Bold box</h3>
+            <div class="logo-row">
+                <div class="sizes">
+                    <div>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                            <rect x="4" y="14" width="20" height="20" rx="1"/>
+                            <polygon points="4,14 16,4 36,4 36,24 24,34 4,34" fill="none"/>
+                            <line x1="24" y1="14" x2="36" y2="4"/>
+                        </svg>
+                        <div class="size-label">40px</div>
+                    </div>
+                    <div>
+                        <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="3">
+                            <rect x="4" y="14" width="20" height="20" rx="1"/>
+                            <polygon points="4,14 16,4 36,4 36,24 24,34 4,34" fill="none"/>
+                            <line x1="24" y1="14" x2="36" y2="4"/>
+                        </svg>
+                        <div class="size-label">24px</div>
+                    </div>
+                    <div>
+                        <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="3.5">
+                            <rect x="4" y="14" width="20" height="20" rx="1"/>
+                            <polygon points="4,14 16,4 36,4 36,24 24,34 4,34" fill="none"/>
+                            <line x1="24" y1="14" x2="36" y2="4"/>
+                        </svg>
+                        <div class="size-label">16px</div>
+                    </div>
+                </div>
+                <div class="with-text">
+                    <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="3">
+                        <rect x="4" y="14" width="20" height="20" rx="1"/>
+                        <polygon points="4,14 16,4 36,4 36,24 24,34 4,34" fill="none"/>
+                        <line x1="24" y1="14" x2="36" y2="4"/>
+                    </svg>
+                    <span class="logo-text">Elevia <span>3D</span> Config</span>
+                </div>
+            </div>
+            <p class="desc">Silnější linie, lépe viditelné</p>
+        </div>
+
+        <!-- 2D: Vyplněný přední panel -->
+        <div class="card">
+            <h3>2D: Vyplněná přední strana</h3>
+            <div class="logo-row">
+                <div class="sizes">
+                    <div>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2">
+                            <rect x="4" y="14" width="20" height="20" rx="1" fill="white" fill-opacity="0.1"/>
+                            <polyline points="4,14 16,4 36,4 36,24 24,34"/>
+                            <line x1="24" y1="14" x2="36" y2="4"/>
+                        </svg>
+                        <div class="size-label">40px</div>
+                    </div>
+                    <div>
+                        <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                            <rect x="4" y="14" width="20" height="20" rx="1" fill="white" fill-opacity="0.1"/>
+                            <polyline points="4,14 16,4 36,4 36,24 24,34"/>
+                            <line x1="24" y1="14" x2="36" y2="4"/>
+                        </svg>
+                        <div class="size-label">24px</div>
+                    </div>
+                    <div>
+                        <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="3">
+                            <rect x="4" y="14" width="20" height="20" rx="1" fill="white" fill-opacity="0.15"/>
+                            <polyline points="4,14 16,4 36,4 36,24 24,34"/>
+                            <line x1="24" y1="14" x2="36" y2="4"/>
+                        </svg>
+                        <div class="size-label">16px</div>
+                    </div>
+                </div>
+                <div class="with-text">
+                    <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                        <rect x="4" y="14" width="20" height="20" rx="1" fill="white" fill-opacity="0.1"/>
+                        <polyline points="4,14 16,4 36,4 36,24 24,34"/>
+                        <line x1="24" y1="14" x2="36" y2="4"/>
+                    </svg>
+                    <span class="logo-text">Elevia <span>3D</span> Config</span>
+                </div>
+            </div>
+            <p class="desc">Jemně vyplněná přední strana</p>
+        </div>
+
+        <!-- 2E: Zaoblený -->
+        <div class="card">
+            <h3>2E: Zaoblený box</h3>
+            <div class="logo-row">
+                <div class="sizes">
+                    <div>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="14" width="20" height="20" rx="4"/>
+                            <path d="M4 14 Q10 8 16 4 L36 4 L36 24 Q30 28 24 34"/>
+                            <line x1="24" y1="14" x2="36" y2="4"/>
+                        </svg>
+                        <div class="size-label">40px</div>
+                    </div>
+                    <div>
+                        <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="14" width="20" height="20" rx="4"/>
+                            <path d="M4 14 Q10 8 16 4 L36 4 L36 24 Q30 28 24 34"/>
+                            <line x1="24" y1="14" x2="36" y2="4"/>
+                        </svg>
+                        <div class="size-label">24px</div>
+                    </div>
+                    <div>
+                        <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="14" width="20" height="20" rx="4"/>
+                            <path d="M4 14 Q10 8 16 4 L36 4 L36 24 Q30 28 24 34"/>
+                            <line x1="24" y1="14" x2="36" y2="4"/>
+                        </svg>
+                        <div class="size-label">16px</div>
+                    </div>
+                </div>
+                <div class="with-text">
+                    <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="14" width="20" height="20" rx="4"/>
+                        <path d="M4 14 Q10 8 16 4 L36 4 L36 24 Q30 28 24 34"/>
+                        <line x1="24" y1="14" x2="36" y2="4"/>
+                    </svg>
+                    <span class="logo-text">Elevia <span>3D</span> Config</span>
+                </div>
+            </div>
+            <p class="desc">Měkčí, zaoblené rohy</p>
+        </div>
+
+        <!-- 2F: Otevřený box -->
+        <div class="card">
+            <h3>2F: Otevřený box</h3>
+            <div class="logo-row">
+                <div class="sizes">
+                    <div>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2">
+                            <!-- Base -->
+                            <path d="M4 28 L4 14 L24 14 L24 28"/>
+                            <!-- Back -->
+                            <path d="M4 14 L14 6 L34 6 L34 20 L24 28"/>
+                            <line x1="24" y1="14" x2="34" y2="6"/>
+                            <!-- Open lid -->
+                            <path d="M4 14 L14 6" stroke-dasharray="2 2"/>
+                        </svg>
+                        <div class="size-label">40px</div>
+                    </div>
+                    <div>
+                        <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                            <path d="M4 28 L4 14 L24 14 L24 28"/>
+                            <path d="M4 14 L14 6 L34 6 L34 20 L24 28"/>
+                            <line x1="24" y1="14" x2="34" y2="6"/>
+                            <path d="M4 14 L14 6" stroke-dasharray="2 2"/>
+                        </svg>
+                        <div class="size-label">24px</div>
+                    </div>
+                    <div>
+                        <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="3">
+                            <path d="M4 28 L4 14 L24 14 L24 28"/>
+                            <path d="M4 14 L14 6 L34 6 L34 20 L24 28"/>
+                            <line x1="24" y1="14" x2="34" y2="6"/>
+                        </svg>
+                        <div class="size-label">16px</div>
+                    </div>
+                </div>
+                <div class="with-text">
+                    <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                        <path d="M4 28 L4 14 L24 14 L24 28"/>
+                        <path d="M4 14 L14 6 L34 6 L34 20 L24 28"/>
+                        <line x1="24" y1="14" x2="34" y2="6"/>
+                    </svg>
+                    <span class="logo-text">Elevia <span>3D</span> Config</span>
+                </div>
+            </div>
+            <p class="desc">Box bez spodní hrany - více "otevřený"</p>
+        </div>
+
+        <!-- 2G: Symetrický -->
+        <div class="card">
+            <h3>2G: Symetrický box</h3>
+            <div class="logo-row">
+                <div class="sizes">
+                    <div>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2">
+                            <!-- Front face centered -->
+                            <rect x="8" y="12" width="18" height="18" rx="1"/>
+                            <!-- 3D lines -->
+                            <line x1="26" y1="12" x2="32" y2="6"/>
+                            <line x1="26" y1="30" x2="32" y2="24"/>
+                            <line x1="8" y1="12" x2="14" y2="6"/>
+                            <!-- Top face -->
+                            <polygon points="8,12 14,6 32,6 26,12" fill="none"/>
+                            <!-- Right face -->
+                            <polygon points="26,12 32,6 32,24 26,30" fill="none" opacity="0.5"/>
+                        </svg>
+                        <div class="size-label">40px</div>
+                    </div>
+                    <div>
+                        <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                            <rect x="8" y="12" width="18" height="18" rx="1"/>
+                            <line x1="26" y1="12" x2="32" y2="6"/>
+                            <line x1="26" y1="30" x2="32" y2="24"/>
+                            <line x1="8" y1="12" x2="14" y2="6"/>
+                            <polygon points="8,12 14,6 32,6 26,12" fill="none"/>
+                            <polygon points="26,12 32,6 32,24 26,30" fill="none" opacity="0.5"/>
+                        </svg>
+                        <div class="size-label">24px</div>
+                    </div>
+                    <div>
+                        <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="3">
+                            <rect x="8" y="12" width="18" height="18" rx="1"/>
+                            <line x1="26" y1="12" x2="32" y2="6"/>
+                            <line x1="26" y1="30" x2="32" y2="24"/>
+                            <line x1="8" y1="12" x2="14" y2="6"/>
+                            <polygon points="8,12 14,6 32,6 26,12" fill="none"/>
+                            <polygon points="26,12 32,6 32,24 26,30" fill="none" opacity="0.5"/>
+                        </svg>
+                        <div class="size-label">16px</div>
+                    </div>
+                </div>
+                <div class="with-text">
+                    <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                        <rect x="8" y="12" width="18" height="18" rx="1"/>
+                        <line x1="26" y1="12" x2="32" y2="6"/>
+                        <line x1="26" y1="30" x2="32" y2="24"/>
+                        <line x1="8" y1="12" x2="14" y2="6"/>
+                        <polygon points="8,12 14,6 32,6 26,12" fill="none"/>
+                        <polygon points="26,12 32,6 32,24 26,30" fill="none" opacity="0.5"/>
+                    </svg>
+                    <span class="logo-text">Elevia <span>3D</span> Config</span>
+                </div>
+            </div>
+            <p class="desc">Kompletní 3D box se všemi stěnami</p>
+        </div>
+
+        <!-- 2H: Ultra minimální -->
+        <div class="card">
+            <h3>2H: Ultra minimální</h3>
+            <div class="logo-row">
+                <div class="sizes">
+                    <div>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2">
+                            <rect x="6" y="14" width="20" height="20" rx="2"/>
+                            <path d="M6 14 L14 6 L34 6 L26 14"/>
+                            <line x1="34" y1="6" x2="34" y2="26"/>
+                            <line x1="26" y1="34" x2="34" y2="26"/>
+                        </svg>
+                        <div class="size-label">40px</div>
+                    </div>
+                    <div>
+                        <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                            <rect x="6" y="14" width="20" height="20" rx="2"/>
+                            <path d="M6 14 L14 6 L34 6 L26 14"/>
+                            <line x1="34" y1="6" x2="34" y2="26"/>
+                            <line x1="26" y1="34" x2="34" y2="26"/>
+                        </svg>
+                        <div class="size-label">24px</div>
+                    </div>
+                    <div>
+                        <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="3">
+                            <rect x="6" y="14" width="20" height="20" rx="2"/>
+                            <path d="M6 14 L14 6 L34 6 L26 14"/>
+                            <line x1="34" y1="6" x2="34" y2="26"/>
+                            <line x1="26" y1="34" x2="34" y2="26"/>
+                        </svg>
+                        <div class="size-label">16px</div>
+                    </div>
+                </div>
+                <div class="with-text">
+                    <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                        <rect x="6" y="14" width="20" height="20" rx="2"/>
+                        <path d="M6 14 L14 6 L34 6 L26 14"/>
+                        <line x1="34" y1="6" x2="34" y2="26"/>
+                        <line x1="26" y1="34" x2="34" y2="26"/>
+                    </svg>
+                    <span class="logo-text">Elevia <span>3D</span> Config</span>
+                </div>
+            </div>
+            <p class="desc">Čisté linie, jasná čitelnost</p>
+        </div>
+
+        <!-- 2I: S akcentem -->
+        <div class="card">
+            <h3>2I: S červeným akcentem</h3>
+            <div class="logo-row">
+                <div class="sizes">
+                    <div>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke-width="2">
+                            <rect x="6" y="14" width="20" height="20" rx="2" stroke="white"/>
+                            <path d="M6 14 L14 6 L34 6 L26 14" stroke="white"/>
+                            <line x1="34" y1="6" x2="34" y2="26" stroke="white"/>
+                            <line x1="26" y1="34" x2="34" y2="26" stroke="white"/>
+                            <!-- Red accent -->
+                            <line x1="26" y1="14" x2="34" y2="6" stroke="#EC162A" stroke-width="2.5"/>
+                        </svg>
+                        <div class="size-label">40px</div>
+                    </div>
+                    <div>
+                        <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke-width="2.5">
+                            <rect x="6" y="14" width="20" height="20" rx="2" stroke="white"/>
+                            <path d="M6 14 L14 6 L34 6 L26 14" stroke="white"/>
+                            <line x1="34" y1="6" x2="34" y2="26" stroke="white"/>
+                            <line x1="26" y1="34" x2="34" y2="26" stroke="white"/>
+                            <line x1="26" y1="14" x2="34" y2="6" stroke="#EC162A" stroke-width="3"/>
+                        </svg>
+                        <div class="size-label">24px</div>
+                    </div>
+                    <div>
+                        <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke-width="3">
+                            <rect x="6" y="14" width="20" height="20" rx="2" stroke="white"/>
+                            <path d="M6 14 L14 6 L34 6 L26 14" stroke="white"/>
+                            <line x1="34" y1="6" x2="34" y2="26" stroke="white"/>
+                            <line x1="26" y1="34" x2="34" y2="26" stroke="white"/>
+                            <line x1="26" y1="14" x2="34" y2="6" stroke="#EC162A" stroke-width="3.5"/>
+                        </svg>
+                        <div class="size-label">16px</div>
+                    </div>
+                </div>
+                <div class="with-text">
+                    <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke-width="2.5">
+                        <rect x="6" y="14" width="20" height="20" rx="2" stroke="white"/>
+                        <path d="M6 14 L14 6 L34 6 L26 14" stroke="white"/>
+                        <line x1="34" y1="6" x2="34" y2="26" stroke="white"/>
+                        <line x1="26" y1="34" x2="34" y2="26" stroke="white"/>
+                        <line x1="26" y1="14" x2="34" y2="6" stroke="#EC162A" stroke-width="3"/>
+                    </svg>
+                    <span class="logo-text">Elevia <span>3D</span> Config</span>
+                </div>
+            </div>
+            <p class="desc">Červená linie jako brand element</p>
+        </div>
+
+        <!-- 2J: Jednoduchý s tečkou -->
+        <div class="card">
+            <h3>2J: S červenou tečkou</h3>
+            <div class="logo-row">
+                <div class="sizes">
+                    <div>
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2">
+                            <rect x="6" y="14" width="20" height="20" rx="2"/>
+                            <path d="M6 14 L14 6 L34 6 L26 14"/>
+                            <line x1="34" y1="6" x2="34" y2="26"/>
+                            <line x1="26" y1="34" x2="34" y2="26"/>
+                            <circle cx="34" cy="6" r="3" fill="#EC162A" stroke="none"/>
+                        </svg>
+                        <div class="size-label">40px</div>
+                    </div>
+                    <div>
+                        <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                            <rect x="6" y="14" width="20" height="20" rx="2"/>
+                            <path d="M6 14 L14 6 L34 6 L26 14"/>
+                            <line x1="34" y1="6" x2="34" y2="26"/>
+                            <line x1="26" y1="34" x2="34" y2="26"/>
+                            <circle cx="34" cy="6" r="3" fill="#EC162A" stroke="none"/>
+                        </svg>
+                        <div class="size-label">24px</div>
+                    </div>
+                    <div>
+                        <svg width="16" height="16" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="3">
+                            <rect x="6" y="14" width="20" height="20" rx="2"/>
+                            <path d="M6 14 L14 6 L34 6 L26 14"/>
+                            <line x1="34" y1="6" x2="34" y2="26"/>
+                            <line x1="26" y1="34" x2="34" y2="26"/>
+                            <circle cx="34" cy="6" r="3" fill="#EC162A" stroke="none"/>
+                        </svg>
+                        <div class="size-label">16px</div>
+                    </div>
+                </div>
+                <div class="with-text">
+                    <svg width="24" height="24" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="2.5">
+                        <rect x="6" y="14" width="20" height="20" rx="2"/>
+                        <path d="M6 14 L14 6 L34 6 L26 14"/>
+                        <line x1="34" y1="6" x2="34" y2="26"/>
+                        <line x1="26" y1="34" x2="34" y2="26"/>
+                        <circle cx="34" cy="6" r="3" fill="#EC162A" stroke="none"/>
+                    </svg>
+                    <span class="logo-text">Elevia <span>3D</span> Config</span>
+                </div>
+            </div>
+            <p class="desc">Červená tečka v rohu jako akcent</p>
+        </div>
+    </div>
+
+    <p style="text-align: center; margin-top: 40px; color: #666;">
+        Řekněte mi písmeno varianty (2A-2J), která se vám líbí, a já ji aplikuji.
+    </p>
+</body>
+</html>
+
+
+
+
+
+
+

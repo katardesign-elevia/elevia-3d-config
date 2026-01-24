@@ -1,0 +1,425 @@
+{%- assign headerSnippetPath = "header-product" -%}{%- assign wfPage = "6690d635b3cc001c10906162" -%}{%- assign bodyClasses = "body" -%}
+{%- render 'age' -%}
+{%- section 'navigation' -%}
+
+{%- render 'nav-trigger' -%}
+
+{% section 'product-main-content' %}
+
+{%- section 'section-subscription' -%}
+
+{%- section 'footer' -%}
+
+<script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6690d2871e233e2bb8b7f4f2" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+<script src="{{ 'webflow.js' | asset_url }}" type="text/javascript"></script>
+
+<style>
+
+body { -webkit-font-smoothing: antialiased;
+
+-moz-font-smoothing: antialiased;
+
+-o-font-smoothing: antialiased;}
+
+</style>
+
+<script>
+
+$(document).ready(function() {
+
+var allowed = localStorage.getItem("allowed");
+
+if (allowed != 'true') {
+
+// Zobrazí prvek a zakáže scrollování
+
+$('#age-parent').css('display', 'flex').hide().fadeIn(500);
+
+$('body').addClass('no-scroll'); // Zakáže scrollování
+
+}
+
+});
+
+$("#over-age").click(function() {
+
+$('#age-parent').fadeOut(500, function() {
+
+// Skryje prvek, povolí scrollování a nastaví souhlas do localStorage
+
+localStorage.setItem("allowed", "true");
+
+$('body').removeClass('no-scroll'); // Povolí scrollování
+
+});
+
+});
+
+$("#under-age").click(function() {
+
+$('#error-box').fadeIn(500);
+
+});
+
+</script>
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-scrolldisable@1/scrolldisable.js"></script>
+
+<style>
+
+.cart-wrapper{
+
+height: 100vh;
+
+width: 100vw;
+
+}
+
+</style>
+
+<!-- CUSTOM QUANTITY BUTTONS -->
+
+<script src="https://cdn.jsdelivr.net/gh/CodeCrumbsApp/quantity-buttons@v0.1.4/index.min.js"></script>
+
+<script>
+
+window.CodeCrumbs.QuantityButtons({
+
+quantityGroupClass: 'q-group',
+
+quantityIncrementButtonClass: 'q-inc',
+
+quantityDecrementButtonClass: 'q-dec',
+
+quantityNumberFieldClass: 'q-num',
+
+disableDecrementAtOne: true,
+
+})
+
+</script><!-- [Attributes by Finsweet] Custom Form Select -->
+
+<script defer="" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-selectcustom@1/selectcustom.js"></script>
+
+<style>
+
+.dropdown-link.w-dropdown-link.w--current {
+
+color: #000;
+
+}
+
+</style>
+
+<script>
+
+// Vybereme video element
+
+const videoElement = document.querySelector('video');
+
+// Funkce pro nastavení přehrávání videa podle scrollování
+
+function setVideoProgress() {
+
+const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+const windowHeight = window.innerHeight;
+
+const docHeight = document.documentElement.scrollHeight - windowHeight;
+
+// Vypočítáme procento stránky, které uživatel poscrolloval
+
+const scrollPercentage = scrollTop / docHeight;
+
+// Nastavíme čas videa podle procenta scrolování
+
+if (videoElement.duration) {
+
+videoElement.currentTime = videoElement.duration * scrollPercentage;
+
+}
+
+}
+
+// Funkce, která se spustí, když je video připraveno k přehrávání
+
+function initVideoScrollPlayback() {
+
+// Throttle pro optimalizaci počtu volání funkce při scrollování
+
+let isScrolling;
+
+window.addEventListener('scroll', function () {
+
+// Zastavíme předchozí timeout a nastavíme nový
+
+window.clearTimeout(isScrolling);
+
+// Zavoláme funkci až po 100 ms od posledního scrollování
+
+isScrolling = setTimeout(setVideoProgress, 100);
+
+});
+
+// Zajistíme, že se video začne přehrávat při interakci se stránkou
+
+videoElement.play();
+
+}
+
+// Přidáme událost, která se spustí, když je video připravené
+
+videoElement.addEventListener('canplaythrough', initVideoScrollPlayback);
+
+// Pro případ, že by se událost nespustila, zajistíme fallback při načtení metadat
+
+videoElement.addEventListener('loadedmetadata', setVideoProgress);
+
+</script>
+
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+
+<script>
+
+var swiper = new Swiper('.swiper', {
+
+slidesPerView: 'auto',
+
+spaceBetween: 0,
+
+navigation: {
+
+nextEl: ".next-sec",
+
+prevEl: ".prev-sec",
+
+disabledClass: "disabled"
+
+},
+
+pagination: {
+
+el: ".swiper-pagination",
+
+type: "fraction",
+
+},
+
+});
+
+var swiper1 = new Swiper('.swiper1', {
+
+slidesPerView: 'auto',
+
+spaceBetween: 12,
+
+navigation: {
+
+nextEl: ".next-sec1",
+
+prevEl: ".prev-sec1",
+
+disabledClass: "disabled"
+
+},
+
+pagination: {
+
+el: ".swiper-pagination1",
+
+type: "fraction",
+
+},
+
+});
+
+</script>
+
+<style>
+
+.prev-sec.disabled {
+
+display: none;
+
+}
+
+.next-sec.disabled {
+
+display: none;
+
+}
+
+.prev-sec1.disabled {
+
+display: none;
+
+}
+
+.next-sec1.disabled {
+
+display: none;
+
+}
+
+</style>
+
+<!-- [Attributes by Finsweet] CMS Load -->
+
+<script async="" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmsload@1/cmsload.js"></script>
+
+<!-- faq numbers -->
+
+<script>
+
+function updateNumbers() {
+
+document.querySelectorAll('.faq-wrapper').forEach((el, i) => {
+
+const number = i + 1;
+
+el.querySelector('.faq-number').textContent = number < 10 ? '0' + number : number;
+
+});
+
+}
+
+updateNumbers();
+
+document.querySelector('.w-pagination-next').addEventListener('click', function () {
+
+setTimeout(updateNumbers, 0);
+
+});
+
+</script>
+
+<!-- faq -->
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+
+let itemsToShow = 5;
+
+const faqItems = document.querySelectorAll('.faq-wrapper');
+
+const showMoreButton = document.querySelector('.showmore');
+
+const faqIcon = showMoreButton.querySelector('.is-faq-icon');
+
+const buttonText = showMoreButton.querySelector('.button-text-faq');
+
+function toggleItems() {
+
+faqItems.forEach((item, index) => {
+
+if (index < itemsToShow) {
+
+item.style.display = 'flex';
+
+} else {
+
+item.style.display = 'none';
+
+}
+
+});
+
+}
+
+toggleItems();
+
+buttonText.textContent = 'Show More';
+
+showMoreButton.addEventListener('click', function() {
+
+if (buttonText.textContent.trim() === 'Show More') {
+
+itemsToShow = Math.min(faqItems.length, itemsToShow + 5);
+
+buttonText.textContent = 'Show Less';
+
+faqIcon.style.transform = 'rotate(270deg)';
+
+} else {
+
+itemsToShow = 5;
+
+buttonText.textContent = 'Show More';
+
+faqIcon.style.transform = 'rotate(90deg)';
+
+}
+
+toggleItems();
+
+});
+
+});
+
+</script>
+
+<!-- tabs -->
+
+<script>
+
+document.addEventListener('click', function(event) {
+
+// Zkontroluje, zda byl kliknut prvek s třídou `.inside-icon-wrapper`
+
+if (event.target.matches('.inside-icon-wrapper')) {
+
+// Zkontroluje, zda má prvek také třídu `.w--current`
+
+if (event.target.classList.contains('w--current')) {
+
+// Najde prvek s třídou `.empty-tab` a klikne na něj
+
+const emptyTab = document.querySelector('.empty-tab');
+
+if (emptyTab) {
+
+emptyTab.click();
+
+}
+
+}
+
+}
+
+});
+
+</script>
+
+<!-- Pulse -->
+
+<style>
+
+.inside-icon-wrapper {
+
+animation: pulse-animation 2s infinite;
+
+}
+
+@keyframes pulse-animation {
+
+0% {
+
+box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.6); /* světlý odstín */
+
+}
+
+100% {
+
+box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); /* postupné zeslabení */
+
+}
+
+}
+
+</style>
+
+
+
+{{ 'udesly-shopify.min.js' | asset_url | script_tag }}

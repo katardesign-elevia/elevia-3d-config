@@ -1,0 +1,27 @@
+{% capture listItems %}
+  {%- assign smart_handles = "cartridges,drops,pre-rolls,sprays,buds" -%}
+
+  {%- for item in product.collections -%}
+    {%- unless smart_handles contains item.handle -%}
+      <div role="listitem" class="w-dyn-item">
+        <div class="category">{{ item.title }}</div>
+      </div>
+    {%- endunless -%}
+    
+  {%- endfor -%}
+{% endcapture %}
+
+{% assign items_length = listItems | strip | size %}
+
+<div class="w-dyn-list" udy-collection="collection" replace-sub-ref="categories">
+  {%- unless items_length == 0 -%}
+    <div role="list" class="w-dyn-items">
+      {{ listItems }}
+    </div>
+  {%- endunless -%}
+  {%- if items_length == 0 -%}
+    <div class="w-dyn-empty">
+      <div>No items found.</div>
+    </div>
+  {%- endif -%}
+</div>

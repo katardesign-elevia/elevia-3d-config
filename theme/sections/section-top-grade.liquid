@@ -1,0 +1,63 @@
+<div class="w-layout-blockcontainer container-small w-container">
+      <div class="flex-default">
+        <h2 class="heading-style-h1">{{ section.settings.headline }}</h2>
+        <div class="about-content-block">
+          <div p-add-class="body-xxlarge text-indent">{{ section.settings.content_1 | newline_to_br }}</div>
+        </div>
+        <div class="elevia-pagination">
+          <div class="swiper-pagination"></div>
+        </div>
+        <div class="swiper">
+          <div data-w-id="b15d5ef8-24f0-2703-37c0-0dfba69a3c17" class="prev-sec"></div>
+          <div data-w-id="b15d5ef8-24f0-2703-37c0-0dfba69a3c18" class="next-sec"></div>
+          <div class="swiper-wrapper">
+            <div class="swiper-slide is-photo">{%- if section.settings.image_1 == nil -%}<img loading="lazy" alt="" src="{{ 'lab-1.jpg' | asset_url }}" sizes="(max-width: 767px) 360.99609375px, (max-width: 991px) 55vw, 550px" srcset="{{ 'lab-1.jpg' | asset_img_url: '500x' }} 500w, {{ 'lab-1.jpg' | asset_img_url: '800x' }} 800w, {{ 'lab-1.jpg' | asset_url }} 827w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.image_1.alt | escape }}" src="{{ section.settings.image_1.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+            <div class="swiper-slide is-photo-large">{%- if section.settings.image_2 == nil -%}<img loading="lazy" alt="" src="{{ 'lab-2.jpg' | asset_url }}" sizes="(max-width: 991px) 100vw, 1023.994140625px" srcset="{{ 'lab-2.jpg' | asset_img_url: '500x' }} 500w, {{ 'lab-2.jpg' | asset_img_url: '800x' }} 800w, {{ 'lab-2.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'lab-2.jpg' | asset_img_url: '1600x' }} 1600w, {{ 'lab-2.jpg' | asset_url }} 1806w" class="swiper-image">{%- else -%}<img loading="lazy" alt="{{ section.settings.image_2.alt | escape }}" src="{{ section.settings.image_2.src | img_url: 'master' }}" class="swiper-image">{%- endif -%}</div>
+          </div>
+        </div>
+        <div class="about-content-block">
+          <div p-add-class="body-xxlarge text-indent">{{ section.settings.content_2 | newline_to_br }}</div>
+        </div>
+      </div>
+    </div>
+  
+
+<script>var currentSection = document.currentScript.closest('.shopify-section');currentSection.setAttribute("class","section-default");</script>
+        
+{% schema %}
+{
+  "name": "Section - Top grade",
+  "tag": "section",
+  "class": "section-default",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "richtext",
+      "id": "content_2",
+      "label": "Content 2",
+      "default": "<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur justo pretium nibh tempor, a eleifend ante maximus. Praesent id varius ipsum, a semper nisl. Morbi id mauris mi. Mauris hendrerit dui eget tortor venenatis.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "content_1",
+      "label": "Content 1",
+      "default": "<p>Grown in Switzerland using a persistent organic method, without the use of pesticides, herbicides or chemical additives. On the market from the beginning of 2019, among the most well-known types of CBD Hemp.</p>"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Top grade"
+    }
+  ]
+}
+{% endschema %}

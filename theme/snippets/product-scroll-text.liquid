@@ -1,0 +1,39 @@
+{% comment %}
+  Product Animated Scroll Text
+  Displays animated scrolling text with three rows
+
+  Parameters:
+  - scroll_text_1: string (required)
+  - scroll_text_2: string (required)
+  - scroll_text_3: string (required)
+{% endcomment %}
+
+<div data-w-id="1b5c1d63-0b8e-ec83-615d-7a686ef3cc3b" class="product-scroll-text-wrapper">
+  <div class="blue-overlay">
+    <div class="w-embed"><style>
+.blue-overlay {
+  background: linear-gradient(117deg, {{ light_color }}, rgba(0, 0, 0, 0.00)139.69%);
+}
+</style></div>
+  </div>
+  <div class="animate-text-wrapper">
+    <div class="scroll-text-line-wrapper">
+      <h3 class="text-style-h1 sizing-none">{{ scroll_text_1 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+      <h3 class="text-style-h1 sizing-none">{{ scroll_text_1 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+      <h3 class="text-style-h1 sizing-none">{{ scroll_text_1 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+      <h3 class="text-style-h1 sizing-none">{{ scroll_text_1 }}</h3>
+    </div>
+    <div class="scroll-text-line-wrapper is-2">
+      <h3 class="text-style-h1 sizing-none">{{ scroll_text_2 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+      <h3 class="text-style-h1 sizing-none">{{ scroll_text_2 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+      <h3 class="text-style-h1 sizing-none">{{ scroll_text_2 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+      <h3 class="text-style-h1 sizing-none">{{ scroll_text_2 }}</h3>
+    </div>
+    <div class="scroll-text-line-wrapper">
+      <h3 class="text-style-h1 sizing-none">{{ scroll_text_3 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+      <h3 class="text-style-h1 sizing-none">{{ scroll_text_3 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+      <h3 class="text-style-h1 sizing-none">{{ scroll_text_3 }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+      <h3 class="text-style-h1 sizing-none">{{ scroll_text_3 }}</h3>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,231 @@
+
+    <div class="w-layout-blockcontainer container-small w-container">
+      <div class="flex-default">
+        <h2 class="heading-style-h1">{{ section.settings.headline | rich_text }}</h2>
+        <div id="form" class="about-content-block is-about-us">
+          <div p-add-class="body-xxlarge text-indent">{{ section.settings.description | newline_to_br }}</div>
+          <div class="contact-form w-form">
+            <div class="w-embed">
+              <style>
+  .form-input:focus + .form-label,
+  .form-input:not(:placeholder-shown) + .form-label {
+    top: 8px;
+    font-size: 0.75rem;
+    transform: translateY(0%);
+  }
+</style>
+            </div>
+            {%- form "contact",  class: "form-contact" -%}
+              <div id="w-node-e10402f7-f9f1-15ce-29a4-6406518859da-518859cc" class="form-group"><input class="form-input w-input" maxlength="256" name="contact[first_name_]" data-name="First Name 2" placeholder="{{ 't20' | t }}" type="text" id="First-name-2" required=""><label for="contact[first_name_]" id="w-node-e10402f7-f9f1-15ce-29a4-6406518859dc-518859cc" class="form-label">{{ section.settings.placeholder_name }}</label>
+                <div class="icon-error w-embed"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 7V12M12 16V16.5M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12Z" stroke="url(#paint0_linear_2962_6029)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <defs>
+                      <linearGradient id="paint0_linear_2962_6029" x1="1" y1="11.9091" x2="24.0374" y2="14.8367" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#E53C33"></stop>
+                        <stop offset="1" stop-color="#AA2721"></stop>
+                      </linearGradient>
+                    </defs>
+                  </svg></div>
+                <div class="icon-success w-embed"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 12.3137L9.65685 17.9706L20.9706 6.65687" stroke="#067306" stroke-width="2" stroke-linecap="round"></path>
+                  </svg></div>
+                <div class="text-error">{{ 'tn7177deee' | t }}</div>
+              </div>
+              <div id="w-node-e10402f7-f9f1-15ce-29a4-6406518859e2-518859cc" class="form-group"><input class="form-input w-input" maxlength="256" name="contact[email]" data-name="Email 6" placeholder="{{ 't20' | t }}" type="email" id="Email-6" required=""><label for="contact[first_name_]" id="w-node-e10402f7-f9f1-15ce-29a4-6406518859e4-518859cc" class="form-label">{{ section.settings.placeholder_email }}</label>
+                <div class="icon-error w-embed"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 7V12M12 16V16.5M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12Z" stroke="url(#paint0_linear_2929_12709)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <defs>
+                      <linearGradient id="paint0_linear_2929_12709" x1="1" y1="11.9091" x2="24.0374" y2="14.8367" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#E53C33"></stop>
+                        <stop offset="1" stop-color="#AA2721"></stop>
+                      </linearGradient>
+                    </defs>
+                  </svg></div>
+                <div class="icon-success w-embed"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 12.3137L9.65685 17.9706L20.9706 6.65687" stroke="#067306" stroke-width="2" stroke-linecap="round"></path>
+                  </svg></div>
+                <div class="text-error">{{ 'tn5c225fee' | t }}</div>
+              </div>
+              <div id="w-node-e10402f7-f9f1-15ce-29a4-6406518859ea-518859cc" class="form-group"><input class="form-input w-input" maxlength="256" name="contact[phone_number_]" data-name="Phone Number 2" placeholder="{{ 't20' | t }}" type="tel" id="Phone-number-2" required=""><label for="contact[first_name_]" id="w-node-e10402f7-f9f1-15ce-29a4-6406518859ec-518859cc" class="form-label">{{ section.settings.placeholder_phone }}</label>
+                <div class="icon-error w-embed"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 7V12M12 16V16.5M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12Z" stroke="url(#paint0_linear_2929_12709)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <defs>
+                      <linearGradient id="paint0_linear_2929_12709" x1="1" y1="11.9091" x2="24.0374" y2="14.8367" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#E53C33"></stop>
+                        <stop offset="1" stop-color="#AA2721"></stop>
+                      </linearGradient>
+                    </defs>
+                  </svg></div>
+                <div class="icon-success w-embed"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 12.3137L9.65685 17.9706L20.9706 6.65687" stroke="#067306" stroke-width="2" stroke-linecap="round"></path>
+                  </svg></div>
+                <div class="text-error">{{ 'tn48d022c4' | t }}</div>
+              </div>
+              <div id="w-node-e10402f7-f9f1-15ce-29a4-6406518859f2-518859cc" class="form-group"><input class="form-input w-input" maxlength="256" name="contact[company_]" data-name="Company 2" placeholder="{{ 't20' | t }}" type="text" id="Company-2"><label for="contact[first_name_]" id="w-node-e10402f7-f9f1-15ce-29a4-6406518859f4-518859cc" class="form-label">{{ section.settings.placeholder_company }}</label>
+                <div class="icon-success w-embed"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 12.3137L9.65685 17.9706L20.9706 6.65687" stroke="#067306" stroke-width="2" stroke-linecap="round"></path>
+                  </svg></div>
+                <div class="text-error">{{ 'tn6efedba' | t }}</div>
+              </div>
+              <div id="w-node-e10402f7-f9f1-15ce-29a4-6406518859f9-518859cc" class="form-group"><textarea id="Message-2" name="contact[message_]" maxlength="5000" data-name="Message 2" placeholder="" required="" class="form-input is-text-field w-node-e10402f7-f9f1-15ce-29a4-6406518859fa-518859cc w-input"></textarea><label for="contact[first_name_]" id="w-node-e10402f7-f9f1-15ce-29a4-6406518859fb-518859cc" class="form-label">{{ section.settings.placeholder_message }}</label>
+                <div class="icon-error w-embed"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 7V12M12 16V16.5M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12Z" stroke="url(#paint0_linear_2929_12709)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <defs>
+                      <linearGradient id="paint0_linear_2929_12709" x1="1" y1="11.9091" x2="24.0374" y2="14.8367" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#E53C33"></stop>
+                        <stop offset="1" stop-color="#AA2721"></stop>
+                      </linearGradient>
+                    </defs>
+                  </svg></div>
+                <div class="icon-success w-embed"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 12.3137L9.65685 17.9706L20.9706 6.65687" stroke="#067306" stroke-width="2" stroke-linecap="round"></path>
+                  </svg></div>
+                <div class="text-error">{{ 't65c9f820' | t }}</div>
+              </div>
+              <div id="w-node-e10402f7-f9f1-15ce-29a4-640651885a01-518859cc" class="btn-contact"><input type="submit" data-wait="Sending" class="button is-secondary is-contact w-button" value="{{ section.settings.submit_text }}"><img id="w-node-e10402f7-f9f1-15ce-29a4-640651885a03-518859cc" loading="lazy" alt="" src="{{ 'icon-button.svg' | asset_url }}" class="icon-button is-contact"></div>
+              <div id="w-node-e10402f7-f9f1-15ce-29a4-640651885a04-518859cc" class="hidden w-embed w-script">
+                <script>
+// Funkce pro validaci různých typů inputů
+function validateInput(input) {
+  const value = input.value.trim();
+  const type = input.getAttribute("type") || input.tagName.toLowerCase();
+  // Pokud je pole prázdné, neprovádíme validaci
+  if (value === "") {
+    return { isValid: false, isEmpty: true };
+  }
+  let isValid = true;
+  if (type === "text") {
+    isValid = value.length >= 2;
+  } else if (type === "email") {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    isValid = emailRegex.test(value);
+  } else if (type === "tel" || input.getAttribute("name") === "Phone-number") {
+    const phoneRegex = /^\d{7,15}$/; // Min. 7 číslic, max. 15
+    isValid = phoneRegex.test(value);
+  } else if (type === "textarea") {
+    isValid = value.length >= 3;
+  }
+  return { isValid, isEmpty: false };
+}
+// Funkce pro zobrazení stavů success a error
+function setValidationState(input, isValid, isEmpty) {
+  const label = input.nextElementSibling; // Předpokládáme, že label je hned za inputem
+  const iconSuccess = input.parentElement.querySelector(".icon-success");
+  const iconError = input.parentElement.querySelector(".icon-error");
+  const textError = input.parentElement.querySelector(".text-error");
+  // Reset tříd a stavů
+  input.classList.remove("error", "success");
+  label.classList.remove("error", "success");
+  if (iconSuccess) iconSuccess.style.display = "none";
+  if (iconError) iconError.style.display = "none";
+  if (textError) textError.style.display = "none";
+  // Pokud je pole prázdné, nepřidávej žádnou třídu
+  if (isEmpty) {
+    return;
+  }
+  // Pokud je validní
+  if (isValid) {
+    input.classList.add("success");
+    label.classList.add("success");
+    if (iconSuccess) iconSuccess.style.display = "block";
+  } else {
+    // Pokud je nevalidní
+    input.classList.add("error");
+    label.classList.add("error");
+    if (iconError) iconError.style.display = "block";
+    if (textError) textError.style.display = "block";
+  }
+}
+// Funkce, která se spustí při ztrátě fokusu
+function handleBlur(event) {
+  const input = event.target;
+  const { isValid, isEmpty } = validateInput(input);
+  setValidationState(input, isValid, isEmpty);
+}
+// Najít všechny vstupy ve formuláři
+document.querySelectorAll(".form-input").forEach(input => {
+  input.addEventListener("blur", handleBlur);
+});
+</script>
+              </div>
+            {%- assign form_success = form.posted_successfully? -%}{%- assign form_errors = form.errors -%}{%- render "form-general-script", form_success: form_success, form_errors: form_errors -%}{%- endform -%}
+            <div class="success-message-2 w-form-done  {% if form_success %}form-posted-successfully{% endif %}">
+              <div class="success-wrapper"><img src="{{ 'success-message.svg' | asset_url }}" loading="lazy" alt="">
+                <h2 class="all-caps text-align-center two-rows">{{ 'tn431a04a8' | t }}</h2>
+                <p class="body-xlarge">{{ 't1cc3ec33' | t }}<br>{{ 'tn6ee10800' | t }}</p>
+              </div>
+            </div>
+            {%- unless form_success -%}<div class="w-form-fail  {% if form.errors %}form-has-errors{% endif %}">
+              <div>{%- render "form-errors", form_errors: form_errors -%}</div>
+            </div>{%- endunless -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+<script>var currentSection = document.currentScript.closest('.shopify-section');currentSection.setAttribute("class","section-default");</script>
+        
+{% schema %}
+{
+  "name": "Section - Contact",
+  "tag": "section",
+  "class": "section-default",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "headline",
+      "label": "Headline",
+      "default": "<p><u>Contact</u> us</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>If you have a problem, we will solve it and make sure you’re happy. Whatever it takes. Just reach out to us. We’re here for you.</p>"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_name",
+      "label": "Placeholder – Name",
+      "default": "Enter your name"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_email",
+      "label": "Placeholder – Email",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_phone",
+      "label": "Placeholder – Phone",
+      "default": "Enter your phone"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_company",
+      "label": "Placeholder – Company",
+      "default": "Enter your company"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_message",
+      "label": "Placeholder – Message",
+      "default": "Enter your message"
+    },
+    {
+      "type": "text",
+      "id": "submit_text",
+      "label": "Submit button text",
+      "default": "Send"
+    },
+    {
+      "type": "text",
+      "id": "submit_wait_text",
+      "label": "Submit loading text",
+      "default": "Sending..."
+    }
+  ]
+}
+{% endschema %}

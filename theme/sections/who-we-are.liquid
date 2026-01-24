@@ -1,0 +1,77 @@
+<div class="w-layout-blockcontainer container-small w-container">
+  <div class="flex-default">
+    <h2 class="heading-style-h1">{{ section.settings.headline | rich_text }}</h2>
+    <div class="about-content-block">
+      <div p-add-class="body-xxlarge text-indent">{{ section.settings.description | newline_to_br }}</div>
+    </div>
+    <div class="elevia-pagination">
+      <div class="swiper-pagination"></div>
+    </div>
+    <div class="swiper">
+      <div data-w-id="80a78cdd-d080-e6b6-29ba-9fdcf2f4d341" class="prev-sec"></div>
+      <div data-w-id="80a78cdd-d080-e6b6-29ba-9fdcf2f4d342" class="next-sec"></div>
+      <div class="swiper-wrapper">
+        <div class="swiper-slide is-photo">
+          {%- if section.settings.image_1 == nil -%}
+            <img loading="lazy" alt="" src="{{ 'about-1.jpg' | asset_url }}" sizes="(max-width: 767px) 360.99609375px, (max-width: 991px) 55vw, 550px" srcset="{{ 'about-1.jpg' | asset_img_url: '500x' }} 500w, {{ 'about-1.jpg' | asset_img_url: '800x' }} 800w, {{ 'about-1.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'about-1.jpg' | asset_url }} 1102w" class="swiper-image">
+          {%- else -%}
+            <img loading="lazy" alt="{{ section.settings.image_1.alt | escape }}" src="{{ section.settings.image_1.src | img_url: 'master' }}" class="swiper-image">
+          {%- endif -%}
+        </div>
+        <div class="swiper-slide is-photo-large">
+          {%- if section.settings.image_2 == nil -%}
+            <img loading="lazy" alt="" src="{{ 'about-2.jpg' | asset_url }}" sizes="(max-width: 991px) 100vw, 1023.994140625px" srcset="{{ 'about-2.jpg' | asset_img_url: '500x' }} 500w, {{ 'about-2.jpg' | asset_img_url: '800x' }} 800w, {{ 'about-2.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'about-2.jpg' | asset_img_url: '1600x' }} 1600w, {{ 'about-2.jpg' | asset_img_url: '2000x' }} 2000w, {{ 'about-2.jpg' | asset_url }} 2408w" class="swiper-image">
+          {%- else -%}
+            <img loading="lazy" alt="{{ section.settings.image_2.alt | escape }}" src="{{ section.settings.image_2.src | img_url: 'master' }}" class="swiper-image">
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+    <div class="about-content-block">
+      <div p-add-class="body-xxlarge text-indent">{{ section.settings.description_2 | newline_to_br }}</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var currentSection = document.currentScript.closest('.shopify-section');
+  currentSection.setAttribute("class","section-default");
+</script>
+
+{% schema %}
+{
+  "name": "Who we are",
+  "tag": "section",
+  "class": "section-default",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "headline",
+      "label": "Headline",
+      "default": "<p><u>Who</u> we are</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Our advanced cultivation and extraction methods leverage the latest grow tech to guarantee quality, purity, and potency. Sourced from carefully selected Swiss strains.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "description_2",
+      "label": "Description 2",
+      "default": "<p>Our expertise is supported by advanced industry knowledge and meticulously maintained, state-of-the-art facilities, ensuring the highest standards of production and quality.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    }
+  ]
+}
+{% endschema %}

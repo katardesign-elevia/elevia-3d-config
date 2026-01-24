@@ -1,0 +1,1062 @@
+{% comment %}
+  Upozornění: Texty jako název produktu, jeho popis, cena nebo hodnoty z metafields
+  (např. koncentrace, objem, texty v tabulkách "What's inside")
+  se stále upravují přímo v detailu produktu v administraci Shopify,
+  což je správný postup, protože jsou specifické pro každý jednotlivý produkt.
+  Tento kód zpřístupňuje pro editaci pouze obecné texty šablony.
+{% endcomment %}
+
+{%- assign headerSnippetPath = "header-product" -%}{%- assign wfPage = "6690d635b3cc001c10906162" -%}{%- assign bodyClasses = "body" -%}
+  {%- render 'age' -%}
+
+  <nav class="nav">
+    <div class="background-nav"></div>
+    <div class="nav-block">
+      <div class="main-mobile-nav">
+        <div class="mobile-nav-wrapper">
+         <a data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5602" href="#" class="nav-link w-inline-block">
+            <div class="nav-text">{{ section.settings.nav_shop }}</div>
+            <div class="icon-nav w-embed"><svg fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5625" y="0.5625" width="34.875" height="34.875" rx="17.4375" stroke="currentColor" stroke-width="1.125"></rect>
+                <path d="M19.6358 14.1819L18.8667 14.951L21.3649 17.4546H12.5449V18.5455H21.3649L18.8613 21.0492L19.6358 21.8182L23.454 18.0001L19.6358 14.1819Z" fill="currentColor"></path>
+              </svg></div>
+          </a>
+          <a href="{{ pages["elevia-lab"].url }}" class="nav-link w-inline-block">
+            <div class="nav-text">{{ section.settings.nav_lab }}</div>
+          </a>
+          <a href="{{ pages["about-us"].url }}" class="nav-link w-inline-block">
+            <div class="nav-text">{{ section.settings.nav_about }}</div>
+          </a>
+          <a href="{{ pages["contact"].url }}" class="nav-link w-inline-block">
+            <div class="nav-text">{{ section.settings.nav_contact }}</div>
+          </a>
+        </div>
+        <div class="nav-footer-wrapper">
+        <div class="footer-links-wrapper">
+          <a href="mailto:{{ section.settings.footer_email }}" class="body-xsmall text-style-caps">{{ section.settings.footer_email }}</a>
+          <a href="tel:{{ section.settings.footer_phone | replace: ' ', '' }}" class="body-xsmall text-style-caps">{{ section.settings.footer_phone }}</a>
+        </div>
+        <div class="bottom-wrapper">
+          <div class="footer-links-wrapper is-nav">
+            <a href="{{ section.settings.footer_fb_link }}" class="body-xsmall text-style-caps">{{ section.settings.footer_fb_text }}</a>
+            <a href="{{ section.settings.footer_ig_link }}" class="body-xsmall text-style-caps">{{ section.settings.footer_ig_text }}</a>
+          </div>
+          <div class="locales-wrapper is-nav w-locales-list mobile">
+              <div data-hover="false" data-delay="0" class="w-dropdown">
+                <div class="dropdown-toggle w-dropdown-toggle">
+                  {% assign flag_code = localization.language.iso_code %}
+                  {% if flag_code == 'cs' %}{% assign flag_code = 'cz' %}{% endif %}
+                  <img class="locale-flag" src="https://cdn.shopify.com/s/files/1/0892/9283/3113/files/{{ flag_code }}.png?v=1737303910" loading="lazy" alt="{{ localization.language.endonym_name }}">
+                  <div class="locale-text">{{ localization.language.iso_code | upcase }}</div>
+                  <img src="{{ 'chevron-down.svg' | asset_url }}" loading="lazy" alt="Dropdown Icon">
+                </div>
+                <nav class="dropdown-list w-dropdown-list">
+                  <div role="list" class="w-locales-items">
+                    {% for locale in localization.available_languages %}
+                      <div role="listitem" class="locale w-locales-item">
+                        <a hreflang="{{ locale.iso_code }}" href="{{ locale.root_url }}" class="locale-link {% if locale.iso_code == localization.language.iso_code %}active-locale{% else %}inactive-locale{% endif %}">
+                          {% if locale.iso_code == 'cs' %}<span>{{ section.settings.lang_czech }}</span>
+                          {% elsif locale.iso_code == 'en' %}<span>{{ section.settings.lang_english }}</span>
+                          {% endif %}
+                        </a>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </nav>
+              </div>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="body-xsmall text-style-caps text-color-light-gray">{{ section.settings.footer_rights }}</div>
+      </div>
+      </div>
+      <div fs-scrolldisable-element="preserve" class="main-nav">
+        <div>
+          <a data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae561c" href="#" class="nav-link is-nav w-inline-block">
+            <div class="icon-nav is-back w-embed"><svg fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.5625" y="0.5625" width="34.875" height="34.875" rx="17.4375" stroke="currentColor" stroke-width="1.125"></rect><path d="M19.6358 14.1819L18.8667 14.951L21.3649 17.4546H12.5449V18.5455H21.3649L18.8613 21.0492L19.6358 21.8182L23.454 18.0001L19.6358 14.1819Z" fill="currentColor"></path></svg></div>
+          </a>
+          <a data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae561e" href="#" class="nav-link is-nav is-last-level w-inline-block">
+            <div class="icon-nav is-back w-embed"><svg fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.5625" y="0.5625" width="34.875" height="34.875" rx="17.4375" stroke="currentColor" stroke-width="1.125"></rect><path d="M19.6358 14.1819L18.8667 14.951L21.3649 17.4546H12.5449V18.5455H21.3649L18.8613 21.0492L19.6358 21.8182L23.454 18.0001L19.6358 14.1819Z" fill="currentColor"></path></svg></div>
+          </a>
+          <div data-current="Tab 1" data-easing="linear" data-duration-in="500" data-duration-out="500" class="w-tabs">
+            <div class="tabs-menu w-tab-menu">
+              <a data-w-tab="Tab 1" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5622" class="nav-link is-product w-inline-block w-tab-link w--current">
+                <div class="nav-text">{{ section.settings.nav_drops }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect><path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+              </a>
+              <a data-w-tab="Tab 2" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5626" class="nav-link is-product w-inline-block w-tab-link">
+                <div class="nav-text">{{ section.settings.nav_sprays }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect><path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+              </a>
+              <a data-w-tab="Tab 3" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae562a" class="nav-link is-product w-inline-block w-tab-link">
+                <div class="nav-text">{{ section.settings.nav_cartridges }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect><path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+              </a>
+              <a data-w-tab="Tab 4" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae562e" class="nav-link is-product w-inline-block w-tab-link">
+                <div class="nav-text">{{ section.settings.nav_prerolls }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect><path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+              </a>
+              <a data-w-tab="Tab 5" data-w-id="01e9cda9-91f4-76ac-12b9-815e50a2c1ef" class="nav-link is-product w-inline-block w-tab-link">
+                <div class="nav-text">{{ section.settings.nav_buds }}</div>
+                <div class="icon-nav w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0.5625" y="0.5625" width="46.875" height="46.875" rx="23.4375" stroke="currentColor" stroke-width="1.125"></rect><path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+              </a>
+            </div>
+            <div class="tabs-content w-tab-content">
+              <div data-w-tab="Tab 1" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5633" class="tab _01 w-tab-pane w--tab-active">
+                {%- if settings.collection_home != blank -%}{%- render "markup_for_collection_home" -%}{%- else -%}{%- render "products_where_animace_drops_eq_true" -%}{%- endif -%}
+              </div>
+              <div data-w-tab="Tab 2" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5644" class="tab _02 w-tab-pane">
+                {%- if settings.collection_2_home != blank -%}{%- render "markup_for_collection_home" -%}{%- else -%}{%- render "products_where_animace_sprey_eq_true" -%}{%- endif -%}
+              </div>
+              <div data-w-tab="Tab 3" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5655" class="tab _03 w-tab-pane">
+                {%- if settings.collection_3_home != blank -%}{%- render "markup_for_collection_home" -%}{%- else -%}{%- render "products_where_animace_cartridge_eq_true" -%}{%- endif -%}
+              </div>
+              <div data-w-tab="Tab 4" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5666" class="tab _04 w-tab-pane">
+                {%- if settings.collection_4_home != blank -%}{%- render "markup_for_collection_home" -%}{%- else -%}{%- render "products_where_animace_pre_roll_eq_true" -%}{%- endif -%}
+              </div>
+              <div data-w-tab="Tab 5" data-w-id="a3c2c7b3-61c3-ae4a-8a70-1413ed046d8a" class="tab _04 w-tab-pane">
+                {%- if settings.collection_5_home != blank -%}{%- render "markup_for_collection_home" -%}{%- else -%}{%- render "products_where_animace_buds_eq_true" -%}{%- endif -%}
+              </div>
+            </div>
+          </div>
+            <div class="nav-footer-wrapper">
+              <div class="footer-links-wrapper">
+                <a href="mailto:{{ section.settings.footer_email }}" class="body-xsmall text-style-caps">{{ section.settings.footer_email }}</a>
+                <a href="tel:{{ section.settings.footer_phone | replace: ' ', '' }}" class="body-xsmall text-style-caps">{{ section.settings.footer_phone }}</a>
+              </div>
+              <div class="bottom-wrapper">
+                <div class="footer-links-wrapper is-nav">
+                   <a href="{{ section.settings.footer_fb_link }}" class="body-xsmall text-style-caps">{{ section.settings.footer_fb_text }}</a>
+                   <a href="{{ section.settings.footer_ig_link }}" class="body-xsmall text-style-caps">{{ section.settings.footer_ig_text }}</a>
+                </div>
+                <div class="locales-wrapper is-nav w-locales-list mobile">
+                    <div data-hover="false" data-delay="0" class="w-dropdown">
+                      <div class="dropdown-toggle w-dropdown-toggle">
+                        {% assign flag_code = localization.language.iso_code %}
+                        {% if flag_code == 'cs' %}{% assign flag_code = 'cz' %}{% endif %}
+                        <img class="locale-flag" src="https://cdn.shopify.com/s/files/1/0892/9283/3113/files/{{ flag_code }}.png?v=1737303910" loading="lazy" alt="{{ localization.language.endonym_name }}">
+                        <div class="locale-text">{{ localization.language.iso_code | upcase }}</div>
+                        <img src="{{ 'chevron-down.svg' | asset_url }}" loading="lazy" alt="Dropdown Icon">
+                      </div>
+                      <nav class="dropdown-list w-dropdown-list">
+                        <div role="list" class="w-locales-items">
+                          {% for locale in localization.available_languages %}
+                            <div role="listitem" class="locale w-locales-item">
+                              <a hreflang="{{ locale.iso_code }}" href="{{ locale.root_url }}" class="locale-link {% if locale.iso_code == localization.language.iso_code %}active-locale{% else %}inactive-locale{% endif %}">
+                               {% if locale.iso_code == 'cs' %}<span>{{ section.settings.lang_czech }}</span>
+                               {% elsif locale.iso_code == 'en' %}<span>{{ section.settings.lang_english }}</span>
+                               {% endif %}
+                              </a>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      </nav>
+                    </div>
+                  </div>
+              </div>
+              <div class="divider"></div>
+              <div class="body-xsmall text-style-caps text-color-light-gray">{{ section.settings.footer_rights }}</div>
+            </div>
+        </div>
+      </div>
+      <div fs-scrolldisable-element="enable" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5682" class="close-button">
+        <div class="icon-16 w-embed"><svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12.5L12.5 3M12.5 12.5L3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"></path></svg></div>
+      </div>
+    </div>
+    <div class="w-layout-blockcontainer container w-container">
+      <div class="nav-wrapper">
+        <a href="{{ routes.root_url }}" aria-current="page" class="w-inline-block w--current"><img src="{{ 'logo-elevia.png' | asset_url }}" loading="lazy" alt="" class="logo"></a>
+        <div class="btn-wrapper">
+     <div id="shop" fs-scrolldisable-element="disable" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae5689" class="is-shop">
+            <div class="nav-btn">{{ section.settings.nav_shop }}</div>
+          </div>
+          <a data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae568c" href="{{ pages["elevia-lab"].url }}" class="nav-link-small w-inline-block">
+            <div class="nav-btn">{{ section.settings.nav_lab }}</div>
+            <div class="line-hover"></div>
+          </a>
+          <a href="{{ pages["about-us"].url }}" class="nav-link-small w-inline-block">
+            <div class="nav-btn">{{ section.settings.nav_about }}</div>
+            <div class="line-hover"></div>
+          </a>
+          <a href="{{ pages["contact"].url }}" class="nav-link-small w-inline-block">
+            <div class="nav-btn">{{ section.settings.nav_contact }}</div>
+            <div class="line-hover"></div>
+          </a>
+          <div class="nav-actions-wrapper">
+            <div data-open-product="" data-wf-cart-type="rightSidebar" data-wf-cart-query="" data-wf-page-link-href-prefix="" class="w-commerce-commercecartwrapper" data-node-type="commerce-cart-wrapper" udy-collection="cart">
+              <a fs-scrolldisable-element="disable" class="w-commerce-commercecartopenlink cart-button w-inline-block" role="button" aria-haspopup="dialog" aria-label="Open cart" data-node-type="commerce-cart-open-link" href="#">
+                <div class="w-commerce-commercecartopenlinkcount cart-quantity">{{ cart.item_count }}</div>
+              </a>
+              <div fs-scrolldisable-element="enable" style="display:none" class="w-commerce-commercecartcontainerwrapper w-commerce-commercecartcontainerwrapper--cartType-rightSidebar cart-wrapper" data-node-type="commerce-cart-container-wrapper">
+                <div data-node-type="commerce-cart-container" role="dialog" class="w-commerce-commercecartcontainer cart-container">
+                  <div class="w-commerce-commercecartheader cart-header">
+                    <h4 class="w-commerce-commercecartheading is-cart">{{ section.settings.cart_title }}</h4>
+                    <a fs-scrolldisable-element="enable" class="w-commerce-commercecartcloselink close-button-nav is-cart w-inline-block" role="button" aria-label="Close cart" data-node-type="commerce-cart-close-link"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="cart-icon"><path d="M4.69876 4.69889L11.2984 11.2985M4.69876 11.2985L11.2984 4.69889" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="round"></path></svg></a>
+                  </div>
+                  <div class="w-commerce-commercecartformwrapper">
+                    <form style="display:none" class="w-commerce-commercecartform default-state-2" data-node-type="commerce-cart-form">
+                    <script type="text/x-wf-template" id="wf-template-518ab7e8-44ca-8ff3-aceb-156905ae56a7">
+                      <div data-node-type="cart-item" class="cart-item w-commerce-commercecartitem" template-part-bind="518ab7e8-44ca-8ff3-aceb-156905ae56a8">
+                        <div class="div-block">
+                          <img data-node-type="cart-item-image" class="cart-image w-commerce-commercecartitemimage" template-part-bind="518ab7e8-44ca-8ff3-aceb-156905ae56a9" src="<%= it.image %>">
+                          <div data-node-type="cart-item-info" class="cart-item-main-block w-commerce-commercecartiteminfo" template-part-bind="518ab7e8-44ca-8ff3-aceb-156905ae56aa">
+                            <div>
+                              <a data-node-type="link" class="cart-name" template-part-bind="9740335f-e9c4-cecc-9377-f0c3cf43637a" href="<%= it.url%>"><%= it.title %></a>
+                              <div class="cart-item-details_wrapper">
+                                <div data-node-type="cart-product-name" class="w-commerce-commercecartproductname">
+                                  <%= it.properties['Kategorie'] ? it.properties['Kategorie'] : 'N/A' %> / 
+                                  <%= it.properties['Objem'] ? it.properties['Objem'] : 'N/A' %> / 
+                                  <%= it.properties['Koncentrace'] ? it.properties['Koncentrace'] : 'N/A' %>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="q-group">
+                              <a data-node-type="link" class="q-dec secondary" data-action="decrement"></a>
+                              <input class="w-commerce-commercecartquantity q-num" name="<%= it.id %>" type="number" min="1" value="<%= it.quantity %>" data-node-type="cart-quantity">
+                              <a data-node-type="link" class="q-inc secondary" data-action="increment"></a>
+                            </div>
+                            <ul class="hidden w-commerce-commercecartoptionlist" template-part-bind="518ab7e8-44ca-8ff3-aceb-156905ae56ad">
+                              <% Object.entries(it.properties).forEach(data => { %>
+                                <li data-node-type="cart-option-list-item">
+                                  <span data-node-type="cart-option-list-item-label"><%= data[0] %></span>
+                                  <span data-node-type="span">: </span>
+                                  <span data-node-type="cart-option-list-item-value"><%= data[1] %></span>
+                                </li>
+                              <% }) %>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="cart-item-right">
+                          <a data-node-type="cart-remove-link" class="remove-button" href="#" role="button" data-product-id="<%= it.id %>">
+                            <img data-node-type="image" src="https://cdn.prod.website-files.com/6690d2871e233e2bb8b7f4f2/670bd6b68a3334a31359cfeb_delete.svg" loading="lazy" width="auto" height="auto" alt="__wf_reserved_inherit">
+                          </a>
+                          <div><%= it.price %></div>
+                        </div>
+                      </div>
+                    </script>
+                    <div class="w-commerce-commercecartlist cart-list" data-wf-collection="database.commerceOrder.userItems" data-wf-template-id="wf-template-518ab7e8-44ca-8ff3-aceb-156905ae56a7"></div>
+                      <div class="w-commerce-commercecartfooter cart-footer">
+                        <div class="body-medium">{{ section.settings.cart_summary_title }}</div>
+                        <div class="summary-wrapper">
+                          <div aria-atomic="true" aria-live="polite" class="w-commerce-commercecartlineitem cart-line-item">
+                            <div>{{ section.settings.cart_subtotal_label }}</div>
+                            <div>{{ section.settings.cart_shipping_label }}</div>
+                          </div>
+                          <div aria-atomic="true" aria-live="polite" class="w-commerce-commercecartlineitem cart-line-item">
+                            <div>{{ section.settings.cart_total_label }}</div>
+                            <div class="w-commerce-commercecartordervalue text-style-bold">{{ cart.items_subtotal_price | money_with_currency }}</div>
+                          </div>
+                        </div>
+                        <div>
+                          <div data-node-type="commerce-cart-quick-checkout-actions" class="hidden">{{ content_for_additional_checkout_buttons }}</div>
+                          <div class="btn-cart">
+                            <a href="/checkout" value="Continue to Checkout" class="w-commerce-commercecartcheckoutbutton button is-secondary is-cart-detail" data-loading-text="{{ section.settings.cart_checkout_loading_text }}" data-node-type="cart-checkout-button">{{ section.settings.cart_checkout_button_text }}</a><img id="w-node-_8ac098a2-c6be-4180-9257-576844da5838-05ae55fe" loading="lazy" alt="" src="{{ 'icon-button.svg' | asset_url }}" class="icon-button is-contact">
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    <div class="w-commerce-commercecartemptystate empty-state"><img src="{{ 'emtpy-bin.svg' | asset_url }}" loading="lazy" alt="">
+                      <div aria-label="This cart is empty" aria-live="polite" class="body-large text-align-center">{{ section.settings.cart_empty_text }}</div>
+                    </div>
+                    <div aria-live="assertive" style="display:none" data-node-type="commerce-cart-error" class="w-commerce-commercecarterrorstate">
+                      <div class="w-cart-error-msg" data-w-cart-quantity-error="Product is not available in this quantity." data-w-cart-general-error="Something went wrong when adding this item to the cart." data-w-cart-checkout-error="Checkout is disabled on this site." data-w-cart-cart_order_min-error="The order minimum was not met. Add more items to your cart to continue." data-w-cart-subscription_error-error="Before you purchase, please use your email invite to verify your address so we can send order updates.">{{ section.settings.cart_error_text }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+              <a href="/account/login" class="user-button" type="button" ></a>
+      </div>
+          <div fs-scrolldisable-element="disable" data-w-id="518ab7e8-44ca-8ff3-aceb-156905ae56cb" class="nav-button"><img src="{{ 'menu.svg' | asset_url }}" loading="lazy" alt="" class="icon-16"></div>
+            <div class="locales-wrapper is-nav w-locales-list">
+              <div data-hover="false" data-delay="0" class="w-dropdown">
+                <div class="dropdown-toggle w-dropdown-toggle">
+                  {% assign flag_code = localization.language.iso_code %}
+                  {% if flag_code == 'cs' %}{% assign flag_code = 'cz' %}{% endif %}
+                  <img class="locale-flag" src="https://cdn.shopify.com/s/files/1/0892/9283/3113/files/{{ flag_code }}.png?v=1737303910" loading="lazy" alt="{{ localization.language.endonym_name }}">
+                  <div class="locale-text">{{ localization.language.iso_code | upcase }}</div>
+                  <img class="dropdown-icon" src="{{ 'chevron-down.svg' | asset_url }}" loading="lazy" alt="Dropdown Icon">
+                </div>
+                <nav class="dropdown-list w-dropdown-list">
+                  <div role="list" class="w-locales-items">
+                    {% for locale in localization.available_languages %}
+                      <div role="listitem" class="locale w-locales-item">
+                        <a hreflang="{{ locale.iso_code }}" href="{{ locale.root_url }}" class="locale-link {% if locale.iso_code == localization.language.iso_code %}active-locale{% else %}inactive-locale{% endif %}">
+                         {% if locale.iso_code == 'cs' %}<span>{{ section.settings.lang_czech }}</span>
+                         {% elsif locale.iso_code == 'en' %}<span>{{ section.settings.lang_english }}</span>
+                         {% endif %}
+                        </a>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </nav>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  {%- render 'nav-trigger' -%}
+  <div class="cursor-wrapper">
+    <div data-w-id="be3ade52-c742-3b99-8d47-1dc04b4d6b78" style="display:none;opacity:0" class="button-prev">
+      <div class="circle-button-wrapper">
+        <div>{{ section.settings.cursor_prev_text }}</div>
+      </div>
+    </div>
+    <div data-w-id="be3ade52-c742-3b99-8d47-1dc04b4d6b7c" style="display:none;opacity:0" class="button-next">
+      <div class="circle-button-wrapper">
+        <div>{{ section.settings.cursor_next_text }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="sections-wrapper">
+    <div class="gradient"></div>
+    <div class="w-embed"><style>
+.gradient {
+      background-image: radial-gradient(circle, {{ product.metafields.custom['light-color'].value }}, #fff0);
+    }
+.body {
+      background-color: {{ product.metafields.custom['bg-color'].value }};
+    }
+</style></div>
+    <div class="animation-wrapper">
+      <div data-w-id="5c3becb2-6412-cdf6-2455-0ecf9d2bc167" class="animation-line"></div>
+      <div class="animation">
+        {%- if product.metafields.udesly['animace---cartridge'] == "true" -%}<div data-is-ix2-target="1" class="lottie desktop" data-w-id="cbc11771-50c3-6e30-d92d-efb30a62fc0a" data-animation-type="lottie" data-src="{{ 'vape_desktop_data.json' | asset_url }}" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="0" data-duration="3.2"></div>{%- endif -%}
+        {%- if product.metafields.udesly['animace---cartridge'] == "true" -%}<div data-is-ix2-target="1" class="lottie mobile" data-w-id="14a09bb3-1618-82ce-0d86-7fdb6105d8fa" data-animation-type="lottie" data-src="{{ 'vape_mobile_data.json' | asset_url }}" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="0" data-duration="3.2"></div>{%- endif -%}
+        {%- if product.metafields.udesly['animace---pre-roll'] == "true" -%}<div data-is-ix2-target="1" class="lottie desktop" data-w-id="22f11d91-82ed-0808-d9c1-2a22275e8f9b" data-animation-type="lottie" data-src="{{ 'prerolldesktopdata.json' | asset_url }}" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="0" data-duration="3.2"></div>{%- endif -%}
+        {%- if product.metafields.udesly['animace---pre-roll'] == "true" -%}<div data-is-ix2-target="1" class="lottie mobile" data-w-id="8a2e0cbc-15e6-386d-ea11-f8bd9a4970b3" data-animation-type="lottie" data-src="{{ 'prerollmobiledata.json' | asset_url }}" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="0" data-duration="3.2"></div>{%- endif -%}
+        {%- if product.metafields.udesly['animace---drops'] == "true" -%}<div data-is-ix2-target="1" class="lottie desktop" data-w-id="a539ae67-d8c3-f7aa-298a-4466ec77bb53" data-animation-type="lottie" data-src="{{ 'drops_desktop_data.json' | asset_url }}" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="0" data-duration="3.2"></div>{%- endif -%}
+        {%- if product.metafields.udesly['animace---drops'] == "true" -%}<div data-is-ix2-target="1" class="lottie mobile" data-w-id="53ef65d6-b0a3-e81f-cfb6-1d022bdea733" data-animation-type="lottie" data-src="{{ 'kapky_mobile_animation.json' | asset_url }}" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="0" data-duration="3.2"></div>{%- endif -%}
+        {%- if product.metafields.udesly['animace---sprey'] == "true" -%}<div data-is-ix2-target="1" class="lottie desktop" data-w-id="70c4bebc-e7d5-bf0f-53a4-13c325e3c9dd" data-animation-type="lottie" data-src="{{ 'drops_desktop_data.json' | asset_url }}" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="0" data-duration="3.2"></div>{%- endif -%}
+        {%- if product.metafields.udesly['animace---sprey'] == "true" -%}<div data-is-ix2-target="1" class="lottie mobile" data-w-id="fef7721a-2b2d-dfd5-cfd6-03ddc34bb560" data-animation-type="lottie" data-src="{{ 'kapky_mobile_animation.json' | asset_url }}" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="0" data-duration="3.2"></div>{%- endif -%}
+        {%- if product.metafields.udesly['animace---buds'] == "true" -%}<div data-is-ix2-target="1" class="lottie desktop" data-w-id="d7f05131-83ce-fa36-3355-b8f3d386f891" data-animation-type="lottie" data-src="{{ 'drops_desktop_data.json' | asset_url }}" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="0" data-duration="3.2"></div>{%- endif -%}
+        {%- if product.metafields.udesly['animace---buds'] == "true" -%}<div data-is-ix2-target="1" class="lottie mobile" data-w-id="fa6f39b3-ec81-a8b6-3c4f-4943fcd5a896" data-animation-type="lottie" data-src="{{ 'kapky_mobile_animation.json' | asset_url }}" data-loop="0" data-direction="1" data-autoplay="0" data-renderer="svg" data-default-duration="0" data-duration="3.2"></div>{%- endif -%}
+      </div>
+    </div>
+    <section class="hero-section">
+      <div class="w-layout-blockcontainer container-small is-relative w-container">
+        <div class="hero-wrapper">
+          <div class="hero-left">
+            <div class="info-wrapper">
+              <div class="product-headline-wrapper">
+                {%- render "categories",item: item -%}
+                <div class="product-hero">
+                  <div class="heading-product-wrapper">
+                    <h1 class="h1-product">{{ product.title }}</h1>
+                  </div>
+                  <p class="body-large text-color-white70">{{ product.metafields.udesly['description'] }}</p>
+                  <div class="product-detail-wrapper">
+                    <p data-commerce-type="variation-price" class="body-large">{{ product.price | money_with_currency }}</p>
+                    <p class="body-large">{{ section.settings.hero_separator }}</p>
+                    <p class="body-large">{{ product.metafields.udesly['objem'] }}</p>
+                    <p class="body-large">{{ section.settings.hero_separator }}</p>
+                    <p class="body-large">{{ product.metafields.udesly['koncentrace'] }}</p>
+                    <p class="body-large">{{ section.settings.hero_separator }}</p>
+                    <p class="body-large">{{ product.metafields.udesly['thc'] }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="buy-wrapper">
+              <div class="add-to-cart">
+                {%- form "product", product, data-node-type: "commerce-add-to-cart-form", class: "w-commerce-commerceaddtocartform default-state" -%}
+                  {%- unless product.has_only_default_variant or product.variants.size == 1 -%}<div data-node-type="add-to-cart-option-list" class="option-wrapper" position-id="eeddbc66-7920-1bd3-9fc1-90130ecb321c">{%- for option in product.options_with_values -%}<fieldset data-node-type="add-to-cart-option" class="select-product-wrapper" style="{% if product.has_only_default_variant or product.variants.size == 1 %}display: none; {% endif %}"><select data-node-type="add-to-cart-option-select" class="flavour-select w-select" style="display: none;" name="{{ "option" | append: forloop.index }}">{%- render "product-options", option: option -%}</select><div data-node-type="block" class="flavour-text">{{ section.settings.hero_flavour_text }}</div><div data-node-type="add-to-cart-option-pill-group" class="option-group w-commerce-commerceaddtocartoptionpillgroup" aria-label="{{ "option" | append: forloop.index  }}">{%- for value in option.values -%}<div data-node-type="add-to-cart-option-pill" class="option-button w-commerce-commerceaddtocartoptionpill" data-option-name="{{ value | handle }}"><div data-node-type="block">{{ value }}</div></div>{%- endfor -%}</div></fieldset>{%- endfor -%}</div>{%- endunless -%}<div position-id="d827eb46-d994-ca85-78c9-a4edaec80b8c" class="div-block-2">
+                    <div position-id="3da2ca77-59e8-4d72-afd1-83197b3568c2" class="q-group">
+                      <a href="#" class="q-dec w-inline-block">
+                        <div class="icon-16 w-embed"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33203 8H12.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                      </a><input type="number" pattern="^[0-9]+$" inputmode="numeric" id="quantity-59b2ec7cf44737366f565bd7b6544353" name="quantity" min="1" class="w-commerce-commerceaddtocartquantityinput q-num" value="1">
+                      <a href="#" class="q-inc w-inline-block">
+                        <div class="icon-16 w-embed"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.9987 3.33203V12.6654M3.33203 7.9987H12.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+                      </a>
+                    </div>
+                    <input type="hidden" name="properties[Objem]" value="{{ product.metafields.udesly['objem'] }}">
+                    <input type="hidden" name="properties[Koncentrace]" value="{{ product.metafields.udesly['koncentrace'] }}">
+                    <input type="hidden" name="properties[Kategorie]" value="{% for collection in product.collections %}{{ collection.title }}{% unless forloop.last %}, {% endunless %}{% endfor %}">
+                    <input data-loading-text="{{ section.settings.hero_add_to_cart_loading }}" data-node-type="commerce-add-to-cart-button" class="w-commerce-commerceaddtocartbutton button is-add" fs-scrolldisable-element="disable" aria-haspopup="dialog" type="submit" aria-busy="false" position-id="eeddbc66-7920-1bd3-9fc1-90130ecb3226" value="{{ section.settings.hero_add_to_cart_text }}">
+                  </div>
+                {%- render "product-variants-data-currency" product: product -%}{%- endform -%}
+                <div style="display:none" class="w-commerce-commerceaddtocartoutofstock" tabindex="0">
+                  <div>{{ section.settings.hero_out_of_stock_text }}</div>
+                </div>
+                <div aria-live="assertive" data-node-type="commerce-add-to-cart-error" style="display:none" class="w-commerce-commerceaddtocarterror">
+                  <div data-node-type="commerce-add-to-cart-error" data-w-add-to-cart-quantity-error="Product is not available in this quantity." data-w-add-to-cart-general-error="Something went wrong when adding this item to the cart." data-w-add-to-cart-mixed-cart-error="You can’t purchase another product with a subscription." data-w-add-to-cart-buy-now-error="Something went wrong when trying to purchase this item." data-w-add-to-cart-checkout-disabled-error="Checkout is disabled on this site." data-w-add-to-cart-select-all-options-error="Please select an option in each set.">{{ section.settings.cart_error_text }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section data-w-id="3d063970-d973-aef2-327f-e7c1df462790" class="main-section">
+      <div class="cursor-wrapper">
+        <div data-w-id="e8ccabab-818f-bbc9-9bdb-4131ed3279be" class="cursor">
+          <div class="cursor-background">
+            <div>{{ section.settings.cursor_drag_text }}</div>
+          </div>
+        </div>
+      </div>
+      <div data-w-id="1b5c1d63-0b8e-ec83-615d-7a686ef3cc3b" class="product-scroll-text-wrapper">
+        <div class="blue-overlay">
+          <div class="w-embed"><style>
+  .blue-overlay {
+    background: linear-gradient(117deg, {{ product.metafields.custom['light-color'].value }}, rgba(0, 0, 0, 0.00)139.69%);
+  }
+</style></div>
+        </div>
+        <div class="animate-text-wrapper">
+          <div class="scroll-text-line-wrapper">
+            <h3 class="text-style-h1 sizing-none">{{ product.metafields.udesly['scroll-text---first-row'] }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+            <h3 class="text-style-h1 sizing-none">{{ product.metafields.udesly['scroll-text---first-row'] }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+            <h3 class="text-style-h1 sizing-none">{{ product.metafields.udesly['scroll-text---first-row'] }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+            <h3 class="text-style-h1 sizing-none">{{ product.metafields.udesly['scroll-text---first-row'] }}</h3>
+          </div>
+          <div class="scroll-text-line-wrapper is-2">
+            <h3 class="text-style-h1 sizing-none">{{ product.metafields.udesly['scroll-text---second-row'] }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+            <h3 class="text-style-h1 sizing-none">{{ product.metafields.udesly['scroll-text---second-row'] }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+            <h3 class="text-style-h1 sizing-none">{{ product.metafields.udesly['scroll-text---second-row'] }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+            <h3 class="text-style-h1 sizing-none">{{ product.metafields.udesly['scroll-text---second-row'] }}</h3>
+          </div>
+          <div class="scroll-text-line-wrapper">
+            <h3 class="text-style-h1 sizing-none">{{ product.metafields.udesly['scroll-text---third-row'] }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+            <h3 class="text-style-h1 sizing-none">{{ product.metafields.udesly['scroll-text---third-row'] }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+            <h3 class="text-style-h1 sizing-none">{{ product.metafields.udesly['scroll-text---third-row'] }}</h3><img src="{{ 'rectangle-green.svg' | asset_url }}" loading="lazy" alt="" class="sizing-none">
+            <h3 class="text-style-h1 sizing-none">{{ product.metafields.udesly['scroll-text---third-row'] }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="w-layout-blockcontainer container is-relative w-container">
+        <div class="wrapper-what-is-elevia">
+          <div class="blue-overlay is-elevia-section"></div>
+          <div class="prodcut-text w-richtext">{{ product.description }}</div>
+        </div>
+        <div class="product-margin">
+          <div class="text-style-display text-align-center text-style-caps max-width-990"> {{ product.metafields.custom.inside_main_headline }} </div>
+        </div>
+        <div class="product-wrapper_whats-inside">
+          <div class="wrapper_whats-inside">
+            <div data-current="" data-easing="ease" data-duration-in="300" data-duration-out="100" class="tabs w-tabs">
+              <div class="inside-bg-wrapper w-tab-menu">
+                <a data-w-tab="Tab 1" class="inside-icon-wrapper _1 w-inline-block w-tab-link w--current"><img src="{{ product.metafields.udesly['tab-1---icon'].src }}" alt="" loading="lazy" class="inside-icon"></a>
+                <a data-w-tab="Tab 2" class="inside-icon-wrapper _2 w-inline-block w-tab-link"><img src="{{ product.metafields.udesly['tab-2---icon'].src }}" alt="" loading="lazy" class="inside-icon"></a>
+                <a data-w-tab="Tab 3" class="inside-icon-wrapper _3 w-inline-block w-tab-link"><img src="{{ product.metafields.udesly['tab-3---icon'].src }}" alt="" loading="lazy" class="inside-icon"></a>
+              </div>
+              <div class="tabs-content-3 w-tab-content">
+                <div data-w-tab="Tab 1" class="w-tab-pane">
+                  <div class="tab-products">
+                    <h4 class="all-caps">{{ product.metafields.udesly['tab-1---headline'] }}</h4>
+                    <p>{{ product.metafields.udesly['tab-1---content'] }}</p>
+                  </div>
+                </div>
+                <div data-w-tab="Tab 2" class="w-tab-pane">
+                  <div class="tab-products">
+                    <h4 class="all-caps">{{ product.metafields.udesly['tab-2---headline'] }}</h4>
+                    <p>{{ product.metafields.udesly['tab-2---content'] }}</p>
+                  </div>
+                </div>
+                <div data-w-tab="Tab 3" class="w-tab-pane">
+                  <div class="tab-products">
+                    <h4 class="all-caps">{{ product.metafields.udesly['tab-3---headline'] }}</h4>
+                    <p>{{ product.metafields.udesly['tab-3---content'] }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="shaodw-bottom"></div>
+    <div class="hidden w-embed"><style>
+  .shaodw-bottom {
+    background-image: linear-gradient(#0000, {{ product.metafields.custom['bg-color'].value }});
+   }
+</style></div>
+  </div>
+  <div class="page-overflow">
+    <section class="section">
+      <div class="w-layout-blockcontainer container-small w-container">
+        <div class="text-style-display text-align-center text-style-caps max-width-990"> {{ product.metafields.custom.dosage_main_headline }} </div>
+        <div class="product-wrapper_dosage">
+          <div id="w-node-b1b76578-47c5-5377-8154-f8442b36bbe2-10906162" class="dosage-block">
+            <div class="dosage-header">
+              <div>{{ section.settings.dosage_1_label }}</div>
+              <div class="body-large">{{ product.metafields.udesly['dosage-1---headline'] }}</div><img src="{{ 'linedot.svg' | asset_url }}" loading="lazy" alt="">
+            </div>
+            <div>{{ product.metafields.udesly['dosage-1---content'] }}</div>
+          </div>
+          <div id="w-node-f3c6bc37-bfc5-51ef-f05a-ec95e1fb8e01-10906162" class="dosage-block">
+            <div class="dosage-header">
+              <div>{{ section.settings.dosage_2_label }}</div>
+              <div class="body-large">{{ product.metafields.udesly['dosage-2---headline'] }}</div><img src="{{ 'linedot.svg' | asset_url }}" loading="lazy" alt="">
+            </div>
+            <div>{{ product.metafields.udesly['dosage-2---content'] }}</div>
+          </div>
+          <div id="w-node-_2c8eecc2-ac72-c797-6123-f1f0b900cd0a-10906162" class="dosage-block">
+            <div class="dosage-header">
+              <div>{{ section.settings.dosage_3_label }}</div>
+              <div class="body-large">{{ product.metafields.udesly['dosage-3---headline'] }}</div><img src="{{ 'linedot.svg' | asset_url }}" loading="lazy" alt="">
+            </div>
+            <div>{{ product.metafields.udesly['dosage-3---content'] }}</div>
+          </div>
+        </div>
+        <div class="product-pagination">
+          <div class="swiper-pagination is-white">{{ section.settings.swiper_pagination_text }}</div>
+        </div>
+      </div>
+    </section>
+    <div>
+      <div data-w-id="f7bb7678-06d3-3d89-63f9-ee3d4168d6dd" class="prev-sec is-product"></div>
+      <div data-w-id="f7bb7678-06d3-3d89-63f9-ee3d4168d6de" class="next-sec is-product"></div>
+      {%- assign setItems = product.metafields.udesly['images-carousel'] -%}<div class="swiper w-dyn-list">
+        {%- unless setItems.size == 0 -%}<div role="list" class="swiper-wrapper w-dyn-items">
+          {%- for setItem in setItems -%}<div role="listitem" class="swiper-slide is-product w-dyn-item"><img src="{{ setItem.src }}" alt="" loading="lazy" class="swiper-image"></div>{%- endfor -%}
+        </div>{%- endunless -%}
+        {%- if setItems.size == 0 -%}<div class="w-dyn-empty">
+          <div>{{ section.settings.swiper_no_items_text }}</div>
+        </div>{%- endif -%}
+      <template><div class="swiper w-dyn-list" udesly-repeater="true">
+        <div role="list" class="swiper-wrapper w-dyn-items">
+          <div role="listitem" class="swiper-slide is-product w-dyn-item"><img src="{# setItem.src #}" alt="" loading="lazy" class="swiper-image"></div>
+        </div>
+        <div class="w-dyn-empty">
+          <div>No items found.</div>
+        </div>
+      </div></template></div>
+    </div>
+  </div>
+  <section class="light-section">
+    <div class="w-layout-blockcontainer container-small w-container">
+      <div class="faq-headline-wrapper">
+        <h4 class="text-style-caps no-shrink is-faq">{{ section.settings.faq_headline_1 }}<span class="text-underline">{{ section.settings.faq_headline_2 }}</span></h4>
+        <p class="body-medium">{{ section.settings.faq_description }}</p>
+      </div>
+      {%- render "faqs_of_current_product",item: item -%}
+      <div class="faq-button-wrapper">
+        <div class="button is-secondary showmore">
+          <div class="button-text-faq">{{ section.settings.faq_show_more_text }}</div>
+          <div class="button-icon">
+            <div class="icon-16 is-faq-icon w-embed"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.33203 7.9987H12.6654M12.6654 7.9987L7.9987 3.33203M12.6654 7.9987L7.9987 12.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="light-section">
+    <div class="w-layout-blockcontainer container-small w-container">
+      <div class="flex-default">
+        <div class="headline-pagination">
+          <h4 class="text-style-caps max-width-380"> {{ product.metafields.custom.elevia_collection_headline }} </h4>       
+          <div class="swiper-pagination1"></div>
+        </div>
+        <div class="swiper1">
+          <div data-w-id="4cecb2b0-f206-8f6d-e1a1-c8c798c48de8" class="prev-sec1"></div>
+          <div data-w-id="4cecb2b0-f206-8f6d-e1a1-c8c798c48de9" class="next-sec1"></div>
+          <div class="swiper-wrapper">
+<a href="/product/cbd-drops-flavour-medical" class="swiper-slide is-small-product w-inline-block" style="background-image: url('{{ 'medical.jpg' | asset_url }}')">
+  <div class="product-card-content is-small">
+    <div class="product-card-header">
+      <p class="body-medium all-caps text-color-white80">{{ section.settings.coll_card_1_cat }}</p>
+      <h2 class="all-caps text-align-center">{{ section.settings.coll_card_1_h1 }}<br>{{ section.settings.coll_card_1_h2 }}</h2>
+    </div>
+    <div class="btn-card"><div class="btn-card is-hover"></div></div>
+  </div>
+</a>
+<a href="/product/cbd-cartridge-flavour-vibe" class="swiper-slide is-small-product w-inline-block" style="background-image: url('{{ 'vape_2.jpg' | asset_url }}')">
+  <div class="product-card-content is-small">
+    <div class="product-card-header">
+      <p class="body-medium all-caps text-color-white80">{{ section.settings.coll_card_2_cat }}</p>
+      <h2 class="all-caps text-align-center">{{ section.settings.coll_card_2_h1 }}<br>{{ section.settings.coll_card_2_h2 }}</h2>
+    </div>
+    <div class="btn-card"><div class="btn-card is-hover"></div></div>
+  </div>
+</a>
+<a href="#" class="swiper-slide is-small-product hide w-inline-block" style="background-image: url('{{ 'gummies.jpg' | asset_url }}')">
+  <div class="product-card-content is-small">
+    <div class="product-card-header">
+      <p class="body-medium all-caps text-color-white80">{{ section.settings.coll_card_3_cat }}</p>
+      <h2 class="all-caps text-align-center">{{ section.settings.coll_card_3_h1 }}<br>{{ section.settings.coll_card_3_h2 }}</h2>
+    </div>
+    <div class="btn-card"><div class="btn-card is-hover"></div></div>
+  </div>
+</a>
+<a href="/product/cbd-pre-roll-flavour-vibe" class="swiper-slide is-small-product w-inline-block" style="background-image: url('{{ 'extract.jpg' | asset_url }}')">
+  <div class="product-card-content is-small">
+    <div class="product-card-header">
+      <p class="body-medium all-caps text-color-white80">{{ section.settings.coll_card_4_cat }}</p>
+      <h2 class="all-caps text-align-center">{{ section.settings.coll_card_4_h1 }}<br>{{ section.settings.coll_card_4_h2 }}</h2>
+    </div>
+    <div class="btn-card"><div class="btn-card is-hover"></div></div>
+  </div>
+</a>
+<a href="/product/cbd-buds-flavour-vibe" class="swiper-slide is-small-product w-inline-block" style="background-image: url('{{ 'extract.jpg' | asset_url }}')">
+  <div class="product-card-content is-small">
+    <div class="product-card-header">
+      <p class="body-medium all-caps text-color-white80">{{ section.settings.coll_card_5_cat }}</p>
+      <h2 class="all-caps text-align-center">{{ section.settings.coll_card_5_h1 }}<br>{{ section.settings.coll_card_5_h2 }}</h2>
+    </div>
+    <div class="btn-card"><div class="btn-card is-hover"></div></div>
+  </div>
+</a>
+<a href="/product/cbd-sprey-flavour-medical" class="swiper-slide is-small-product w-inline-block" style="background-image: url('{{ 'medical.jpg' | asset_url }}')">
+  <div class="product-card-content is-small">
+    <div class="product-card-header">
+      <p class="body-medium all-caps text-color-white80">{{ section.settings.coll_card_6_cat }}</p>
+      <h2 class="all-caps text-align-center">{{ section.settings.coll_card_6_h1 }}<br>{{ section.settings.coll_card_6_h2 }}</h2>
+    </div>
+    <div class="btn-card"><div class="btn-card is-hover"></div></div>
+  </div>
+</a>
+            <div class="swiper-slide is-small-product hide">
+              <div class="product-card-content is-last_product">
+                <h2 class="all-caps text-align-center"><span class="is-underlined">{{ section.settings.coll_card_last_h1 }}</span><br>{{ section.settings.coll_card_last_h2 }}</h2>
+                <a href="#" class="button is-secondary w-inline-block">
+                  <div>{{ section.settings.coll_card_last_button }}</div><img src="{{ 'icon-button.svg' | asset_url }}" loading="lazy" alt="" class="icon-button">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {%- section 'section-subscription' -%}
+  {%- section 'footer' -%}
+  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=6690d2871e233e2bb8b7f4f2" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="{{ 'webflow.js' | asset_url }}" type="text/javascript"></script>
+  
+  <script>
+    // FAQ "Show More" / "Show Less" script
+    document.addEventListener('DOMContentLoaded', function() {
+      let itemsToShow = 5;
+      const faqItems = document.querySelectorAll('.faq-wrapper');
+      const showMoreButton = document.querySelector('.showmore');
+      
+      if (showMoreButton) {
+        const faqIcon = showMoreButton.querySelector('.is-faq-icon');
+        const buttonText = showMoreButton.querySelector('.button-text-faq');
+        const showMoreText = '{{ section.settings.faq_show_more_text | escape }}';
+        const showLessText = '{{ section.settings.faq_show_less_text | escape }}';
+
+        function toggleItems() {
+          faqItems.forEach((item, index) => {
+            if (index < itemsToShow) {
+              item.style.display = 'flex';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        }
+
+        toggleItems();
+        buttonText.textContent = showMoreText;
+
+        showMoreButton.addEventListener('click', function() {
+          if (buttonText.textContent.trim() === showMoreText) {
+            itemsToShow = Math.min(faqItems.length, itemsToShow + 5);
+            buttonText.textContent = showLessText;
+            if(faqIcon) faqIcon.style.transform = 'rotate(270deg)';
+          } else {
+            itemsToShow = 5;
+            buttonText.textContent = showMoreText;
+            if(faqIcon) faqIcon.style.transform = 'rotate(90deg)';
+          }
+          toggleItems();
+        });
+      }
+    });
+  </script>
+  
+  {% comment %} Ostatní skripty zůstávají zde... {% endcomment %}
+  
+  <style> body {  -webkit-font-smoothing: antialiased; -moz-font-smoothing: antialiased; -o-font-smoothing: antialiased;} </style>
+  <script>
+    $(document).ready(function() { var allowed = localStorage.getItem("allowed"); if (allowed != 'true') { $('#age-parent').css('display', 'flex').hide().fadeIn(500); $('body').addClass('no-scroll'); } });
+    $("#over-age").click(function() { $('#age-parent').fadeOut(500, function() { localStorage.setItem("allowed", "true"); $('body').removeClass('no-scroll'); }); });
+    $("#under-age").click(function() { $('#error-box').fadeIn(500); });
+  </script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-scrolldisable@1/scrolldisable.js"></script>
+  <style>.cart-wrapper{ height: 100vh; width: 100vw;}</style>
+  <script src="https://cdn.jsdelivr.net/gh/CodeCrumbsApp/quantity-buttons@v0.1.4/index.min.js"></script>
+  <script>window.CodeCrumbs.QuantityButtons({ quantityGroupClass: 'q-group', quantityIncrementButtonClass: 'q-inc', quantityDecrementButtonClass: 'q-dec', quantityNumberFieldClass: 'q-num', disableDecrementAtOne: true, })</script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-selectcustom@1/selectcustom.js"></script>
+  <style>.dropdown-link.w-dropdown-link.w--current {color: #000;}</style>
+  <script>
+    const videoElement = document.querySelector('video');
+    if (videoElement) {
+        function setVideoProgress() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const windowHeight = window.innerHeight;
+            const docHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrollPercentage = scrollTop / docHeight;
+            if (videoElement.duration) { videoElement.currentTime = videoElement.duration * scrollPercentage; }
+        }
+        function initVideoScrollPlayback() {
+            let isScrolling;
+            window.addEventListener('scroll', function () {
+                window.clearTimeout(isScrolling);
+                isScrolling = setTimeout(setVideoProgress, 100);
+            });
+            videoElement.play();
+        }
+        videoElement.addEventListener('canplaythrough', initVideoScrollPlayback);
+        videoElement.addEventListener('loadedmetadata', setVideoProgress);
+    }
+  </script>
+  <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+  <script>
+    var swiper = new Swiper('.swiper', { slidesPerView: 'auto', spaceBetween: 0, navigation: { nextEl: ".next-sec", prevEl: ".prev-sec", disabledClass: "disabled" }, pagination: { el: ".swiper-pagination", type: "fraction", }, });
+    var swiper1 = new Swiper('.swiper1', { slidesPerView: 'auto', spaceBetween: 12, navigation: { nextEl: ".next-sec1", prevEl: ".prev-sec1", disabledClass: "disabled" }, pagination: { el: ".swiper-pagination1", type: "fraction", }, });
+  </script>
+  <style>.prev-sec.disabled {display: none;} .next-sec.disabled {display: none;} .prev-sec1.disabled {display: none;} .next-sec1.disabled {display: none;}</style>
+  <script async="" src="https://cdn.jsdelivr.net/npm/@finsweet/attributes-cmsload@1/cmsload.js"></script>
+  <script>
+    function updateNumbers() { document.querySelectorAll('.faq-wrapper').forEach((el, i) => { const number = i + 1; el.querySelector('.faq-number').textContent = number < 10 ? '0' + number : number; }); }
+    updateNumbers();
+    const nextButton = document.querySelector('.w-pagination-next');
+    if(nextButton) { nextButton.addEventListener('click', function () { setTimeout(updateNumbers, 0); }); }
+  </script>
+  <script>
+    document.addEventListener('click', function(event) { if (event.target.matches('.inside-icon-wrapper')) { if (event.target.classList.contains('w--current')) { const emptyTab = document.querySelector('.empty-tab'); if (emptyTab) { emptyTab.click(); } } } });
+  </script>
+  <style>.inside-icon-wrapper { animation: pulse-animation 2s infinite; } @keyframes pulse-animation { 0% { box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.6); } 100% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); } }</style>
+  {{ 'udesly-shopify.min.js' | asset_url | script_tag }}
+
+{% schema %}
+{
+  "name": "Main Product Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Navigace"
+    },
+    {
+      "type": "text",
+      "id": "nav_shop",
+      "label": "Text odkazu 'Shop'",
+      "default": "Shop"
+    },
+    {
+      "type": "text",
+      "id": "nav_lab",
+      "label": "Text odkazu 'Elevia Lab'",
+      "default": "Elevia Lab"
+    },
+    {
+      "type": "text",
+      "id": "nav_about",
+      "label": "Text odkazu 'About Us'",
+      "default": "About Us"
+    },
+    {
+      "type": "text",
+      "id": "nav_contact",
+      "label": "Text odkazu 'Contact'",
+      "default": "Contact"
+    },
+    {
+      "type": "text",
+      "id": "nav_drops",
+      "label": "Text v menu 'Drops'",
+      "default": "Drops"
+    },
+    {
+      "type": "text",
+      "id": "nav_sprays",
+      "label": "Text v menu 'Sprays'",
+      "default": "Sprays"
+    },
+    {
+      "type": "text",
+      "id": "nav_cartridges",
+      "label": "Text v menu 'Cartridges'",
+      "default": "Cartridges"
+    },
+    {
+      "type": "text",
+      "id": "nav_prerolls",
+      "label": "Text v menu 'Pre-rolls'",
+      "default": "Pre-rolls"
+    },
+    {
+      "type": "text",
+      "id": "nav_buds",
+      "label": "Text v menu 'Buds'",
+      "default": "Buds"
+    },
+    {
+      "type": "header",
+      "content": "Patička"
+    },
+    {
+      "type": "text",
+      "id": "footer_email",
+      "label": "Email v patičce",
+      "default": "info@elevia.com"
+    },
+    {
+      "type": "text",
+      "id": "footer_phone",
+      "label": "Telefon v patičce",
+      "default": "+420 123 298 987"
+    },
+    {
+      "type": "text",
+      "id": "footer_fb_text",
+      "label": "Text odkazu na Facebook",
+      "default": "Facebook"
+    },
+    {
+      "type": "url",
+      "id": "footer_fb_link",
+      "label": "URL odkaz na Facebook"
+    },
+    {
+      "type": "text",
+      "id": "footer_ig_text",
+      "label": "Text odkazu na Instagram",
+      "default": "Instagram"
+    },
+    {
+      "type": "url",
+      "id": "footer_ig_link",
+      "label": "URL odkaz na Instagram"
+    },
+    {
+      "type": "text",
+      "id": "footer_rights",
+      "label": "Text o autorských právech",
+      "default": "© 2024 Elevia. All rights reserved."
+    },
+    {
+      "type": "header",
+      "content": "Přepínač jazyků"
+    },
+    {
+      "type": "text",
+      "id": "lang_czech",
+      "label": "Název pro češtinu",
+      "default": "CZECH"
+    },
+    {
+      "type": "text",
+      "id": "lang_english",
+      "label": "Název pro angličtinu",
+      "default": "ENGLISH"
+    },
+    {
+      "type": "header",
+      "content": "Košík"
+    },
+    {
+      "type": "text",
+      "id": "cart_title",
+      "label": "Nadpis košíku",
+      "default": "Your Cart"
+    },
+    {
+      "type": "text",
+      "id": "cart_summary_title",
+      "label": "Nadpis shrnutí",
+      "default": "Order Summary"
+    },
+    {
+      "type": "text",
+      "id": "cart_subtotal_label",
+      "label": "Popisek 'Subtotal'",
+      "default": "Subtotal"
+    },
+     {
+      "type": "text",
+      "id": "cart_shipping_label",
+      "label": "Popisek dopravy",
+      "default": "Calculated at the next step"
+    },
+    {
+      "type": "text",
+      "id": "cart_total_label",
+      "label": "Popisek 'Total'",
+      "default": "Total"
+    },
+    {
+      "type": "text",
+      "id": "cart_checkout_button_text",
+      "label": "Text tlačítka 'Pokračovat'",
+      "default": "Continue to Checkout"
+    },
+    {
+      "type": "text",
+      "id": "cart_checkout_loading_text",
+      "label": "Načítací text tlačítka",
+      "default": "Processing..."
+    },
+    {
+      "type": "text",
+      "id": "cart_empty_text",
+      "label": "Text prázdného košíku",
+      "default": "Your cart is empty."
+    },
+    {
+      "type": "text",
+      "id": "cart_error_text",
+      "label": "Obecná chybová hláška",
+      "default": "Something went wrong."
+    },
+    {
+      "type": "header",
+      "content": "Stránka produktu - UI prvky"
+    },
+    {
+      "type": "text",
+      "id": "cursor_prev_text",
+      "label": "Text kurzoru 'Předchozí'",
+      "default": "Prev"
+    },
+    {
+      "type": "text",
+      "id": "cursor_next_text",
+      "label": "Text kurzoru 'Další'",
+      "default": "Next"
+    },
+    {
+      "type": "text",
+      "id": "cursor_drag_text",
+      "label": "Text kurzoru 'Táhni'",
+      "default": "Drag"
+    },
+    {
+      "type": "text",
+      "id": "hero_separator",
+      "label": "Oddělovač v detailech produktu",
+      "default": "/",
+      "info": "Znak, který odděluje cenu, objem, atd."
+    },
+    {
+      "type": "text",
+      "id": "hero_flavour_text",
+      "label": "Text nad výběrem varianty",
+      "default": "Select flavour"
+    },
+    {
+      "type": "text",
+      "id": "hero_add_to_cart_text",
+      "label": "Text tlačítka 'Do košíku'",
+      "default": "Add to Cart"
+    },
+     {
+      "type": "text",
+      "id": "hero_add_to_cart_loading",
+      "label": "Načítací text tlačítka 'Do košíku'",
+      "default": "Adding..."
+    },
+    {
+      "type": "text",
+      "id": "hero_out_of_stock_text",
+      "label": "Text pro vyprodaný produkt",
+      "default": "This product is out of stock."
+    },
+    {
+      "type": "text",
+      "id": "swiper_pagination_text",
+      "label": "Text paginace obrázků",
+      "default": "Photos"
+    },
+    {
+      "type": "text",
+      "id": "swiper_no_items_text",
+      "label": "Text, pokud nejsou obrázky",
+      "default": "No items found."
+    },
+    {
+      "type": "header",
+      "content": "Sekce Dávkování"
+    },
+    {
+      "type": "text",
+      "id": "dosage_1_label",
+      "label": "Štítek dávkování 1",
+      "default": "01"
+    },
+    {
+      "type": "text",
+      "id": "dosage_2_label",
+      "label": "Štítek dávkování 2",
+      "default": "02"
+    },
+    {
+      "type": "text",
+      "id": "dosage_3_label",
+      "label": "Štítek dávkování 3",
+      "default": "03"
+    },
+    {
+      "type": "header",
+      "content": "Sekce FAQ"
+    },
+    {
+      "type": "text",
+      "id": "faq_headline_1",
+      "label": "FAQ Nadpis - část 1",
+      "default": "Frequently asked"
+    },
+    {
+      "type": "text",
+      "id": "faq_headline_2",
+      "label": "FAQ Nadpis - část 2 (podtržená)",
+      "default": "questions"
+    },
+    {
+      "type": "richtext",
+      "id": "faq_description",
+      "label": "FAQ Popis",
+      "default": "<p>Learn more about our products and services.<br>Find answers to common questions.</p>"
+    },
+    {
+      "type": "text",
+      "id": "faq_show_more_text",
+      "label": "Text tlačítka 'Zobrazit více'",
+      "default": "Show More"
+    },
+    {
+      "type": "text",
+      "id": "faq_show_less_text",
+      "label": "Text tlačítka 'Zobrazit méně'",
+      "default": "Show Less"
+    },
+    {
+      "type": "header",
+      "content": "Kolekce produktů (Slider)"
+    },
+    { "type": "paragraph", "content": "Karta 1" },
+    { "type": "text", "id": "coll_card_1_cat", "label": "Kategorie", "default": "Vibe" },
+    { "type": "text", "id": "coll_card_1_h1", "label": "Nadpis 1. řádek", "default": "CBD" },
+    { "type": "text", "id": "coll_card_1_h2", "label": "Nadpis 2. řádek", "default": "Drops" },
+    { "type": "paragraph", "content": "Karta 2" },
+    { "type": "text", "id": "coll_card_2_cat", "label": "Kategorie", "default": "Medical" },
+    { "type": "text", "id": "coll_card_2_h1", "label": "Nadpis 1. řádek", "default": "CBD" },
+    { "type": "text", "id": "coll_card_2_h2", "label": "Nadpis 2. řádek", "default": "Vape" },
+    { "type": "paragraph", "content": "Karta 3" },
+    { "type": "text", "id": "coll_card_3_cat", "label": "Kategorie", "default": "Vibe" },
+    { "type": "text", "id": "coll_card_3_h1", "label": "Nadpis 1. řádek", "default": "CBD" },
+    { "type": "text", "id": "coll_card_3_h2", "label": "Nadpis 2. řádek", "default": "Gummies" },
+    { "type": "paragraph", "content": "Karta 4" },
+    { "type": "text", "id": "coll_card_4_cat", "label": "Kategorie", "default": "Vibe" },
+    { "type": "text", "id": "coll_card_4_h1", "label": "Nadpis 1. řádek", "default": "CBD" },
+    { "type": "text", "id": "coll_card_4_h2", "label": "Nadpis 2. řádek", "default": "Extract" },
+    { "type": "paragraph", "content": "Karta 5" },
+    { "type": "text", "id": "coll_card_5_cat", "label": "Kategorie", "default": "Vibe" },
+    { "type": "text", "id": "coll_card_5_h1", "label": "Nadpis 1. řádek", "default": "CBD" },
+    { "type": "text", "id": "coll_card_5_h2", "label": "Nadpis 2. řádek", "default": "Buds" },
+    { "type": "paragraph", "content": "Karta 6" },
+    { "type": "text", "id": "coll_card_6_cat", "label": "Kategorie", "default": "Medical" },
+    { "type": "text", "id": "coll_card_6_h1", "label": "Nadpis 1. řádek", "default": "CBD" },
+    { "type": "text", "id": "coll_card_6_h2", "label": "Nadpis 2. řádek", "default": "Sprey" },
+    { "type": "paragraph", "content": "Poslední karta" },
+    { "type": "text", "id": "coll_card_last_h1", "label": "Nadpis 1. řádek", "default": "Coming" },
+    { "type": "text", "id": "coll_card_last_h2", "label": "Nadpis 2. řádek", "default": "soon" },
+    { "type": "text", "id": "coll_card_last_button", "label": "Text tlačítka", "default": "Notify me" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,144 @@
+
+    <div class="w-layout-blockcontainer container-small w-container">
+      <div class="w-layout-grid newsletter-gird">
+        <div id="w-node-_59ca56e6-2d17-57d5-24aa-28e354653a32-54653a2f" class="newsletter-headline">
+          <h4 class="text-style-caps no-shrink">{{ section.settings.headline }}</h4>
+          <div p-add-class="body-xlarge">{{ section.settings.subheadline | newline_to_br }}</div>
+        </div>
+        <div id="w-node-_59ca56e6-2d17-57d5-24aa-28e354653a3d-54653a2f" class="input-wrapper">
+          <div p-add-class="body-medium">{{ section.settings.description | newline_to_br }}</div>
+          <div class="form-block w-form">
+            {%- form "customer",  class: "form-subscription" -%}<input type="hidden" name="contact[tags]" value="newsletter">
+              <div class="hidden w-embed">
+                <style>
+  .form-input:focus + .form-label,
+  .form-input:not(:placeholder-shown) + .form-label {
+    top: 8px;
+    font-size: 0.75rem;
+    transform: translateY(0%);
+  }
+</style>
+              </div>
+              <div class="input-newsletter">
+                <div class="form-group"><input class="form-input w-input" maxlength="256" name="contact[email]" data-name="Email" placeholder="" type="email" id="Email-5"><label for="First-name-2" id="w-node-_59ca56e6-2d17-57d5-24aa-28e354653a48-54653a2f" class="form-label">{{ section.settings.placeholder | newline_to_br }}</label>
+                  <div class="text-error">{{ 'tn6efedba' | t }}</div>
+                  <div class="icon-success is-subscription w-embed"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M4 12.3137L9.65685 17.9706L20.9706 6.65687" stroke="#067306" stroke-width="2" stroke-linecap="round"></path>
+                    </svg></div>
+                  <div class="icon-error is-subscription w-embed"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 7V12M12 16V16.5M23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12Z" stroke="url(#paint0_linear_2929_12709)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                      <defs>
+                        <linearGradient id="paint0_linear_2929_12709" x1="1" y1="11.9091" x2="24.0374" y2="14.8367" gradientUnits="userSpaceOnUse">
+                          <stop stop-color="#E53C33"></stop>
+                          <stop offset="1" stop-color="#AA2721"></stop>
+                        </linearGradient>
+                      </defs>
+                    </svg></div><input type="submit" data-wait="" class="submit-button w-button" value="">
+                </div>
+                <div id="w-node-_59ca56e6-2d17-57d5-24aa-28e354653a4f-54653a2f" class="hidden w-embed w-script">
+                  <script>
+function validateInput(input) {
+  const value = input.value.trim();
+  const type = input.getAttribute("type") || input.tagName.toLowerCase();
+  if (value === "") {
+    return { isValid: false, isEmpty: true };
+  }
+  let isValid = true;
+  if (type === "text") {
+    isValid = value.length >= 2;
+  } else if (type === "email") {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    isValid = emailRegex.test(value);
+  } else if (type === "tel" || input.getAttribute("name") === "Phone-number") {
+    const phoneRegex = /^\d{7,15}$/; // Min. 7 číslic, max. 15
+    isValid = phoneRegex.test(value);
+  } else if (type === "textarea") {
+    isValid = value.length >= 3;
+  }
+  return { isValid, isEmpty: false };
+}
+function setValidationState(input, isValid, isEmpty) {
+  const label = input.nextElementSibling; // Předpokládáme, že label je hned za inputem
+  const iconSuccess = input.parentElement.querySelector(".icon-success");
+  const iconError = input.parentElement.querySelector(".icon-error");
+  const textError = input.parentElement.querySelector(".text-error");
+  input.classList.remove("error", "success");
+  label.classList.remove("error", "success");
+  if (iconSuccess) iconSuccess.style.display = "none";
+  if (iconError) iconError.style.display = "none";
+  if (textError) textError.style.display = "none";
+  if (isEmpty) {
+    return;
+  }
+  if (isValid) {
+    input.classList.add("success");
+    label.classList.add("success");
+    if (iconSuccess) iconSuccess.style.display = "block";
+  } else {
+    input.classList.add("error");
+    label.classList.add("error");
+    if (iconError) iconError.style.display = "block";
+    if (textError) textError.style.display = "block";
+  }
+}
+function handleBlur(event) {
+  const input = event.target;
+  const { isValid, isEmpty } = validateInput(input);
+  setValidationState(input, isValid, isEmpty);
+}
+document.querySelectorAll(".form-input").forEach(input => {
+  input.addEventListener("blur", handleBlur);
+});
+</script>
+                </div>
+              </div>
+            {%- assign form_success = form.posted_successfully? -%}{%- assign form_errors = form.errors -%}{%- render "form-general-script", form_success: form_success, form_errors: form_errors -%}{%- endform -%}
+            <div class="success-message w-form-done  {% if form_success %}form-posted-successfully{% endif %}">
+              <div class="scuccess-message"><img src="{{ 'check-1.svg' | asset_url }}" loading="lazy" alt="" class="icon-24">
+                <div>{{ 'tdc03c96' | t }}</div>
+              </div>
+            </div>
+            {%- unless form_success -%}<div class="w-form-fail  {% if form.errors %}form-has-errors{% endif %}">
+              <div>{%- render "form-errors", form_errors: form_errors -%}</div>
+            </div>{%- endunless -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+<script>var currentSection = document.currentScript.closest('.shopify-section');currentSection.setAttribute("class","newsletter-seciton");</script>
+        
+{% schema %}
+{
+  "name": "Section - Subscription",
+  "tag": "section",
+  "class": "newsletter-seciton",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>New releases, and tips to enhance and prioritize your <br>wellbeing – straight to your inbox.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "<p>Be among the first to know <br>about exclusive offers.</p>"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder",
+      "default": "Your e-mail"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Stay in the loop "
+    }
+  ]
+}
+{% endschema %}

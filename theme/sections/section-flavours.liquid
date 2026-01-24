@@ -1,0 +1,140 @@
+<div class="w-layout-blockcontainer container-small w-container">
+  <div class="flex-default">
+    <div class="headline-pagination">
+      <h2 class="all-caps p-contents">{{ section.settings.headline | newline_to_br }}</h2>
+      <div class="swiper-pagination1"></div>
+    </div>
+    <div class="swiper1">
+      <div data-w-id="275c2095-f854-5e74-9bcc-73dc45e10031" class="prev-sec1"></div>
+      <div data-w-id="275c2095-f854-5e74-9bcc-73dc45e10032" class="next-sec1"></div>
+      <div class="swiper-wrapper">
+
+        {%- for block in section.blocks -%}
+          <a href="{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}/products/cbd-cartridge-flavour{% endif %}"
+             class="swiper-slide {{ block.settings.slide_size | default: 'is-large' }} w-inline-block"
+             style="
+               {%- if block.settings.image != blank -%}
+                 background-image: url({{ block.settings.image | img_url: 'master' }});
+               {%- endif -%}
+               background-size: cover;
+               background-position: center;
+             "
+             {{ block.shopify_attributes }}>
+            <div class="slide-content-wrapper">
+              <div class="slide-headline-wrapper">
+                <h2 class="all-caps mobile-center">{{ block.settings.headline }}</h2>
+                <div p-add-class="mobile-centered">{{ block.settings.description | newline_to_br }}</div>
+              </div>
+
+              {%- if block.settings.link != blank -%}
+                <div class="btn-card">
+                  <div class="btn-card is-hover"></div>
+                </div>
+              {%- else -%}
+                <div style="flex-shrink: 0;">Již brzy</div>
+              {%- endif -%}
+
+            </div>
+          </a>
+        {%- endfor -%}
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var currentSection = document.currentScript.closest('.shopify-section');
+  currentSection.setAttribute("class", "section-default");
+</script>
+
+{% schema %}
+{
+  "name": "Section - Flavours",
+  "tag": "section",
+  "class": "section-default",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "headline",
+      "label": "Headline",
+      "default": "<p>our cbd extract<br>drop lines</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "select",
+          "id": "slide_size",
+          "label": "Slide Size",
+          "options": [
+            {
+              "value": "is-large",
+              "label": "Large"
+            },
+            {
+              "value": "is-medium",
+              "label": "Medium"
+            }
+          ],
+          "default": "is-large"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline",
+          "default": "Sample Text"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Medical-grade and scientifically designed to bring you maximum relief.</p>"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Section - Flavours",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "slide_size": "is-large",
+            "headline": "Try our special"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "slide_size": "is-medium",
+            "headline": "Sample Text"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "slide_size": "is-large",
+            "headline": "Sample Text"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

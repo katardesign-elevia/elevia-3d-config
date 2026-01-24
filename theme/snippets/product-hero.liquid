@@ -1,0 +1,47 @@
+{% comment %}
+  Product Hero Section
+  Displays product title, subtitle, price, details, and add to cart form
+
+  Parameters:
+  - product: product object (required)
+  - product_subtitle: string
+  - product_volume: string
+  - product_concentration: string
+  - product_thc: string
+{% endcomment %}
+
+<section class="hero-section">
+  <div class="w-layout-blockcontainer container-small is-relative w-container">
+    <div class="hero-wrapper">
+      <div class="hero-left">
+        <div class="info-wrapper">
+          <div class="product-headline-wrapper">
+            {%- render "categories", item: item -%}
+            <div class="product-hero">
+              <div class="heading-product-wrapper">
+                <h1 class="h1-product">{{ product.title }}</h1>
+              </div>
+              <p class="body-large text-color-white70">{{ product_subtitle }}</p>
+              <div class="product-detail-wrapper">
+                <p data-commerce-type="variation-price" class="body-large">{{ product.price | money_with_currency }}</p>
+                <p class="body-large">{{ 't2f' | t }}</p>
+                <p class="body-large">{{ product_volume }}</p>
+                <p class="body-large">{{ 't2f' | t }}</p>
+                <p class="body-large">{{ product_concentration }}</p>
+                <p class="body-large">{{ 't2f' | t }}</p>
+                <p class="body-large">{{ product_thc }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="buy-wrapper">
+          {%- render 'product-add-to-cart-form',
+            product: product,
+            product_volume: product_volume,
+            product_concentration: product_concentration
+          -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

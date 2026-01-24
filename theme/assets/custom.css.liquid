@@ -1,0 +1,137 @@
+/* 3NODE - Utilities - START */
+.u-hide-mobile-up {
+	@media (min-width: 480px) {
+		display: none;
+	}
+}
+.u-hide-tablet-up {
+	@media (min-width: 768px) {
+		display: none
+	}
+}
+.u-hide-desktop-up {
+	@media (min-width: 992px) {
+		display: none;
+	}
+}
+.u-hide-desktop-large-up {
+	@media (min-width: 1281px) {
+		display: none;
+	}
+}
+.u-hide-desktop-large-down {
+	@media (max-width: 1280px) {
+		display: none;
+	}
+}
+.u-hide-desktop-down {
+	@media (max-width: 991px) {
+		display: none;
+	}
+}
+.u-hide-tablet-down {
+	@media (max-width: 767px) {
+		display: none;
+	}
+}
+.u-hide-mobile-down {
+	@media (max-width: 479px) {
+		display: none;
+	}
+}
+/* 3NODE - Utilities - END */
+
+/* Custom Spacing Overrides */
+
+/* 1. Main Hero/Scroll Text Section */
+.main-section {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Fix for main-section internal structure */
+.main-section .container {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* Remove spacing from Spline wrapper block */
+.flex-block-3 {
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    display: block !important; /* Ensure it stays in flow but 0 height */
+}
+
+/* SECTION 2 -> 3 GAP (Scroll Text -> Description) */
+.product-scroll-text-wrapper {
+    margin-bottom: 200px !important; /* Standardized to 200px */
+}
+
+/* SECTION 3 -> 4 GAP (Description -> Plné Spektrum) */
+.wrapper-what-is-elevia {
+    padding-bottom: 0 !important;
+    margin-bottom: 200px !important; /* Standardized to 200px */
+}
+
+/* SECTION 4 -> 5 GAP (Plné Spektrum -> Three Spots) */
+.product-margin {
+    margin-top: 0 !important;
+    margin-bottom: 200px !important; /* Standardized to 200px */
+    padding-bottom: 0 !important;
+    height: auto !important;
+}
+
+/* SECTION 5 -> 6 GAP (Three Spots -> Dosage) */
+.product-wrapper_whats-inside {
+    margin-top: 0 !important;
+    margin-bottom: 200px !important; /* Standardized to 200px */
+    position: relative;
+    z-index: 10;
+}
+
+/* 6. Dosage Section (Jak správně užívat) */
+.page-overflow {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Hide the spacer div entirely */
+.shaodw-bottom {
+    display: none !important;
+}
+
+/* Reset internal padding of Dosage section to look clean */
+.page-overflow .section {
+    padding-top: 0 !important;
+}
+
+/* Hide Spline Watermark ("Built with Spline") - Aggressive Selectors */
+a[href*="spline.design"],
+a[href^="https://spline.design"],
+#spline-watermark,
+.spline-watermark,
+[id^="spline-logo"],
+[class*="spline-watermark"] {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    position: absolute !important;
+    z-index: -9999 !important;
+}
+
+/* SPLINE WATERMARK BLOCKER - Overlay to cover the canvas-rendered logo */
+.spline-watermark-blocker {
+    position: fixed !important;
+    bottom: 16px !important;
+    right: 16px !important;
+    width: 180px !important;
+    height: 50px !important;
+    background-color: var(--green--main, #3ef21f) !important;
+    z-index: 9999 !important;
+    pointer-events: none !important;
+}

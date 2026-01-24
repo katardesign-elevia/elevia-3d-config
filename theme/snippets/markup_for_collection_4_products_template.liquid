@@ -1,0 +1,23 @@
+{% capture listItems %}
+{% for item in collections[settings.collection_4_products_template].products limit: settings.collection_4_products_template_limit %}
+<div role="listitem" class="collection-item w-dyn-item">
+                      <div id="w-node-f6d5e6fc-5bdd-6796-b210-b2b6bd0d3795-05ae55fe" class="card-nav-wrapper">
+                        {%- unless item.metafields.udesly['coming-soon'] == "true" -%}<a href="{{ item.url }}" class="link-product-card w-inline-block"></a>{%- endunless -%}
+                        {%- if item.metafields.udesly['coming-soon'] == "true" -%}<div>Coming soon</div>{%- endif -%}
+                        <h4 class="card-nav-heading">Medical</h4><img loading="lazy" src="{{ item.metafields.udesly['shop---photo'].src }}" alt="" class="image-bg">
+                        {%- unless item.metafields.udesly['coming-soon'] == "true" -%}<div class="icon-nav is-card w-embed"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+                          </svg></div>{%- endunless -%}
+                      </div>
+                    </div>
+{%- endfor -%}
+{% endcapture %}
+{% assign items_length = listItems | strip | size %}
+<div class="nav-products w-dyn-list" udy-collection="product">
+                  {%- unless items_length == 0 -%}<div role="list" class="nav-product-wrapper w-dyn-items">
+                    {{ listItems }}
+                  </div>{%- endunless -%}
+                  {%- if items_length == 0 -%}<div class="w-dyn-empty">
+                    <div>No items found.</div>
+                  </div>{%- endif -%}
+                </div>

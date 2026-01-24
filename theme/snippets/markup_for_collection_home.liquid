@@ -1,0 +1,62 @@
+{% capture listItems %}
+{% for item in collections[settings.collection_home].products limit: settings.collection_home_limit %}
+<div role="listitem" class="collection-item w-dyn-item">
+  <div id="w-node-_17ccaaa0-d16c-eb61-a15a-dc2116e538e9-05ae55fe" class="card-nav-wrapper">
+
+    {%- comment -%} Změna: Kontroluje standardní boolean metafield {% endcomment -%}
+    {%- if item.metafields.custom.coming_soon.value != true -%}
+      <a href="{{ item.url }}" class="link-product-card w-inline-block"></a>
+    {%- endif -%}
+
+    <h4 class="card-nav-heading">
+      {%- if item.type != blank -%}
+        {{ item.type }}
+      {%- else -%}
+        Medical line
+      {%- endif -%}
+    </h4>
+
+    {%- comment -%} Změna: Načítá obrázek ze standardního file metafieldu {% endcomment -%}
+    {%- if item.metafields.custom.shop_photo.value -%}
+      <img
+        loading="lazy"
+        src="{{ item.metafields.custom.shop_photo.value | image_url: 'master' }}"
+        alt="{{ item.metafields.custom.shop_photo.value.alt | escape }}"
+        class="image-bg"
+      >
+    {%- endif -%}
+
+    {%- if item.metafields.custom.coming_soon.value == true -%}
+      <div>Coming soon</div>
+    {%- endif -%}
+
+    <div class="icon-nav is-card w-embed">
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M19.332 23.9987H28.6654M28.6654 23.9987L23.9987 19.332M28.6654 23.9987L23.9987 28.6654"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></path>
+      </svg>
+    </div>
+
+  </div>
+</div>
+{%- endfor -%}
+{% endcapture %}
+
+{% assign items_length = listItems | strip | size %}
+<div class="nav-products w-dyn-list" udy-collection="product">
+  {%- unless items_length == 0 -%}
+    <div role="list" class="nav-product-wrapper w-dyn-items">
+      {{ listItems }}
+    </div>
+  {%- endunless -%}
+  {%- if items_length == 0 -%}
+    <div class="w-dyn-empty">
+      <div>No items found.</div>
+    </div>
+  {%- endif -%}
+</div>

@@ -1,0 +1,584 @@
+<div class="w-layout-blockcontainer container-small w-container">
+<div class="flex-default">
+<h2 data-w-id="4d7c1d69-858c-e9cb-0260-2e27f94c4975" class="all-caps">{{ section.settings.headline }}</h2>
+<div class="products-wrapper">
+
+{%- if section.settings.row_1_visibility -%}<div class="elevia-products">
+<div class="hp-products-text">
+    {%- if section.settings.row_1_image != blank -%}
+        <img src="{{ section.settings.row_1_image | image_url: width: 1600 }}"
+             loading="lazy"
+             sizes="100vw"
+             srcset="{{ section.settings.row_1_image | image_url: width: 500 }} 500w,
+                     {{ section.settings.row_1_image | image_url: width: 800 }} 800w,
+                     {{ section.settings.row_1_image | image_url: width: 1080 }} 1080w,
+                     {{ section.settings.row_1_image | image_url: width: 1600 }} 1600w,
+                     {{ section.settings.row_1_image | image_url: width: 2000 }} 2000w,
+                     {{ section.settings.row_1_image | image_url: width: 2600 }} 2600w"
+             alt="{{ section.settings.row_1_image.alt | escape }}"
+             class="image-products-hp">
+    {%- endif -%}
+<div class="text-color-light-gray text-weight-semibold mobile-padding">{{ 't601' | t }}</div>
+<div class="products-hp-link-block">
+<div class="text-80 all-caps is-product">{{ section.settings.row_1_headline }}</div>
+<div class="button-wrapper-mask">
+<div class="button-wrapper">
+{% for i in (1..3) %}
+{% assign link_key = 'row_1_link_' | append: i %}
+{% assign button_key = 'row_1_button_' | append: i %}
+<a href="{{ section.settings[link_key] | default: 'javascript:void(0);' }}" class="button w-inline-block" style="{% if section.settings[link_key] == blank %}pointer-events: none; cursor: default;{% endif %}">
+<div style="{% if section.settings[link_key] == blank %}color: #C4C4C4;{% endif %}">{{ section.settings[button_key] }}</div>
+<img src="{% if section.settings[link_key] == blank %}{{ 'icon-button-disabled.svg' | asset_url }}{% else %}{{ 'icon-button_1.svg' | asset_url }}{% endif %}" loading="lazy" alt="" class="icon-button">
+</a>
+{% endfor %}
+</div>
+</div>
+</div>
+<div class="arrow-wrapper">
+<div class="icon-24 w-embed"><svg width="25" height="24" viewbox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.5 18L15.5 12L9.5 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg></div>
+</div>
+</div>
+</div>{%- endif -%}
+
+{%- if section.settings.row_2_visibility -%}<div class="elevia-products">
+<div class="hp-products-text">
+<div class="text-color-light-gray text-weight-semibold mobile-padding">{{ 't602' | t }}</div>
+<div class="products-hp-link-block">
+<div class="text-80 all-caps is-product">{{ section.settings.row_2_headline }}</div>
+<div class="button-wrapper-mask">
+<div class="button-wrapper">
+{% for i in (1..3) %}
+{% assign link_key = 'row_2_link_' | append: i %}
+{% assign button_key = 'row_2_button_' | append: i %}
+<a href="{{ section.settings[link_key] | default: 'javascript:void(0);' }}" class="button w-inline-block" style="{% if section.settings[link_key] == blank %}pointer-events: none; cursor: default;{% endif %}">
+<div class="p-contents" style="{% if section.settings[link_key] == blank %}color: #C4C4C4;{% endif %}">{{ section.settings[button_key] | newline_to_br }}</div>
+<img src="{% if section.settings[link_key] == blank %}{{ 'icon-button-disabled.svg' | asset_url }}{% else %}{{ 'icon-button_1.svg' | asset_url }}{% endif %}" loading="lazy" alt="" class="icon-button">
+</a>
+{% endfor %}
+</div>
+</div>
+</div>
+<div class="arrow-wrapper">
+<div class="icon-24 w-embed"><svg width="25" height="24" viewbox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.5 18L15.5 12L9.5 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg></div>
+</div>
+    {%- if section.settings.row_2_image != blank -%}
+        <img src="{{ section.settings.row_2_image | image_url: width: 1600 }}"
+             loading="lazy"
+             sizes="100vw"
+             srcset="{{ section.settings.row_2_image | image_url: width: 500 }} 500w,
+                     {{ section.settings.row_2_image | image_url: width: 800 }} 800w,
+                     {{ section.settings.row_2_image | image_url: width: 1080 }} 1080w,
+                     {{ section.settings.row_2_image | image_url: width: 1600 }} 1600w,
+                     {{ section.settings.row_2_image | image_url: width: 2000 }} 2000w,
+                     {{ section.settings.row_2_image | image_url: width: 2600 }} 2600w"
+             alt="{{ section.settings.row_2_image.alt | escape }}"
+             class="image-products-hp">
+    {%- endif -%}
+</div>
+</div>{%- endif -%}
+
+{%- if section.settings.row_3_visibility -%}<div class="elevia-products">
+<div class="hp-products-text">
+<div class="text-color-light-gray text-weight-semibold mobile-padding">{{ 't603' | t }}</div>
+<div class="products-hp-link-block">
+<div class="text-80 all-caps is-product">{{ section.settings.row_3_headline }}</div>
+<div class="button-wrapper-mask">
+<div class="button-wrapper">
+{% for i in (1..3) %}
+{% assign link_key = 'row_3_link_' | append: i %}
+{% assign button_key = 'row_3_button_' | append: i %}
+<a href="{{ section.settings[link_key] | default: 'javascript:void(0);' }}" class="button w-inline-block" style="{% if section.settings[link_key] == blank %}pointer-events: none; cursor: default;{% endif %}">
+<div style="{% if section.settings[link_key] == blank %}color: #C4C4C4;{% endif %}">{{ section.settings[button_key] }}</div>
+<img src="{% if section.settings[link_key] == blank %}{{ 'icon-button-disabled.svg' | asset_url }}{% else %}{{ 'icon-button_1.svg' | asset_url }}{% endif %}" loading="lazy" alt="" class="icon-button">
+</a>
+{% endfor %}
+</div>
+</div>
+</div>
+<div class="arrow-wrapper">
+<div class="icon-24 w-embed"><svg width="25" height="24" viewbox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.5 18L15.5 12L9.5 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg></div>
+</div>
+    {%- if section.settings.row_3_image != blank -%}
+        <img src="{{ section.settings.row_3_image | image_url: width: 1600 }}"
+             loading="lazy"
+             sizes="100vw"
+             srcset="{{ section.settings.row_3_image | image_url: width: 500 }} 500w,
+                     {{ section.settings.row_3_image | image_url: width: 800 }} 800w,
+                     {{ section.settings.row_3_image | image_url: width: 1080 }} 1080w,
+                     {{ section.settings.row_3_image | image_url: width: 1600 }} 1600w,
+                     {{ section.settings.row_3_image | image_url: width: 2000 }} 2000w,
+                     {{ section.settings.row_3_image | image_url: width: 2600 }} 2600w"
+             alt="{{ section.settings.row_3_image.alt | escape }}"
+             class="image-products-hp">
+    {%- endif -%}
+</div>
+</div>{%- endif -%}
+
+{%- if section.settings.row_4_visibility -%}<div class="elevia-products">
+<div class="hp-products-text">
+<div class="text-color-light-gray text-weight-semibold mobile-padding">{{ 't604' | t }}</div>
+<div class="products-hp-link-block">
+<div class="text-80 all-caps is-product">{{ section.settings.row_4_headline }}</div>
+<div class="button-wrapper-mask">
+<div class="button-wrapper">
+{% for i in (1..3) %}
+{% assign link_key = 'row_4_link_' | append: i %}
+{% assign button_key = 'row_4_button_' | append: i %}
+<a href="{{ section.settings[link_key] | default: 'javascript:void(0);' }}" class="button w-inline-block" style="{% if section.settings[link_key] == blank %}pointer-events: none; cursor: default;{% endif %}">
+<div style="{% if section.settings[link_key] == blank %}color: #C4C4C4;{% endif %}">{{ section.settings[button_key] }}</div>
+<img src="{% if section.settings[link_key] == blank %}{{ 'icon-button-disabled.svg' | asset_url }}{% else %}{{ 'icon-button_1.svg' | asset_url }}{% endif %}" loading="lazy" alt="" class="icon-button">
+</a>
+{% endfor %}
+</div>
+</div>
+</div>
+<div class="arrow-wrapper">
+<div class="icon-24 w-embed"><svg width="25" height="24" viewbox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.5 18L15.5 12L9.5 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg></div>
+</div>
+    {%- if section.settings.row_4_image != blank -%}
+        <img src="{{ section.settings.row_4_image | image_url: width: 1600 }}"
+             loading="lazy"
+             sizes="100vw"
+             srcset="{{ section.settings.row_4_image | image_url: width: 500 }} 500w,
+                     {{ section.settings.row_4_image | image_url: width: 800 }} 800w,
+                     {{ section.settings.row_4_image | image_url: width: 1080 }} 1080w,
+                     {{ section.settings.row_4_image | image_url: width: 1600 }} 1600w,
+                     {{ section.settings.row_4_image | image_url: width: 2000 }} 2000w,
+                     {{ section.settings.row_4_image | image_url: width: 2600 }} 2600w"
+             alt="{{ section.settings.row_4_image.alt | escape }}"
+             class="image-products-hp">
+    {%- endif -%}
+</div>
+</div>{%- endif -%}
+
+{%- if section.settings.row_5_visibility -%}<div class="elevia-products">
+<div class="hp-products-text">
+<div class="text-color-light-gray text-weight-semibold mobile-padding">{{ 't605' | t }}</div>
+<div class="products-hp-link-block">
+<div class="text-80 all-caps is-product">{{ section.settings.row_5_headline }}</div>
+<div class="button-wrapper-mask">
+<div class="button-wrapper">
+{% for i in (1..3) %}
+{% assign link_key = 'row_5_link_' | append: i %}
+{% assign button_key = 'row_5_button_' | append: i %}
+<a href="{{ section.settings[link_key] | default: 'javascript:void(0);' }}" class="button w-inline-block" style="{% if section.settings[link_key] == blank %}pointer-events: none; cursor: default;{% endif %}">
+<div style="{% if section.settings[link_key] == blank %}color: #C4C4C4;{% endif %}">{{ section.settings[button_key] }}</div>
+<img src="{% if section.settings[link_key] == blank %}{{ 'icon-button-disabled.svg' | asset_url }}{% else %}{{ 'icon-button_1.svg' | asset_url }}{% endif %}" loading="lazy" alt="" class="icon-button">
+</a>
+{% endfor %}
+</div>
+</div>
+</div>
+<div class="arrow-wrapper">
+<div class="icon-24 w-embed"><svg width="25" height="24" viewbox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.5 18L15.5 12L9.5 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg></div>
+</div>
+    {%- if section.settings.row_5_image != blank -%}
+        <img src="{{ section.settings.row_5_image | image_url: width: 1600 }}"
+             loading="lazy"
+             sizes="100vw"
+             srcset="{{ section.settings.row_5_image | image_url: width: 500 }} 500w,
+                     {{ section.settings.row_5_image | image_url: width: 800 }} 800w,
+                     {{ section.settings.row_5_image | image_url: width: 1080 }} 1080w,
+                     {{ section.settings.row_5_image | image_url: width: 1600 }} 1600w,
+                     {{ section.settings.row_5_image | image_url: width: 2000 }} 2000w,
+                     {{ section.settings.row_5_image | image_url: width: 2600 }} 2600w"
+             alt="{{ section.settings.row_5_image.alt | escape }}"
+             class="image-products-hp">
+    {%- endif -%}
+</div>
+</div>{%- endif -%}
+
+{%- if section.settings.row_6_visibility -%}<div class="elevia-products">
+<div class="hp-products-text">
+<div class="text-color-light-gray text-weight-semibold mobile-padding">{{ 't606' | t }}</div>
+<div class="products-hp-link-block">
+<div class="text-80 all-caps is-product">{{ section.settings.row_6_headline }}</div>
+<div class="button-wrapper-mask">
+<div class="button-wrapper">
+{% for i in (1..3) %}
+{% assign link_key = 'row_6_link_' | append: i %}
+{% assign button_key = 'row_6_button_' | append: i %}
+<a href="{{ section.settings[link_key] | default: 'javascript:void(0);' }}" class="button w-inline-block" style="{% if section.settings[link_key] == blank %}pointer-events: none; cursor: default;{% endif %}">
+<div style="{% if section.settings[link_key] == blank %}color: #C4C4C4;{% endif %}">{{ section.settings[button_key] }}</div>
+<img src="{% if section.settings[link_key] == blank %}{{ 'icon-button-disabled.svg' | asset_url }}{% else %}{{ 'icon-button_1.svg' | asset_url }}{% endif %}" loading="lazy" alt="" class="icon-button">
+</a>
+{% endfor %}
+</div>
+</div>
+</div>
+<div class="arrow-wrapper">
+<div class="icon-24 w-embed"><svg width="25" height="24" viewbox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.5 18L15.5 12L9.5 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg></div>
+</div>
+    {%- if section.settings.row_6_image != blank -%}
+        <img src="{{ section.settings.row_6_image | image_url: width: 1600 }}"
+             loading="lazy"
+             sizes="100vw"
+             srcset="{{ section.settings.row_6_image | image_url: width: 500 }} 500w,
+                     {{ section.settings.row_6_image | image_url: width: 800 }} 800w,
+                     {{ section.settings.row_6_image | image_url: width: 1080 }} 1080w,
+                     {{ section.settings.row_6_image | image_url: width: 1600 }} 1600w,
+                     {{ section.settings.row_6_image | image_url: width: 2000 }} 2000w,
+                     {{ section.settings.row_6_image | image_url: width: 2600 }} 2600w"
+             alt="{{ section.settings.row_6_image.alt | escape }}"
+             class="image-products-hp">
+    {%- endif -%}
+</div>
+</div>{%- endif -%}
+
+</div>
+</div>
+</div>
+
+<script>var currentSection = document.currentScript.closest('.shopify-section');currentSection.setAttribute("class","section-default");</script>
+
+{% schema %}
+{
+"name": "Section - Products",
+"tag": "section",
+"class": "section-default",
+"settings": [
+{
+"type": "text",
+"id": "headline",
+"label": "Headline",
+"default": "elevia "
+},
+{
+"type": "header",
+"content": "Row 1 Settings"
+},
+{
+"type": "checkbox",
+"id": "row_1_visibility",
+"label": "Show Row 1",
+"default": true
+},
+{
+"type": "image_picker",
+"id": "row_1_image",
+"label": "Row 1 - Image"
+},
+{
+"type": "text",
+"id": "row_1_headline",
+"label": "Row 1 - Headline",
+"default": "Drops"
+},
+{
+"type": "text",
+"id": "row_1_button_1",
+"label": "Row 1 - Button 1",
+"default": "medical"
+},
+{
+"id": "row_1_link_1",
+"label": "Row 1 - Link 1",
+"type": "url"
+},
+{
+"type": "text",
+"id": "row_1_button_2",
+"label": "Row 1 - Button 2",
+"default": "vibe"
+},
+{
+"id": "row_1_link_2",
+"label": "Row 1 - Link 2",
+"type": "url"
+},
+{
+"type": "text",
+"id": "row_1_button_3",
+"label": "Row 1 - Button 3",
+"default": "wellness"
+},
+{
+"id": "row_1_link_3",
+"label": "Row 1 - Link 3",
+"type": "url"
+},
+{
+"type": "header",
+"content": "Row 2 Settings"
+},
+{
+"type": "checkbox",
+"id": "row_2_visibility",
+"label": "Show Row 2",
+"default": true
+},
+{
+"type": "image_picker",
+"id": "row_2_image",
+"label": "Row 2 - Image"
+},
+{
+"type": "text",
+"id": "row_2_headline",
+"label": "Row 2 - Headline",
+"default": "sprey"
+},
+{
+"type": "richtext",
+"id": "row_2_button_1",
+"label": "Row 2 - Button 1",
+"default": "<p>medical</p>"
+},
+{
+"id": "row_2_link_1",
+"label": "Row 2 - Link 1",
+"type": "url"
+},
+{
+"type": "text",
+"id": "row_2_button_2",
+"label": "Row 2 - Button 2",
+"default": "vibe"
+},
+{
+"id": "row_2_link_2",
+"label": "Row 2 - Link 2",
+"type": "url"
+},
+{
+"type": "text",
+"id": "row_2_button_3",
+"label": "Row 2 - Button 3",
+"default": "wellness"
+},
+{
+"id": "row_2_link_3",
+"label": "Row 2 - Link 3",
+"type": "url"
+},
+{
+"type": "header",
+"content": "Row 3 Settings"
+},
+{
+"type": "checkbox",
+"id": "row_3_visibility",
+"label": "Show Row 3",
+"default": true
+},
+{
+"type": "image_picker",
+"id": "row_3_image",
+"label": "Row 3 - Image"
+},
+{
+"type": "text",
+"id": "row_3_headline",
+"label": "Row 3 - Headline",
+"default": "joint"
+},
+{
+"type": "text",
+"id": "row_3_button_1",
+"label": "Row 3 - Button 1",
+"default": "medical"
+},
+{
+"id": "row_3_link_1",
+"label": "Row 3 - Link 1",
+"type": "url"
+},
+{
+"type": "text",
+"id": "row_3_button_2",
+"label": "Row 3 - Button 2",
+"default": "vibe"
+},
+{
+"id": "row_3_link_2",
+"label": "Row 3 - Link 2",
+"type": "url"
+},
+{
+"type": "text",
+"id": "row_3_button_3",
+"label": "Row 3 - Button 3",
+"default": "wellness"
+},
+{
+"id": "row_3_link_3",
+"label": "Row 3 - Link 3",
+"type": "url"
+},
+{
+"type": "header",
+"content": "Row 4 Settings"
+},
+{
+"type": "checkbox",
+"id": "row_4_visibility",
+"label": "Show Row 4",
+"default": true
+},
+{
+"type": "image_picker",
+"id": "row_4_image",
+"label": "Row 4 - Image"
+},
+{
+"type": "text",
+"id": "row_4_headline",
+"label": "Row 4 - Headline",
+"default": "vape"
+},
+{
+"type": "text",
+"id": "row_4_button_1",
+"label": "Row 4 - Button 1",
+"default": "medical"
+},
+{
+"id": "row_4_link_1",
+"label": "Row 4 - Link 1",
+"type": "url"
+},
+{
+"type": "text",
+"id": "row_4_button_2",
+"label": "Row 4 - Button 2",
+"default": "vibe"
+},
+{
+"id": "row_4_link_2",
+"label": "Row 4 - Link 2",
+"type": "url"
+},
+{
+"type": "text",
+"id": "row_4_button_3",
+"label": "Row 4 - Button 3",
+"default": "wellness"
+},
+{
+"id": "row_4_link_3",
+"label": "Row 4 - Link 3",
+"type": "url"
+},
+{
+"type": "header",
+"content": "Row 5 Settings"
+},
+{
+"type": "checkbox",
+"id": "row_5_visibility",
+"label": "Show Row 5",
+"default": true
+},
+{
+"type": "image_picker",
+"id": "row_5_image",
+"label": "Row 5 - Image"
+},
+{
+"type": "text",
+"id": "row_5_headline",
+"label": "Row 5 - Headline",
+"default": "edibles"
+},
+{
+"type": "text",
+"id": "row_5_button_1",
+"label": "Row 5 - Button 1",
+"default": "medical"
+},
+{
+"id": "row_5_link_1",
+"label": "Row 5 - Link 1",
+"type": "url"
+},
+{
+"type": "text",
+"id": "row_5_button_2",
+"label": "Row 5 - Button 2",
+"default": "vibe"
+},
+{
+"id": "row_5_link_2",
+"label": "Row 5 - Link 2",
+"type": "url"
+},
+{
+"type": "text",
+"id": "row_5_button_3",
+"label": "Row 5 - Button 3",
+"default": "wellness"
+},
+{
+"id": "row_5_link_3",
+"label": "Row 5 - Link 3",
+"type": "url"
+},
+{
+"type": "header",
+"content": "Row 6 Settings"
+},
+{
+"type": "checkbox",
+"id": "row_6_visibility",
+"label": "Show Row 6",
+"default": true
+},
+{
+"type": "image_picker",
+"id": "row_6_image",
+"label": "Row 6 - Image"
+},
+{
+"type": "text",
+"id": "row_6_headline",
+"label": "Row 6 - Headline",
+"default": "buds"
+},
+{
+"type": "text",
+"id": "row_6_button_1",
+"label": "Row 6 - Button 1",
+"default": "medical"
+},
+{
+"id": "row_6_link_1",
+"label": "Row 6 - Link 1",
+"type": "url"
+},
+{
+"type": "text",
+"id": "row_6_button_2",
+"label": "Row 6 - Button 2",
+"default": "vibe"
+},
+{
+"id": "row_6_link_2",
+"label": "Row 6 - Link 2",
+"type": "url"
+},
+{
+"type": "text",
+"id": "row_6_button_3",
+"label": "Row 6 - Button 3",
+"default": "wellness"
+},
+{
+"id": "row_6_link_3",
+"label": "Row 6 - Link 3",
+"type": "url"
+}
+]
+}
+{% endschema %}

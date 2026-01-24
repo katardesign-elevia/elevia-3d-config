@@ -1,0 +1,2513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elevia 3D Config</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --panel-bg: #2a2a2a;
+            --panel-header: #3a3a3a;
+            --input-bg: #3d3d3d;
+            --input-border: #4a4a4a;
+            --text: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent: #ef4444;
+            --accent-hover: #dc2626;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --border: #404040;
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Canvas Container */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+            pointer-events: auto;
+        }
+
+        /* Prevent zoom on canvas */
+        #canvas-container canvas {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+        }
+
+        /* Prevent scrolling on body */
+        html, body {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Sidebar Panel */
+        #sidebar {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            width: 480px;
+            height: calc(100vh - 60px);
+            background: var(--panel-bg);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -8px 0 32px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        #sidebar.minimized {
+            transform: translateX(calc(480px + 30px));
+        }
+
+        /* Show Button when minimized */
+        #show-sidebar-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        #show-sidebar-btn:hover {
+            background: var(--panel-header);
+            transform: scale(1.05);
+        }
+
+        #show-sidebar-btn.visible {
+            display: flex;
+        }
+
+        #show-sidebar-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Header */
+        .panel-header {
+            background: var(--panel-header);
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .header-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header-icon svg {
+            width: 18px;
+            height: 18px;
+            stroke: white;
+            fill: none;
+        }
+
+        .minimize-btn {
+            width: 32px;
+            height: 32px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .minimize-btn:hover {
+            background: var(--input-border);
+        }
+
+        /* Content Area */
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        /* Top Bar (Back + User Section) */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            gap: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 0;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            color: var(--text);
+        }
+
+        .back-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* User Section */
+        .user-section {
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 16px;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-status {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .sign-out-btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sign-out-btn:hover {
+            color: var(--accent);
+        }
+
+        .sign-out-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Form Section */
+        .form-section {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        /* Select dropdown specific styling */
+        select.form-input {
+            padding-right: 40px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Input with Button */
+        .input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .input-group .form-input {
+            flex: 1;
+        }
+
+        .load-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .load-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Scene Status */
+        .scene-status {
+            margin-top: 12px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .status-message {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .status-message svg {
+            flex-shrink: 0;
+        }
+
+        .status-message.success {
+            color: #22c55e;
+        }
+
+        .status-message.success svg {
+            stroke: #22c55e;
+        }
+
+        .status-message.loading {
+            color: var(--primary);
+        }
+
+        .status-message.loading svg {
+            stroke: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Pulse animation for loading text */
+        .status-message.loading span {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Objects List */
+        .objects-list {
+            border-top: 1px solid var(--input-border);
+        }
+
+        .objects-header {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.2);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .object-count {
+            background: var(--input-border);
+            color: var(--text);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+        }
+
+        .objects-container {
+            padding: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .object-item {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .object-item:hover {
+            background: var(--input-border);
+            border-color: var(--primary);
+        }
+
+        .object-item.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .object-name {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .object-type {
+            font-size: 11px;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .object-item.selected .object-type {
+            color: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Target Object Box (legacy - now hidden) */
+        .target-box {
+            background: var(--input-bg);
+            border: 2px dashed var(--input-border);
+            border-radius: 8px;
+            padding: 48px 24px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Background Section */
+        .bg-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .bg-toggle button {
+            flex: 1;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-muted);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .bg-toggle button.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .bg-toggle button:hover:not(.active) {
+            background: var(--input-border);
+        }
+
+        .color-picker-container {
+            width: 100%;
+            height: 48px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .color-picker-container input[type="color"] {
+            width: 100%;
+            height: 100%;
+            border: none;
+            cursor: pointer;
+        }
+
+        .picture-upload-container {
+            width: 100%;
+        }
+
+        /* Bottom Actions */
+        .bottom-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-icon:hover {
+            background: var(--input-border);
+        }
+
+        .btn-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Scrollbar */
+        .panel-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .panel-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .panel-content::-webkit-scrollbar-thumb {
+            background: var(--input-border);
+            border-radius: 3px;
+        }
+
+        .panel-content::-webkit-scrollbar-thumb:hover {
+            background: #5a5a5a;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            cursor: pointer;
+        }
+
+        .toggle-switch input {
+            display: none;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--input-border);
+            border-radius: 34px;
+            transition: 0.3s;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background: #22c55e;
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+
+        /* Scroll Position Section */
+        .scroll-position-section {
+            margin-bottom: 0;
+        }
+
+        .scroll-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .scroll-slider {
+            flex: 1;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--input-border);
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .scroll-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: grab;
+            transition: all 0.2s;
+            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+        }
+
+        .scroll-slider::-webkit-slider-thumb:active {
+            cursor: grabbing;
+            transform: scale(1.1);
+        }
+
+        .scroll-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 3px 8px rgba(239, 68, 68, 0.6);
+        }
+
+        .scroll-slider::-moz-range-thumb {
+            width: 22px;
+            height: 22px;
+            background: var(--accent);
+            border-radius: 50%;
+            cursor: grab;
+            border: none;
+            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+        }
+
+        .scroll-slider::-moz-range-thumb:active {
+            cursor: grabbing;
+        }
+
+        .scroll-input {
+            width: 60px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            padding: 6px 8px;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .scroll-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .scroll-unit {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Keyframes Section */
+        .keyframes-section {
+            margin-top: 20px;
+        }
+
+        /* Section Header with Icon */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .section-header-stacked {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .section-header-stacked .form-label {
+            margin-bottom: 0;
+        }
+
+        .icon-btn {
+            width: 100%;
+            height: 40px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .icon-btn:hover {
+            background: var(--input-border);
+            color: var(--text);
+        }
+
+        .icon-btn svg {
+            flex-shrink: 0;
+            stroke: var(--text);
+        }
+
+        .minimize-btn svg {
+            stroke: var(--text-muted);
+        }
+
+        .minimize-btn:hover svg {
+            stroke: var(--text);
+        }
+
+        /* Breakpoint Tabs */
+        .breakpoint-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .breakpoint-tab {
+            flex: 1 1 auto;
+            min-width: 0;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-muted);
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .breakpoint-tab:hover {
+            background: var(--input-border);
+        }
+
+        .breakpoint-tab.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .breakpoint-settings-btn {
+            flex: 0 0 auto !important;
+            min-width: 40px !important;
+            padding: 10px !important;
+        }
+
+        .breakpoint-settings-btn svg {
+            stroke: var(--text-muted);
+        }
+
+        .breakpoint-settings-btn:hover svg {
+            stroke: var(--text);
+        }
+
+        .keyframes-container {
+            margin-bottom: 8px;
+        }
+
+        .keyframes-header {
+            margin-bottom: 12px;
+        }
+
+        .keyframes-title {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .keyframe-item {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 8px;
+            padding: 0;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+            overflow: hidden;
+        }
+
+        .keyframe-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .keyframe-header:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .keyframe-item.active .keyframe-header {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .keyframe-item.active {
+            border-color: var(--accent);
+        }
+
+        .keyframe-item.active .keyframe-percent {
+            color: #22c55e;
+        }
+
+        .keyframe-percent {
+            font-size: 16px;
+            font-weight: 700;
+            color: #22c55e;
+            min-width: 50px;
+        }
+
+        .keyframe-name-display {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .keyframe-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+            padding: 8px 12px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        .keyframe-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .keyframe-controls {
+            padding: 0 16px 16px 16px;
+            display: none;
+        }
+
+        .keyframe-item.expanded .keyframe-controls {
+            display: block;
+        }
+
+        .keyframe-delete {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+            opacity: 0.6;
+        }
+
+        .keyframe-delete:hover {
+            color: var(--accent);
+            opacity: 1;
+        }
+
+        .keyframe-delete svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .add-keyframe-btn {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px dashed var(--input-border);
+            color: var(--text-muted);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+
+        .add-keyframe-btn:hover {
+            background: var(--input-border);
+            border-style: solid;
+            color: var(--text);
+        }
+
+        .add-keyframe-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Keyframe Controls */
+        .keyframe-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .control-section {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .control-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .axis-label {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .axis-label.axis-x {
+            background: #ef4444;
+            color: white;
+        }
+
+        .axis-label.axis-y {
+            background: #22c55e;
+            color: white;
+        }
+
+        .axis-label.axis-z {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .axis-slider {
+            flex: 1;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--input-border);
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .axis-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            cursor: grab;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .axis-slider::-webkit-slider-thumb:active {
+            cursor: grabbing;
+            transform: scale(1.1);
+        }
+
+        .axis-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .axis-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            cursor: grab;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .axis-slider::-moz-range-thumb:active {
+            cursor: grabbing;
+        }
+
+        .axis-input {
+            width: 70px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            padding: 6px 8px;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .axis-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--panel-bg);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-large {
+            max-width: 600px;
+        }
+
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 28px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--input-bg);
+            color: var(--text);
+        }
+
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-secondary {
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--input-border);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Breakpoint Setting */
+        .breakpoint-setting {
+            margin-bottom: 16px;
+        }
+
+        .setting-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .setting-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .setting-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .column-header {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            min-width: 300px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .toast-icon.success {
+            background: #22c55e;
+        }
+
+        .toast-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke: white;
+            stroke-width: 3;
+        }
+
+        .toast-message {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+        }
+    </style>
+</head>
+<body>
+    <!-- Canvas Container -->
+    <div id="canvas-container">
+        <canvas id="canvas3d"></canvas>
+    </div>
+
+    <!-- Show Sidebar Button (appears when minimized) -->
+    <button id="show-sidebar-btn" onclick="toggleSidebar()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="9" y1="3" x2="9" y2="21"/>
+        </svg>
+    </button>
+
+    <!-- Sidebar Panel -->
+    <div id="sidebar">
+        <!-- Header -->
+        <div class="panel-header">
+            <div class="header-title">
+                <div class="header-icon">
+                    <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                    </svg>
+                </div>
+                <span>Elevia 3D Config</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 13px; color: var(--text-muted);">Live preview</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="live-preview-toggle" onchange="toggleLivePreview()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <button class="minimize-btn" onclick="toggleSidebar()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="panel-content">
+            <!-- Top Bar: Back + User Section -->
+            <div class="top-bar">
+                <button class="back-btn" onclick="handleBack()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"/>
+                        <polyline points="12 19 5 12 12 5"/>
+                    </svg>
+                    Back
+                </button>
+
+                <div class="user-section">
+                    <div class="user-info">
+                        <div class="user-status"></div>
+                        <span class="user-name">User</span>
+                    </div>
+                    <button class="sign-out-btn" onclick="handleSignOut()" title="Sign out">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Configuration Name -->
+            <div class="form-section">
+                <label class="form-label">Configuration Name</label>
+                <input type="text" class="form-input" id="config-name" value="Untitled Config" placeholder="Enter name...">
+            </div>
+
+            <!-- Spline Link & Scene -->
+            <div class="form-section">
+                <label class="form-label">Spline Scene</label>
+                <div class="input-group">
+                    <input type="text" class="form-input" id="spline-url" value="" placeholder="Paste Spline URL...">
+                    <button class="load-btn" onclick="loadSplineScene()">Load</button>
+                </div>
+                
+                <!-- Scene Status / Target Object -->
+                <div class="scene-status" id="scene-status">
+                    <div class="status-message" id="status-message">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                        <span>Load a scene to get started</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Target Object Selection -->
+            <div class="form-section" id="object-selector-section" style="display: none;">
+                <label class="form-label">Target Object</label>
+                <select class="form-input" id="object-selector" onchange="selectTargetObject(this.value)">
+                    <option value="">Select an object...</option>
+                </select>
+            </div>
+
+            <!-- Scroll Position -->
+            <div class="form-section">
+                <label class="form-label">Scroll Position</label>
+                
+                <div class="scroll-position-section">
+                    <div class="scroll-control">
+                        <input type="range" id="scroll-slider" min="0" max="100" step="1" value="17" class="scroll-slider">
+                        <input type="number" id="scroll-value" min="0" max="100" step="1" value="17" class="scroll-input">
+                        <span class="scroll-unit">%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breakpoints & Keyframes -->
+            <div class="form-section">
+                <label class="form-label">Responsive Breakpoints</label>
+                
+                <!-- Breakpoint Tabs -->
+                <div class="breakpoint-tabs">
+                    <button class="breakpoint-tab" data-breakpoint="monitor" onclick="switchBreakpoint('monitor')">Monitor</button>
+                    <button class="breakpoint-tab" data-breakpoint="desktop" onclick="switchBreakpoint('desktop')">Desktop</button>
+                    <button class="breakpoint-tab" data-breakpoint="laptop" onclick="switchBreakpoint('laptop')">Laptop</button>
+                    <button class="breakpoint-tab active" data-breakpoint="tablet" onclick="switchBreakpoint('tablet')">Tablet</button>
+                    <button class="breakpoint-tab" data-breakpoint="mobile" onclick="switchBreakpoint('mobile')">Mobile</button>
+                    <button class="breakpoint-tab breakpoint-settings-btn" onclick="openBreakpointSettings()" title="Edit breakpoint settings">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="keyframes-section">
+                    <div class="keyframes-header">
+                        <span class="keyframes-title" id="keyframes-title">POSITIONS ( TABLET )</span>
+                    </div>
+                    
+                    <div class="keyframes-container" id="keyframes-container">
+                        <!-- Keyframes will be dynamically added here -->
+                    </div>
+
+                    <button class="add-keyframe-btn" onclick="addKeyframe()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Add Position
+                    </button>
+                </div>
+            </div>
+
+            <!-- Background -->
+            <div class="form-section">
+                <label class="form-label">Background</label>
+                <div class="bg-toggle">
+                    <button class="active" onclick="setBackgroundMode('color')">Color</button>
+                    <button onclick="setBackgroundMode('picture')">Picture</button>
+                </div>
+                
+                <!-- Color Picker -->
+                <div class="color-picker-container" id="bg-color-section">
+                    <input type="color" id="bg-color" value="#000000">
+                </div>
+                
+                <!-- Picture Upload -->
+                <div class="picture-upload-container" id="bg-picture-section" style="display: none;">
+                    <input type="file" id="bg-picture" accept="image/*" class="form-input" style="padding: 12px;">
+                </div>
+            </div>
+
+            <!-- Bottom Actions -->
+            <div class="bottom-actions">
+                <button class="btn-primary" onclick="saveToDrive()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+                        <polyline points="17 21 17 13 7 13 7 21"/>
+                        <polyline points="7 3 7 8 15 8"/>
+                    </svg>
+                    Save to Drive
+                </button>
+                <button class="btn-icon" onclick="exportConfig()" title="Export">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                </button>
+                <button class="btn-icon" onclick="downloadConfig()" title="Download">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 002-2v-4M17 9l-5 5-5-5M12 12.8V2.5"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Breakpoint Settings Modal -->
+    <div class="modal-overlay" id="breakpoint-modal">
+        <div class="modal modal-large">
+            <div class="modal-header">
+                <h3 class="modal-title">Breakpoint Settings</h3>
+                <button class="modal-close" onclick="closeBreakpointModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 13px;">
+                    Configure viewport widths and Position X range limits for each responsive breakpoint.
+                </p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+                    <div class="column-header">Viewport Width</div>
+                    <div class="column-header">Position X Range</div>
+                </div>
+                
+                <!-- Monitor -->
+                <div class="setting-row">
+                    <div class="setting-column">
+                        <label class="setting-label">Monitor (min-width)</label>
+                        <input type="number" class="form-input" id="bp-monitor" value="1440" min="0" step="1">
+                    </div>
+                    <div class="setting-column">
+                        <label class="setting-label">Max X Range</label>
+                        <input type="number" class="form-input" id="bp-monitor-x" value="500" min="0" step="10" placeholder="500">
+                    </div>
+                </div>
+                
+                <!-- Desktop -->
+                <div class="setting-row">
+                    <div class="setting-column">
+                        <label class="setting-label">Desktop (min-width)</label>
+                        <input type="number" class="form-input" id="bp-desktop" value="1280" min="0" step="1">
+                    </div>
+                    <div class="setting-column">
+                        <label class="setting-label">Max X Range</label>
+                        <input type="number" class="form-input" id="bp-desktop-x" value="500" min="0" step="10" placeholder="500">
+                    </div>
+                </div>
+                
+                <!-- Laptop -->
+                <div class="setting-row">
+                    <div class="setting-column">
+                        <label class="setting-label">Laptop (min-width)</label>
+                        <input type="number" class="form-input" id="bp-laptop" value="992" min="0" step="1">
+                    </div>
+                    <div class="setting-column">
+                        <label class="setting-label">Max X Range</label>
+                        <input type="number" class="form-input" id="bp-laptop-x" value="500" min="0" step="10" placeholder="500">
+                    </div>
+                </div>
+                
+                <!-- Tablet -->
+                <div class="setting-row">
+                    <div class="setting-column">
+                        <label class="setting-label">Tablet (min-width)</label>
+                        <input type="number" class="form-input" id="bp-tablet" value="768" min="0" step="1">
+                    </div>
+                    <div class="setting-column">
+                        <label class="setting-label">Max X Range</label>
+                        <input type="number" class="form-input" id="bp-tablet-x" value="500" min="0" step="10" placeholder="500">
+                    </div>
+                </div>
+                
+                <!-- Mobile -->
+                <div class="setting-row">
+                    <div class="setting-column">
+                        <label class="setting-label">Mobile (min-width)</label>
+                        <input type="number" class="form-input" id="bp-mobile" value="0" min="0" step="1">
+                    </div>
+                    <div class="setting-column">
+                        <label class="setting-label">Max X Range</label>
+                        <input type="number" class="form-input" id="bp-mobile-x" value="500" min="0" step="10" placeholder="500">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeBreakpointModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveBreakpointSettings()">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Confirmation Modal -->
+    <div class="modal-overlay" id="save-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Save Configuration?</h3>
+                <button class="modal-close" onclick="closeSaveModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--text-muted); font-size: 14px;">
+                    Do you want to save your configuration to Google Drive before leaving?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="leaveWithoutSaving()">Don't Save</button>
+                <button class="btn btn-primary" onclick="saveAndLeave()">Save to Drive</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spline Runtime -->
+    <script type="module" src="https://unpkg.com/@splinetool/runtime@1.0.38/build/runtime.js"></script>
+    
+    <script type="module">
+        import { Application } from 'https://unpkg.com/@splinetool/runtime@1.0.38/build/runtime.js';
+
+        let splineApp = null;
+        let currentConfig = {
+            name: 'Untitled Config',
+            splineUrl: '',
+            targetObject: null,
+            backgroundColor: '#000000',
+            backgroundMode: 'color',
+            livePreview: false,
+            scrollPosition: 17,
+            activeBreakpoint: 'tablet',
+            breakpoints: {
+                monitor: { minWidth: 1440, maxXRange: 500, keyframes: [] },
+                desktop: { minWidth: 1280, maxXRange: 500, keyframes: [] },
+                laptop: { minWidth: 992, maxXRange: 500, keyframes: [] },
+                tablet: { minWidth: 768, maxXRange: 500, keyframes: [] },
+                mobile: { minWidth: 0, maxXRange: 500, keyframes: [] }
+            }
+        };
+
+        // Sync scroll slider and input
+        const scrollSlider = document.getElementById('scroll-slider');
+        const scrollValue = document.getElementById('scroll-value');
+        
+        if (scrollSlider && scrollValue) {
+            scrollSlider.addEventListener('input', (e) => {
+                const val = e.target.value;
+                scrollValue.value = val;
+                currentConfig.scrollPosition = parseInt(val);
+            });
+            
+            scrollValue.addEventListener('input', (e) => {
+                let val = Math.max(0, Math.min(100, parseInt(e.target.value) || 0));
+                scrollSlider.value = val;
+                scrollValue.value = val;
+                currentConfig.scrollPosition = val;
+            });
+        }
+
+        // Update scroll position based on actual page scroll
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            // Only update if live preview is on
+            if (!currentConfig.livePreview) return;
+            
+            // Calculate scroll percentage
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollPercent = Math.round((scrollTop / (documentHeight - windowHeight)) * 100);
+            
+            // Update slider and input
+            if (scrollSlider && scrollValue) {
+                scrollSlider.value = scrollPercent;
+                scrollValue.value = scrollPercent;
+                currentConfig.scrollPosition = scrollPercent;
+            }
+            
+            // Debounce: Apply transformation after scrolling stops
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (currentConfig.targetObject && splineApp) {
+                    applyScrollBasedTransformation(scrollPercent);
+                }
+            }, 50);
+        });
+
+        // Toggle Live Preview
+        window.toggleLivePreview = function() {
+            currentConfig.livePreview = document.getElementById('live-preview-toggle').checked;
+            console.log('Live preview:', currentConfig.livePreview ? 'On' : 'Off');
+        };
+
+        // Add Keyframe
+        window.addKeyframe = function() {
+            const position = currentConfig.scrollPosition;
+            const breakpoint = currentConfig.activeBreakpoint;
+            const keyframes = currentConfig.breakpoints[breakpoint].keyframes;
+            
+            keyframes.push({
+                position: position,
+                name: `Position ${keyframes.length + 1}`,
+                posX: 0,
+                posY: 0,
+                posZ: 0,
+                rotX: 0,
+                rotY: 0,
+                rotZ: 0
+            });
+            
+            renderKeyframes();
+            console.log('Keyframe added at', position + '%', 'for', breakpoint);
+        };
+
+        // Delete Keyframe
+        window.deleteKeyframe = function(index) {
+            const breakpoint = currentConfig.activeBreakpoint;
+            const keyframes = currentConfig.breakpoints[breakpoint].keyframes;
+            
+            keyframes.splice(index, 1);
+            renderKeyframes();
+            console.log('Keyframe deleted:', index);
+        };
+
+        // Switch Breakpoint
+        window.switchBreakpoint = function(breakpoint) {
+            currentConfig.activeBreakpoint = breakpoint;
+            
+            // Update active tab
+            document.querySelectorAll('.breakpoint-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-breakpoint="${breakpoint}"]`).classList.add('active');
+            
+            // Update title
+            const title = breakpoint.toUpperCase();
+            document.getElementById('keyframes-title').textContent = `POSITIONS ( ${title} )`;
+            
+            // Render keyframes for this breakpoint
+            renderKeyframes();
+        };
+
+        // Update slider ranges based on current breakpoint settings
+        function updateSliderRanges() {
+            const breakpoint = currentConfig.activeBreakpoint;
+            const maxXRange = currentConfig.breakpoints[breakpoint].maxXRange;
+            
+            // Update all Position X sliders
+            document.querySelectorAll('.axis-slider[oninput*="posX"]').forEach(slider => {
+                slider.max = maxXRange;
+                slider.min = -maxXRange;
+            });
+            
+            console.log(`Updated Position X slider range to ±${maxXRange} for ${breakpoint}`);
+        }
+
+        // Render Keyframes
+        function renderKeyframes() {
+            const breakpoint = currentConfig.activeBreakpoint;
+            const keyframes = currentConfig.breakpoints[breakpoint].keyframes;
+            const maxXRange = currentConfig.breakpoints[breakpoint].maxXRange;
+            const container = document.getElementById('keyframes-container');
+            
+            container.innerHTML = '';
+            
+            keyframes.forEach((keyframe, index) => {
+                const item = document.createElement('div');
+                item.className = 'keyframe-item';
+                item.innerHTML = `
+                    <div class="keyframe-header" onclick="toggleKeyframe(${index})">
+                        <span class="keyframe-percent">${keyframe.position}%</span>
+                        <span class="keyframe-name-display">${keyframe.name}</span>
+                        <button class="keyframe-delete" onclick="event.stopPropagation(); deleteKeyframe(${index})">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="keyframe-controls">
+                        <input type="text" class="keyframe-input" value="${keyframe.name}" 
+                               placeholder="Position name..." 
+                               onchange="updateKeyframeName(${index}, this.value)"
+                               onclick="event.stopPropagation()">
+                        
+                        <div class="control-section">
+                            <div class="control-label">POSITION</div>
+                            
+                            <div class="control-row">
+                                <span class="axis-label axis-x">X</span>
+                                <input type="range" class="axis-slider" min="-${maxXRange}" max="${maxXRange}" step="1" value="${keyframe.posX}" 
+                                       data-index="${index}" data-param="posX"
+                                       oninput="updateSliderValue(${index}, 'posX', this.value)">
+                                <input type="number" class="axis-input" value="${keyframe.posX}" step="1"
+                                       data-index="${index}" data-param="posX"
+                                       onchange="updateKeyframeParam(${index}, 'posX', this.value)">
+                            </div>
+                            
+                            <div class="control-row">
+                                <span class="axis-label axis-y">Y</span>
+                                <input type="range" class="axis-slider" min="-2000" max="2000" step="1" value="${keyframe.posY}" 
+                                       data-index="${index}" data-param="posY"
+                                       oninput="updateSliderValue(${index}, 'posY', this.value)">
+                                <input type="number" class="axis-input" value="${keyframe.posY}" step="1"
+                                       data-index="${index}" data-param="posY"
+                                       onchange="updateKeyframeParam(${index}, 'posY', this.value)">
+                            </div>
+                            
+                            <div class="control-row">
+                                <span class="axis-label axis-z">Z</span>
+                                <input type="range" class="axis-slider" min="-2000" max="2000" step="1" value="${keyframe.posZ}" 
+                                       data-index="${index}" data-param="posZ"
+                                       oninput="updateSliderValue(${index}, 'posZ', this.value)">
+                                <input type="number" class="axis-input" value="${keyframe.posZ}" step="1"
+                                       data-index="${index}" data-param="posZ"
+                                       onchange="updateKeyframeParam(${index}, 'posZ', this.value)">
+                            </div>
+                        </div>
+                        
+                        <div class="control-section">
+                            <div class="control-label">ROTATION</div>
+                            
+                            <div class="control-row">
+                                <span class="axis-label axis-x">X</span>
+                                <input type="range" class="axis-slider" min="-180" max="180" step="1" value="${keyframe.rotX}" 
+                                       data-index="${index}" data-param="rotX"
+                                       oninput="updateSliderValue(${index}, 'rotX', this.value)">
+                                <input type="number" class="axis-input" value="${keyframe.rotX}" step="1"
+                                       data-index="${index}" data-param="rotX"
+                                       onchange="updateKeyframeParam(${index}, 'rotX', this.value)">
+                            </div>
+                            
+                            <div class="control-row">
+                                <span class="axis-label axis-y">Y</span>
+                                <input type="range" class="axis-slider" min="-180" max="180" step="1" value="${keyframe.rotY}" 
+                                       data-index="${index}" data-param="rotY"
+                                       oninput="updateSliderValue(${index}, 'rotY', this.value)">
+                                <input type="number" class="axis-input" value="${keyframe.rotY}" step="1"
+                                       data-index="${index}" data-param="rotY"
+                                       onchange="updateKeyframeParam(${index}, 'rotY', this.value)">
+                            </div>
+                            
+                            <div class="control-row">
+                                <span class="axis-label axis-z">Z</span>
+                                <input type="range" class="axis-slider" min="-180" max="180" step="1" value="${keyframe.rotZ}" 
+                                       data-index="${index}" data-param="rotZ"
+                                       oninput="updateSliderValue(${index}, 'rotZ', this.value)">
+                                <input type="number" class="axis-input" value="${keyframe.rotZ}" step="1"
+                                       data-index="${index}" data-param="rotZ"
+                                       onchange="updateKeyframeParam(${index}, 'rotZ', this.value)">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Toggle Keyframe Expand/Collapse
+        window.toggleKeyframe = function(index) {
+            const items = document.querySelectorAll('.keyframe-item');
+            const item = items[index];
+            
+            if (item) {
+                // Close all other items
+                items.forEach((otherItem, otherIndex) => {
+                    if (otherIndex !== index) {
+                        otherItem.classList.remove('expanded');
+                    }
+                });
+                
+                // Toggle this item
+                item.classList.toggle('expanded');
+            }
+        };
+
+        // Update Slider Value (during drag - no re-render)
+        window.updateSliderValue = function(index, param, value) {
+            const breakpoint = currentConfig.activeBreakpoint;
+            currentConfig.breakpoints[breakpoint].keyframes[index][param] = parseFloat(value);
+            
+            // Find and update the corresponding input field without re-rendering
+            const keyframeItems = document.querySelectorAll('.keyframe-item');
+            if (keyframeItems[index]) {
+                const inputField = keyframeItems[index].querySelector(`input.axis-input[data-param="${param}"]`);
+                if (inputField) {
+                    inputField.value = value;
+                }
+            }
+            
+            // Apply transformation immediately if we have a selected object
+            if (currentConfig.targetObject && splineApp) {
+                const keyframe = currentConfig.breakpoints[breakpoint].keyframes[index];
+                applyTransformation(keyframe);
+            }
+        };
+
+        // Update Keyframe Parameter (on change - final value)
+        window.updateKeyframeParam = function(index, param, value) {
+            const breakpoint = currentConfig.activeBreakpoint;
+            currentConfig.breakpoints[breakpoint].keyframes[index][param] = parseFloat(value);
+            
+            // Find and update the corresponding slider without re-rendering
+            const keyframeItems = document.querySelectorAll('.keyframe-item');
+            if (keyframeItems[index]) {
+                const slider = keyframeItems[index].querySelector(`input.axis-slider[data-param="${param}"]`);
+                if (slider) {
+                    slider.value = value;
+                }
+            }
+            
+            // Apply transformation immediately if we have a selected object
+            if (currentConfig.targetObject && splineApp) {
+                const keyframe = currentConfig.breakpoints[breakpoint].keyframes[index];
+                applyTransformation(keyframe);
+            }
+        };
+
+        // Apply transformation to selected object
+        function applyTransformation(keyframe) {
+            if (!splineApp || !currentConfig.targetObject) {
+                console.log('No object selected to transform');
+                return;
+            }
+
+            try {
+                const obj = splineApp.findObjectByName(currentConfig.targetObject);
+                if (!obj) {
+                    console.error('Object not found:', currentConfig.targetObject);
+                    return;
+                }
+
+                // Apply position
+                if (obj.position) {
+                    obj.position.x = keyframe.posX;
+                    obj.position.y = keyframe.posY;
+                    obj.position.z = keyframe.posZ;
+                }
+
+                // Apply rotation (convert degrees to radians)
+                if (obj.rotation) {
+                    obj.rotation.x = keyframe.rotX * (Math.PI / 180);
+                    obj.rotation.y = keyframe.rotY * (Math.PI / 180);
+                    obj.rotation.z = keyframe.rotZ * (Math.PI / 180);
+                }
+
+                console.log('Applied transformation:', keyframe);
+            } catch (e) {
+                console.error('Error applying transformation:', e);
+            }
+        }
+
+        // Apply scroll-based transformation (interpolate between keyframes)
+        function applyScrollBasedTransformation(scrollPercent) {
+            if (!splineApp || !currentConfig.targetObject) return;
+            
+            const breakpoint = currentConfig.activeBreakpoint;
+            const keyframes = currentConfig.breakpoints[breakpoint].keyframes;
+            
+            if (keyframes.length === 0) return;
+            
+            // Sort keyframes by position
+            const sortedKeyframes = [...keyframes].sort((a, b) => a.position - b.position);
+            
+            // Find the two keyframes to interpolate between
+            let beforeKeyframe = sortedKeyframes[0];
+            let afterKeyframe = sortedKeyframes[sortedKeyframes.length - 1];
+            
+            for (let i = 0; i < sortedKeyframes.length - 1; i++) {
+                if (scrollPercent >= sortedKeyframes[i].position && scrollPercent <= sortedKeyframes[i + 1].position) {
+                    beforeKeyframe = sortedKeyframes[i];
+                    afterKeyframe = sortedKeyframes[i + 1];
+                    break;
+                }
+            }
+            
+            // If scroll is before first keyframe, use first keyframe
+            if (scrollPercent < sortedKeyframes[0].position) {
+                applyTransformation(sortedKeyframes[0]);
+                return;
+            }
+            
+            // If scroll is after last keyframe, use last keyframe
+            if (scrollPercent > sortedKeyframes[sortedKeyframes.length - 1].position) {
+                applyTransformation(sortedKeyframes[sortedKeyframes.length - 1]);
+                return;
+            }
+            
+            // Calculate interpolation factor
+            const range = afterKeyframe.position - beforeKeyframe.position;
+            const t = range === 0 ? 0 : (scrollPercent - beforeKeyframe.position) / range;
+            
+            // Interpolate between keyframes
+            const interpolated = {
+                posX: beforeKeyframe.posX + (afterKeyframe.posX - beforeKeyframe.posX) * t,
+                posY: beforeKeyframe.posY + (afterKeyframe.posY - beforeKeyframe.posY) * t,
+                posZ: beforeKeyframe.posZ + (afterKeyframe.posZ - beforeKeyframe.posZ) * t,
+                rotX: beforeKeyframe.rotX + (afterKeyframe.rotX - beforeKeyframe.rotX) * t,
+                rotY: beforeKeyframe.rotY + (afterKeyframe.rotY - beforeKeyframe.rotY) * t,
+                rotZ: beforeKeyframe.rotZ + (afterKeyframe.rotZ - beforeKeyframe.rotZ) * t
+            };
+            
+            applyTransformation(interpolated);
+        }
+
+        // Update Keyframe Name
+        window.updateKeyframeName = function(index, name) {
+            const breakpoint = currentConfig.activeBreakpoint;
+            currentConfig.breakpoints[breakpoint].keyframes[index].name = name;
+            
+            // Update the displayed name in the header
+            const items = document.querySelectorAll('.keyframe-item');
+            if (items[index]) {
+                const nameDisplay = items[index].querySelector('.keyframe-name-display');
+                if (nameDisplay) {
+                    nameDisplay.textContent = name;
+                }
+            }
+        };
+
+        // Load Spline Scene
+        window.loadSplineScene = async function() {
+            let url = document.getElementById('spline-url').value.trim();
+            if (!url) {
+                alert('Please enter a Spline URL');
+                return;
+            }
+
+            // Validate and fix URL format
+            // Spline URLs can be:
+            // 1. https://prod.spline.design/XXXXX
+            // 2. https://my.spline.design/xxxxx (old format)
+            // 3. Just the ID: XXXXX
+            
+            // If it's just an ID, add the prod.spline.design prefix
+            if (!url.startsWith('http')) {
+                url = 'https://prod.spline.design/' + url;
+            }
+            
+            // Update the input field with the corrected URL
+            document.getElementById('spline-url').value = url;
+
+            try {
+                console.log('Loading Spline scene from:', url);
+                
+                // Update status to loading
+                updateSceneStatus('loading', 'Loading scene...');
+                
+                // Dispose old app if exists
+                if (splineApp) {
+                    try {
+                        splineApp = null;
+                    } catch(e) {
+                        console.error('Error disposing old scene:', e);
+                    }
+                }
+                
+                // Clear canvas
+                const container = document.getElementById('canvas-container');
+                container.innerHTML = '';
+                const newCanvas = document.createElement('canvas');
+                newCanvas.id = 'canvas3d';
+                newCanvas.style.width = '100%';
+                newCanvas.style.height = '100%';
+                newCanvas.style.display = 'block';
+                container.appendChild(newCanvas);
+
+                // Load new scene
+                splineApp = new Application(newCanvas);
+                
+                console.log('Starting load...');
+                await splineApp.load(url);
+                console.log('Load completed');
+                
+                // Disable ALL mouse/touch interactions on canvas
+                newCanvas.style.pointerEvents = 'none';
+                
+                console.log('Disabling camera controls...');
+                // Disable camera controls to prevent any interaction
+                if (splineApp && splineApp._camera) {
+                    try {
+                        // Disable orbit controls if they exist
+                        if (splineApp._camera.enableZoom !== undefined) {
+                            splineApp._camera.enableZoom = false;
+                        }
+                        if (splineApp._controls) {
+                            splineApp._controls.enabled = false;
+                            splineApp._controls.enableZoom = false;
+                            splineApp._controls.enablePan = false;
+                            splineApp._controls.enableRotate = false;
+                        }
+                    } catch(e) {
+                        console.log('Could not disable camera controls:', e);
+                    }
+                }
+                
+                console.log('Adding event listeners...');
+                // Prevent wheel zoom on canvas
+                newCanvas.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, { passive: false });
+                
+                // Prevent touch gestures
+                newCanvas.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                }, { passive: false });
+                
+                // Prevent all mouse events
+                newCanvas.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, { passive: false });
+                
+                newCanvas.addEventListener('mousemove', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }, { passive: false });
+                
+                console.log('✅ Spline scene loaded successfully!');
+                currentConfig.splineUrl = url;
+                
+                // Update status to success
+                updateSceneStatus('success', 'Scene loaded successfully!');
+                
+                // Try to find objects in the scene
+                setTimeout(() => {
+                    findAndDisplaySceneObjects();
+                }, 500);
+                
+            } catch (error) {
+                console.error('❌ Error loading scene:', error);
+                
+                // Update status to error with helpful message
+                let errorMessage = 'Failed to load scene';
+                if (error.message.includes('buffer') || error.message.includes('Data read')) {
+                    errorMessage = 'Scene not found - check URL or export settings';
+                }
+                
+                updateSceneStatus('error', errorMessage);
+                
+                // Log detailed error to console for debugging
+                console.error('Detailed error:', error.message);
+            }
+        };
+        
+        // Update scene status display
+        function updateSceneStatus(type, message) {
+            const statusMsg = document.getElementById('status-message');
+            
+            if (!statusMsg) {
+                console.error('Status message element not found');
+                return;
+            }
+            
+            statusMsg.className = 'status-message ' + type;
+            const textSpan = statusMsg.querySelector('span');
+            if (textSpan) {
+                textSpan.textContent = message;
+            }
+            
+            // Update icon based on type
+            const icon = statusMsg.querySelector('svg');
+            if (icon) {
+                if (type === 'loading') {
+                    icon.innerHTML = '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>';
+                } else if (type === 'success') {
+                    icon.innerHTML = '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>';
+                } else if (type === 'error') {
+                    icon.innerHTML = '<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>';
+                } else {
+                    icon.innerHTML = '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>';
+                }
+            }
+        }
+        
+        // Find and display scene objects
+        function findAndDisplaySceneObjects() {
+            if (!splineApp) return;
+            
+            let foundObjects = [];
+            
+            // Method 1: Try common object names that users typically use
+            const objectNames = [
+                'Red Drop CBD', 'Red drop', 'RedDrop', 'Drop', 'CBD', 'Bottle', 'Product',
+                'Cube', 'Sphere', 'Cylinder', 'Box', 'Mesh', 'Model', 'Object',
+                'Group', 'Shape', 'Main', 'Item'
+            ];
+            
+            objectNames.forEach(name => {
+                try {
+                    const obj = splineApp.findObjectByName(name);
+                    if (obj && !foundObjects.some(o => o.name === name)) {
+                        foundObjects.push({ 
+                            name: name, 
+                            type: obj.type || 'Object', 
+                            obj: obj 
+                        });
+                        console.log('✅ Found object by name:', name, obj);
+                    }
+                } catch(e) {}
+            });
+            
+            // Method 2: Try to access scene children directly
+            try {
+                if (splineApp._scene && splineApp._scene.children) {
+                    console.log('Scene children:', splineApp._scene.children);
+                    splineApp._scene.children.forEach((child, index) => {
+                        if (child.name && child.name !== '' && !child.name.startsWith('_')) {
+                            console.log(`Child ${index}:`, child.name, child.type);
+                            if (!foundObjects.some(o => o.name === child.name)) {
+                                foundObjects.push({ 
+                                    name: child.name, 
+                                    type: child.type || 'Object', 
+                                    obj: child 
+                                });
+                            }
+                        }
+                    });
+                }
+            } catch(e) {
+                console.log('Could not access scene children:', e);
+            }
+            
+            // Filter out system objects
+            foundObjects = foundObjects.filter(obj => {
+                const name = obj.name.toLowerCase();
+                return obj.name && 
+                       !obj.name.startsWith('_') &&
+                       name !== 'scene' &&
+                       name !== 'scene 1' &&
+                       name !== 'camera' &&
+                       name !== 'directionallight' &&
+                       name !== 'ambientlight' &&
+                       name !== 'buildin invisible';
+            });
+            
+            // Remove duplicates
+            const uniqueObjects = [];
+            const seenNames = new Set();
+            foundObjects.forEach(obj => {
+                if (!seenNames.has(obj.name)) {
+                    seenNames.add(obj.name);
+                    uniqueObjects.push(obj);
+                }
+            });
+            
+            console.log('Filtered objects:', uniqueObjects);
+            
+            // Log all available objects for debugging
+            console.log('💡 TIP: If your object is not listed, make sure it has a name in Spline editor');
+            console.log('Available splineApp methods:', Object.keys(splineApp));
+            
+            // Display objects
+            if (uniqueObjects.length > 0) {
+                displayObjectsList(uniqueObjects);
+            } else {
+                // Show success without objects list
+                updateSceneStatus('success', 'Scene loaded successfully!');
+                console.log('⚠️ No objects found. Please name your object in Spline editor.');
+                console.log('💡 In Spline: Select object → Properties panel → Give it a name like "Red Drop CBD"');
+            }
+        }
+        
+        // Display objects list
+        function displayObjectsList(objects) {
+            // Store found objects for later use
+            window.availableObjects = objects;
+            
+            // Show object selector
+            const selectorSection = document.getElementById('object-selector-section');
+            const selector = document.getElementById('object-selector');
+            
+            selectorSection.style.display = 'block';
+            
+            // Populate dropdown
+            selector.innerHTML = '<option value="">Select an object...</option>';
+            objects.forEach(obj => {
+                const option = document.createElement('option');
+                option.value = obj.name;
+                option.textContent = `${obj.name} (${obj.type})`;
+                selector.appendChild(option);
+            });
+            
+            // Auto-select the first non-scene object
+            const firstObject = objects.find(o => o.name !== 'Scene 1' && o.name.toLowerCase() !== 'scene');
+            if (firstObject) {
+                currentConfig.targetObject = firstObject.name;
+                selector.value = firstObject.name;
+                console.log('Auto-selected object:', firstObject.name);
+            }
+            
+            // Log all found objects
+            console.log('Found objects:', objects.map(o => o.name).join(', '));
+            
+            // Update status message to success
+            updateSceneStatus('success', 'Scene loaded successfully!');
+        }
+
+        // Select Target Object
+        window.selectTargetObject = function(objectName) {
+            currentConfig.targetObject = objectName;
+            console.log('Selected target object:', objectName);
+        };
+        
+        // Select an object
+        function selectObject(obj, element) {
+            // Remove previous selection
+            document.querySelectorAll('.object-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Add selection to clicked item
+            element.classList.add('selected');
+            
+            // Store selected object
+            currentConfig.targetObject = obj.name;
+            console.log('Selected object:', obj.name);
+        }
+        
+        // List objects in scene (legacy function - kept for compatibility)
+        function listSceneObjects() {
+            findAndDisplaySceneObjects();
+        }
+
+        // Background Mode
+        window.setBackgroundMode = function(mode) {
+            currentConfig.backgroundMode = mode;
+            
+            // Update button states
+            document.querySelectorAll('.bg-toggle button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Toggle visibility of color picker vs picture upload
+            const colorSection = document.getElementById('bg-color-section');
+            const pictureSection = document.getElementById('bg-picture-section');
+            
+            if (mode === 'color') {
+                colorSection.style.display = 'block';
+                pictureSection.style.display = 'none';
+            } else {
+                colorSection.style.display = 'none';
+                pictureSection.style.display = 'block';
+            }
+        };
+
+        // Background Color
+        document.getElementById('bg-color').addEventListener('change', (e) => {
+            currentConfig.backgroundColor = e.target.value;
+            document.getElementById('canvas-container').style.background = e.target.value;
+        });
+
+        // Config Name
+        document.getElementById('config-name').addEventListener('input', (e) => {
+            currentConfig.name = e.target.value;
+        });
+
+        // Save to Drive
+        window.saveToDrive = function() {
+            console.log('Saving to Google Drive:', currentConfig);
+            alert('Save to Drive functionality - integrate with Google Drive API');
+        };
+
+        // Export Config
+        window.exportConfig = function() {
+            const dataStr = JSON.stringify(currentConfig, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `${currentConfig.name}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        };
+
+        // Download Config
+        window.downloadConfig = function() {
+            window.exportConfig();
+        };
+
+        // Sign Out
+        window.handleSignOut = function() {
+            if (confirm('Are you sure you want to sign out?')) {
+                window.location.href = 'spline-configs.html';
+            }
+        };
+
+        // Toggle Sidebar
+        window.toggleSidebar = function() {
+            const sidebar = document.getElementById('sidebar');
+            const showBtn = document.getElementById('show-sidebar-btn');
+            
+            sidebar.classList.toggle('minimized');
+            showBtn.classList.toggle('visible');
+        };
+
+        // Handle Back Button
+        window.handleBack = function() {
+            // Show save confirmation modal
+            document.getElementById('save-modal').classList.add('show');
+        };
+
+        // Close Save Modal
+        window.closeSaveModal = function() {
+            document.getElementById('save-modal').classList.remove('show');
+        };
+
+        // Leave Without Saving
+        window.leaveWithoutSaving = function() {
+            window.location.href = 'spline-configs.html';
+        };
+
+        // Save and Leave
+        window.saveAndLeave = function() {
+            saveToDrive();
+            // After saving, redirect
+            setTimeout(() => {
+                window.location.href = 'spline-configs.html';
+            }, 1000);
+        };
+
+        // Open Breakpoint Settings
+        window.openBreakpointSettings = function() {
+            // Populate current values
+            document.getElementById('bp-monitor').value = currentConfig.breakpoints.monitor.minWidth;
+            document.getElementById('bp-monitor-x').value = currentConfig.breakpoints.monitor.maxXRange;
+            document.getElementById('bp-desktop').value = currentConfig.breakpoints.desktop.minWidth;
+            document.getElementById('bp-desktop-x').value = currentConfig.breakpoints.desktop.maxXRange;
+            document.getElementById('bp-laptop').value = currentConfig.breakpoints.laptop.minWidth;
+            document.getElementById('bp-laptop-x').value = currentConfig.breakpoints.laptop.maxXRange;
+            document.getElementById('bp-tablet').value = currentConfig.breakpoints.tablet.minWidth;
+            document.getElementById('bp-tablet-x').value = currentConfig.breakpoints.tablet.maxXRange;
+            document.getElementById('bp-mobile').value = currentConfig.breakpoints.mobile.minWidth;
+            document.getElementById('bp-mobile-x').value = currentConfig.breakpoints.mobile.maxXRange;
+            
+            // Show modal
+            document.getElementById('breakpoint-modal').classList.add('show');
+        };
+
+        // Close Breakpoint Settings
+        window.closeBreakpointModal = function() {
+            document.getElementById('breakpoint-modal').classList.remove('show');
+        };
+
+        // Save Breakpoint Settings
+        window.saveBreakpointSettings = function() {
+            // Update config
+            currentConfig.breakpoints.monitor.minWidth = parseInt(document.getElementById('bp-monitor').value);
+            currentConfig.breakpoints.monitor.maxXRange = parseInt(document.getElementById('bp-monitor-x').value);
+            currentConfig.breakpoints.desktop.minWidth = parseInt(document.getElementById('bp-desktop').value);
+            currentConfig.breakpoints.desktop.maxXRange = parseInt(document.getElementById('bp-desktop-x').value);
+            currentConfig.breakpoints.laptop.minWidth = parseInt(document.getElementById('bp-laptop').value);
+            currentConfig.breakpoints.laptop.maxXRange = parseInt(document.getElementById('bp-laptop-x').value);
+            currentConfig.breakpoints.tablet.minWidth = parseInt(document.getElementById('bp-tablet').value);
+            currentConfig.breakpoints.tablet.maxXRange = parseInt(document.getElementById('bp-tablet-x').value);
+            currentConfig.breakpoints.mobile.minWidth = parseInt(document.getElementById('bp-mobile').value);
+            currentConfig.breakpoints.mobile.maxXRange = parseInt(document.getElementById('bp-mobile-x').value);
+            
+            console.log('Breakpoint settings saved:', currentConfig.breakpoints);
+            
+            // Update the sliders' max values based on the current breakpoint
+            updateSliderRanges();
+            
+            // Close modal
+            closeBreakpointModal();
+            
+            // Show toast notification
+            showToast('Breakpoint settings saved!');
+        };
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeBreakpointModal();
+                closeSaveModal();
+            }
+        });
+
+        // Close modal on overlay click
+        document.getElementById('breakpoint-modal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'breakpoint-modal') {
+                closeBreakpointModal();
+            }
+        });
+
+        // Close save modal on overlay click
+        document.getElementById('save-modal')?.addEventListener('click', (e) => {
+            if (e.target.id === 'save-modal') {
+                closeSaveModal();
+            }
+        });
+
+        // Show Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="toast-icon success">
+            <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+            </svg>
+        </div>
+        <span class="toast-message" id="toast-message">Settings saved!</span>
+    </div>
+</body>
+</html>

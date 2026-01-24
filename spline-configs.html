@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elevia 3D Config Manager</title>
+    <link rel="icon" href="theme/assets/favicon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/configs-page.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="spline-configs.html" class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="6" y="10" width="20" height="20" rx="2"/>
+                    <line x1="26" y1="10" x2="34" y2="4"/>
+                    <line x1="26" y1="30" x2="34" y2="24"/>
+                    <line x1="6" y1="10" x2="14" y2="4"/>
+                    <rect x="14" y="4" width="20" height="20" rx="2" opacity="0.5"/>
+                </svg>
+                <span class="logo-text">Elevia <span>3D</span> Config</span>
+            </a>
+            
+            <div class="header-actions">
+                <div class="sync-status" id="sync-status">
+                    <span class="sync-indicator" id="sync-indicator"></span>
+                    <span id="sync-text">Not connected</span>
+                </div>
+                
+                <div class="user-section" id="user-section" style="display: none;">
+                    <img class="user-avatar" id="user-avatar" src="" alt="User">
+                    <div class="user-info">
+                        <span class="user-name" id="user-name"></span>
+                        <span class="user-email" id="user-email"></span>
+                    </div>
+                    <button class="btn btn-ghost btn-icon" onclick="handleSignOut()" title="Sign out">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                            <polyline points="16 17 21 12 16 7"/>
+                            <line x1="21" y1="12" x2="9" y2="12"/>
+                        </svg>
+                    </button>
+                </div>
+                
+                <button class="btn btn-google" id="sign-in-btn" onclick="handleSignIn()">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    Sign in with Google
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Sign In Prompt (shown when not signed in) -->
+        <div class="sign-in-prompt" id="sign-in-prompt">
+            <svg class="sign-in-icon" viewBox="0 0 40 40" fill="none" stroke="white" stroke-width="1.5">
+                <rect x="6" y="10" width="20" height="20" rx="2"/>
+                <line x1="26" y1="10" x2="34" y2="4"/>
+                <line x1="26" y1="30" x2="34" y2="24"/>
+                <line x1="6" y1="10" x2="14" y2="4"/>
+                <rect x="14" y="4" width="20" height="20" rx="2" opacity="0.5"/>
+            </svg>
+            <h1 class="sign-in-title">Elevia 3D Config</h1>
+            <p class="sign-in-description">
+                Sign in with your Google account to save, manage, and sync your 3D animation configurations across devices.
+            </p>
+            <div class="sign-in-features">
+                <div class="feature-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Save to Google Drive</span>
+                </div>
+                <div class="feature-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Sync across devices</span>
+                </div>
+                <div class="feature-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span>Preview configurations</span>
+                </div>
+            </div>
+            <button class="btn btn-google btn-lg" onclick="handleSignIn()">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Sign in with Google
+            </button>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-state" id="loading-state" style="display: none;">
+            <div class="loading-spinner"></div>
+            <span class="loading-text">Loading configurations...</span>
+        </div>
+
+        <!-- Configs Content (shown when signed in) -->
+        <div id="configs-content" style="display: none;">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">My Configurations</h1>
+                    <p class="page-subtitle" id="configs-count">0 configurations</p>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <div class="view-toggle">
+                        <button id="view-grid" class="active" onclick="setView('grid')" title="Grid view">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"/>
+                                <rect x="14" y="3" width="7" height="7"/>
+                                <rect x="3" y="14" width="7" height="7"/>
+                                <rect x="14" y="14" width="7" height="7"/>
+                            </svg>
+                        </button>
+                        <button id="view-list" onclick="setView('list')" title="List view">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="8" y1="6" x2="21" y2="6"/>
+                                <line x1="8" y1="12" x2="21" y2="12"/>
+                                <line x1="8" y1="18" x2="21" y2="18"/>
+                                <line x1="3" y1="6" x2="3.01" y2="6"/>
+                                <line x1="3" y1="12" x2="3.01" y2="12"/>
+                                <line x1="3" y1="18" x2="3.01" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <button class="btn btn-secondary" onclick="refreshConfigs()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 4v6h-6"/>
+                            <path d="M1 20v-6h6"/>
+                            <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+                        </svg>
+                        Refresh
+                    </button>
+                    <button class="btn btn-primary" onclick="createNewConfig()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        New Config
+                    </button>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="empty-state" style="display: none;">
+                <div class="empty-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/>
+                        <path d="M12 22V12"/>
+                        <path d="M22 7L12 12 2 7"/>
+                    </svg>
+                </div>
+                <h2 class="empty-title">No configurations yet</h2>
+                <p class="empty-description">
+                    Create your first 3D animation configuration to get started. Your configs will be saved to Google Drive.
+                </p>
+                <button class="btn btn-primary" onclick="createNewConfig()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    Create First Config
+                </button>
+            </div>
+
+            <!-- Configs Grid -->
+            <div class="configs-grid" id="configs-grid"></div>
+            
+            <!-- Configs List -->
+            <div class="configs-list" id="configs-list" style="display: none;"></div>
+        </div>
+    </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="delete-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Delete Configuration</h3>
+                <button class="modal-close" onclick="closeDeleteModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete "<strong id="delete-config-name"></strong>"?</p>
+                <p style="color: var(--text-muted); margin-top: 8px; font-size: 13px;">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeDeleteModal()">Cancel</button>
+                <button class="btn btn-primary" style="background: var(--danger);" onclick="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rename Modal -->
+    <div class="modal-overlay" id="rename-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Rename Configuration</h3>
+                <button class="modal-close" onclick="closeRenameModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Configuration Name</label>
+                    <input type="text" class="form-input" id="rename-input" placeholder="Enter name...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeRenameModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="confirmRename()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/google-drive-api.js"></script>
+    <script>
+        // ============================================
+        // STATE
+        // ============================================
+        let configs = [];
+        let currentView = 'grid';
+        let deleteTargetId = null;
+        let renameTargetId = null;
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', async () => {
+            await GoogleDriveAPI.init(handleAuthChange, handleSyncStatus);
+        });
+
+        function handleAuthChange(isSignedIn, user) {
+            const signInPrompt = document.getElementById('sign-in-prompt');
+            const configsContent = document.getElementById('configs-content');
+            const userSection = document.getElementById('user-section');
+            const signInBtn = document.getElementById('sign-in-btn');
+
+            if (isSignedIn && user) {
+                signInPrompt.style.display = 'none';
+                configsContent.style.display = 'block';
+                userSection.style.display = 'flex';
+                signInBtn.style.display = 'none';
+
+                // Update user info
+                document.getElementById('user-avatar').src = user.photoLink || 'https://via.placeholder.com/36';
+                document.getElementById('user-name').textContent = user.displayName || 'User';
+                document.getElementById('user-email').textContent = user.emailAddress || '';
+
+                // Load configs
+                loadConfigs();
+                
+                // Check for pending config from spline-tool.html
+                checkPendingConfig();
+            } else {
+                signInPrompt.style.display = 'block';
+                configsContent.style.display = 'none';
+                userSection.style.display = 'none';
+                signInBtn.style.display = 'flex';
+            }
+        }
+
+        async function checkPendingConfig() {
+            const urlParams = new URLSearchParams(window.location.search);
+            // Check both sessionStorage (preferred) and localStorage
+            const pendingConfig = sessionStorage.getItem('elevia_pending_config') || localStorage.getItem('elevia_pending_config');
+            
+            if (urlParams.get('save') === 'pending' && pendingConfig) {
+                try {
+                    const config = JSON.parse(pendingConfig);
+                    
+                    // Check if background images were stored separately
+                    const hasBgImages = sessionStorage.getItem('elevia_has_bgImages') === 'true';
+                    if (hasBgImages) {
+                        const bgImages = localStorage.getItem('elevia_pending_bgImages');
+                        if (bgImages) {
+                            try {
+                                config.bgImages = JSON.parse(bgImages);
+                                console.log('[ELEVIA] Background images restored from localStorage');
+                            } catch (e) {
+                                console.warn('[ELEVIA] Failed to parse background images:', e);
+                            }
+                        }
+                    }
+                    
+                    console.log('[ELEVIA] Saving pending config:', config);
+                    
+                    // Save to Google Drive
+                    const result = await GoogleDriveAPI.saveConfig(config);
+                    
+                    if (result) {
+                        showToast('✓ Configuration saved to Google Drive!', 'success');
+                        // Clean up all storage locations
+                        sessionStorage.removeItem('elevia_pending_config');
+                        sessionStorage.removeItem('elevia_has_bgImages');
+                        localStorage.removeItem('elevia_pending_config');
+                        localStorage.removeItem('elevia_pending_bgImages');
+                        
+                        // Reload configs to show the new one
+                        await loadConfigs();
+                    } else {
+                        showToast('Failed to save configuration', 'error');
+                    }
+                } catch (e) {
+                    console.error('[ELEVIA] Error saving pending config:', e);
+                    showToast('Error saving configuration: ' + e.message, 'error');
+                }
+                
+                // Clean up URL
+                window.history.replaceState({}, '', window.location.pathname);
+            }
+        }
+
+        function handleSyncStatus(status, message) {
+            const indicator = document.getElementById('sync-indicator');
+            const text = document.getElementById('sync-text');
+
+            indicator.className = 'sync-indicator ' + status;
+            text.textContent = message;
+        }
+
+        // ============================================
+        // AUTH
+        // ============================================
+        async function handleSignIn() {
+            try {
+                await GoogleDriveAPI.signIn();
+            } catch (e) {
+                console.error('Sign in failed:', e);
+                showToast('Sign in failed. Please try again.', 'error');
+            }
+        }
+
+        function handleSignOut() {
+            GoogleDriveAPI.signOut();
+            configs = [];
+            showToast('Signed out successfully', 'success');
+        }
+
+        // ============================================
+        // CONFIGS
+        // ============================================
+        async function loadConfigs() {
+            const loadingState = document.getElementById('loading-state');
+            const emptyState = document.getElementById('empty-state');
+            const grid = document.getElementById('configs-grid');
+            const list = document.getElementById('configs-list');
+
+            loadingState.style.display = 'flex';
+            grid.style.display = 'none';
+            list.style.display = 'none';
+            emptyState.style.display = 'none';
+
+            try {
+                const files = await GoogleDriveAPI.listConfigs();
+                
+                // Load full config data for each file
+                configs = [];
+                for (const file of files) {
+                    try {
+                        const configData = await GoogleDriveAPI.loadConfig(file.id);
+                        configs.push({
+                            ...configData,
+                            fileId: file.id,
+                            fileName: file.name,
+                            modifiedTime: file.modifiedTime,
+                            createdTime: file.createdTime
+                        });
+                    } catch (e) {
+                        // If can't load config data, use file metadata
+                        configs.push({
+                            name: file.name.replace('.json', ''),
+                            fileId: file.id,
+                            fileName: file.name,
+                            modifiedTime: file.modifiedTime,
+                            createdTime: file.createdTime
+                        });
+                    }
+                }
+
+                // Cache for offline
+                GoogleDriveAPI.cacheConfigs(configs);
+
+                renderConfigs();
+            } catch (e) {
+                console.error('Error loading configs:', e);
+                
+                // Try to load from cache
+                const cached = GoogleDriveAPI.getCachedConfigs();
+                if (cached) {
+                    configs = cached.configs;
+                    renderConfigs();
+                    showToast('Loaded from cache (offline mode)', 'error');
+                } else {
+                    showToast('Failed to load configurations', 'error');
+                }
+            } finally {
+                loadingState.style.display = 'none';
+            }
+        }
+
+        async function refreshConfigs() {
+            await loadConfigs();
+            showToast('Configurations refreshed', 'success');
+        }
+
+        function renderConfigs() {
+            const emptyState = document.getElementById('empty-state');
+            const grid = document.getElementById('configs-grid');
+            const list = document.getElementById('configs-list');
+            const countEl = document.getElementById('configs-count');
+
+            countEl.textContent = `${configs.length} configuration${configs.length !== 1 ? 's' : ''}`;
+
+            if (configs.length === 0) {
+                emptyState.style.display = 'block';
+                grid.style.display = 'none';
+                list.style.display = 'none';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            if (currentView === 'grid') {
+                grid.style.display = 'grid';
+                list.style.display = 'none';
+                renderGridView();
+            } else {
+                grid.style.display = 'none';
+                list.style.display = 'flex';
+                renderListView();
+            }
+        }
+
+        function renderGridView() {
+            const grid = document.getElementById('configs-grid');
+            
+            // New config card
+            let html = `
+                <div class="config-card new-card" onclick="createNewConfig()">
+                    <div class="new-card-content">
+                        <div class="new-card-icon">+</div>
+                        <div class="new-card-title">New Configuration</div>
+                        <div class="new-card-subtitle">Create a new 3D animation</div>
+                    </div>
+                </div>
+            `;
+
+            // Config cards
+            configs.forEach(config => {
+                const date = new Date(config.modifiedTime || config.updatedAt);
+                const dateStr = date.toLocaleDateString('cs-CZ', { 
+                    day: 'numeric', 
+                    month: 'short',
+                    year: 'numeric'
+                });
+                const objectCount = config.objects?.length || 0;
+                const tags = config.tags || [];
+
+                html += `
+                    <div class="config-card" onclick="openConfig('${config.fileId}')">
+                        <div class="card-thumbnail">
+                            ${config.thumbnail 
+                                ? `<img src="${config.thumbnail}" alt="${config.name}">`
+                                : `<div class="card-thumbnail-placeholder">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/>
+                                        <path d="M12 22V12"/>
+                                        <path d="M22 7L12 12 2 7"/>
+                                    </svg>
+                                </div>`
+                            }
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">${escapeHtml(config.name || 'Untitled')}</div>
+                            <div class="card-meta">
+                                <span class="card-meta-item">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                        <line x1="16" y1="2" x2="16" y2="6"/>
+                                        <line x1="8" y1="2" x2="8" y2="6"/>
+                                        <line x1="3" y1="10" x2="21" y2="10"/>
+                                    </svg>
+                                    ${dateStr}
+                                </span>
+                                <span class="card-meta-item">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                                    </svg>
+                                    ${objectCount} object${objectCount !== 1 ? 's' : ''}
+                                </span>
+                            </div>
+                            ${tags.length > 0 ? `
+                                <div class="card-tags">
+                                    ${tags.slice(0, 3).map(tag => `<span class="card-tag">${escapeHtml(tag)}</span>`).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="card-actions" onclick="event.stopPropagation()">
+                            <button class="card-action-btn" onclick="openConfig('${config.fileId}')" title="Open">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+                                    <polyline points="15 3 21 3 21 9"/>
+                                    <line x1="10" y1="14" x2="21" y2="3"/>
+                                </svg>
+                                Open
+                            </button>
+                            <button class="card-action-btn" onclick="duplicateConfig('${config.fileId}', '${escapeHtml(config.name)}')" title="Duplicate">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                </svg>
+                                Copy
+                            </button>
+                            <button class="card-action-btn delete" onclick="showDeleteModal('${config.fileId}', '${escapeHtml(config.name)}')" title="Delete">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            grid.innerHTML = html;
+        }
+
+        function renderListView() {
+            const list = document.getElementById('configs-list');
+            
+            let html = '';
+            configs.forEach(config => {
+                const date = new Date(config.modifiedTime || config.updatedAt);
+                const dateStr = date.toLocaleDateString('cs-CZ', { 
+                    day: 'numeric', 
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                const objectCount = config.objects?.length || 0;
+
+                html += `
+                    <div class="config-list-item" onclick="openConfig('${config.fileId}')">
+                        <div class="list-thumbnail">
+                            ${config.thumbnail 
+                                ? `<img src="${config.thumbnail}" alt="${config.name}">`
+                                : `<div class="card-thumbnail-placeholder" style="border-radius:8px;">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/>
+                                    </svg>
+                                </div>`
+                            }
+                        </div>
+                        <div class="list-info">
+                            <div class="list-title">${escapeHtml(config.name || 'Untitled')}</div>
+                            <div class="list-meta">${dateStr} • ${objectCount} object${objectCount !== 1 ? 's' : ''}</div>
+                        </div>
+                        <div class="list-actions" onclick="event.stopPropagation()">
+                            <button class="btn btn-ghost btn-icon" onclick="duplicateConfig('${config.fileId}', '${escapeHtml(config.name)}')" title="Duplicate">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                                </svg>
+                            </button>
+                            <button class="btn btn-ghost btn-icon" onclick="showDeleteModal('${config.fileId}', '${escapeHtml(config.name)}')" title="Delete">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"/>
+                                    <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+        }
+
+        // ============================================
+        // ACTIONS
+        // ============================================
+        function createNewConfig() {
+            // Open editor with new config flag
+            window.location.href = 'spline-tool.html?new=true';
+        }
+
+        function openConfig(fileId) {
+            window.location.href = `spline-tool.html?config=${fileId}`;
+        }
+
+        async function duplicateConfig(fileId, name) {
+            const newName = name + ' (Copy)';
+            const result = await GoogleDriveAPI.duplicateConfig(fileId, newName);
+            if (result) {
+                showToast('Configuration duplicated', 'success');
+                await loadConfigs();
+            }
+        }
+
+        // ============================================
+        // VIEW TOGGLE
+        // ============================================
+        function setView(view) {
+            currentView = view;
+            document.getElementById('view-grid').classList.toggle('active', view === 'grid');
+            document.getElementById('view-list').classList.toggle('active', view === 'list');
+            localStorage.setItem('configs_view', view);
+            renderConfigs();
+        }
+
+        // Load saved view preference
+        const savedView = localStorage.getItem('configs_view');
+        if (savedView) {
+            currentView = savedView;
+            document.getElementById('view-grid').classList.toggle('active', savedView === 'grid');
+            document.getElementById('view-list').classList.toggle('active', savedView === 'list');
+        }
+
+        // ============================================
+        // DELETE MODAL
+        // ============================================
+        function showDeleteModal(fileId, name) {
+            deleteTargetId = fileId;
+            document.getElementById('delete-config-name').textContent = name;
+            document.getElementById('delete-modal').classList.add('show');
+        }
+
+        function closeDeleteModal() {
+            deleteTargetId = null;
+            document.getElementById('delete-modal').classList.remove('show');
+        }
+
+        async function confirmDelete() {
+            if (!deleteTargetId) return;
+            
+            const success = await GoogleDriveAPI.deleteConfig(deleteTargetId);
+            if (success) {
+                showToast('Configuration deleted', 'success');
+                await loadConfigs();
+            }
+            closeDeleteModal();
+        }
+
+        // ============================================
+        // RENAME MODAL
+        // ============================================
+        function showRenameModal(fileId, currentName) {
+            renameTargetId = fileId;
+            document.getElementById('rename-input').value = currentName;
+            document.getElementById('rename-modal').classList.add('show');
+            document.getElementById('rename-input').focus();
+        }
+
+        function closeRenameModal() {
+            renameTargetId = null;
+            document.getElementById('rename-modal').classList.remove('show');
+        }
+
+        async function confirmRename() {
+            if (!renameTargetId) return;
+            
+            const newName = document.getElementById('rename-input').value.trim();
+            if (!newName) {
+                showToast('Please enter a name', 'error');
+                return;
+            }
+
+            // Load config, update name, save
+            const config = await GoogleDriveAPI.loadConfig(renameTargetId);
+            if (config) {
+                config.name = newName;
+                await GoogleDriveAPI.saveConfig(config, renameTargetId);
+                showToast('Configuration renamed', 'success');
+                await loadConfigs();
+            }
+            closeRenameModal();
+        }
+
+        // ============================================
+        // TOAST NOTIFICATIONS
+        // ============================================
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span class="toast-message">${message}</span>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+            `;
+            container.appendChild(toast);
+
+            // Auto remove after 4s
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // ============================================
+        // UTILS
+        // ============================================
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Close modals on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeDeleteModal();
+                closeRenameModal();
+            }
+        });
+
+        // Close modals on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    closeDeleteModal();
+                    closeRenameModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+

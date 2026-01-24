@@ -1,0 +1,280 @@
+<div class="home-hero">
+  <div class="loading-bar-wrapper">
+    <div class="loading-bar"></div>
+  </div>
+  <div class="dots-wrapper">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <div class="hero-slide is-wellness">
+    <img src="{{ section.settings.slide_1_image.src | img_url: 'master' }}" loading="eager" alt="{{ section.settings.slide_1_image.alt | escape }}" class="hero-image hide-on-mobile">
+    {%- if section.settings.slide_1_image_mobile != blank -%}
+      <img src="{{ section.settings.slide_1_image_mobile.src | img_url: 'master' }}" loading="eager" alt="{{ section.settings.slide_1_image_mobile.alt | escape }}" class="hero-image show-on-mobile">
+    {%- endif -%}
+    <div class="w-layout-blockcontainer container-small is-home w-container">
+      <div class="home-hero-wrapper is_about-us">
+        <div class="w-layout-vflex headline-subheadline">
+          <h1 class="home-h1">{{ section.settings.slide_1_headline | rich_text }}</h1>
+          <div p-add-class="body-xxlarge">{{ section.settings.slide_1_description | newline_to_br }}</div>
+        </div>
+        <a href="{% if section.settings.slide_1_link %}{{ section.settings.slide_1_link }}{% else %}/contact#form{% endif %}" class="button w-inline-block">
+          <div class="p-contents">{{ section.settings.slide_1_button | newline_to_br }}</div>
+          <img src="{{ 'icon-button.svg' | asset_url }}" loading="lazy" alt="" class="icon-button">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-slide is-vibe">
+    <img src="{{ section.settings.slide_2_image.src | img_url: 'master' }}" loading="eager" alt="{{ section.settings.slide_2_image.alt | escape }}" class="hero-image hide-on-mobile">
+    {%- if section.settings.slide_2_image_mobile != blank -%}
+      <img src="{{ section.settings.slide_2_image_mobile.src | img_url: 'master' }}" loading="eager" alt="{{ section.settings.slide_2_image_mobile.alt | escape }}" class="hero-image show-on-mobile">
+    {%- endif -%}
+    <div class="w-layout-blockcontainer container-small is-home w-container">
+      <div class="home-hero-wrapper">
+        <div class="w-layout-vflex headline-subheadline">
+          <h1 class="home-h1">{{ section.settings.slide_2_headline | rich_text }}</h1>
+          <div p-add-class="body-xxlarge">{{ section.settings.slide_2_description | newline_to_br }}</div>
+        </div>
+        <a href="{% if section.settings.slide_2_link %}{{ section.settings.slide_2_link }}{% else %}#{% endif %}" class="button w-inline-block">
+          <div class="p-contents">{{ section.settings.slide_2_button | newline_to_br }}</div>
+          <img src="{{ 'icon-button.svg' | asset_url }}" loading="lazy" alt="" class="icon-button">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-slide is-medical">
+    <img src="{{ section.settings.slide_3_image.src | img_url: 'master' }}" loading="eager" alt="{{ section.settings.slide_3_image.alt | escape }}" class="hero-image hide-on-mobile">
+    {%- if section.settings.slide_3_image_mobile != blank -%}
+      <img src="{{ section.settings.slide_3_image_mobile.src | img_url: 'master' }}" loading="eager" alt="{{ section.settings.slide_3_image_mobile.alt | escape }}" class="hero-image show-on-mobile">
+    {%- endif -%}
+    <div class="w-layout-blockcontainer container-small is-home w-container">
+      <div class="home-hero-wrapper">
+        <div class="w-layout-vflex headline-subheadline">
+          <h1 class="home-h1">{{ section.settings.slide_3_headline | rich_text }}</h1>
+          <div p-add-class="body-xxlarge">{{ section.settings.slide_3_description | newline_to_br }}</div>
+        </div>
+        <a href="{% if section.settings.slide_3_link %}{{ section.settings.slide_3_link }}{% else %}#{% endif %}" class="button w-inline-block">
+          <div class="p-contents">{{ section.settings.slide_3_button | newline_to_br }}</div>
+          <img src="{{ 'icon-button.svg' | asset_url }}" loading="lazy" alt="" class="icon-button">
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<style>
+  .hero-image.show-on-mobile { display: none; }
+  .hero-image.hide-on-mobile { display: block; }
+  @media (max-width: 767px) {
+    .hero-image.show-on-mobile { display: block; }
+    .hero-image.hide-on-mobile { display: none; }
+  }
+</style>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const slides = [
+      document.querySelector(".hero-slide.is-wellness"),
+      document.querySelector(".hero-slide.is-vibe"),
+      document.querySelector(".hero-slide.is-medical")
+    ];
+    const dots = document.querySelectorAll(".dot");
+    const loadingBar = document.querySelector(".loading-bar");
+    const heroWrapper = document.querySelector(".home-hero-wrapper");
+
+    let currentIndex = 0;
+
+    function setStyles(el, styles) {
+      for (const prop in styles) {
+        el.style[prop] = styles[prop];
+      }
+    }
+
+    function startLoadingBar() {
+      setStyles(loadingBar, { transition: "none", width: "0%" });
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          setStyles(loadingBar, { transition: "width 6s linear", width: "100%" });
+        }, 20);
+      });
+    }
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        if (i === index) {
+          setStyles(slide, { display: "block", opacity: "0", transition: "opacity 0.5s ease-out" });
+          requestAnimationFrame(() => setStyles(slide, { opacity: "1" }));
+        }
+      });
+
+      setStyles(heroWrapper, { transform: "translateX(24px)" });
+      setTimeout(() => {
+        setStyles(heroWrapper, {
+          transition: "transform 0.6s ease-out",
+          transform: "translateX(0px)"
+        });
+      }, 10);
+
+      // dots
+      dots.forEach((dot, i) => {
+        setStyles(dot, {
+          transition: "width 0.6s ease-out, background-color 0.6s ease-out",
+          width: i === index ? "56px" : "8px",
+          backgroundColor: i === index ? "white" : "rgba(255,255,255,0.7)"
+        });
+      });
+    }
+
+    function hidePreviousSlide(prevIndex) {
+      const prevSlide = slides[prevIndex];
+      setStyles(prevSlide, { transition: "opacity 0.6s ease-out", opacity: "0" });
+      setTimeout(() => {
+        setStyles(prevSlide, { display: "none" });
+      }, 600);
+    }
+
+    function nextSlide() {
+      const prevIndex = currentIndex;
+      currentIndex = (currentIndex + 1) % slides.length;
+
+      hidePreviousSlide(prevIndex);
+      showSlide(currentIndex);
+      startLoadingBar();
+    }
+
+    function init() {
+      // Start first slide
+      slides.forEach((slide, i) => {
+        setStyles(slide, {
+          display: i === 0 ? "block" : "none",
+          opacity: i === 0 ? "1" : "0"
+        });
+      });
+
+      dots.forEach((dot, i) => {
+        setStyles(dot, {
+          width: i === 0 ? "56px" : "8px",
+          backgroundColor: i === 0 ? "white" : "rgba(255,255,255,0.7)"
+        });
+      });
+
+      startLoadingBar();
+
+      setInterval(() => {
+        nextSlide();
+      }, 6000);
+    }
+
+    init();
+  });
+</script>
+
+<script>var currentSection = document.currentScript.closest('.shopify-section');currentSection.setAttribute("data-w-id","d0c1c2bf-9cff-1b07-6da6-5438ac6edcc3");currentSection.setAttribute("class","home-hero");</script>
+        
+{% schema %}
+{
+  "name": "Section - Hero Small",
+  "tag": "section",
+  "class": "about-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "slide_1_image",
+      "label": "Slide 1 - Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_1_image_mobile",
+      "label": "Slide 1 - Mobile Image"
+    },
+    {
+      "type": "richtext",
+      "id": "slide_1_headline",
+      "label": "Slide 1 - Headline"
+    },
+    {
+      "type": "richtext",
+      "id": "slide_1_description",
+      "label": "Slide 1 - Description"
+    },
+    {
+      "type": "richtext",
+      "id": "slide_1_button",
+      "label": "Slide 1 - Button"
+    },
+    {
+      "id": "slide_1_link",
+      "label": "Slide 1 - Link",
+      "type": "url"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_2_image",
+      "label": "Slide 2 - Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_2_image_mobile",
+      "label": "Slide 2 - Mobile Image"
+    },
+    {
+      "type": "richtext",
+      "id": "slide_2_headline",
+      "label": "Slide 2 - Headline"
+    },
+    {
+      "type": "richtext",
+      "id": "slide_2_description",
+      "label": "Slide 2 - Description"
+    },
+    {
+      "type": "richtext",
+      "id": "slide_2_button",
+      "label": "Slide 2 - Button"
+    },
+    {
+      "id": "slide_2_link",
+      "label": "Slide 2 - Link",
+      "type": "url"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_3_image",
+      "label": "Slide 3 - Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "slide_3_image_mobile",
+      "label": "Slide 3 - Mobile Image"
+    },
+    {
+      "type": "richtext",
+      "id": "slide_3_headline",
+      "label": "Slide 3 - Headline"
+    },
+    {
+      "type": "richtext",
+      "id": "slide_3_description",
+      "label": "Slide 3 - Description"
+    },
+    {
+      "type": "richtext",
+      "id": "slide_3_button",
+      "label": "Slide 3 - Button"
+    },
+    {
+      "id": "slide_3_link",
+      "label": "Slide 3 - Link",
+      "type": "url"
+    }
+  ]
+}
+{% endschema %}

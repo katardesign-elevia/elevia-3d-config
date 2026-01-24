@@ -1,0 +1,61 @@
+{% capture listItems %}
+  {% assign subCollection = product.metafields.udesly['recommended-products'] | map: "handle" %}
+  {% for loopItem in subCollection %}
+    {% assign item = all_products[loopItem] %}
+    <div role="listitem" class="w-dyn-item" style="width: 100%;">
+      
+      {% if item.metafields.udesly['coming-soon'] == 'true' %}
+        <div class="swiper-slide is-recommended">
+      {% else %}
+        <a href="{{ item.url }}" class="product-link">
+          <div class="swiper-slide is-recommended">
+      {% endif %}
+
+            <img loading="lazy" 
+                 alt="{{ item.metafields.udesly['product-banner-image'].alt | default: 'Default image' }}" 
+                 src="{{ item.metafields.udesly['product-banner-image'].src | default: 'default-image.avif' }}" 
+                 class="swiper-image">
+            <div class="slide-content-wrapper">
+              <div class="slide-headline-wrapper">
+                <h2 class="all-caps mobile-center is-medical">
+                  {{ item.type | default: 'Medical line' }}
+                </h2>
+                <p class="max-width-320 mobile-centered">
+                  {{ item.metafields.udesly['description'] | default: 'No description available.' }}
+                </p>
+              </div>
+
+              <!-- Podmínka pro coming soon -->
+              {% if item.metafields.udesly['coming-soon'] == 'true' %}
+                <p class="coming-soon-text">Coming Soon</p>
+              {% else %}
+                <div class="btn-card">
+                  <div class="btn-card is-hover"></div>
+                </div>
+              {% endif %}
+
+            </div>
+          
+      {% if item.metafields.udesly['coming-soon'] == 'true' %}
+        </div>
+      {% else %}
+          </div>
+        </a>
+      {% endif %}
+      
+    </div>
+  {% endfor %}
+{% endcapture %}
+
+{% assign items_length = listItems | strip | size %}
+<div class="w-dyn-list" udy-collection="product">
+  {% unless items_length == 0 %}
+    <div role="list" class="recommended w-dyn-items">
+      {{ listItems }}
+    </div>
+  {% else %}
+    <div class="w-dyn-empty">
+      <div>No items found.</div>
+    </div>
+  {% endunless %}
+</div>

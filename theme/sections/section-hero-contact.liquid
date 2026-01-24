@@ -1,0 +1,48 @@
+{%- if section.settings.image == nil -%}
+  <img src="{{ 'about.jpg' | asset_url }}" loading="lazy" alt="" sizes="100vw" srcset="{{ 'about.jpg' | asset_img_url: '500x' }} 500w, {{ 'about.jpg' | asset_img_url: '800x' }} 800w, {{ 'about.jpg' | asset_img_url: '1080x' }} 1080w, {{ 'about.jpg' | asset_img_url: '1600x' }} 1600w, {{ 'about.jpg' | asset_img_url: '2000x' }} 2000w, {{ 'about.jpg' | asset_img_url: '2600x' }} 2600w, {{ 'about.jpg' | asset_url }} 2880w" class="image-about">
+{%- else -%}
+  <img src="{{ section.settings.image.src | img_url: 'master' }}" loading="lazy" alt="{{ section.settings.image.alt | escape }}" class="image-about">
+{%- endif -%}
+
+<div class="hero-slide is-about-us">
+  <div class="w-layout-blockcontainer container-small is-home w-container">
+    <div class="home-hero-wrapper is_about-us">
+      <div class="w-layout-vflex headline-subheadline">
+        <h1 class="home-h1">{{ section.settings.headline | rich_text }}</h1>
+        <div p-add-class="body-xxlarge max-width-430">{{ section.settings.subheadline | newline_to_br }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var currentSection = document.currentScript.closest('.shopify-section');
+  currentSection.setAttribute("class", "contact-hero");
+</script>
+
+{% schema %}
+{
+  "name": "Section - Hero (Contact)",
+  "tag": "section",
+  "class": "contact-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "headline",
+      "label": "Headline",
+      "default": "<p><u>LEAVE US</u> a message</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subheadline",
+      "label": "Subheadline",
+      "default": "<p>At Elevia, your satisfaction is our top priority, guaranteed.</p>"
+    }
+  ]
+}
+{% endschema %}

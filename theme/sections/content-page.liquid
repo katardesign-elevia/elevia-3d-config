@@ -1,0 +1,30 @@
+
+    <div class="w-layout-blockcontainer container is-content w-container">
+      <h1 class="heading-content">{{ section.settings.headline }}</h1>
+      <div class="content w-richtext">{{ section.settings.rich_text }}</div>
+    </div>
+  
+
+<script>var currentSection = document.currentScript.closest('.shopify-section');currentSection.setAttribute("class","section-policy");</script>
+        
+{% schema %}
+{
+  "name": "Content page",
+  "tag": "section",
+  "class": "section-policy",
+  "settings": [
+    {
+      "type": "html",
+      "id": "rich_text",
+      "label": "Rich text",
+      "default": "<p>RichText</p>"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "Privacy and Cookies Policy"
+    }
+  ]
+}
+{% endschema %}

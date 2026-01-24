@@ -1,0 +1,44 @@
+/**
+ * Product Page Styles
+ * Additional styles for product page functionality
+ */
+
+/* Font Smoothing */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -o-font-smoothing: antialiased;
+}
+
+/* Cart Wrapper */
+.cart-wrapper {
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Dropdown Active State */
+.dropdown-link.w-dropdown-link.w--current {
+  color: #000;
+}
+
+/* Swiper Disabled Navigation */
+.prev-sec.disabled,
+.next-sec.disabled,
+.prev-sec1.disabled,
+.next-sec1.disabled {
+  display: none;
+}
+
+/* Tab Icon Pulse Animation */
+.inside-icon-wrapper {
+  animation: pulse-animation 2s infinite;
+}
+
+@keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+  }
+}

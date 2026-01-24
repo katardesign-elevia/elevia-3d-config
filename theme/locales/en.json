@@ -1,0 +1,28 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "t217bfee6": "Facebook",
+  "language_cz": "CZ",
+  "language_en": "EN",
+  "navigation": {
+    "about": "About Us",
+    "contact": "Contact",
+    "shop": "Shop",
+    "back": "Back"
+  },
+  "faq": {
+  "show_more": "Show More",
+  "show_less": "Show Less"
+  },
+  "footer": {
+    "privacy": "Privacy Policy"
+  },
+  "rights_reserved": "All rights reserved"
+}

@@ -1,0 +1,31 @@
+{% capture listItems %}
+{% paginate blogs['faq'].articles by 999 %}
+{%- assign allItems = blogs['faq'].articles -%}
+{%- for item in allItems limit: 10 -%}
+ <div data-w-id="1903e811-7c59-bb39-779c-9615c1ac25df" role="listitem" class="faq-wrapper w-dyn-item">
+            <div id="showmore" class="faq-question-wrapper">
+              <div class="faq-number"></div>
+              <div class="faq-answer-wrapper">
+                <div class="body-large">{{ item.title }}</div>
+                <p class="body-small">{{ item.metafields.udesly['answer'] }}</p>
+              </div>
+            </div>
+            <div class="icon-faq_wrapper">
+              <div class="icon-faq w-embed"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5 10L11.2191 15.3306C11.6684 15.7158 12.3316 15.7158 12.7809 15.3306L19 10" stroke="currentColor" stroke-linecap="round"></path>
+                </svg></div>
+            </div>
+          </div>
+{%- endfor -%}
+{% endpaginate %}
+{% endcapture %}
+{% assign items_length = listItems | strip | size %}
+
+<div class="faq-main-wrapper w-dyn-list" udy-collection="faq">
+        {%- unless items_length == 0 -%}<div fs-cmsload-resetix="true" fs-cmsload-element="list" role="list" class="faq-list w-dyn-items">
+          {{ listItems }}
+        </div>{%- endunless -%}
+        {%- if items_length == 0 -%}<div class="w-dyn-empty">
+          <div>No items found.</div>
+        </div>{%- endif -%}
+      </div>

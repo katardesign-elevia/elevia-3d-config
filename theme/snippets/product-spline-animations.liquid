@@ -1,0 +1,73 @@
+{% comment %}
+  Product Spline Animations - CONDITIONAL LOADING
+  Only loads Spline scenes needed for the specific product type
+
+  Parameters:
+  - product: product object (optional) - uses metafields to determine which animations to load
+
+  Performance: This reduces initial page load by only loading necessary 3D scenes
+{% endcomment %}
+
+{%- liquid
+  assign load_drops = product.metafields.udesly['animace---drops']
+  assign load_spray = product.metafields.udesly['animace---sprey']
+  assign load_cartridge = product.metafields.udesly['animace---cartridge']
+  assign load_preroll = product.metafields.udesly['animace---pre-roll']
+  assign load_buds = product.metafields.udesly['animace---buds']
+  assign load_custom = product.metafields.custom.spline_scene_url
+-%}
+
+<div class="animation-wrapper">
+  <div class="animation">
+    {%- comment -%} Load Spline viewer script only once {%- endcomment -%}
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.3/build/spline-viewer.js"></script>
+
+    {%- comment -%} Custom Spline Scene (if set via metafield) {%- endcomment -%}
+    {%- if load_custom != blank -%}
+      <spline-viewer url="{{ load_custom }}" loading="lazy"></spline-viewer>
+    {%- else -%}
+      <spline-viewer url="https://prod.spline.design/tPdk1bhhrxUqmTCa/scene.splinecode" loading="lazy"></spline-viewer>
+    {%- endif -%}
+
+    {%- comment -%} Conditional Desktop Scenes {%- endcomment -%}
+    {%- if load_drops == "true" or load_spray == "true" or load_buds == "true" -%}
+      <div data-w-id="8eaf0c0b-c006-7e2a-aaaa-a42c058f7d62" class="spline-scene-9" data-animation-type="spline" data-spline-url="https://prod.spline.design/zSUzD4tpHNKI9scQ/scene.splinecode" loading="lazy"><canvas></canvas></div>
+    {%- endif -%}
+
+    {%- if load_drops == "true" -%}
+      <div data-w-id="9bb08d97-04a4-c0ba-b8f1-0f1553146007" class="spline-scene-1part" data-animation-type="spline" data-spline-url="https://prod.spline.design/7Ft0vmKnprZE8RnU/scene.splinecode" loading="lazy"><canvas></canvas></div>
+    {%- endif -%}
+
+    {%- if load_cartridge == "true" -%}
+      <div data-w-id="cf8cc968-6bf5-ca9f-3f28-f67af47837ec" class="spline-scene-7" data-animation-type="spline" data-spline-url="https://prod.spline.design/iO8vNDXvpsqu59TU/scene.splinecode" loading="lazy"><canvas></canvas></div>
+    {%- endif -%}
+
+    {%- if load_preroll == "true" -%}
+      <div data-w-id="55c23bbf-07c6-6765-91d5-b2de558afcbf" class="spline-scene-2" data-animation-type="spline" data-spline-url="https://prod.spline.design/7Vb9UlqKY7mLLPMc/scene.splinecode" loading="lazy"><canvas></canvas></div>
+    {%- endif -%}
+
+    {%- if load_buds == "true" -%}
+      <div data-w-id="eca68366-71d8-c6e4-4a3c-0a81bc349c0a" class="spline-scene-8" data-animation-type="spline" data-spline-url="https://prod.spline.design/KVbk2BPQug214G42/scene.splinecode" loading="lazy"><canvas></canvas></div>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- comment -%} Bottom Spline Scenes - Conditionally loaded based on product type {%- endcomment -%}
+<div class="w-layout-vflex flex-block-3">
+  {%- if load_drops == "true" -%}
+    <div data-w-id="b801496c-14ba-91c7-0f9c-5c2fa97f5818" class="spline-scene _1" data-animation-type="spline" data-spline-url="https://prod.spline.design/pyHe0Bv7woorc9Zh/scene.splinecode" loading="lazy"><canvas></canvas></div>
+    <div data-w-id="9379b3d9-5e84-33ee-36a7-d6a86245f1e2" class="spline-scene" data-animation-type="spline" data-spline-url="https://prod.spline.design/3WhTOQxu3sfCgw7M/scene.splinecode" loading="lazy"><canvas></canvas></div>
+  {%- endif -%}
+
+  {%- if load_cartridge == "true" -%}
+    <div data-w-id="474f4cea-a91d-dcc6-0569-cb89032c0429" class="spline-scene-3" data-animation-type="spline" data-spline-url="https://prod.spline.design/FWjNly9-Gr-bTTBA/scene.splinecode" loading="lazy"><canvas></canvas></div>
+  {%- endif -%}
+
+  {%- if load_preroll == "true" -%}
+    <div data-w-id="859f5de4-d5be-37c6-07aa-1f66c2f47cf9" class="spline-scene-4" data-animation-type="spline" data-spline-url="https://prod.spline.design/Gd4ss9vByVxO15o0/scene.splinecode" loading="lazy"><canvas></canvas></div>
+  {%- endif -%}
+
+  {%- if load_buds == "true" -%}
+    <div data-w-id="5b53dd05-1d21-6bd4-b349-a4992565e606" class="spline-scene-5" data-animation-type="spline" data-spline-url="https://prod.spline.design/TccGunkfw9BF3Ygx/scene.splinecode" loading="lazy"><canvas></canvas></div>
+  {%- endif -%}
+</div>

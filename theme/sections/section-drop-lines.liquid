@@ -1,0 +1,119 @@
+<div class="w-layout-blockcontainer container-small w-container">
+  <div class="flex-default">
+    <div class="headline-pagination">
+      <h2 class="all-caps p-contents">{{ section.settings.headline | newline_to_br }}</h2>
+      <div class="swiper-pagination"></div>
+    </div>
+    <div class="swiper">
+      <div data-w-id="914f2a0d-7be7-9df9-df36-3f312254c453" class="prev-sec"></div>
+      <div data-w-id="914f2a0d-7be7-9df9-df36-3f312254c454" class="next-sec"></div>
+      <div class="swiper-wrapper">
+        
+        {% for block in section.blocks %}
+          <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} 
+             class="swiper-slide w-inline-block"
+             style="
+                {% if block.settings.image != blank %}
+                  background-image: url({{ block.settings.image | img_url: 'master' }});
+                {% endif %}
+                background-size: cover;
+                background-position: center;
+             "
+             {{ block.shopify_attributes }}>
+            <div class="slide-content-wrapper">
+              <div class="slide-headline-wrapper">
+                <h2 class="all-caps mobile-center is-medical">{{ block.settings.headline }}</h2>
+                <div p-add-class="mobile-centered">{{ block.settings.description }}</div>
+              </div>
+              {% if block.settings.link != blank %}
+                <div class="btn-card">
+                  <div class="btn-card is-hover"></div>
+                </div>
+              {% else %}
+                <div style="flex-shrink: 0;">Již brzy</div>
+              {% endif %}
+            </div>
+          </a>
+        {% endfor %}
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>var currentSection = document.currentScript.closest('.shopify-section');currentSection.setAttribute("class","section-default");</script>
+      
+{% schema %}
+{
+  "name": "Section - Drop Lines",
+  "tag": "section",
+  "class": "section-default",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "headline",
+      "label": "Headline",
+      "default": "<p>our cbd extract<br>drop lines</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline",
+          "default": "NEW LINE"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Fuel your performance, endurance, and recovery all in one drop.</p>"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Section - Drop Lines",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "headline": "MEDICAL LINE",
+            "description": "<p>Medical-grade and scientifically designed to bring you maximum relief.</p>"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "headline": "VIBE LINE",
+            "description": "<p>Fuel your performance, endurance, and recovery all in one drop.</p>"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "headline": "WELLNESS LINE",
+            "description": "<p>Fuel your performance, endurance, and recovery all in one drop.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

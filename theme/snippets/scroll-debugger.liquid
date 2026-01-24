@@ -1,0 +1,65 @@
+<script>
+  (function() {
+    // VISUAL DEBUGGER REMOVED.
+    // Keeping logic loop for Spline Opacity/Visibility control.
+
+    // Update loop
+    function update() {
+        const scrollY = window.scrollY || window.pageYOffset;
+        const sharedDocHeight = window.__splineDocHeight;
+        const docHeight = (sharedDocHeight && sharedDocHeight > 0)
+            ? sharedDocHeight
+            : document.documentElement.scrollHeight - window.innerHeight;
+        let scrollPercent = 0;
+        
+        if (docHeight > 0) {
+            scrollPercent = (scrollY / docHeight) * 100;
+        }
+        
+        // --- HIDING LOGIC ---
+        let opacity = 1;
+        let pointerEvents = 'auto';
+        
+        // Logic: Visible until 33%, fade out 33-35%, GONE > 35%
+        if (scrollPercent >= 35) {
+            opacity = 0;
+            pointerEvents = 'none';
+        } else if (scrollPercent > 33) {
+            opacity = 1 - ((scrollPercent - 33) / 2);
+            pointerEvents = 'none';
+        }
+
+        // Apply to Hero elements
+        const heroElements = document.querySelectorAll(`
+            #hero-spline-wrapper,
+            .animation-wrapper, 
+            .animation, 
+            .spline-scene, 
+            .spline-scene._1, 
+            .spline-scene-1part,
+            .flex-block-3
+        `);
+        
+        heroElements.forEach(el => {
+            if (el.id !== 'theme-scroll-debugger' && el.id !== 'global-scroll-debugger') {
+                 el.style.setProperty('opacity', opacity.toFixed(2), 'important');
+                 el.style.setProperty('pointer-events', pointerEvents, 'important');
+                 
+                 if (opacity <= 0.01) {
+                     el.style.setProperty('visibility', 'hidden', 'important');
+                     el.style.setProperty('z-index', '-9999', 'important');
+                 } else {
+                     el.style.setProperty('visibility', 'visible', 'important');
+                     el.style.setProperty('z-index', '', ''); 
+                 }
+            }
+        });
+        
+        requestAnimationFrame(update);
+    }
+    
+    update();
+    console.log("Theme Scroll Logic Active (Debugger Hidden)");
+
+  })();
+</script>
