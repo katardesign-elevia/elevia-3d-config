@@ -74,6 +74,47 @@
             height: 100% !important;
         }
 
+        /* Object Loading Indicator */
+        .object-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .object-loader-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(0, 212, 232, 0.1);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .object-loader-text {
+            color: var(--accent);
+            font-size: 14px;
+            font-weight: 500;
+            text-shadow: 0 2px 8px rgba(0, 212, 232, 0.3);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         canvas {
             display: block;
             width: 100%;
@@ -93,7 +134,7 @@
             overflow: auto !important;
             position: relative !important;
             height: auto !important;
-            min-height: 300vh !important;
+            min-height: 800vh !important;
         }
 
         /* Sidebar Panel */
@@ -159,12 +200,17 @@
 
         /* Header */
         .panel-header {
-            background: transparent;
+            position: sticky;
+            top: 0;
+            background: var(--gradient-surface);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
             padding: 24px;
             border-bottom: 1px solid var(--border-subtle);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            z-index: 10;
         }
 
         .header-title {
@@ -206,9 +252,9 @@
             align-items: center;
             gap: 10px;
             padding: 8px 14px;
-            background: var(--bg-glass);
+            background: transparent;
             border-radius: 6px;
-            border: 1px solid var(--border-subtle);
+            border: none;
         }
 
         .live-preview-toggle span {
@@ -237,7 +283,7 @@
             right: 0;
             bottom: 0;
             background: var(--bg-elevated);
-            border-radius: 6px;
+            border-radius: 100px;
             border: 1px solid var(--border-subtle);
             transition: 0.3s;
         }
@@ -374,7 +420,7 @@
             border: none;
             padding: 8px;
             cursor: pointer;
-            transition: color 0.2s;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             border-radius: 8px;
@@ -388,6 +434,16 @@
         .sign-out-btn svg {
             width: 18px;
             height: 18px;
+        }
+
+        .sign-out-btn svg polyline,
+        .sign-out-btn svg line {
+            transition: all 0.2s;
+        }
+
+        .sign-out-btn:hover svg polyline,
+        .sign-out-btn:hover svg line {
+            transform: translateX(3px);
         }
 
         /* Form Section */
@@ -423,6 +479,8 @@
             font-size: 14px;
             font-family: 'Outfit', sans-serif;
             transition: all 0.2s;
+            height: 48px;
+            box-sizing: border-box;
         }
 
         .form-input:focus {
@@ -433,6 +491,7 @@
 
         .form-input::placeholder {
             color: var(--text-muted);
+            font-style: italic;
         }
 
         select.form-input {
@@ -466,6 +525,8 @@
             white-space: nowrap;
             font-family: 'Outfit', sans-serif;
             box-shadow: 0 4px 20px var(--accent-glow);
+            height: 48px;
+            box-sizing: border-box;
         }
 
         .load-btn:hover {
@@ -567,7 +628,7 @@
         .scroll-control {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 6px;
             padding: 16px;
             background: var(--bg-glass);
             border: 1px solid var(--border-subtle);
@@ -603,16 +664,28 @@
         }
 
         .scroll-input {
-            width: 72px;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-subtle);
+            width: 48px;
+            background: transparent;
+            border: none;
             border-radius: 6px;
-            padding: 10px 12px;
+            padding: 4px 2px;
             color: var(--text-primary);
             font-size: 14px;
             font-weight: 600;
-            text-align: center;
+            text-align: right;
             font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Remove spinner arrows from number inputs */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        input[type="number"] {
+            -moz-appearance: textfield;
+            appearance: textfield;
         }
 
         .scroll-input:focus {
@@ -634,12 +707,17 @@
             gap: 8px;
             margin-bottom: 18px;
             align-items: center;
+            position: relative;
         }
 
-        .breakpoint-dropdown {
+        .custom-dropdown {
             flex: 1;
+            position: relative;
+        }
+
+        .dropdown-selected {
             background: var(--input-bg);
-            border: 1px solid var(--input-border);
+            border: 1px solid var(--border-subtle);
             color: var(--text-primary);
             padding: 12px 14px;
             border-radius: 6px;
@@ -648,33 +726,97 @@
             cursor: pointer;
             transition: all 0.2s;
             font-family: 'Outfit', sans-serif;
-            outline: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2300d4e8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-            padding-right: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
         }
 
-        .breakpoint-dropdown:hover {
+        .dropdown-selected:hover {
             border-color: var(--border-glow);
             background-color: var(--input-bg-hover);
         }
 
-        .breakpoint-dropdown:focus {
+        .dropdown-selected.active {
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(0, 212, 232, 0.1);
+            box-shadow: 0 0 0 3px rgba(0, 212, 232, 0.15);
         }
 
-        .breakpoint-dropdown option {
+        .dropdown-arrow {
+            transition: transform 0.2s;
+            color: var(--accent);
+        }
+
+        .dropdown-selected.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-options {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
             background: var(--bg-elevated);
-            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            overflow: hidden;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .dropdown-options.show {
+            display: block;
+        }
+
+        .dropdown-option {
             padding: 12px 14px;
             font-size: 13px;
             font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s;
             font-family: 'Outfit', sans-serif;
-            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .dropdown-option:hover {
+            background: var(--input-bg-hover);
+            color: var(--accent);
+        }
+
+        .dropdown-option.selected {
+            background: var(--input-bg-hover);
+            color: var(--accent);
+        }
+
+        .dropdown-option.selected::after {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        .dropdown-placeholder {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .dropdown-placeholder:hover {
+            color: var(--text-secondary);
+        }
+
+        .dropdown-placeholder.selected {
+            color: var(--text-muted);
+        }
+
+        .dropdown-placeholder.selected::after {
+            display: none;
         }
 
         .breakpoint-dropdown option:hover,
@@ -870,24 +1012,27 @@
             font-weight: 700;
             flex-shrink: 0;
             font-family: 'JetBrains Mono', monospace;
+            background: rgba(0, 212, 232, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(0, 212, 232, 0.25);
         }
 
         .axis-label.axis-x {
-            background: rgba(255, 77, 109, 0.2);
-            color: #ff4d6d;
-            border: 1px solid rgba(255, 77, 109, 0.3);
+            background: rgba(0, 212, 232, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(0, 212, 232, 0.25);
         }
 
         .axis-label.axis-y {
-            background: rgba(0, 255, 148, 0.2);
-            color: #00ff94;
-            border: 1px solid rgba(0, 255, 148, 0.3);
+            background: rgba(0, 212, 232, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(0, 212, 232, 0.25);
         }
 
         .axis-label.axis-z {
-            background: rgba(0, 212, 232, 0.2);
-            color: #00d4e8;
-            border: 1px solid rgba(0, 212, 232, 0.3);
+            background: rgba(0, 212, 232, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(0, 212, 232, 0.25);
         }
 
         .axis-slider {
@@ -906,7 +1051,7 @@
             appearance: none;
             width: 16px;
             height: 16px;
-            background: var(--text-primary);
+            background: var(--accent);
             border-radius: 50%;
             cursor: grab;
             transition: all 0.2s;
@@ -917,17 +1062,55 @@
             transform: scale(1.2);
         }
 
+        .axis-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border: none;
+            border-radius: 50%;
+            cursor: grab;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .axis-slider::-moz-range-thumb:hover {
+            transform: scale(1.2);
+        }
+
         .axis-input {
-            width: 70px;
+            width: 56px;
             background: var(--bg-elevated);
             border: 1px solid var(--border-subtle);
             border-radius: 8px;
-            padding: 8px 10px;
+            padding: 8px 8px;
             color: var(--text-primary);
             font-size: 13px;
             font-weight: 600;
             text-align: center;
             font-family: 'JetBrains Mono', monospace;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-with-unit {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .input-with-unit .axis-input {
+            padding-right: 24px;
+        }
+
+        .input-unit {
+            position: absolute;
+            right: 8px;
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 500;
+            pointer-events: none;
+            font-family: 'Outfit', sans-serif;
+        }
         }
 
         .axis-input:focus {
@@ -972,33 +1155,119 @@
             color: var(--text-primary);
         }
 
-        .color-picker-container {
-            width: 100%;
-            height: 52px;
+        .color-input-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            min-height: 48px;
+        }
+
+        .picture-upload-container {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            min-height: 48px;
+        }
+
+        .picture-upload-container .color-hex-input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .color-input-wrapper {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+            min-width: 0;
+        }
+
+        .color-preview {
+            position: absolute;
+            left: 12px;
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid var(--border-subtle);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .color-hex-input {
+            flex: 1;
             background: var(--bg-glass);
             border: 1px solid var(--border-subtle);
             border-radius: 6px;
-            overflow: hidden;
-            cursor: pointer;
+            padding: 14px 18px;
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: 'Outfit', sans-serif;
             transition: all 0.2s;
+            height: 48px;
+            box-sizing: border-box;
         }
 
-        .color-picker-container:hover {
-            border-color: var(--border-glow);
+        /* Add left padding when it has a color preview */
+        .color-input-wrapper .color-hex-input {
+            padding-left: 42px;
         }
 
-        .color-picker-container input[type="color"] {
-            width: 100%;
-            height: 100%;
+        .color-hex-input:read-only {
+            background: var(--bg-glass);
+            opacity: 1;
+        }
+
+        .color-hex-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 212, 232, 0.15);
+        }
+
+        .color-hex-input::placeholder {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .color-apply-btn {
+            background: var(--gradient-accent);
+            color: var(--bg-deep);
             border: none;
+            border-radius: 6px;
+            padding: 14px 28px;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Outfit', sans-serif;
+            white-space: nowrap;
+            box-shadow: 0 4px 20px var(--accent-glow);
+            height: 48px;
+            box-sizing: border-box;
         }
 
-        /* Bottom Actions */
-        .bottom-actions {
+        .color-apply-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--accent-glow);
+        }
+
+        .color-apply-btn:active {
+            transform: translateY(1px);
+        }
+
+        /* Panel Footer */
+        .panel-footer {
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            right: 0;
             display: flex;
             gap: 12px;
-            margin-top: 28px;
+            padding: 20px 24px;
+            background: var(--gradient-surface);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-top: 1px solid var(--border-subtle);
+            z-index: 10;
         }
 
         .btn-primary {
@@ -1041,6 +1310,16 @@
         .btn-icon:hover {
             border-color: var(--border-glow);
             background: var(--bg-elevated);
+        }
+
+        .btn-icon svg polyline,
+        .btn-icon svg line {
+            transition: all 0.2s;
+        }
+
+        .btn-icon:hover svg polyline,
+        .btn-icon:hover svg line {
+            transform: translateY(3px);
         }
 
         .btn-icon:hover svg {
@@ -1156,6 +1435,34 @@
             display: flex;
             gap: 12px;
             justify-content: flex-end;
+        }
+
+        .download-option {
+            margin-bottom: 24px;
+            padding: 20px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+        }
+
+        .download-option:last-child {
+            margin-bottom: 0;
+        }
+
+        .download-option .section-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .download-option .section-label svg {
+            stroke: var(--accent);
         }
 
         .btn {
@@ -1306,6 +1613,11 @@
     <!-- Canvas Container -->
     <div id="canvas-container">
         <canvas id="canvas3d"></canvas>
+        <!-- Object Loading Indicator -->
+        <div class="object-loader" id="object-loader" style="display: none;">
+            <div class="object-loader-spinner"></div>
+            <div class="object-loader-text">Loading object...</div>
+        </div>
     </div>
 
     <!-- Version Badge -->
@@ -1328,8 +1640,10 @@
         <div class="panel-header">
             <div class="header-title">
                 <div class="header-icon">
-                    <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
                     </svg>
                 </div>
                 <span>Elevia 3D Config</span>
@@ -1423,9 +1737,17 @@
                     </svg>
                     Target Object
                 </label>
-                <select class="form-input" id="object-selector" onchange="selectTargetObject(this.value)">
-                    <option value="">Select an object...</option>
-                </select>
+                <div class="custom-dropdown" id="object-dropdown">
+                    <div class="dropdown-selected" onclick="toggleObjectDropdown()">
+                        <span id="selected-object">Select an object...</span>
+                        <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"/>
+                        </svg>
+                    </div>
+                    <div class="dropdown-options" id="object-dropdown-options">
+                        <!-- Options will be populated dynamically -->
+                    </div>
+                </div>
             </div>
 
             <!-- Scroll Position -->
@@ -1457,13 +1779,21 @@
                 </label>
                 
                 <div class="breakpoint-dropdown-wrapper">
-                    <select class="breakpoint-dropdown" id="breakpoint-dropdown" onchange="switchBreakpoint(this.value)">
-                        <option value="monitor">Monitor</option>
-                        <option value="desktop">Desktop</option>
-                        <option value="laptop">Laptop</option>
-                        <option value="tablet" selected>Tablet</option>
-                        <option value="mobile">Mobile</option>
-                    </select>
+                    <div class="custom-dropdown">
+                        <div class="dropdown-selected" onclick="toggleDropdown()">
+                            <span id="selected-breakpoint">Tablet</span>
+                            <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"/>
+                            </svg>
+                        </div>
+                        <div class="dropdown-options" id="dropdown-options">
+                            <div class="dropdown-option" data-value="monitor" onclick="selectBreakpoint('monitor', 'Monitor')">Monitor</div>
+                            <div class="dropdown-option" data-value="desktop" onclick="selectBreakpoint('desktop', 'Desktop')">Desktop</div>
+                            <div class="dropdown-option" data-value="laptop" onclick="selectBreakpoint('laptop', 'Laptop')">Laptop</div>
+                            <div class="dropdown-option selected" data-value="tablet" onclick="selectBreakpoint('tablet', 'Tablet')">Tablet</div>
+                            <div class="dropdown-option" data-value="mobile" onclick="selectBreakpoint('mobile', 'Mobile')">Mobile</div>
+                        </div>
+                    </div>
                     <button class="breakpoint-settings-icon" onclick="openBreakpointSettings()" title="Edit breakpoint settings">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="3"/>
@@ -1505,41 +1835,93 @@
                     <button onclick="setBackgroundMode('picture')">Picture</button>
                 </div>
                 
-                <div class="color-picker-container" id="bg-color-section">
-                    <input type="color" id="bg-color" value="#0a0a0f">
+                <div class="color-input-container" id="bg-color-section">
+                    <div class="color-input-wrapper">
+                        <div class="color-preview" id="color-preview" style="background: #0a0a0f;"></div>
+                        <input type="text" class="color-hex-input" id="bg-color-hex" value="#0a0a0f" placeholder="#000000">
+                    </div>
+                    <button class="color-apply-btn" onclick="applyBackgroundColor()">Apply</button>
                 </div>
                 
                 <div class="picture-upload-container" id="bg-picture-section" style="display: none;">
-                    <div class="input-group">
-                        <input type="text" class="form-input" id="bg-picture-name" placeholder="Select image..." readonly>
-                        <input type="file" id="bg-picture" accept="image/*" style="display: none;">
-                        <button class="load-btn" onclick="document.getElementById('bg-picture').click()">Select</button>
-                    </div>
+                    <input type="text" class="color-hex-input" id="bg-picture-name" placeholder="Select image..." readonly style="cursor: pointer;" onclick="document.getElementById('bg-picture').click()">
+                    <input type="file" id="bg-picture" accept="image/*" style="display: none;">
+                    <button class="color-apply-btn" onclick="document.getElementById('bg-picture').click()">Select</button>
                 </div>
             </div>
+        </div>
 
-            <!-- Bottom Actions -->
-            <div class="bottom-actions">
-                <button class="btn-primary" onclick="saveToDrive()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
-                        <polyline points="17 21 17 13 7 13 7 21"/>
-                        <polyline points="7 3 7 8 15 8"/>
-                    </svg>
-                    Save to Drive
-                </button>
-                <button class="btn-icon" onclick="exportConfig()" title="Export">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                        <polyline points="7 10 12 15 17 10"/>
-                        <line x1="12" y1="15" x2="12" y2="3"/>
-                    </svg>
-                </button>
-                <button class="btn-icon" onclick="downloadConfig()" title="Download">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 002-2v-4M17 9l-5 5-5-5M12 12.8V2.5"/>
-                    </svg>
-                </button>
+        <!-- Panel Footer -->
+        <div class="panel-footer">
+            <button class="btn-primary" onclick="saveToDrive()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+                    <polyline points="17 21 17 13 7 13 7 21"/>
+                    <polyline points="7 3 7 8 15 8"/>
+                </svg>
+                Save to Drive
+            </button>
+            <button class="btn-icon" onclick="openDownloadModal()" title="Download">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Download Modal -->
+    <div class="modal-overlay" id="download-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Copy Code</h3>
+                <button class="modal-close" onclick="closeDownloadModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="download-option">
+                    <label class="section-label">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                        JSON Configuration
+                    </label>
+                    <button class="btn btn-secondary" onclick="copyJSON()" style="width: 100%;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                        Copy JSON to Clipboard
+                    </button>
+                </div>
+
+                <div class="download-option">
+                    <label class="section-label">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 18 22 12 16 6"/>
+                            <polyline points="8 6 2 12 8 18"/>
+                        </svg>
+                        CSS Code
+                    </label>
+                    <select id="css-breakpoint-select" class="form-input" style="margin-bottom: 12px;">
+                        <option value="monitor">Monitor</option>
+                        <option value="desktop">Desktop</option>
+                        <option value="laptop">Laptop</option>
+                        <option value="tablet" selected>Tablet</option>
+                        <option value="mobile">Mobile</option>
+                    </select>
+                    <button class="btn btn-secondary" onclick="copyCSS()" style="width: 100%;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                        Copy CSS to Clipboard
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -1567,7 +1949,7 @@
                         <input type="number" class="form-input" id="bp-monitor" value="1440" min="0" step="1">
                     </div>
                     <div class="setting-column">
-                        <label class="setting-label">Max X Range</label>
+                        <label class="setting-label">Max X Range (px)</label>
                         <input type="number" class="form-input" id="bp-monitor-x" value="500" min="0" step="10">
                     </div>
                 </div>
@@ -1578,7 +1960,7 @@
                         <input type="number" class="form-input" id="bp-desktop" value="1280" min="0" step="1">
                     </div>
                     <div class="setting-column">
-                        <label class="setting-label">Max X Range</label>
+                        <label class="setting-label">Max X Range (px)</label>
                         <input type="number" class="form-input" id="bp-desktop-x" value="500" min="0" step="10">
                     </div>
                 </div>
@@ -1589,7 +1971,7 @@
                         <input type="number" class="form-input" id="bp-laptop" value="992" min="0" step="1">
                     </div>
                     <div class="setting-column">
-                        <label class="setting-label">Max X Range</label>
+                        <label class="setting-label">Max X Range (px)</label>
                         <input type="number" class="form-input" id="bp-laptop-x" value="500" min="0" step="10">
                     </div>
                 </div>
@@ -1600,7 +1982,7 @@
                         <input type="number" class="form-input" id="bp-tablet" value="768" min="0" step="1">
                     </div>
                     <div class="setting-column">
-                        <label class="setting-label">Max X Range</label>
+                        <label class="setting-label">Max X Range (px)</label>
                         <input type="number" class="form-input" id="bp-tablet-x" value="500" min="0" step="10">
                     </div>
                 </div>
@@ -1611,7 +1993,7 @@
                         <input type="number" class="form-input" id="bp-mobile" value="0" min="0" step="1">
                     </div>
                     <div class="setting-column">
-                        <label class="setting-label">Max X Range</label>
+                        <label class="setting-label">Max X Range (px)</label>
                         <input type="number" class="form-input" id="bp-mobile-x" value="500" min="0" step="10">
                     </div>
                 </div>
@@ -1659,10 +2041,12 @@
         import { Application } from 'https://unpkg.com/@splinetool/runtime@1.0.38/build/runtime.js';
 
         let splineApp = null;
+        let allSceneObjects = []; // Store all found objects for show/hide functionality
         let currentConfig = {
             name: 'Untitled Config',
             splineUrl: '',
             targetObject: null,
+            originalPosition: null, // Store original object position
             backgroundColor: '#0a0a0f',
             backgroundMode: 'color',
             livePreview: false,
@@ -1718,10 +2102,15 @@
             const breakpoint = currentConfig.activeBreakpoint;
             const keyframes = currentConfig.breakpoints[breakpoint].keyframes;
             
+            // Use original position if available, otherwise use 0,0,0
+            const defaultPos = currentConfig.originalPosition || { x: 0, y: 0, z: 0 };
+            
             keyframes.push({
                 position: position,
                 name: `Position ${keyframes.length + 1}`,
-                posX: 0, posY: 0, posZ: 0,
+                posX: defaultPos.x, 
+                posY: defaultPos.y, 
+                posZ: defaultPos.z,
                 rotX: 0, rotY: 0, rotZ: 0
             });
             
@@ -1742,13 +2131,67 @@
             document.querySelectorAll('.breakpoint-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            document.querySelector(`[data-breakpoint="${breakpoint}"]`).classList.add('active');
+            const activeTab = document.querySelector(`[data-breakpoint="${breakpoint}"]`);
+            if (activeTab) activeTab.classList.add('active');
             
             const title = breakpoint.toUpperCase();
             document.getElementById('keyframes-title').textContent = `POSITIONS ( ${title} )`;
-            
+
             renderKeyframes();
         };
+
+        // Custom Dropdown Functions
+        window.toggleDropdown = function() {
+            const dropdown = document.querySelector('.breakpoint-dropdown-wrapper .dropdown-selected');
+            const options = document.getElementById('dropdown-options');
+            
+            if (dropdown && options) {
+                dropdown.classList.toggle('active');
+                options.classList.toggle('show');
+            }
+        };
+
+        window.selectBreakpoint = function(value, label) {
+            // Update selected text
+            document.getElementById('selected-breakpoint').textContent = label;
+            
+            // Update selected state in options
+            const breakpointOptions = document.querySelectorAll('#dropdown-options .dropdown-option');
+            breakpointOptions.forEach(option => {
+                option.classList.remove('selected');
+            });
+            const selectedOption = document.querySelector(`#dropdown-options [data-value="${value}"]`);
+            if (selectedOption) {
+                selectedOption.classList.add('selected');
+            }
+            
+            // Close dropdown
+            const dropdown = document.querySelector('.breakpoint-dropdown-wrapper .dropdown-selected');
+            const options = document.getElementById('dropdown-options');
+            if (dropdown) dropdown.classList.remove('active');
+            if (options) options.classList.remove('show');
+            
+            // Switch breakpoint
+            switchBreakpoint(value);
+        };
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            // Close breakpoint dropdown
+            const breakpointDropdown = document.querySelector('.breakpoint-dropdown-wrapper .custom-dropdown');
+            if (breakpointDropdown && !breakpointDropdown.contains(event.target)) {
+                const dropdown = document.querySelector('.breakpoint-dropdown-wrapper .dropdown-selected');
+                const options = document.getElementById('dropdown-options');
+                if (dropdown) dropdown.classList.remove('active');
+                if (options) options.classList.remove('show');
+            }
+            
+            // Close object dropdown
+            const objectDropdown = document.getElementById('object-dropdown');
+            if (objectDropdown && !objectDropdown.contains(event.target)) {
+                document.getElementById('object-dropdown-options')?.classList.remove('show');
+            }
+        });
 
         // Render Keyframes
         function renderKeyframes() {
@@ -1780,17 +2223,26 @@
                             <div class="control-row">
                                 <span class="axis-label axis-x">X</span>
                                 <input type="range" class="axis-slider" min="-${maxXRange}" max="${maxXRange}" step="1" value="${keyframe.posX}" oninput="updateSliderValue(${index}, 'posX', this.value)">
-                                <input type="number" class="axis-input" value="${keyframe.posX}" step="1" onchange="updateKeyframeParam(${index}, 'posX', this.value)">
+                                <div class="input-with-unit">
+                                    <input type="number" class="axis-input" value="${keyframe.posX}" step="1" onchange="updateKeyframeParam(${index}, 'posX', this.value)">
+                                    <span class="input-unit">px</span>
+                                </div>
                             </div>
                             <div class="control-row">
                                 <span class="axis-label axis-y">Y</span>
-                                <input type="range" class="axis-slider" min="-2000" max="2000" step="1" value="${keyframe.posY}" oninput="updateSliderValue(${index}, 'posY', this.value)">
-                                <input type="number" class="axis-input" value="${keyframe.posY}" step="1" onchange="updateKeyframeParam(${index}, 'posY', this.value)">
+                                <input type="range" class="axis-slider" min="-${maxXRange}" max="${maxXRange}" step="1" value="${keyframe.posY}" oninput="updateSliderValue(${index}, 'posY', this.value)">
+                                <div class="input-with-unit">
+                                    <input type="number" class="axis-input" value="${keyframe.posY}" step="1" onchange="updateKeyframeParam(${index}, 'posY', this.value)">
+                                    <span class="input-unit">px</span>
+                                </div>
                             </div>
                             <div class="control-row">
                                 <span class="axis-label axis-z">Z</span>
-                                <input type="range" class="axis-slider" min="-2000" max="2000" step="1" value="${keyframe.posZ}" oninput="updateSliderValue(${index}, 'posZ', this.value)">
-                                <input type="number" class="axis-input" value="${keyframe.posZ}" step="1" onchange="updateKeyframeParam(${index}, 'posZ', this.value)">
+                                <input type="range" class="axis-slider" min="-${maxXRange}" max="${maxXRange}" step="1" value="${keyframe.posZ}" oninput="updateSliderValue(${index}, 'posZ', this.value)">
+                                <div class="input-with-unit">
+                                    <input type="number" class="axis-input" value="${keyframe.posZ}" step="1" onchange="updateKeyframeParam(${index}, 'posZ', this.value)">
+                                    <span class="input-unit">px</span>
+                                </div>
                             </div>
                         </div>
                         
@@ -1798,17 +2250,17 @@
                             <div class="control-label">ROTATION</div>
                             <div class="control-row">
                                 <span class="axis-label axis-x">X</span>
-                                <input type="range" class="axis-slider" min="-180" max="180" step="1" value="${keyframe.rotX}" oninput="updateSliderValue(${index}, 'rotX', this.value)">
+                                <input type="range" class="axis-slider" min="-270" max="270" step="1" value="${keyframe.rotX}" oninput="updateSliderValue(${index}, 'rotX', this.value)">
                                 <input type="number" class="axis-input" value="${keyframe.rotX}" step="1" onchange="updateKeyframeParam(${index}, 'rotX', this.value)">
                             </div>
                             <div class="control-row">
                                 <span class="axis-label axis-y">Y</span>
-                                <input type="range" class="axis-slider" min="-180" max="180" step="1" value="${keyframe.rotY}" oninput="updateSliderValue(${index}, 'rotY', this.value)">
+                                <input type="range" class="axis-slider" min="-270" max="270" step="1" value="${keyframe.rotY}" oninput="updateSliderValue(${index}, 'rotY', this.value)">
                                 <input type="number" class="axis-input" value="${keyframe.rotY}" step="1" onchange="updateKeyframeParam(${index}, 'rotY', this.value)">
                             </div>
                             <div class="control-row">
                                 <span class="axis-label axis-z">Z</span>
-                                <input type="range" class="axis-slider" min="-180" max="180" step="1" value="${keyframe.rotZ}" oninput="updateSliderValue(${index}, 'rotZ', this.value)">
+                                <input type="range" class="axis-slider" min="-270" max="270" step="1" value="${keyframe.rotZ}" oninput="updateSliderValue(${index}, 'rotZ', this.value)">
                                 <input type="number" class="axis-input" value="${keyframe.rotZ}" step="1" onchange="updateKeyframeParam(${index}, 'rotZ', this.value)">
                             </div>
                         </div>
@@ -1872,10 +2324,11 @@
             if (!targetObj) return;
             
             // Apply position directly (no interpolation)
+            // Note: In Spline, Y is vertical (up/down), Z is depth (forward/back)
             targetObj.position.set(
-                keyframe.posX,
-                keyframe.posY,
-                keyframe.posZ
+                keyframe.posX,  // X: horizontal (left/right)
+                keyframe.posZ,  // Y: depth in UI, but vertical in Spline
+                keyframe.posY   // Z: vertical in UI, but depth in Spline
             );
             
             // Apply rotation directly (convert degrees to radians)
@@ -1894,8 +2347,18 @@
                 return;
             }
 
+            // Handle different URL formats
             if (!url.startsWith('http')) {
                 url = 'https://prod.spline.design/' + url;
+            }
+            
+            // Convert share URL to splinecode URL if needed
+            // Format: https://prod.spline.design/XXXXX -> https://prod.spline.design/XXXXX/scene.splinecode
+            if (url.includes('prod.spline.design') && !url.endsWith('.splinecode')) {
+                // Remove trailing slash if exists
+                url = url.replace(/\/$/, '');
+                // Add /scene.splinecode
+                url = url + '/scene.splinecode';
             }
             
             document.getElementById('spline-url').value = url;
@@ -1906,11 +2369,14 @@
                 if (splineApp) splineApp = null;
                 
                 const container = document.getElementById('canvas-container');
-                container.innerHTML = '';
+                // Remove only the canvas, keep the loader
+                const existingCanvas = container.querySelector('canvas');
+                if (existingCanvas) existingCanvas.remove();
+                
                 const newCanvas = document.createElement('canvas');
                 newCanvas.id = 'canvas3d';
                 newCanvas.style.cssText = 'width:100%;height:100%;display:block;background:transparent;';
-                container.appendChild(newCanvas);
+                container.insertBefore(newCanvas, container.firstChild);
 
                 splineApp = new Application(newCanvas);
                 await splineApp.load(url);
@@ -1950,45 +2416,322 @@
             if (!splineApp) return;
             
             let foundObjects = [];
-            const objectNames = ['Red Drop CBD', 'Red drop', 'Drop', 'CBD', 'Bottle', 'Product', 'Cube', 'Sphere', 'Model', 'Object'];
             
-            objectNames.forEach(name => {
-                try {
-                    const obj = splineApp.findObjectByName(name);
-                    if (obj && !foundObjects.some(o => o.name === name)) {
-                        foundObjects.push({ name, type: obj.type || 'Object', obj });
+            // Function to search for objects with product names
+            function findRelevantObjects(obj, depth = 0) {
+                if (!obj || depth > 5) return; // Search up to 5 levels deep
+                
+                // Check if this object has a meaningful name
+                if (obj.name && obj.name !== '' && obj.name !== 'Scene' && obj.name !== 'Scene 1') {
+                    // Look for objects that contain CBD, Sprey, Drop, Red, or are Groups/Meshes
+                    const isRelevant = obj.name.toLowerCase().includes('cbd') || 
+                                      obj.name.toLowerCase().includes('spray') || // correct spelling
+                                      obj.name.toLowerCase().includes('sprey') || // user's typo
+                                      obj.name.toLowerCase().includes('spry') ||  // another typo variant
+                                      obj.name.toLowerCase().includes('drop') ||
+                                      obj.name.toLowerCase().includes('red');
+                    
+                    if (isRelevant && !foundObjects.some(o => o.name === obj.name)) {
+                        console.log(`Found relevant object: ${obj.name} (type: ${obj.type || 'Unknown'}, depth: ${depth})`);
+                        foundObjects.push({ 
+                            name: obj.name, 
+                            type: obj.type || 'Object', 
+                            obj: obj 
+                        });
                     }
-                } catch(e) {}
-            });
+                }
+                
+                // Continue searching children
+                if (obj.children && obj.children.length > 0) {
+                    obj.children.forEach(child => findRelevantObjects(child, depth + 1));
+                }
+            }
+            
+            // Start search from scene root
+            if (splineApp._scene) {
+                console.log('Searching for product objects in scene...');
+                findRelevantObjects(splineApp._scene);
+                console.log(`Found ${foundObjects.length} relevant objects:`, foundObjects.map(o => o.name));
+            }
             
             if (foundObjects.length > 0) {
                 displayObjectsList(foundObjects);
+            } else {
+                console.warn('No product objects found in the scene. Showing all named objects...');
+                // Fallback: show all named objects if no CBD products found
+                if (splineApp._scene && splineApp._scene.children) {
+                    splineApp._scene.children.forEach(child => {
+                        if (child.name && child.name !== '' && child.name !== 'Scene') {
+                            foundObjects.push({ 
+                                name: child.name, 
+                                type: child.type || 'Object', 
+                                obj: child 
+                            });
+                        }
+                    });
+                    if (foundObjects.length > 0) {
+                        displayObjectsList(foundObjects);
+                    }
+                }
             }
         }
         
         function displayObjectsList(objects) {
             const selectorSection = document.getElementById('object-selector-section');
-            const selector = document.getElementById('object-selector');
+            const dropdownOptions = document.getElementById('object-dropdown-options');
+            const selectedObjectSpan = document.getElementById('selected-object');
+            
+            // Store all objects globally
+            allSceneObjects = objects;
             
             selectorSection.style.display = 'block';
-            selector.innerHTML = '<option value="">Select an object...</option>';
+            dropdownOptions.innerHTML = '';
             
-            objects.forEach(obj => {
-                const option = document.createElement('option');
-                option.value = obj.name;
+            // Add placeholder option at the top
+            const placeholderOption = document.createElement('div');
+            placeholderOption.className = 'dropdown-option dropdown-placeholder';
+            placeholderOption.setAttribute('data-value', '');
+            placeholderOption.textContent = 'Select object...';
+            placeholderOption.onclick = () => {
+                // Reset selection and show all objects
+                selectedObjectSpan.textContent = 'Select object...';
+                currentConfig.targetObject = null;
+                document.querySelectorAll('#object-dropdown-options .dropdown-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                placeholderOption.classList.add('selected');
+                showAllObjects();
+                document.getElementById('object-dropdown-options').classList.remove('show');
+            };
+            placeholderOption.classList.add('selected');
+            dropdownOptions.appendChild(placeholderOption);
+            
+            // Add actual objects
+            objects.forEach((obj, index) => {
+                const option = document.createElement('div');
+                option.className = 'dropdown-option';
+                option.setAttribute('data-value', obj.name);
                 option.textContent = `${obj.name} (${obj.type})`;
-                selector.appendChild(option);
+                option.onclick = () => selectTargetObject(obj.name, `${obj.name} (${obj.type})`);
+                
+                dropdownOptions.appendChild(option);
             });
             
-            if (objects[0]) {
-                currentConfig.targetObject = objects[0].name;
-                selector.value = objects[0].name;
-            }
+            // Keep the placeholder text visible by default
+            selectedObjectSpan.textContent = 'Select object...';
+            currentConfig.targetObject = null;
         }
 
-        window.selectTargetObject = function(objectName) {
-            currentConfig.targetObject = objectName;
+        window.toggleObjectDropdown = function() {
+            const dropdown = document.getElementById('object-dropdown-options');
+            const allDropdowns = document.querySelectorAll('.dropdown-options');
+            
+            // Close other dropdowns first
+            allDropdowns.forEach(d => {
+                if (d !== dropdown) d.classList.remove('show');
+            });
+            
+            dropdown.classList.toggle('show');
         };
+
+        window.selectTargetObject = function(objectName, displayText) {
+            currentConfig.targetObject = objectName;
+            
+            // Update selected text
+            document.getElementById('selected-object').textContent = displayText;
+            
+            // Update selected state in dropdown
+            const options = document.querySelectorAll('#object-dropdown-options .dropdown-option');
+            options.forEach(opt => {
+                if (opt.getAttribute('data-value') === objectName) {
+                    opt.classList.add('selected');
+                } else {
+                    opt.classList.remove('selected');
+                }
+            });
+            
+            // Close dropdown
+            document.getElementById('object-dropdown-options').classList.remove('show');
+            
+            // Store original object position if not already stored
+            if (objectName !== 'placeholder' && splineApp) {
+                try {
+                    const targetObj = splineApp.findObjectByName(objectName);
+                    if (targetObj && !currentConfig.originalPosition) {
+                        currentConfig.originalPosition = {
+                            x: targetObj.position.x,
+                            y: targetObj.position.y,
+                            z: targetObj.position.z
+                        };
+                        console.log('Stored original position:', currentConfig.originalPosition);
+                        
+                        // Update all keyframes to use original position if they're at 0,0,0
+                        Object.keys(currentConfig.breakpoints).forEach(bp => {
+                            currentConfig.breakpoints[bp].keyframes.forEach(kf => {
+                                if (kf.posX === 0 && kf.posY === 0 && kf.posZ === 0) {
+                                    kf.posX = currentConfig.originalPosition.x;
+                                    kf.posY = currentConfig.originalPosition.y;
+                                    kf.posZ = currentConfig.originalPosition.z;
+                                }
+                            });
+                        });
+                        
+                        // Re-render keyframes with updated positions
+                        renderKeyframes();
+                    }
+                } catch(e) {
+                    console.error('Error storing original position:', e);
+                }
+            }
+            
+            // Hide all other objects
+            hideOtherObjects(objectName);
+            
+            console.log('Selected target object:', objectName);
+        };
+
+        // Function to hide all objects except the selected one
+        function hideOtherObjects(selectedObjectName) {
+            if (!splineApp || allSceneObjects.length === 0) {
+                console.warn('Cannot hide objects: splineApp or allSceneObjects not ready');
+                return;
+            }
+            
+            console.log('=== Hiding other objects, showing only:', selectedObjectName, '===');
+            console.log('Total objects to process:', allSceneObjects.length);
+            console.log('All scene objects:', allSceneObjects.map(o => o.name));
+            
+            allSceneObjects.forEach(objData => {
+                const shouldBeVisible = objData.name === selectedObjectName;
+                
+                console.log(`Processing: ${objData.name}, Should be visible: ${shouldBeVisible}`);
+                
+                try {
+                    // Method 1: Try using splineApp.findObjectByName
+                    let targetObj = null;
+                    try {
+                        targetObj = splineApp.findObjectByName(objData.name);
+                        if (targetObj) {
+                            console.log(`  Found via findObjectByName: ${objData.name}`);
+                        }
+                    } catch (e) {
+                        console.log(`  findObjectByName failed for ${objData.name}:`, e.message);
+                    }
+                    
+                    // Method 2: Use the stored object reference
+                    const obj = targetObj || objData.obj;
+                    
+                    if (!obj) {
+                        console.error(`  No object reference for ${objData.name}`);
+                        return;
+                    }
+                    
+                    // Set visibility recursively on object and all children
+                    function setVisibilityRecursive(node, visible, depth = 0) {
+                        if (!node || depth > 10) return;
+                        
+                        const indent = '  '.repeat(depth + 1);
+                        
+                        // Set visibility
+                        node.visible = visible;
+                        console.log(`${indent}├─ ${node.name || 'unnamed'}: visible = ${visible}`);
+                        
+                        // Recursively set for all children
+                        if (node.children && node.children.length > 0) {
+                            node.children.forEach(child => {
+                                setVisibilityRecursive(child, visible, depth + 1);
+                            });
+                        }
+                    }
+                    
+                    setVisibilityRecursive(obj, shouldBeVisible, 0);
+                    
+                    console.log(`✓ ${shouldBeVisible ? 'Showing' : 'Hiding'}: ${objData.name}`);
+                    
+                } catch (e) {
+                    console.error(`✗ Error setting visibility for ${objData.name}:`, e);
+                }
+            });
+            
+            // Force a render update - try multiple methods
+            try {
+                if (splineApp.emitEvent) {
+                    splineApp.emitEvent('update');
+                }
+                if (splineApp.emitEvent) {
+                    splineApp.emitEvent('render');
+                }
+                // Force re-render by updating canvas
+                if (splineApp._runtime && splineApp._runtime._renderer) {
+                    splineApp._runtime._renderer.render();
+                }
+            } catch (e) {
+                console.log('Render update attempt:', e.message);
+            }
+            
+            console.log('=== Visibility update complete ===');
+        }
+
+        // Function to show all objects (used when "Select object..." is chosen)
+        function showAllObjects() {
+            if (!splineApp || allSceneObjects.length === 0) {
+                console.warn('Cannot show all objects: splineApp or allSceneObjects not ready');
+                return;
+            }
+            
+            console.log('=== Showing all objects ===');
+            
+            allSceneObjects.forEach(objData => {
+                try {
+                    // Try using splineApp.findObjectByName first
+                    let targetObj = null;
+                    try {
+                        targetObj = splineApp.findObjectByName(objData.name);
+                    } catch (e) {
+                        // Fallback to stored reference
+                    }
+                    
+                    const obj = targetObj || objData.obj;
+                    
+                    if (!obj) {
+                        console.error(`  No object reference for ${objData.name}`);
+                        return;
+                    }
+                    
+                    // Set visibility recursively
+                    function setVisibilityRecursive(node, depth = 0) {
+                        if (!node || depth > 10) return;
+                        
+                        node.visible = true;
+                        
+                        if (node.children && node.children.length > 0) {
+                            node.children.forEach(child => setVisibilityRecursive(child, depth + 1));
+                        }
+                    }
+                    
+                    setVisibilityRecursive(obj, 0);
+                    console.log(`✓ Showing: ${objData.name}`);
+                    
+                } catch (error) {
+                    console.error(`✗ Error showing ${objData.name}:`, error);
+                }
+            });
+            
+            // Force a render update
+            try {
+                if (splineApp.emitEvent) {
+                    splineApp.emitEvent('update');
+                    splineApp.emitEvent('render');
+                }
+                if (splineApp._runtime && splineApp._runtime._renderer) {
+                    splineApp._runtime._renderer.render();
+                }
+            } catch (e) {
+                console.log('Render update attempt:', e.message);
+            }
+            
+            console.log('=== All objects shown ===');
+        }
 
         // Apply transformation to object based on keyframes and scroll position
         // This is ONLY used when Live Preview is ON to show scroll-based animation
@@ -2043,11 +2786,11 @@
             // Linear interpolation
             const lerp = (a, b) => a + (b - a) * t;
             
-            // Apply position
+            // Apply position with Y/Z swap for Spline coordinate system
             targetObj.position.set(
-                lerp(prev.posX, next.posX),
-                lerp(prev.posY, next.posY),
-                lerp(prev.posZ, next.posZ)
+                lerp(prev.posX, next.posX),  // X: horizontal (left/right)
+                lerp(prev.posZ, next.posZ),  // Y: depth in UI, vertical in Spline
+                lerp(prev.posY, next.posY)   // Z: vertical in UI, depth in Spline
             );
             
             // Apply rotation (convert degrees to radians)
@@ -2064,20 +2807,21 @@
             document.querySelectorAll('.bg-toggle button').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
-            document.getElementById('bg-color-section').style.display = mode === 'color' ? 'block' : 'none';
-            document.getElementById('bg-picture-section').style.display = mode === 'picture' ? 'block' : 'none';
+            document.getElementById('bg-color-section').style.display = mode === 'color' ? 'flex' : 'none';
+            document.getElementById('bg-picture-section').style.display = mode === 'picture' ? 'flex' : 'none';
             
             // Apply the appropriate background
             if (mode === 'color') {
                 document.body.style.backgroundImage = 'none';
                 document.body.style.background = currentConfig.backgroundColor || '#0a0a0f';
-                // Remove scrollable class for color mode
-                document.documentElement.classList.remove('scrollable');
-                document.body.classList.remove('scrollable');
+                // Add scrollable class for color mode with default height
+                document.documentElement.classList.add('scrollable');
+                document.body.classList.add('scrollable');
+                document.body.style.minHeight = '6000px';
             } else if (mode === 'picture') {
                 if (currentConfig.backgroundImage) {
                     document.body.style.backgroundImage = `url(${currentConfig.backgroundImage})`;
-                    document.body.style.backgroundSize = 'cover';
+                    document.body.style.backgroundSize = 'contain';
                     document.body.style.backgroundPosition = 'center top';
                     document.body.style.backgroundRepeat = 'no-repeat';
                     document.body.style.backgroundAttachment = 'scroll';
@@ -2085,13 +2829,55 @@
                 // Add scrollable class for picture mode
                 document.documentElement.classList.add('scrollable');
                 document.body.classList.add('scrollable');
+                document.body.style.minHeight = '800vh';
             }
         };
 
-        document.getElementById('bg-color').addEventListener('change', (e) => {
-            currentConfig.backgroundColor = e.target.value;
-            document.body.style.background = e.target.value;
+        // Background color input - update preview as user types
+        document.getElementById('bg-color-hex').addEventListener('input', (e) => {
+            const value = e.target.value;
+            // Only update preview if it's a valid hex color
+            if (/^#[0-9A-Fa-f]{6}$/.test(value) || /^#[0-9A-Fa-f]{3}$/.test(value)) {
+                document.getElementById('color-preview').style.background = value;
+            }
         });
+
+        // Apply background color
+        window.applyBackgroundColor = function() {
+            const colorInput = document.getElementById('bg-color-hex');
+            let colorValue = colorInput.value.trim();
+            
+            // Add # if missing
+            if (!colorValue.startsWith('#')) {
+                colorValue = '#' + colorValue;
+                colorInput.value = colorValue;
+            }
+            
+            // Validate hex color
+            if (/^#[0-9A-Fa-f]{6}$/.test(colorValue) || /^#[0-9A-Fa-f]{3}$/.test(colorValue)) {
+                currentConfig.backgroundColor = colorValue;
+                document.body.style.background = colorValue;
+                document.getElementById('color-preview').style.background = colorValue;
+                
+                // Show success feedback
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Applied';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 1000);
+            } else {
+                // Show error feedback
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Invalid';
+                btn.style.background = '#ff4d6d';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 1000);
+            }
+        };
 
         document.getElementById('bg-picture').addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -2102,7 +2888,7 @@
                     currentConfig.backgroundImage = event.target.result;
                     // Apply the background image
                     document.body.style.backgroundImage = `url(${event.target.result})`;
-                    document.body.style.backgroundSize = 'cover';
+                    document.body.style.backgroundSize = 'contain';
                     document.body.style.backgroundPosition = 'center top';
                     document.body.style.backgroundRepeat = 'no-repeat';
                     document.body.style.backgroundAttachment = 'scroll';
@@ -2120,9 +2906,6 @@
 
         // Update scroll position indicator when scrolling
         window.addEventListener('scroll', () => {
-            const scrollSlider = document.getElementById('scroll-slider');
-            const scrollValue = document.getElementById('scroll-value');
-            
             if (scrollSlider && scrollValue && document.body.classList.contains('scrollable')) {
                 const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
                 const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -2131,6 +2914,11 @@
                 scrollSlider.value = scrollPercent;
                 scrollValue.value = scrollPercent;
                 currentConfig.scrollPosition = scrollPercent;
+                
+                // Apply transformation if live preview is on
+                if (currentConfig.livePreview) {
+                    applyTransformation();
+                }
             }
         });
 
@@ -2139,16 +2927,59 @@
             showToast('Configuration saved!');
         };
 
-        window.exportConfig = function() {
-            const dataStr = JSON.stringify(currentConfig, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', `${currentConfig.name}.json`);
-            linkElement.click();
+        window.openDownloadModal = function() {
+            document.getElementById('download-modal').classList.add('show');
         };
 
-        window.downloadConfig = window.exportConfig;
+        window.closeDownloadModal = function() {
+            document.getElementById('download-modal').classList.remove('show');
+        };
+
+        window.copyJSON = function() {
+            const jsonStr = JSON.stringify(currentConfig, null, 2);
+            navigator.clipboard.writeText(jsonStr).then(() => {
+                showToast('JSON copied to clipboard!');
+                closeDownloadModal();
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                showToast('Failed to copy JSON');
+            });
+        };
+
+        window.copyCSS = function() {
+            const breakpoint = document.getElementById('css-breakpoint-select').value;
+            const positions = currentConfig.breakpoints[breakpoint].positions;
+            
+            if (!positions || positions.length === 0) {
+                showToast('No positions defined for this breakpoint');
+                return;
+            }
+
+            // Generate CSS code
+            let cssCode = `/* ${currentConfig.name} - ${breakpoint} breakpoint */\n\n`;
+            
+            positions.forEach((pos, index) => {
+                const scrollPercent = pos.scrollPosition;
+                cssCode += `/* Position ${index + 1} at ${scrollPercent}% scroll */\n`;
+                cssCode += `.target-object-${index + 1} {\n`;
+                cssCode += `  transform: \n`;
+                cssCode += `    translateX(${pos.x}px)\n`;
+                cssCode += `    translateY(${pos.y}px)\n`;
+                cssCode += `    translateZ(${pos.z}px)\n`;
+                cssCode += `    rotateX(${pos.rotationX}deg)\n`;
+                cssCode += `    rotateY(${pos.rotationY}deg)\n`;
+                cssCode += `    rotateZ(${pos.rotationZ}deg);\n`;
+                cssCode += `}\n\n`;
+            });
+
+            navigator.clipboard.writeText(cssCode).then(() => {
+                showToast('CSS copied to clipboard!');
+                closeDownloadModal();
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                showToast('Failed to copy CSS');
+            });
+        };
 
         window.handleSignOut = function() {
             if (confirm('Are you sure you want to sign out?')) {
