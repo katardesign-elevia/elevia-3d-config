@@ -2061,6 +2061,34 @@
             }
         };
 
+        // Update Add Position button state based on scroll position
+        function updateAddPositionButton() {
+            const breakpoint = currentConfig.activeBreakpoint;
+            const keyframes = currentConfig.breakpoints[breakpoint].keyframes;
+            const currentScroll = currentConfig.scrollPosition;
+            const addBtn = document.querySelector('.add-keyframe-btn');
+            
+            if (!addBtn) return;
+            
+            // Find the highest scroll position in existing keyframes
+            const maxPosition = keyframes.length > 0 
+                ? Math.max(...keyframes.map(kf => kf.position))
+                : -1;
+            
+            // Disable button if current scroll is less than or equal to last position
+            if (currentScroll <= maxPosition) {
+                addBtn.disabled = true;
+                addBtn.style.opacity = '0.4';
+                addBtn.style.cursor = 'not-allowed';
+                addBtn.title = `Scroll position must be greater than ${maxPosition}%`;
+            } else {
+                addBtn.disabled = false;
+                addBtn.style.opacity = '1';
+                addBtn.style.cursor = 'pointer';
+                addBtn.title = 'Add new position keyframe';
+            }
+        }
+        
         // Sync scroll slider and input
         const scrollSlider = document.getElementById('scroll-slider');
         const scrollValue = document.getElementById('scroll-value');
@@ -2070,6 +2098,9 @@
                 const val = e.target.value;
                 scrollValue.value = val;
                 currentConfig.scrollPosition = parseInt(val);
+                
+                // Update Add Position button state
+                updateAddPositionButton();
                 
                 // Apply transformation if live preview is on
                 if (currentConfig.livePreview) {
@@ -2082,6 +2113,9 @@
                 scrollSlider.value = val;
                 scrollValue.value = val;
                 currentConfig.scrollPosition = val;
+                
+                // Update Add Position button state
+                updateAddPositionButton();
                 
                 // Apply transformation if live preview is on
                 if (currentConfig.livePreview) {
@@ -2102,6 +2136,17 @@
             const breakpoint = currentConfig.activeBreakpoint;
             const keyframes = currentConfig.breakpoints[breakpoint].keyframes;
             
+            // Find the highest scroll position in existing keyframes
+            const maxPosition = keyframes.length > 0 
+                ? Math.max(...keyframes.map(kf => kf.position))
+                : -1;
+            
+            // Prevent adding if current position is not greater than last position
+            if (position <= maxPosition) {
+                alert(`Scroll position must be greater than ${maxPosition}%`);
+                return;
+            }
+            
             // Always use 0,0,0 as default (relative to original position)
             keyframes.push({
                 position: position,
@@ -2113,6 +2158,9 @@
             });
             
             renderKeyframes();
+            
+            // Update button state after adding
+            updateAddPositionButton();
         };
 
         // Delete Keyframe
@@ -2266,6 +2314,9 @@
                 `;
                 container.appendChild(item);
             });
+            
+            // Update Add Position button state after rendering
+            updateAddPositionButton();
         }
 
         // Toggle Keyframe
@@ -3097,6 +3148,9 @@
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
+        
+        // Initialize button state on page load
+        updateAddPositionButton();
     </script>
 </body>
 </html>
