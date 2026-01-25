@@ -1078,7 +1078,7 @@
         }
 
         .axis-input {
-            width: 56px;
+            width: 80px;
             background: var(--bg-elevated);
             border: 1px solid var(--border-subtle);
             border-radius: 8px;
@@ -1846,7 +1846,7 @@
                 <div class="picture-upload-container" id="bg-picture-section" style="display: none;">
                     <input type="text" class="color-hex-input" id="bg-picture-name" placeholder="Select image..." readonly style="cursor: pointer;" onclick="document.getElementById('bg-picture').click()">
                     <input type="file" id="bg-picture" accept="image/*" style="display: none;">
-                    <button class="color-apply-btn" onclick="document.getElementById('bg-picture').click()">Select</button>
+                    <button class="color-apply-btn" id="bg-picture-btn" onclick="selectBackgroundImage()">Select</button>
                 </div>
             </div>
         </div>
@@ -2102,15 +2102,13 @@
             const breakpoint = currentConfig.activeBreakpoint;
             const keyframes = currentConfig.breakpoints[breakpoint].keyframes;
             
-            // Use original position if available, otherwise use 0,0,0
-            const defaultPos = currentConfig.originalPosition || { x: 0, y: 0, z: 0 };
-            
+            // Always use 0,0,0 as default (relative to original position)
             keyframes.push({
                 position: position,
                 name: `Position ${keyframes.length + 1}`,
-                posX: defaultPos.x, 
-                posY: defaultPos.y, 
-                posZ: defaultPos.z,
+                posX: 0, 
+                posY: 0, 
+                posZ: 0,
                 rotX: 0, rotY: 0, rotZ: 0
             });
             
@@ -2323,12 +2321,14 @@
             
             if (!targetObj) return;
             
-            // Apply position directly (no interpolation)
-            // Note: In Spline, Y is vertical (up/down), Z is depth (forward/back)
+            // Get original position (use current position as fallback)
+            const origin = currentConfig.originalPosition || { x: 0, y: 0, z: 0 };
+            
+            // Apply position as offset from original position
             targetObj.position.set(
-                keyframe.posX,  // X: horizontal (left/right)
-                keyframe.posZ,  // Y: depth in UI, but vertical in Spline
-                keyframe.posY   // Z: vertical in UI, but depth in Spline
+                origin.x + keyframe.posX,  // X: horizontal (left/right)
+                origin.y + keyframe.posY,  // Y: vertical (up/down)
+                origin.z + keyframe.posZ   // Z: depth (forward/back)
             );
             
             // Apply rotation directly (convert degrees to radians)
@@ -2417,41 +2417,61 @@
             
             let foundObjects = [];
             
-            // Function to search for objects with product names
-            function findRelevantObjects(obj, depth = 0) {
-                if (!obj || depth > 5) return; // Search up to 5 levels deep
+            // Get all first-level children (direct children of the scene)
+            if (splineApp._scene && splineApp._scene.children) {
+                console.log('Searching for objects in scene structure...');
+                console.log('Scene children count:', splineApp._scene.children.length);
                 
-                // Check if this object has a meaningful name
-                if (obj.name && obj.name !== '' && obj.name !== 'Scene' && obj.name !== 'Scene 1') {
-                    // Look for objects that contain CBD, Sprey, Drop, Red, or are Groups/Meshes
-                    const isRelevant = obj.name.toLowerCase().includes('cbd') || 
-                                      obj.name.toLowerCase().includes('spray') || // correct spelling
-                                      obj.name.toLowerCase().includes('sprey') || // user's typo
-                                      obj.name.toLowerCase().includes('spry') ||  // another typo variant
-                                      obj.name.toLowerCase().includes('drop') ||
-                                      obj.name.toLowerCase().includes('red');
+                splineApp._scene.children.forEach(child => {
+                    console.log(`First-level: ${child.name} (type: ${child.type || 'Unknown'}, children: ${child.children?.length || 0})`);
                     
-                    if (isRelevant && !foundObjects.some(o => o.name === obj.name)) {
-                        console.log(`Found relevant object: ${obj.name} (type: ${obj.type || 'Unknown'}, depth: ${depth})`);
+                    // Check if this is a meaningful object (not camera, light, or default scene)
+                    const isSystemObject = !child.name || 
+                                          child.name === '' || 
+                                          child.name === 'Scene' || 
+                                          child.name === 'Scene 1' ||
+                                          child.name.toLowerCase().includes('camera') ||
+                                          child.name.toLowerCase().includes('light') ||
+                                          child.name.toLowerCase().includes('invisible') ||
+                                          child.name.toLowerCase().includes('buildin');
+                    
+                    if (!isSystemObject) {
+                        // This is a valid first-level object, add it
+                        console.log(`  ✓ Adding first-level object: ${child.name}`);
                         foundObjects.push({ 
-                            name: obj.name, 
-                            type: obj.type || 'Object', 
-                            obj: obj 
+                            name: child.name, 
+                            type: child.type || 'Object', 
+                            obj: child 
                         });
                     }
-                }
+                    
+                    // Also check children of this group (second level)
+                    if (child.children && child.children.length > 0) {
+                        child.children.forEach(grandchild => {
+                            console.log(`  Second-level: ${grandchild.name} (type: ${grandchild.type || 'Unknown'})`);
+                            
+                            const isGrandchildSystemObject = !grandchild.name || 
+                                                             grandchild.name === '' || 
+                                                             grandchild.name === 'Scene' || 
+                                                             grandchild.name === 'Scene 1' ||
+                                                             grandchild.name.toLowerCase().includes('camera') ||
+                                                             grandchild.name.toLowerCase().includes('light') ||
+                                                             grandchild.name.toLowerCase().includes('invisible') ||
+                                                             grandchild.name.toLowerCase().includes('buildin');
+                            
+                            if (!isGrandchildSystemObject) {
+                                console.log(`    ✓ Adding second-level object: ${grandchild.name}`);
+                                foundObjects.push({ 
+                                    name: grandchild.name, 
+                                    type: grandchild.type || 'Object', 
+                                    obj: grandchild 
+                                });
+                            }
+                        });
+                    }
+                });
                 
-                // Continue searching children
-                if (obj.children && obj.children.length > 0) {
-                    obj.children.forEach(child => findRelevantObjects(child, depth + 1));
-                }
-            }
-            
-            // Start search from scene root
-            if (splineApp._scene) {
-                console.log('Searching for product objects in scene...');
-                findRelevantObjects(splineApp._scene);
-                console.log(`Found ${foundObjects.length} relevant objects:`, foundObjects.map(o => o.name));
+                console.log(`Found ${foundObjects.length} objects total:`, foundObjects.map(o => o.name));
             }
             
             if (foundObjects.length > 0) {
@@ -2553,31 +2573,17 @@
             // Close dropdown
             document.getElementById('object-dropdown-options').classList.remove('show');
             
-            // Store original object position if not already stored
+            // Store original object position
             if (objectName !== 'placeholder' && splineApp) {
                 try {
                     const targetObj = splineApp.findObjectByName(objectName);
-                    if (targetObj && !currentConfig.originalPosition) {
+                    if (targetObj) {
                         currentConfig.originalPosition = {
                             x: targetObj.position.x,
                             y: targetObj.position.y,
                             z: targetObj.position.z
                         };
                         console.log('Stored original position:', currentConfig.originalPosition);
-                        
-                        // Update all keyframes to use original position if they're at 0,0,0
-                        Object.keys(currentConfig.breakpoints).forEach(bp => {
-                            currentConfig.breakpoints[bp].keyframes.forEach(kf => {
-                                if (kf.posX === 0 && kf.posY === 0 && kf.posZ === 0) {
-                                    kf.posX = currentConfig.originalPosition.x;
-                                    kf.posY = currentConfig.originalPosition.y;
-                                    kf.posZ = currentConfig.originalPosition.z;
-                                }
-                            });
-                        });
-                        
-                        // Re-render keyframes with updated positions
-                        renderKeyframes();
                     }
                 } catch(e) {
                     console.error('Error storing original position:', e);
@@ -2786,11 +2792,14 @@
             // Linear interpolation
             const lerp = (a, b) => a + (b - a) * t;
             
-            // Apply position with Y/Z swap for Spline coordinate system
+            // Get original position (use current position as fallback)
+            const origin = currentConfig.originalPosition || { x: 0, y: 0, z: 0 };
+            
+            // Apply position as offset from original position
             targetObj.position.set(
-                lerp(prev.posX, next.posX),  // X: horizontal (left/right)
-                lerp(prev.posZ, next.posZ),  // Y: depth in UI, vertical in Spline
-                lerp(prev.posY, next.posY)   // Z: vertical in UI, depth in Spline
+                origin.x + lerp(prev.posX, next.posX),  // X: horizontal (left/right)
+                origin.y + lerp(prev.posY, next.posY),  // Y: vertical (up/down)
+                origin.z + lerp(prev.posZ, next.posZ)   // Z: depth (forward/back)
             );
             
             // Apply rotation (convert degrees to radians)
@@ -2879,22 +2888,53 @@
             }
         };
 
+        // Background image handling
+        let pendingBackgroundImage = null;
+
+        // Function to trigger file selection
+        window.selectBackgroundImage = function() {
+            const btn = document.getElementById('bg-picture-btn');
+            if (btn.textContent === 'Select') {
+                // Open file picker
+                document.getElementById('bg-picture').click();
+            } else {
+                // Apply the selected image
+                applyBackgroundImage();
+            }
+        };
+
+        // Function to apply the background image
+        window.applyBackgroundImage = function() {
+            if (pendingBackgroundImage) {
+                currentConfig.backgroundImage = pendingBackgroundImage;
+                // Apply the background image
+                document.body.style.backgroundImage = `url(${pendingBackgroundImage})`;
+                document.body.style.backgroundSize = 'contain';
+                document.body.style.backgroundPosition = 'center top';
+                document.body.style.backgroundRepeat = 'no-repeat';
+                document.body.style.backgroundAttachment = 'scroll';
+                // Enable scrolling for picture background
+                document.documentElement.classList.add('scrollable');
+                document.body.classList.add('scrollable');
+                
+                // Reset button back to "Select" state
+                const btn = document.getElementById('bg-picture-btn');
+                btn.textContent = 'Select';
+                pendingBackgroundImage = null;
+            }
+        };
+
         document.getElementById('bg-picture').addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
                 document.getElementById('bg-picture-name').value = file.name;
                 const reader = new FileReader();
                 reader.onload = (event) => {
-                    currentConfig.backgroundImage = event.target.result;
-                    // Apply the background image
-                    document.body.style.backgroundImage = `url(${event.target.result})`;
-                    document.body.style.backgroundSize = 'contain';
-                    document.body.style.backgroundPosition = 'center top';
-                    document.body.style.backgroundRepeat = 'no-repeat';
-                    document.body.style.backgroundAttachment = 'scroll';
-                    // Enable scrolling for picture background
-                    document.documentElement.classList.add('scrollable');
-                    document.body.classList.add('scrollable');
+                    // Store the image data temporarily
+                    pendingBackgroundImage = event.target.result;
+                    // Change button to "Apply"
+                    const btn = document.getElementById('bg-picture-btn');
+                    btn.textContent = 'Apply';
                 };
                 reader.readAsDataURL(file);
             }
