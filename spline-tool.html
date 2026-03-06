@@ -1414,20 +1414,6 @@
                 </div>
             </div>
 
-            <!-- Target Object Selection -->
-            <div class="form-section" id="object-selector-section" style="display: none;">
-                <label class="form-label">
-                    <svg class="form-label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="3"/>
-                        <path d="M12 1v6m0 6v10M1 12h6m6 0h10"/>
-                    </svg>
-                    Target Object
-                </label>
-                <select class="form-input" id="object-selector" onchange="selectTargetObject(this.value)">
-                    <option value="">Select an object...</option>
-                </select>
-            </div>
-
             <!-- Scroll Position -->
             <div class="form-section">
                 <label class="form-label">
@@ -1653,10 +1639,10 @@
     </div>
 
     <!-- Spline Runtime -->
-    <script type="module" src="https://unpkg.com/@splinetool/runtime@1.0.38/build/runtime.js"></script>
+    <script type="module" src="https://unpkg.com/@splinetool/runtime/build/runtime.js"></script>
     
     <script type="module">
-        import { Application } from 'https://unpkg.com/@splinetool/runtime@1.0.38/build/runtime.js';
+        import { Application } from 'https://unpkg.com/@splinetool/runtime/build/runtime.js';
 
         let splineApp = null;
         let currentConfig = {
@@ -1669,11 +1655,11 @@
             scrollPosition: 0,
             activeBreakpoint: 'tablet',
             breakpoints: {
-                monitor: { minWidth: 1440, maxXRange: 500, keyframes: [] },
-                desktop: { minWidth: 1280, maxXRange: 500, keyframes: [] },
-                laptop: { minWidth: 992, maxXRange: 500, keyframes: [] },
-                tablet: { minWidth: 768, maxXRange: 500, keyframes: [] },
-                mobile: { minWidth: 0, maxXRange: 500, keyframes: [] }
+                monitor: { minWidth: 1440, maxXRange: 1500, keyframes: [] },
+                desktop: { minWidth: 1280, maxXRange: 1500, keyframes: [] },
+                laptop: { minWidth: 992, maxXRange: 1500, keyframes: [] },
+                tablet: { minWidth: 768, maxXRange: 1500, keyframes: [] },
+                mobile: { minWidth: 0, maxXRange: 1500, keyframes: [] }
             }
         };
 
@@ -1718,11 +1704,29 @@
             const breakpoint = currentConfig.activeBreakpoint;
             const keyframes = currentConfig.breakpoints[breakpoint].keyframes;
             
+            let posX = 0, posY = 0, posZ = 0, rotX = 0, rotY = 0, rotZ = 0;
+            
+            if (!screenRight) {
+                // Fallback: read actual Spline world values
+                const obj = getTargetObject();
+                if (obj && obj.position) {
+                    posX = Math.round(obj.position.x * 10) / 10;
+                    posY = Math.round(obj.position.y * 10) / 10;
+                    posZ = Math.round(obj.position.z * 10) / 10;
+                }
+                if (obj && obj.rotation) {
+                    rotX = Math.round((obj.rotation.x * 180 / Math.PI) * 10) / 10;
+                    rotY = Math.round((obj.rotation.y * 180 / Math.PI) * 10) / 10;
+                    rotZ = Math.round((obj.rotation.z * 180 / Math.PI) * 10) / 10;
+                }
+            }
+            // When screen-space mode is active, 0 = initial Spline position
+            
             keyframes.push({
                 position: position,
                 name: `Position ${keyframes.length + 1}`,
-                posX: 0, posY: 0, posZ: 0,
-                rotX: 0, rotY: 0, rotZ: 0
+                posX, posY, posZ,
+                rotX, rotY, rotZ
             });
             
             renderKeyframes();
@@ -1780,17 +1784,17 @@
                             <div class="control-row">
                                 <span class="axis-label axis-x">X</span>
                                 <input type="range" class="axis-slider" min="-${maxXRange}" max="${maxXRange}" step="1" value="${keyframe.posX}" oninput="updateSliderValue(${index}, 'posX', this.value)">
-                                <input type="number" class="axis-input" value="${keyframe.posX}" step="1" onchange="updateKeyframeParam(${index}, 'posX', this.value)">
+                                <input type="number" class="axis-input" value="${keyframe.posX}" step="1" oninput="updateKeyframeParam(${index}, 'posX', this.value)">
                             </div>
                             <div class="control-row">
                                 <span class="axis-label axis-y">Y</span>
                                 <input type="range" class="axis-slider" min="-2000" max="2000" step="1" value="${keyframe.posY}" oninput="updateSliderValue(${index}, 'posY', this.value)">
-                                <input type="number" class="axis-input" value="${keyframe.posY}" step="1" onchange="updateKeyframeParam(${index}, 'posY', this.value)">
+                                <input type="number" class="axis-input" value="${keyframe.posY}" step="1" oninput="updateKeyframeParam(${index}, 'posY', this.value)">
                             </div>
                             <div class="control-row">
                                 <span class="axis-label axis-z">Z</span>
                                 <input type="range" class="axis-slider" min="-2000" max="2000" step="1" value="${keyframe.posZ}" oninput="updateSliderValue(${index}, 'posZ', this.value)">
-                                <input type="number" class="axis-input" value="${keyframe.posZ}" step="1" onchange="updateKeyframeParam(${index}, 'posZ', this.value)">
+                                <input type="number" class="axis-input" value="${keyframe.posZ}" step="1" oninput="updateKeyframeParam(${index}, 'posZ', this.value)">
                             </div>
                         </div>
                         
@@ -1799,17 +1803,17 @@
                             <div class="control-row">
                                 <span class="axis-label axis-x">X</span>
                                 <input type="range" class="axis-slider" min="-180" max="180" step="1" value="${keyframe.rotX}" oninput="updateSliderValue(${index}, 'rotX', this.value)">
-                                <input type="number" class="axis-input" value="${keyframe.rotX}" step="1" onchange="updateKeyframeParam(${index}, 'rotX', this.value)">
+                                <input type="number" class="axis-input" value="${keyframe.rotX}" step="1" oninput="updateKeyframeParam(${index}, 'rotX', this.value)">
                             </div>
                             <div class="control-row">
                                 <span class="axis-label axis-y">Y</span>
                                 <input type="range" class="axis-slider" min="-180" max="180" step="1" value="${keyframe.rotY}" oninput="updateSliderValue(${index}, 'rotY', this.value)">
-                                <input type="number" class="axis-input" value="${keyframe.rotY}" step="1" onchange="updateKeyframeParam(${index}, 'rotY', this.value)">
+                                <input type="number" class="axis-input" value="${keyframe.rotY}" step="1" oninput="updateKeyframeParam(${index}, 'rotY', this.value)">
                             </div>
                             <div class="control-row">
                                 <span class="axis-label axis-z">Z</span>
                                 <input type="range" class="axis-slider" min="-180" max="180" step="1" value="${keyframe.rotZ}" oninput="updateSliderValue(${index}, 'rotZ', this.value)">
-                                <input type="number" class="axis-input" value="${keyframe.rotZ}" step="1" onchange="updateKeyframeParam(${index}, 'rotZ', this.value)">
+                                <input type="number" class="axis-input" value="${keyframe.rotZ}" step="1" oninput="updateKeyframeParam(${index}, 'rotZ', this.value)">
                             </div>
                         </div>
                     </div>
@@ -1827,63 +1831,216 @@
             items[index]?.classList.toggle('expanded');
         };
 
+        // Cached reference to the target Spline object
+        let cachedTargetObj = null;
+        let cachedTargetName = null;
+        let transformRAF = null;
+        let activeTransform = null;
+        let initialPos = null;
+        // Screen-to-world mapping: right=horizontal, up=vertical, fwd=depth
+        let screenRight = null;
+        let screenUp = null;
+        let screenFwd = null;
+
+        function getTargetObject() {
+            if (!splineApp || !currentConfig.targetObject) return null;
+            if (cachedTargetObj && cachedTargetName === currentConfig.targetObject) {
+                return cachedTargetObj;
+            }
+            try {
+                cachedTargetObj = splineApp.findObjectByName(currentConfig.targetObject);
+                cachedTargetName = currentConfig.targetObject;
+            } catch(e) {
+                cachedTargetObj = null;
+            }
+            return cachedTargetObj;
+        }
+
+        function findSceneCamera() {
+            let camera = null;
+            // Try internal properties first
+            for (const p of ['_camera', 'camera', '_activeCamera']) {
+                if (splineApp[p] && splineApp[p].isCamera) { camera = splineApp[p]; break; }
+            }
+            // Try getAllObjects
+            if (!camera) {
+                try {
+                    const all = splineApp.getAllObjects();
+                    camera = all.find(o => o.isCamera || o.type === 'PerspectiveCamera' || o.type === 'OrthographicCamera');
+                } catch(e) {}
+            }
+            // Try traversing internal scene
+            if (!camera) {
+                try {
+                    const scene = splineApp._scene || splineApp.scene;
+                    if (scene) {
+                        scene.traverse(child => {
+                            if (!camera && (child.isCamera || child.type?.includes('Camera'))) camera = child;
+                        });
+                    }
+                } catch(e) {}
+            }
+            // Try canvas/renderer
+            if (!camera) {
+                try {
+                    const renderer = splineApp._renderer || splineApp.renderer;
+                    if (renderer && renderer._camera) camera = renderer._camera;
+                } catch(e) {}
+            }
+            console.log('[3DConfig] Camera found:', camera ? `${camera.name||'unnamed'} (${camera.type})` : 'NOT FOUND');
+            if (camera) {
+                console.log('[3DConfig] Camera position:', camera.position?.x?.toFixed(1), camera.position?.y?.toFixed(1), camera.position?.z?.toFixed(1));
+                console.log('[3DConfig] Camera rotation:', camera.rotation?.x?.toFixed(3), camera.rotation?.y?.toFixed(3), camera.rotation?.z?.toFixed(3));
+            }
+            return camera;
+        }
+
+        function setupScreenAxes() {
+            const camera = findSceneCamera();
+            if (!camera) {
+                console.warn('[3DConfig] No camera found, X/Y/Z = world axes');
+                screenRight = null;
+                return;
+            }
+
+            try {
+                if (camera.updateWorldMatrix) camera.updateWorldMatrix(true, false);
+                else if (camera.updateMatrixWorld) camera.updateMatrixWorld(true);
+            } catch(e) {}
+
+            const m = camera.matrixWorld?.elements;
+            if (!m) {
+                console.warn('[3DConfig] No matrixWorld on camera');
+                screenRight = null;
+                return;
+            }
+
+            const norm = (x, y, z) => {
+                const len = Math.sqrt(x*x + y*y + z*z);
+                return len > 0.001 ? { x: x/len, y: y/len, z: z/len } : { x: 1, y: 0, z: 0 };
+            };
+
+            // Camera world matrix columns: [right, up, -forward]
+            screenRight = norm(m[0], m[1], m[2]);
+            screenUp = norm(m[4], m[5], m[6]);
+            screenFwd = norm(-m[8], -m[9], -m[10]);
+
+            console.log('[3DConfig] Screen axes - Right:', screenRight, 'Up:', screenUp, 'Fwd:', screenFwd);
+        }
+
+        let initialRot = null;
+
+        function storeInitialPos() {
+            const obj = getTargetObject();
+            if (obj && obj.position) {
+                initialPos = { x: obj.position.x, y: obj.position.y, z: obj.position.z };
+                console.log('[3DConfig] Initial position:', initialPos);
+            }
+            if (obj && obj.rotation) {
+                initialRot = { x: obj.rotation.x, y: obj.rotation.y, z: obj.rotation.z };
+                console.log('[3DConfig] Initial rotation:', initialRot);
+            }
+        }
+
+        function forceApplyTransform(obj, t) {
+            if (!obj) return;
+
+            if (screenRight && initialPos) {
+                // Screen-space mode: X=horizontal, Y=vertical, Z=depth (offsets from initial)
+                obj.position.x = initialPos.x + t.posX * screenRight.x + t.posY * screenUp.x + t.posZ * screenFwd.x;
+                obj.position.y = initialPos.y + t.posX * screenRight.y + t.posY * screenUp.y + t.posZ * screenFwd.y;
+                obj.position.z = initialPos.z + t.posX * screenRight.z + t.posY * screenUp.z + t.posZ * screenFwd.z;
+                // Rotation = initial rotation + offset
+                const base = initialRot || { x: 0, y: 0, z: 0 };
+                obj.rotation.x = base.x + t.rotX;
+                obj.rotation.y = base.y + t.rotY;
+                obj.rotation.z = base.z + t.rotZ;
+            } else {
+                obj.position.x = t.posX;
+                obj.position.y = t.posY;
+                obj.position.z = t.posZ;
+                obj.rotation.x = t.rotX;
+                obj.rotation.y = t.rotY;
+                obj.rotation.z = t.rotZ;
+            }
+        }
+
+        function startContinuousApply() {
+            if (transformRAF) cancelAnimationFrame(transformRAF);
+            let frameCount = 0;
+            const maxFrames = 60;
+            function tick() {
+                if (!activeTransform) return;
+                const obj = getTargetObject();
+                if (obj) forceApplyTransform(obj, activeTransform);
+                frameCount++;
+                if (frameCount < maxFrames) {
+                    transformRAF = requestAnimationFrame(tick);
+                } else {
+                    transformRAF = null;
+                }
+            }
+            transformRAF = requestAnimationFrame(tick);
+        }
+
         // Update Slider Value
         window.updateSliderValue = function(index, param, value) {
             const breakpoint = currentConfig.activeBreakpoint;
             currentConfig.breakpoints[breakpoint].keyframes[index][param] = parseFloat(value);
             
+            // Sync number input
             const keyframeItems = document.querySelectorAll('.keyframe-item');
             if (keyframeItems[index]) {
-                const inputField = keyframeItems[index].querySelector(`input.axis-input[onchange*="${param}"]`);
-                if (inputField) inputField.value = value;
+                const inputs = keyframeItems[index].querySelectorAll('input.axis-input');
+                const paramOrder = ['posX','posY','posZ','rotX','rotY','rotZ'];
+                const paramIdx = paramOrder.indexOf(param);
+                if (paramIdx >= 0 && inputs[paramIdx]) inputs[paramIdx].value = value;
             }
             
-            // Apply transformation directly to the object
             applyDirectTransformation(index);
         };
 
-        // Update Keyframe Param
+        // Update Keyframe Param (from number input)
         window.updateKeyframeParam = function(index, param, value) {
             const breakpoint = currentConfig.activeBreakpoint;
             currentConfig.breakpoints[breakpoint].keyframes[index][param] = parseFloat(value);
             
-            // Apply transformation directly to the object
+            // Sync slider
+            const keyframeItems = document.querySelectorAll('.keyframe-item');
+            if (keyframeItems[index]) {
+                const sliders = keyframeItems[index].querySelectorAll('input.axis-slider');
+                const paramOrder = ['posX','posY','posZ','rotX','rotY','rotZ'];
+                const paramIdx = paramOrder.indexOf(param);
+                if (paramIdx >= 0 && sliders[paramIdx]) sliders[paramIdx].value = value;
+            }
+            
             applyDirectTransformation(index);
         };
         
         // Apply transformation directly from a specific keyframe (no interpolation)
         function applyDirectTransformation(keyframeIndex) {
-            if (!splineApp || !currentConfig.targetObject) return;
+            const obj = getTargetObject();
+            if (!obj) return;
             
             const breakpoint = currentConfig.activeBreakpoint;
             const keyframe = currentConfig.breakpoints[breakpoint].keyframes[keyframeIndex];
-            
             if (!keyframe) return;
             
-            // Find the target object in Spline
-            let targetObj = null;
-            try {
-                targetObj = splineApp.findObjectByName(currentConfig.targetObject);
-            } catch(e) {
-                console.error('Object not found:', currentConfig.targetObject);
-                return;
-            }
+            activeTransform = {
+                posX: keyframe.posX,
+                posY: keyframe.posY,
+                posZ: keyframe.posZ,
+                rotX: keyframe.rotX * Math.PI / 180,
+                rotY: keyframe.rotY * Math.PI / 180,
+                rotZ: keyframe.rotZ * Math.PI / 180
+            };
             
-            if (!targetObj) return;
+            console.log('[3DConfig] Applying transform:', activeTransform, 'to object:', currentConfig.targetObject);
             
-            // Apply position directly (no interpolation)
-            targetObj.position.set(
-                keyframe.posX,
-                keyframe.posY,
-                keyframe.posZ
-            );
-            
-            // Apply rotation directly (convert degrees to radians)
-            targetObj.rotation.set(
-                keyframe.rotX * Math.PI / 180,
-                keyframe.rotY * Math.PI / 180,
-                keyframe.rotZ * Math.PI / 180
-            );
+            // Apply immediately
+            forceApplyTransform(obj, activeTransform);
+            // Then keep applying for several frames to override Spline's internal state
+            startContinuousApply();
         }
 
         // Load Spline Scene
@@ -1904,6 +2061,9 @@
                 updateSceneStatus('loading', 'Loading scene');
                 
                 if (splineApp) splineApp = null;
+                cachedTargetObj = null;
+                cachedTargetName = null;
+                activeTransform = null;
                 
                 const container = document.getElementById('canvas-container');
                 container.innerHTML = '';
@@ -1920,7 +2080,11 @@
                 currentConfig.splineUrl = url;
                 updateSceneStatus('success', 'Scene loaded successfully!');
                 
-                setTimeout(findAndDisplaySceneObjects, 500);
+                setTimeout(() => {
+                    findAndDisplaySceneObjects();
+                    setupScreenAxes();
+                    storeInitialPos();
+                }, 500);
                 
             } catch (error) {
                 console.error('Error loading scene:', error);
@@ -1950,50 +2114,80 @@
             if (!splineApp) return;
             
             let foundObjects = [];
-            const objectNames = ['Red Drop CBD', 'Red drop', 'Drop', 'CBD', 'Bottle', 'Product', 'Cube', 'Sphere', 'Model', 'Object'];
             
-            objectNames.forEach(name => {
-                try {
-                    const obj = splineApp.findObjectByName(name);
-                    if (obj && !foundObjects.some(o => o.name === name)) {
-                        foundObjects.push({ name, type: obj.type || 'Object', obj });
-                    }
-                } catch(e) {}
-            });
+            try {
+                const allObjs = splineApp.getAllObjects();
+                if (allObjs && allObjs.length > 0) {
+                    // Log all objects with parent info for debugging
+                    allObjs.forEach(obj => {
+                        if (!obj || !obj.name) return;
+                        console.log('[3DConfig] Object:', obj.name, 
+                            'type:', obj.type, 
+                            'parent:', obj.parent?.name || obj.parent?.type || 'none',
+                            'children:', obj.children?.length || 0,
+                            'pos:', obj.position ? `${obj.position.x?.toFixed(1)},${obj.position.y?.toFixed(1)},${obj.position.z?.toFixed(1)}` : 'N/A'
+                        );
+                    });
+                    
+                    // Find the scene root (deepest common parent)
+                    const sceneRootTypes = ['Scene', 'Group'];
+                    allObjs.forEach(obj => {
+                        if (!obj || !obj.name || obj.name.startsWith('_')) return;
+                        // Top-level: parent is Scene, or parent has no parent, or parent type is Scene
+                        const p = obj.parent;
+                        const isTopLevel = !p 
+                            || p.type === 'Scene' 
+                            || p.name === 'Scene 1'
+                            || (!p.parent && sceneRootTypes.includes(p.type));
+                        if (isTopLevel) {
+                            foundObjects.push({ name: obj.name, type: obj.type || 'Object', obj });
+                        }
+                    });
+                    console.log('[3DConfig] Top-level objects:', foundObjects.map(o => `${o.name}(${o.type}, children:${o.obj.children?.length||0})`));
+                }
+            } catch(e) {
+                console.log('[3DConfig] getAllObjects() not available, falling back to name search');
+            }
+            
+            if (foundObjects.length === 0) {
+                const objectNames = ['Red Drop CBD', 'Red drop', 'Drop', 'CBD', 'Bottle', 'Product', 'Cube', 'Sphere', 'Model', 'Object'];
+                objectNames.forEach(name => {
+                    try {
+                        const obj = splineApp.findObjectByName(name);
+                        if (obj && !foundObjects.some(o => o.name === name)) {
+                            foundObjects.push({ name, type: obj.type || 'Object', obj });
+                        }
+                    } catch(e) {}
+                });
+            }
             
             if (foundObjects.length > 0) {
                 displayObjectsList(foundObjects);
+            } else {
+                console.warn('[3DConfig] No objects found in scene');
             }
         }
         
         function displayObjectsList(objects) {
-            const selectorSection = document.getElementById('object-selector-section');
-            const selector = document.getElementById('object-selector');
+            const skipTypes = ['PointLight', 'DirectionalLight', 'SpotLight', 'AmbientLight', 'HemisphereLight', 'RectAreaLight'];
+            const skipNames = ['Rectangle', 'Background'];
             
-            selectorSection.style.display = 'block';
-            selector.innerHTML = '<option value="">Select an object...</option>';
+            // Prefer objects that have children (groups/models), skip lights and flat shapes
+            const candidates = objects.filter(o => !skipTypes.includes(o.type) && !skipNames.includes(o.name));
+            const withChildren = candidates.filter(o => o.obj.children && o.obj.children.length > 0);
+            const model = withChildren[0] || candidates[0] || objects[0];
             
-            objects.forEach(obj => {
-                const option = document.createElement('option');
-                option.value = obj.name;
-                option.textContent = `${obj.name} (${obj.type})`;
-                selector.appendChild(option);
-            });
-            
-            if (objects[0]) {
-                currentConfig.targetObject = objects[0].name;
-                selector.value = objects[0].name;
+            if (model) {
+                currentConfig.targetObject = model.name;
+                console.log('[3DConfig] Auto-selected target object:', model.name, '(' + model.type + '), children:', model.obj.children?.length || 0);
             }
         }
-
-        window.selectTargetObject = function(objectName) {
-            currentConfig.targetObject = objectName;
-        };
 
         // Apply transformation to object based on keyframes and scroll position
         // This is ONLY used when Live Preview is ON to show scroll-based animation
         function applyTransformation() {
-            if (!splineApp || !currentConfig.targetObject) return;
+            const obj = getTargetObject();
+            if (!obj) return;
             
             const scrollPos = currentConfig.scrollPosition;
             const breakpoint = currentConfig.activeBreakpoint;
@@ -2001,21 +2195,9 @@
             
             if (keyframes.length === 0) return;
             
-            // Find the target object in Spline
-            let targetObj = null;
-            try {
-                targetObj = splineApp.findObjectByName(currentConfig.targetObject);
-            } catch(e) {
-                console.error('Object not found:', currentConfig.targetObject);
-                return;
-            }
-            
-            if (!targetObj) return;
-            
             // Sort keyframes by position
             const sorted = [...keyframes].sort((a, b) => a.position - b.position);
             
-            // Find previous and next keyframes
             let prev = sorted[0];
             let next = sorted[0];
             
@@ -2029,33 +2211,27 @@
                 }
             }
             
-            // Calculate interpolation factor
             let t = 0;
             if (prev !== next && next.position !== prev.position) {
                 t = (scrollPos - prev.position) / (next.position - prev.position);
             } else if (scrollPos >= next.position) {
                 t = 1;
             }
-            
-            // Clamp t between 0 and 1
             t = Math.max(0, Math.min(1, t));
             
-            // Linear interpolation
             const lerp = (a, b) => a + (b - a) * t;
             
-            // Apply position
-            targetObj.position.set(
-                lerp(prev.posX, next.posX),
-                lerp(prev.posY, next.posY),
-                lerp(prev.posZ, next.posZ)
-            );
+            activeTransform = {
+                posX: lerp(prev.posX, next.posX),
+                posY: lerp(prev.posY, next.posY),
+                posZ: lerp(prev.posZ, next.posZ),
+                rotX: lerp(prev.rotX, next.rotX) * Math.PI / 180,
+                rotY: lerp(prev.rotY, next.rotY) * Math.PI / 180,
+                rotZ: lerp(prev.rotZ, next.rotZ) * Math.PI / 180
+            };
             
-            // Apply rotation (convert degrees to radians)
-            targetObj.rotation.set(
-                lerp(prev.rotX, next.rotX) * Math.PI / 180,
-                lerp(prev.rotY, next.rotY) * Math.PI / 180,
-                lerp(prev.rotZ, next.rotZ) * Math.PI / 180
-            );
+            forceApplyTransform(obj, activeTransform);
+            startContinuousApply();
         }
 
         window.setBackgroundMode = function(mode) {
