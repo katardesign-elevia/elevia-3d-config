@@ -1109,6 +1109,11 @@
             max-width: 620px;
         }
 
+        .modal-xlarge {
+            max-width: 860px;
+            max-height: 90vh;
+        }
+
         .modal-header {
             padding: 24px;
             border-bottom: 1px solid var(--border-subtle);
@@ -1156,6 +1161,95 @@
             display: flex;
             gap: 12px;
             justify-content: flex-end;
+        }
+
+        .download-bp-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .download-bp-tab {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .download-bp-tab:hover {
+            border-color: var(--border-glow);
+            color: var(--text-primary);
+        }
+        .download-bp-tab.active {
+            background: var(--accent);
+            color: var(--bg-deep);
+            border-color: var(--accent);
+        }
+        .download-bp-tab-all.active {
+            background: linear-gradient(135deg, var(--accent), #4ecdc4);
+        }
+
+        .code-block-wrapper {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+        }
+        .code-block-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .code-block-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .copy-btn {
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            background: var(--accent);
+            color: var(--bg-deep);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .copy-btn:hover {
+            filter: brightness(1.15);
+        }
+        .code-block-content {
+            background: rgba(0,0,0,0.4);
+            padding: 16px;
+            max-height: 420px;
+            overflow: auto;
+        }
+        .code-block-content pre {
+            margin: 0;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #c9d1d9;
+            white-space: pre;
+            tab-size: 2;
+        }
+        .download-info {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.5;
         }
 
         .btn {
@@ -1514,14 +1608,7 @@
                     </svg>
                     Save to Drive
                 </button>
-                <button class="btn-icon" onclick="exportConfig()" title="Export">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                        <polyline points="7 10 12 15 17 10"/>
-                        <line x1="12" y1="15" x2="12" y2="3"/>
-                    </svg>
-                </button>
-                <button class="btn-icon" onclick="downloadConfig()" title="Download">
+                <button class="btn-icon" onclick="openDownloadModal()" title="Download Code">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 002-2v-4M17 9l-5 5-5-5M12 12.8V2.5"/>
                     </svg>
@@ -1628,6 +1715,35 @@
         </div>
     </div>
 
+    <!-- Download Code Modal -->
+    <div class="modal-overlay" id="download-modal">
+        <div class="modal modal-xlarge">
+            <div class="modal-header">
+                <h3 class="modal-title">Download Embed Code</h3>
+                <button class="modal-close" onclick="closeDownloadModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p class="download-info">
+                    Copy the code below and paste it into your Shopify theme or website admin. 
+                    Select a breakpoint to get code for that screen size, or "All" for a combined responsive snippet.
+                </p>
+                <div class="download-bp-tabs" id="download-bp-tabs"></div>
+                <div class="code-block-wrapper">
+                    <div class="code-block-header">
+                        <span class="code-block-label" id="code-block-label">HTML / CSS / JS</span>
+                        <button class="copy-btn" onclick="copyDownloadCode()">Copy Code</button>
+                    </div>
+                    <div class="code-block-content">
+                        <pre id="download-code-output"></pre>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeDownloadModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Notification -->
     <div id="toast" class="toast">
         <div class="toast-icon success">
@@ -1695,7 +1811,12 @@
         // Toggle Live Preview
         window.toggleLivePreview = function() {
             currentConfig.livePreview = document.getElementById('live-preview-toggle').checked;
-            console.log('Live preview:', currentConfig.livePreview ? 'On' : 'Off');
+            if (currentConfig.livePreview) {
+                applyTransformation();
+                startLiveLoop();
+            } else {
+                stopLiveLoop();
+            }
         };
 
         // Add Keyframe
@@ -1704,23 +1825,8 @@
             const breakpoint = currentConfig.activeBreakpoint;
             const keyframes = currentConfig.breakpoints[breakpoint].keyframes;
             
+            // Keyframes store offsets from initial position (0 = no change from original)
             let posX = 0, posY = 0, posZ = 0, rotX = 0, rotY = 0, rotZ = 0;
-            
-            if (!screenRight) {
-                // Fallback: read actual Spline world values
-                const obj = getTargetObject();
-                if (obj && obj.position) {
-                    posX = Math.round(obj.position.x * 10) / 10;
-                    posY = Math.round(obj.position.y * 10) / 10;
-                    posZ = Math.round(obj.position.z * 10) / 10;
-                }
-                if (obj && obj.rotation) {
-                    rotX = Math.round((obj.rotation.x * 180 / Math.PI) * 10) / 10;
-                    rotY = Math.round((obj.rotation.y * 180 / Math.PI) * 10) / 10;
-                    rotZ = Math.round((obj.rotation.z * 180 / Math.PI) * 10) / 10;
-                }
-            }
-            // When screen-space mode is active, 0 = initial Spline position
             
             keyframes.push({
                 position: position,
@@ -1822,13 +1928,26 @@
             });
         }
 
-        // Toggle Keyframe
+        // Toggle Keyframe — also moves object to that position and sets scroll
         window.toggleKeyframe = function(index) {
             const items = document.querySelectorAll('.keyframe-item');
             items.forEach((item, i) => {
                 if (i !== index) item.classList.remove('expanded');
             });
             items[index]?.classList.toggle('expanded');
+            
+            // Move scroll to this keyframe's position and apply its transform
+            const breakpoint = currentConfig.activeBreakpoint;
+            const keyframe = currentConfig.breakpoints[breakpoint].keyframes[index];
+            if (keyframe) {
+                currentConfig.scrollPosition = keyframe.position;
+                const scrollSlider = document.getElementById('scroll-slider');
+                const scrollValue = document.getElementById('scroll-value');
+                if (scrollSlider) scrollSlider.value = keyframe.position;
+                if (scrollValue) scrollValue.value = keyframe.position;
+                
+                applyDirectTransformation(index);
+            }
         };
 
         // Cached reference to the target Spline object
@@ -1836,11 +1955,14 @@
         let cachedTargetName = null;
         let transformRAF = null;
         let activeTransform = null;
-        let initialPos = null;
-        // Screen-to-world mapping: right=horizontal, up=vertical, fwd=depth
+        let liveRAF = null;
+        
+        // Screen-space movement: stores camera axes and object's original position
         let screenRight = null;
         let screenUp = null;
         let screenFwd = null;
+        let initialPos = null;
+        let initialRot = null;
 
         function getTargetObject() {
             if (!splineApp || !currentConfig.targetObject) return null;
@@ -1858,99 +1980,60 @@
 
         function findSceneCamera() {
             let camera = null;
-            // Try internal properties first
             for (const p of ['_camera', 'camera', '_activeCamera']) {
                 if (splineApp[p] && splineApp[p].isCamera) { camera = splineApp[p]; break; }
             }
-            // Try getAllObjects
             if (!camera) {
                 try {
                     const all = splineApp.getAllObjects();
                     camera = all.find(o => o.isCamera || o.type === 'PerspectiveCamera' || o.type === 'OrthographicCamera');
                 } catch(e) {}
             }
-            // Try traversing internal scene
             if (!camera) {
                 try {
                     const scene = splineApp._scene || splineApp.scene;
-                    if (scene) {
-                        scene.traverse(child => {
-                            if (!camera && (child.isCamera || child.type?.includes('Camera'))) camera = child;
-                        });
-                    }
+                    if (scene) scene.traverse(child => {
+                        if (!camera && (child.isCamera || child.type?.includes('Camera'))) camera = child;
+                    });
                 } catch(e) {}
-            }
-            // Try canvas/renderer
-            if (!camera) {
-                try {
-                    const renderer = splineApp._renderer || splineApp.renderer;
-                    if (renderer && renderer._camera) camera = renderer._camera;
-                } catch(e) {}
-            }
-            console.log('[3DConfig] Camera found:', camera ? `${camera.name||'unnamed'} (${camera.type})` : 'NOT FOUND');
-            if (camera) {
-                console.log('[3DConfig] Camera position:', camera.position?.x?.toFixed(1), camera.position?.y?.toFixed(1), camera.position?.z?.toFixed(1));
-                console.log('[3DConfig] Camera rotation:', camera.rotation?.x?.toFixed(3), camera.rotation?.y?.toFixed(3), camera.rotation?.z?.toFixed(3));
             }
             return camera;
         }
 
         function setupScreenAxes() {
             const camera = findSceneCamera();
-            if (!camera) {
-                console.warn('[3DConfig] No camera found, X/Y/Z = world axes');
-                screenRight = null;
-                return;
-            }
-
+            if (!camera) { screenRight = null; return; }
             try {
                 if (camera.updateWorldMatrix) camera.updateWorldMatrix(true, false);
                 else if (camera.updateMatrixWorld) camera.updateMatrixWorld(true);
             } catch(e) {}
-
             const m = camera.matrixWorld?.elements;
-            if (!m) {
-                console.warn('[3DConfig] No matrixWorld on camera');
-                screenRight = null;
-                return;
-            }
-
+            if (!m) { screenRight = null; return; }
             const norm = (x, y, z) => {
                 const len = Math.sqrt(x*x + y*y + z*z);
                 return len > 0.001 ? { x: x/len, y: y/len, z: z/len } : { x: 1, y: 0, z: 0 };
             };
-
-            // Camera world matrix columns: [right, up, -forward]
             screenRight = norm(m[0], m[1], m[2]);
             screenUp = norm(m[4], m[5], m[6]);
             screenFwd = norm(-m[8], -m[9], -m[10]);
-
-            console.log('[3DConfig] Screen axes - Right:', screenRight, 'Up:', screenUp, 'Fwd:', screenFwd);
         }
 
-        let initialRot = null;
-
-        function storeInitialPos() {
+        function storeInitialTransform() {
             const obj = getTargetObject();
             if (obj && obj.position) {
                 initialPos = { x: obj.position.x, y: obj.position.y, z: obj.position.z };
-                console.log('[3DConfig] Initial position:', initialPos);
             }
             if (obj && obj.rotation) {
                 initialRot = { x: obj.rotation.x, y: obj.rotation.y, z: obj.rotation.z };
-                console.log('[3DConfig] Initial rotation:', initialRot);
             }
         }
 
         function forceApplyTransform(obj, t) {
             if (!obj) return;
-
             if (screenRight && initialPos) {
-                // Screen-space mode: X=horizontal, Y=vertical, Z=depth (offsets from initial)
                 obj.position.x = initialPos.x + t.posX * screenRight.x + t.posY * screenUp.x + t.posZ * screenFwd.x;
                 obj.position.y = initialPos.y + t.posX * screenRight.y + t.posY * screenUp.y + t.posZ * screenFwd.y;
                 obj.position.z = initialPos.z + t.posX * screenRight.z + t.posY * screenUp.z + t.posZ * screenFwd.z;
-                // Rotation = initial rotation + offset
                 const base = initialRot || { x: 0, y: 0, z: 0 };
                 obj.rotation.x = base.x + t.rotX;
                 obj.rotation.y = base.y + t.rotY;
@@ -1968,7 +2051,7 @@
         function startContinuousApply() {
             if (transformRAF) cancelAnimationFrame(transformRAF);
             let frameCount = 0;
-            const maxFrames = 60;
+            const maxFrames = 120;
             function tick() {
                 if (!activeTransform) return;
                 const obj = getTargetObject();
@@ -1981,6 +2064,30 @@
                 }
             }
             transformRAF = requestAnimationFrame(tick);
+        }
+        
+        // Persistent loop: keeps applying transformation every frame while LIVE is on
+        function startLiveLoop() {
+            if (liveRAF) return;
+            function liveTick() {
+                if (!currentConfig.livePreview) {
+                    liveRAF = null;
+                    return;
+                }
+                if (activeTransform) {
+                    const obj = getTargetObject();
+                    if (obj) forceApplyTransform(obj, activeTransform);
+                }
+                liveRAF = requestAnimationFrame(liveTick);
+            }
+            liveRAF = requestAnimationFrame(liveTick);
+        }
+        
+        function stopLiveLoop() {
+            if (liveRAF) {
+                cancelAnimationFrame(liveRAF);
+                liveRAF = null;
+            }
         }
 
         // Update Slider Value
@@ -2064,6 +2171,10 @@
                 cachedTargetObj = null;
                 cachedTargetName = null;
                 activeTransform = null;
+                screenRight = null;
+                initialPos = null;
+                initialRot = null;
+                stopLiveLoop();
                 
                 const container = document.getElementById('canvas-container');
                 container.innerHTML = '';
@@ -2083,7 +2194,7 @@
                 setTimeout(() => {
                     findAndDisplaySceneObjects();
                     setupScreenAxes();
-                    storeInitialPos();
+                    storeInitialTransform();
                 }, 500);
                 
             } catch (error) {
@@ -2184,38 +2295,73 @@
         }
 
         // Apply transformation to object based on keyframes and scroll position
-        // This is ONLY used when Live Preview is ON to show scroll-based animation
         function applyTransformation() {
             const obj = getTargetObject();
             if (!obj) return;
             
             const scrollPos = currentConfig.scrollPosition;
             const breakpoint = currentConfig.activeBreakpoint;
-            const keyframes = currentConfig.breakpoints[breakpoint].keyframes;
+            let keyframes = currentConfig.breakpoints[breakpoint].keyframes;
+            
+            // If current breakpoint has no keyframes, try all breakpoints
+            if (keyframes.length === 0) {
+                for (const bp of Object.keys(currentConfig.breakpoints)) {
+                    if (currentConfig.breakpoints[bp].keyframes.length > 0) {
+                        keyframes = currentConfig.breakpoints[bp].keyframes;
+                        console.log('[3DConfig] Live: using keyframes from', bp, 'breakpoint');
+                        break;
+                    }
+                }
+            }
             
             if (keyframes.length === 0) return;
             
-            // Sort keyframes by position
+            // Sort keyframes by scroll position
             const sorted = [...keyframes].sort((a, b) => a.position - b.position);
             
-            let prev = sorted[0];
-            let next = sorted[0];
+            // Before first keyframe: use first keyframe values
+            if (scrollPos <= sorted[0].position) {
+                const kf = sorted[0];
+                activeTransform = {
+                    posX: kf.posX, posY: kf.posY, posZ: kf.posZ,
+                    rotX: kf.rotX * Math.PI / 180,
+                    rotY: kf.rotY * Math.PI / 180,
+                    rotZ: kf.rotZ * Math.PI / 180
+                };
+                forceApplyTransform(obj, activeTransform);
+                startContinuousApply();
+                return;
+            }
             
-            for (let i = 0; i < sorted.length; i++) {
-                if (sorted[i].position <= scrollPos) {
+            // After last keyframe: use last keyframe values
+            if (scrollPos >= sorted[sorted.length - 1].position) {
+                const kf = sorted[sorted.length - 1];
+                activeTransform = {
+                    posX: kf.posX, posY: kf.posY, posZ: kf.posZ,
+                    rotX: kf.rotX * Math.PI / 180,
+                    rotY: kf.rotY * Math.PI / 180,
+                    rotZ: kf.rotZ * Math.PI / 180
+                };
+                forceApplyTransform(obj, activeTransform);
+                startContinuousApply();
+                return;
+            }
+            
+            // Find the two keyframes we're between
+            let prev = sorted[0];
+            let next = sorted[sorted.length - 1];
+            for (let i = 0; i < sorted.length - 1; i++) {
+                if (scrollPos >= sorted[i].position && scrollPos <= sorted[i + 1].position) {
                     prev = sorted[i];
-                }
-                if (sorted[i].position >= scrollPos) {
-                    next = sorted[i];
+                    next = sorted[i + 1];
                     break;
                 }
             }
             
+            // Interpolation factor
             let t = 0;
-            if (prev !== next && next.position !== prev.position) {
+            if (next.position !== prev.position) {
                 t = (scrollPos - prev.position) / (next.position - prev.position);
-            } else if (scrollPos >= next.position) {
-                t = 1;
             }
             t = Math.max(0, Math.min(1, t));
             
@@ -2307,6 +2453,10 @@
                 scrollSlider.value = scrollPercent;
                 scrollValue.value = scrollPercent;
                 currentConfig.scrollPosition = scrollPercent;
+                
+                if (currentConfig.livePreview) {
+                    applyTransformation();
+                }
             }
         });
 
@@ -2315,16 +2465,263 @@
             showToast('Configuration saved!');
         };
 
-        window.exportConfig = function() {
-            const dataStr = JSON.stringify(currentConfig, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', `${currentConfig.name}.json`);
-            linkElement.click();
+        // ─── Download Modal & Code Generation ───
+        let downloadActiveTab = 'all';
+
+        window.openDownloadModal = function() {
+            downloadActiveTab = 'all';
+            renderDownloadTabs();
+            renderDownloadCode();
+            document.getElementById('download-modal').classList.add('show');
         };
 
-        window.downloadConfig = window.exportConfig;
+        window.closeDownloadModal = function() {
+            document.getElementById('download-modal').classList.remove('show');
+        };
+
+        function renderDownloadTabs() {
+            const container = document.getElementById('download-bp-tabs');
+            const bps = Object.keys(currentConfig.breakpoints);
+            let html = `<button class="download-bp-tab download-bp-tab-all ${downloadActiveTab === 'all' ? 'active' : ''}" onclick="selectDownloadTab('all')">All Breakpoints</button>`;
+            bps.forEach(bp => {
+                const label = bp.charAt(0).toUpperCase() + bp.slice(1);
+                const kfCount = currentConfig.breakpoints[bp].keyframes.length;
+                html += `<button class="download-bp-tab ${downloadActiveTab === bp ? 'active' : ''}" onclick="selectDownloadTab('${bp}')">${label}${kfCount > 0 ? ' (' + kfCount + ')' : ''}</button>`;
+            });
+            container.innerHTML = html;
+        }
+
+        window.selectDownloadTab = function(tab) {
+            downloadActiveTab = tab;
+            renderDownloadTabs();
+            renderDownloadCode();
+        };
+
+        window.copyDownloadCode = function() {
+            const code = document.getElementById('download-code-output').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                showToast('Code copied to clipboard!');
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = code;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Code copied to clipboard!');
+            });
+        };
+
+        function generateBreakpointCode(bpName, bpConfig) {
+            const label = bpName.charAt(0).toUpperCase() + bpName.slice(1);
+            const minW = bpConfig.minWidth;
+            const keyframes = bpConfig.keyframes;
+            const objName = currentConfig.targetObject || 'Group';
+            const splineUrl = currentConfig.splineUrl || 'YOUR_SPLINE_URL_HERE';
+            const suffix = bpName;
+
+            const keyframeObjects = keyframes.map((kf, i) => {
+                const id = 'kf_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                // Pre-convert screen-space offsets to world-space at export time
+                let wx = kf.posX, wy = kf.posY, wz = kf.posZ;
+                if (screenRight) {
+                    wx = kf.posX * screenRight.x + kf.posY * screenUp.x + kf.posZ * screenFwd.x;
+                    wy = kf.posX * screenRight.y + kf.posY * screenUp.y + kf.posZ * screenFwd.y;
+                    wz = kf.posX * screenRight.z + kf.posY * screenUp.z + kf.posZ * screenFwd.z;
+                }
+                wx = Math.round(wx * 100) / 100;
+                wy = Math.round(wy * 100) / 100;
+                wz = Math.round(wz * 100) / 100;
+                return `        {
+          "id": "${id}",
+          "name": "${kf.name || 'Position ' + (i + 1)}",
+          "scroll": ${kf.position},
+          "pos": { "x": ${wx}, "y": ${wy}, "z": ${wz} },
+          "rot": { "x": ${kf.rotX}, "y": ${kf.rotY}, "z": ${kf.rotZ} },
+          "op": 100,
+          "easing": "linear"
+        }`;
+            });
+
+            const mediaMin = minW > 0 ? `(min-width: ${minW}px)` : '';
+            const maxBps = Object.values(currentConfig.breakpoints)
+                .map(b => b.minWidth)
+                .filter(w => w > minW)
+                .sort((a, b) => a - b);
+            const nextMin = maxBps.length > 0 ? maxBps[0] : null;
+            const mediaMax = nextMin ? `(max-width: ${nextMin - 1}px)` : '';
+            let mediaQuery = '';
+            if (mediaMin && mediaMax) mediaQuery = `${mediaMin} and ${mediaMax}`;
+            else if (mediaMin) mediaQuery = mediaMin;
+            else if (mediaMax) mediaQuery = mediaMax;
+
+            let code = `<!-- Elevia 3D Scroll Animation - ${label} (${mediaMin || 'all widths'}) -->
+<!--
+  Position values are RELATIVE OFFSETS from the object's original Spline position.
+  The code captures the original position on load and applies keyframes as offsets.
+-->
+<style>
+  ${mediaQuery ? `@media ${mediaQuery} {
+    ` : ''}  .spline-scroll-container-${suffix} {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .spline-scroll-container-${suffix} canvas {
+      width: 100%;
+      height: 100%;
+    }
+  ${mediaQuery ? `}` : ''}
+  .spline-scroll-container-${suffix} { display: none; }
+  ${mediaQuery ? `@media ${mediaQuery} { .spline-scroll-container-${suffix} { display: block; } }` : `.spline-scroll-container-${suffix} { display: block; }`}
+</style>
+
+<div class="spline-scroll-container-${suffix}">
+  <canvas id="spline-canvas-${suffix}"></canvas>
+</div>
+
+<script type="module">
+import { Application } from 'https://unpkg.com/@splinetool/runtime/build/runtime.js';
+
+const CONFIG_${suffix.toUpperCase()} = {
+  "objects": [
+    {
+      "name": "${objName}",
+      "keyframes": [
+${keyframeObjects.join(',\n')}
+      ]
+    }
+  ]
+};
+
+const EASING_${suffix} = {
+  linear: t => t,
+  easeInQuad: t => t * t,
+  easeOutQuad: t => t * (2 - t),
+  easeInOutQuad: t => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
+};
+
+let app_${suffix};
+let originPos_${suffix} = null;
+let originRot_${suffix} = null;
+let objRef_${suffix} = null;
+
+async function init_${suffix}() {
+  const canvas = document.getElementById('spline-canvas-${suffix}');
+  if (!canvas) return;
+  ${mediaQuery ? `
+  const w = window.innerWidth;
+  if (${minW > 0 ? `w < ${minW}` : 'false'}${nextMin ? ` || w >= ${nextMin}` : ''}) return;
+  ` : ''}
+  app_${suffix} = new Application(canvas);
+  await app_${suffix}.load('${splineUrl}');
+  window.addEventListener('scroll', onScroll_${suffix});
+}
+
+function getObj_${suffix}() {
+  if (objRef_${suffix}) return objRef_${suffix};
+  try {
+    objRef_${suffix} = app_${suffix}.findObjectByName(CONFIG_${suffix.toUpperCase()}.objects[0].name);
+  } catch(e) {}
+  return objRef_${suffix};
+}
+
+function onScroll_${suffix}() {
+  if (!app_${suffix}) return;
+  const obj = getObj_${suffix}();
+  if (!obj) return;
+
+  const docH = document.body.scrollHeight - window.innerHeight;
+  const scroll = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+
+  const objDef = CONFIG_${suffix.toUpperCase()}.objects[0];
+  const kfs = objDef.keyframes;
+  if (!kfs || kfs.length === 0) return;
+  const sorted = [...kfs].sort((a,b) => a.scroll - b.scroll);
+
+  let prev = sorted[0], next = sorted[0];
+  for (let i = 0; i < sorted.length; i++) {
+    if (sorted[i].scroll <= scroll) prev = sorted[i];
+    if (sorted[i].scroll >= scroll && next.scroll < scroll) next = sorted[i];
+  }
+  if (next.scroll < scroll) next = sorted[sorted.length - 1];
+
+  let t = 0;
+  if (prev !== next && next.scroll !== prev.scroll) {
+    t = (scroll - prev.scroll) / (next.scroll - prev.scroll);
+  } else if (scroll >= next.scroll) { t = 1; }
+
+  const easeFn = EASING_${suffix}[next.easing] || EASING_${suffix}.linear;
+  t = easeFn(Math.max(0, Math.min(1, t)));
+  const lerp = (a, b) => a + (b - a) * t;
+
+  const oX = lerp(prev.pos.x, next.pos.x);
+  const oY = lerp(prev.pos.y, next.pos.y);
+  const oZ = lerp(prev.pos.z, next.pos.z);
+  const rX = lerp(prev.rot.x, next.rot.x);
+  const rY = lerp(prev.rot.y, next.rot.y);
+  const rZ = lerp(prev.rot.z, next.rot.z);
+
+  if (oX === 0 && oY === 0 && oZ === 0 && rX === 0 && rY === 0 && rZ === 0) return;
+
+  if (!originPos_${suffix}) {
+    originPos_${suffix} = { x: obj.position.x, y: obj.position.y, z: obj.position.z };
+    originRot_${suffix} = { x: obj.rotation.x, y: obj.rotation.y, z: obj.rotation.z };
+  }
+
+  if (oX !== 0 || oY !== 0 || oZ !== 0) {
+    obj.position.x = originPos_${suffix}.x + oX;
+    obj.position.y = originPos_${suffix}.y + oY;
+    obj.position.z = originPos_${suffix}.z + oZ;
+  }
+
+  if (rX !== 0 || rY !== 0 || rZ !== 0) {
+    obj.rotation.x = originRot_${suffix}.x + rX * Math.PI / 180;
+    obj.rotation.y = originRot_${suffix}.y + rY * Math.PI / 180;
+    obj.rotation.z = originRot_${suffix}.z + rZ * Math.PI / 180;
+  }
+}
+
+init_${suffix}();
+<\/script>`;
+            return code;
+        }
+
+        function generateAllBreakpointsCode() {
+            const parts = [];
+            for (const [bpName, bpConfig] of Object.entries(currentConfig.breakpoints)) {
+                if (bpConfig.keyframes.length > 0) {
+                    parts.push(generateBreakpointCode(bpName, bpConfig));
+                }
+            }
+            if (parts.length === 0) {
+                return '<!-- No keyframes configured. Add positions in the config tool first. -->';
+            }
+            return parts.join('\n\n<!-- ═══════════════════════════════════════════ -->\n\n');
+        }
+
+        function renderDownloadCode() {
+            const output = document.getElementById('download-code-output');
+            const label = document.getElementById('code-block-label');
+
+            if (downloadActiveTab === 'all') {
+                label.textContent = 'ALL BREAKPOINTS — HTML / CSS / JS';
+                output.textContent = generateAllBreakpointsCode();
+            } else {
+                const bp = currentConfig.breakpoints[downloadActiveTab];
+                const bpLabel = downloadActiveTab.charAt(0).toUpperCase() + downloadActiveTab.slice(1);
+                label.textContent = `${bpLabel.toUpperCase()} — HTML / CSS / JS`;
+                if (bp.keyframes.length === 0) {
+                    output.textContent = `<!-- No keyframes configured for ${bpLabel} breakpoint. -->`;
+                } else {
+                    output.textContent = generateBreakpointCode(downloadActiveTab, bp);
+                }
+            }
+        }
 
         window.handleSignOut = function() {
             if (confirm('Are you sure you want to sign out?')) {
