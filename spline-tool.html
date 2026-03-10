@@ -93,7 +93,6 @@
             overflow: auto !important;
             position: relative !important;
             height: auto !important;
-            min-height: 300vh !important;
         }
 
         /* Sidebar Panel */
@@ -1819,14 +1818,23 @@
             }
         };
 
-        // Add Keyframe
+        // Add Keyframe — copies values from the previous position for smooth transitions
         window.addKeyframe = function() {
             const position = currentConfig.scrollPosition;
             const breakpoint = currentConfig.activeBreakpoint;
             const keyframes = currentConfig.breakpoints[breakpoint].keyframes;
             
-            // Keyframes store offsets from initial position (0 = no change from original)
             let posX = 0, posY = 0, posZ = 0, rotX = 0, rotY = 0, rotZ = 0;
+            
+            if (keyframes.length > 0) {
+                const prev = keyframes[keyframes.length - 1];
+                posX = prev.posX;
+                posY = prev.posY;
+                posZ = prev.posZ;
+                rotX = prev.rotX;
+                rotY = prev.rotY;
+                rotZ = prev.rotZ;
+            }
             
             keyframes.push({
                 position: position,
@@ -1908,17 +1916,17 @@
                             <div class="control-label">ROTATION</div>
                             <div class="control-row">
                                 <span class="axis-label axis-x">X</span>
-                                <input type="range" class="axis-slider" min="-180" max="180" step="1" value="${keyframe.rotX}" oninput="updateSliderValue(${index}, 'rotX', this.value)">
+                                <input type="range" class="axis-slider" min="-270" max="270" step="1" value="${keyframe.rotX}" oninput="updateSliderValue(${index}, 'rotX', this.value)">
                                 <input type="number" class="axis-input" value="${keyframe.rotX}" step="1" oninput="updateKeyframeParam(${index}, 'rotX', this.value)">
                             </div>
                             <div class="control-row">
                                 <span class="axis-label axis-y">Y</span>
-                                <input type="range" class="axis-slider" min="-180" max="180" step="1" value="${keyframe.rotY}" oninput="updateSliderValue(${index}, 'rotY', this.value)">
+                                <input type="range" class="axis-slider" min="-270" max="270" step="1" value="${keyframe.rotY}" oninput="updateSliderValue(${index}, 'rotY', this.value)">
                                 <input type="number" class="axis-input" value="${keyframe.rotY}" step="1" oninput="updateKeyframeParam(${index}, 'rotY', this.value)">
                             </div>
                             <div class="control-row">
                                 <span class="axis-label axis-z">Z</span>
-                                <input type="range" class="axis-slider" min="-180" max="180" step="1" value="${keyframe.rotZ}" oninput="updateSliderValue(${index}, 'rotZ', this.value)">
+                                <input type="range" class="axis-slider" min="-270" max="270" step="1" value="${keyframe.rotZ}" oninput="updateSliderValue(${index}, 'rotZ', this.value)">
                                 <input type="number" class="axis-input" value="${keyframe.rotZ}" step="1" oninput="updateKeyframeParam(${index}, 'rotZ', this.value)">
                             </div>
                         </div>
@@ -2026,6 +2034,9 @@
             if (obj && obj.rotation) {
                 initialRot = { x: obj.rotation.x, y: obj.rotation.y, z: obj.rotation.z };
             }
+            // #region agent log
+            fetch('http://127.0.0.1:7245/ingest/125a7df1-7ac7-4f11-95c0-276433f98821',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'spline-tool.html:storeInitialTransform',message:'Origin captured',data:{initialPos,initialRot,objFound:!!obj,hasPosition:!!(obj&&obj.position),hasRotation:!!(obj&&obj.rotation)},timestamp:Date.now(),hypothesisId:'H1'})}).catch(()=>{});
+            // #endregion
         }
 
         function forceApplyTransform(obj, t) {
@@ -2066,17 +2077,31 @@
             transformRAF = requestAnimationFrame(tick);
         }
         
-        // Persistent loop: keeps applying transformation every frame while LIVE is on
+        // Smooth interpolation state — object glides toward target instead of snapping
+        let smoothTransform = null;
+        const SMOOTH_FACTOR = 0.035;
+
         function startLiveLoop() {
             if (liveRAF) return;
             function liveTick() {
                 if (!currentConfig.livePreview) {
                     liveRAF = null;
+                    smoothTransform = null;
                     return;
                 }
                 if (activeTransform) {
+                    if (!smoothTransform) {
+                        smoothTransform = { ...activeTransform };
+                    } else {
+                        smoothTransform.posX += (activeTransform.posX - smoothTransform.posX) * SMOOTH_FACTOR;
+                        smoothTransform.posY += (activeTransform.posY - smoothTransform.posY) * SMOOTH_FACTOR;
+                        smoothTransform.posZ += (activeTransform.posZ - smoothTransform.posZ) * SMOOTH_FACTOR;
+                        smoothTransform.rotX += (activeTransform.rotX - smoothTransform.rotX) * SMOOTH_FACTOR;
+                        smoothTransform.rotY += (activeTransform.rotY - smoothTransform.rotY) * SMOOTH_FACTOR;
+                        smoothTransform.rotZ += (activeTransform.rotZ - smoothTransform.rotZ) * SMOOTH_FACTOR;
+                    }
                     const obj = getTargetObject();
-                    if (obj) forceApplyTransform(obj, activeTransform);
+                    if (obj) forceApplyTransform(obj, smoothTransform);
                 }
                 liveRAF = requestAnimationFrame(liveTick);
             }
@@ -2124,7 +2149,7 @@
             applyDirectTransformation(index);
         };
         
-        // Apply transformation directly from a specific keyframe (no interpolation)
+        // Apply transformation directly from a specific keyframe (snap, no smoothing)
         function applyDirectTransformation(keyframeIndex) {
             const obj = getTargetObject();
             if (!obj) return;
@@ -2142,7 +2167,8 @@
                 rotZ: keyframe.rotZ * Math.PI / 180
             };
             
-            console.log('[3DConfig] Applying transform:', activeTransform, 'to object:', currentConfig.targetObject);
+            // Snap smoothTransform so slider edits feel immediate
+            smoothTransform = { ...activeTransform };
             
             // Apply immediately
             forceApplyTransform(obj, activeTransform);
@@ -2195,6 +2221,10 @@
                     findAndDisplaySceneObjects();
                     setupScreenAxes();
                     storeInitialTransform();
+                    // #region agent log
+                    const _c = document.getElementById('canvas3d');
+                    fetch('http://127.0.0.1:7245/ingest/125a7df1-7ac7-4f11-95c0-276433f98821',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'spline-tool.html:afterSceneLoad',message:'Config tool canvas dims',data:{cssWidth:_c?.clientWidth,cssHeight:_c?.clientHeight,attrWidth:_c?.width,attrHeight:_c?.height,innerW:window.innerWidth,innerH:window.innerHeight,dpr:window.devicePixelRatio},timestamp:Date.now(),hypothesisId:'H2'})}).catch(()=>{});
+                    // #endregion
                 }, 500);
                 
             } catch (error) {
@@ -2358,12 +2388,13 @@
                 }
             }
             
-            // Interpolation factor
+            // Interpolation factor with smooth easing
             let t = 0;
             if (next.position !== prev.position) {
                 t = (scrollPos - prev.position) / (next.position - prev.position);
             }
             t = Math.max(0, Math.min(1, t));
+            t = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
             
             const lerp = (a, b) => a + (b - a) * t;
             
@@ -2398,13 +2429,19 @@
                 document.body.classList.remove('scrollable');
             } else if (mode === 'picture') {
                 if (currentConfig.backgroundImage) {
-                    document.body.style.backgroundImage = `url(${currentConfig.backgroundImage})`;
-                    document.body.style.backgroundSize = 'cover';
-                    document.body.style.backgroundPosition = 'center top';
-                    document.body.style.backgroundRepeat = 'no-repeat';
-                    document.body.style.backgroundAttachment = 'scroll';
+                    const img = new Image();
+                    img.onload = () => {
+                        const aspectRatio = img.height / img.width;
+                        const pageHeight = window.innerWidth * aspectRatio;
+                        document.body.style.backgroundImage = `url(${currentConfig.backgroundImage})`;
+                        document.body.style.backgroundSize = '100% auto';
+                        document.body.style.backgroundPosition = 'center top';
+                        document.body.style.backgroundRepeat = 'no-repeat';
+                        document.body.style.backgroundAttachment = 'scroll';
+                        document.body.style.minHeight = pageHeight + 'px';
+                    };
+                    img.src = currentConfig.backgroundImage;
                 }
-                // Add scrollable class for picture mode
                 document.documentElement.classList.add('scrollable');
                 document.body.classList.add('scrollable');
             }
@@ -2422,15 +2459,20 @@
                 const reader = new FileReader();
                 reader.onload = (event) => {
                     currentConfig.backgroundImage = event.target.result;
-                    // Apply the background image
-                    document.body.style.backgroundImage = `url(${event.target.result})`;
-                    document.body.style.backgroundSize = 'cover';
-                    document.body.style.backgroundPosition = 'center top';
-                    document.body.style.backgroundRepeat = 'no-repeat';
-                    document.body.style.backgroundAttachment = 'scroll';
-                    // Enable scrolling for picture background
-                    document.documentElement.classList.add('scrollable');
-                    document.body.classList.add('scrollable');
+                    const img = new Image();
+                    img.onload = () => {
+                        const aspectRatio = img.height / img.width;
+                        const pageHeight = window.innerWidth * aspectRatio;
+                        document.body.style.backgroundImage = `url(${event.target.result})`;
+                        document.body.style.backgroundSize = '100% auto';
+                        document.body.style.backgroundPosition = 'center top';
+                        document.body.style.backgroundRepeat = 'no-repeat';
+                        document.body.style.backgroundAttachment = 'scroll';
+                        document.body.style.minHeight = pageHeight + 'px';
+                        document.documentElement.classList.add('scrollable');
+                        document.body.classList.add('scrollable');
+                    };
+                    img.src = event.target.result;
                 };
                 reader.readAsDataURL(file);
             }
@@ -2485,8 +2527,7 @@
             let html = `<button class="download-bp-tab download-bp-tab-all ${downloadActiveTab === 'all' ? 'active' : ''}" onclick="selectDownloadTab('all')">All Breakpoints</button>`;
             bps.forEach(bp => {
                 const label = bp.charAt(0).toUpperCase() + bp.slice(1);
-                const kfCount = currentConfig.breakpoints[bp].keyframes.length;
-                html += `<button class="download-bp-tab ${downloadActiveTab === bp ? 'active' : ''}" onclick="selectDownloadTab('${bp}')">${label}${kfCount > 0 ? ' (' + kfCount + ')' : ''}</button>`;
+                html += `<button class="download-bp-tab ${downloadActiveTab === bp ? 'active' : ''}" onclick="selectDownloadTab('${bp}')">${label}</button>`;
             });
             container.innerHTML = html;
         }
@@ -2539,7 +2580,7 @@
           "pos": { "x": ${wx}, "y": ${wy}, "z": ${wz} },
           "rot": { "x": ${kf.rotX}, "y": ${kf.rotY}, "z": ${kf.rotZ} },
           "op": 100,
-          "easing": "linear"
+          "easing": "easeInOutQuad"
         }`;
             });
 
@@ -2555,138 +2596,169 @@
             else if (mediaMin) mediaQuery = mediaMin;
             else if (mediaMax) mediaQuery = mediaMax;
 
+            // Bake the config tool's origin into the generated code for exact 1:1 match
+            const oPos = initialPos || { x: 0, y: 0, z: 0 };
+            const oRot = initialRot || { x: 0, y: 0, z: 0 };
+            // #region agent log
+            fetch('http://127.0.0.1:7245/ingest/125a7df1-7ac7-4f11-95c0-276433f98821',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'spline-tool.html:generateBreakpointCode',message:'Export baked values',data:{initialPosIsNull:initialPos===null,initialRotIsNull:initialRot===null,oPos,oRot,screenRight,bpName,keyframeCount:keyframes.length},timestamp:Date.now(),hypothesisId:'H1,H5'})}).catch(()=>{});
+            // #endregion
+
             let code = `<!-- Elevia 3D Scroll Animation - ${label} (${mediaMin || 'all widths'}) -->
 <!--
   Position values are RELATIVE OFFSETS from the object's original Spline position.
-  The code captures the original position on load and applies keyframes as offsets.
+  ORIGIN_POS / ORIGIN_ROT are baked from the config tool for exact match.
 -->
 <style>
   ${mediaQuery ? `@media ${mediaQuery} {
     ` : ''}  .spline-scroll-container-${suffix} {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
       z-index: 10;
       pointer-events: none;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
     }
     .spline-scroll-container-${suffix} canvas {
-      width: 100%;
-      height: 100%;
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 0 !important;
+      max-width: none !important;
+      max-height: none !important;
     }
   ${mediaQuery ? `}` : ''}
-  .spline-scroll-container-${suffix} { display: none; }
-  ${mediaQuery ? `@media ${mediaQuery} { .spline-scroll-container-${suffix} { display: block; } }` : `.spline-scroll-container-${suffix} { display: block; }`}
+  .spline-scroll-container-${suffix} { display: none !important; }
+  ${mediaQuery ? `@media ${mediaQuery} { .spline-scroll-container-${suffix} { display: block !important; } }` : `.spline-scroll-container-${suffix} { display: block !important; }`}
 </style>
 
 <div class="spline-scroll-container-${suffix}">
   <canvas id="spline-canvas-${suffix}"></canvas>
 </div>
 
-<script type="module">
-import { Application } from 'https://unpkg.com/@splinetool/runtime/build/runtime.js';
+<script>
+(function(){
+  // #region agent log
+  console.log('[ELEVIA-3D] Embed script started for ${suffix}');
+  // #endregion
 
-const CONFIG_${suffix.toUpperCase()} = {
-  "objects": [
-    {
-      "name": "${objName}",
-      "keyframes": [
+  var CONFIG = {
+    objects: [{
+      name: "${objName}",
+      keyframes: [
 ${keyframeObjects.join(',\n')}
       ]
+    }]
+  };
+
+  var EASING = {
+    linear: function(t) { return t; },
+    easeInQuad: function(t) { return t * t; },
+    easeOutQuad: function(t) { return t * (2 - t); },
+    easeInOutQuad: function(t) { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; }
+  };
+
+  var ORIGIN_POS = { x: ${Math.round(oPos.x * 1e6) / 1e6}, y: ${Math.round(oPos.y * 1e6) / 1e6}, z: ${Math.round(oPos.z * 1e6) / 1e6} };
+  var ORIGIN_ROT = { x: ${Math.round(oRot.x * 1e6) / 1e6}, y: ${Math.round(oRot.y * 1e6) / 1e6}, z: ${Math.round(oRot.z * 1e6) / 1e6} };
+
+  var app, objRef, offsets = { oX: 0, oY: 0, oZ: 0, rX: 0, rY: 0, rZ: 0 };
+
+  function getObj() {
+    if (objRef) return objRef;
+    try { objRef = app.findObjectByName(CONFIG.objects[0].name); } catch(e) {}
+    return objRef;
+  }
+
+  function onScroll() {
+    if (!app) return;
+    var docH = document.body.scrollHeight - window.innerHeight;
+    var scroll = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+
+    var kfs = CONFIG.objects[0].keyframes;
+    if (!kfs || kfs.length === 0) return;
+    var sorted = kfs.slice().sort(function(a,b) { return a.scroll - b.scroll; });
+
+    var prev = sorted[0], next = sorted[0];
+    for (var i = 0; i < sorted.length; i++) {
+      if (sorted[i].scroll <= scroll) prev = sorted[i];
+      if (sorted[i].scroll >= scroll && next.scroll < scroll) next = sorted[i];
     }
-  ]
-};
+    if (next.scroll < scroll) next = sorted[sorted.length - 1];
 
-const EASING_${suffix} = {
-  linear: t => t,
-  easeInQuad: t => t * t,
-  easeOutQuad: t => t * (2 - t),
-  easeInOutQuad: t => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t
-};
+    var t = 0;
+    if (prev !== next && next.scroll !== prev.scroll) {
+      t = (scroll - prev.scroll) / (next.scroll - prev.scroll);
+    } else if (scroll >= next.scroll) { t = 1; }
 
-let app_${suffix};
-let originPos_${suffix} = null;
-let originRot_${suffix} = null;
-let objRef_${suffix} = null;
+    var easeFn = EASING[next.easing] || EASING.linear;
+    t = easeFn(Math.max(0, Math.min(1, t)));
+    function lerp(a, b) { return a + (b - a) * t; }
 
-async function init_${suffix}() {
-  const canvas = document.getElementById('spline-canvas-${suffix}');
-  if (!canvas) return;
-  ${mediaQuery ? `
-  const w = window.innerWidth;
-  if (${minW > 0 ? `w < ${minW}` : 'false'}${nextMin ? ` || w >= ${nextMin}` : ''}) return;
-  ` : ''}
-  app_${suffix} = new Application(canvas);
-  await app_${suffix}.load('${splineUrl}');
-  window.addEventListener('scroll', onScroll_${suffix});
-}
-
-function getObj_${suffix}() {
-  if (objRef_${suffix}) return objRef_${suffix};
-  try {
-    objRef_${suffix} = app_${suffix}.findObjectByName(CONFIG_${suffix.toUpperCase()}.objects[0].name);
-  } catch(e) {}
-  return objRef_${suffix};
-}
-
-function onScroll_${suffix}() {
-  if (!app_${suffix}) return;
-  const obj = getObj_${suffix}();
-  if (!obj) return;
-
-  const docH = document.body.scrollHeight - window.innerHeight;
-  const scroll = docH > 0 ? (window.scrollY / docH) * 100 : 0;
-
-  const objDef = CONFIG_${suffix.toUpperCase()}.objects[0];
-  const kfs = objDef.keyframes;
-  if (!kfs || kfs.length === 0) return;
-  const sorted = [...kfs].sort((a,b) => a.scroll - b.scroll);
-
-  let prev = sorted[0], next = sorted[0];
-  for (let i = 0; i < sorted.length; i++) {
-    if (sorted[i].scroll <= scroll) prev = sorted[i];
-    if (sorted[i].scroll >= scroll && next.scroll < scroll) next = sorted[i];
-  }
-  if (next.scroll < scroll) next = sorted[sorted.length - 1];
-
-  let t = 0;
-  if (prev !== next && next.scroll !== prev.scroll) {
-    t = (scroll - prev.scroll) / (next.scroll - prev.scroll);
-  } else if (scroll >= next.scroll) { t = 1; }
-
-  const easeFn = EASING_${suffix}[next.easing] || EASING_${suffix}.linear;
-  t = easeFn(Math.max(0, Math.min(1, t)));
-  const lerp = (a, b) => a + (b - a) * t;
-
-  const oX = lerp(prev.pos.x, next.pos.x);
-  const oY = lerp(prev.pos.y, next.pos.y);
-  const oZ = lerp(prev.pos.z, next.pos.z);
-  const rX = lerp(prev.rot.x, next.rot.x);
-  const rY = lerp(prev.rot.y, next.rot.y);
-  const rZ = lerp(prev.rot.z, next.rot.z);
-
-  if (oX === 0 && oY === 0 && oZ === 0 && rX === 0 && rY === 0 && rZ === 0) return;
-
-  if (!originPos_${suffix}) {
-    originPos_${suffix} = { x: obj.position.x, y: obj.position.y, z: obj.position.z };
-    originRot_${suffix} = { x: obj.rotation.x, y: obj.rotation.y, z: obj.rotation.z };
+    offsets.oX = lerp(prev.pos.x, next.pos.x);
+    offsets.oY = lerp(prev.pos.y, next.pos.y);
+    offsets.oZ = lerp(prev.pos.z, next.pos.z);
+    offsets.rX = lerp(prev.rot.x, next.rot.x);
+    offsets.rY = lerp(prev.rot.y, next.rot.y);
+    offsets.rZ = lerp(prev.rot.z, next.rot.z);
   }
 
-  if (oX !== 0 || oY !== 0 || oZ !== 0) {
-    obj.position.x = originPos_${suffix}.x + oX;
-    obj.position.y = originPos_${suffix}.y + oY;
-    obj.position.z = originPos_${suffix}.z + oZ;
+  function startLoop() {
+    function tick() {
+      var obj = getObj();
+      if (obj) {
+        obj.position.x = ORIGIN_POS.x + offsets.oX;
+        obj.position.y = ORIGIN_POS.y + offsets.oY;
+        obj.position.z = ORIGIN_POS.z + offsets.oZ;
+        obj.rotation.x = ORIGIN_ROT.x + offsets.rX * Math.PI / 180;
+        obj.rotation.y = ORIGIN_ROT.y + offsets.rY * Math.PI / 180;
+        obj.rotation.z = ORIGIN_ROT.z + offsets.rZ * Math.PI / 180;
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }
 
-  if (rX !== 0 || rY !== 0 || rZ !== 0) {
-    obj.rotation.x = originRot_${suffix}.x + rX * Math.PI / 180;
-    obj.rotation.y = originRot_${suffix}.y + rY * Math.PI / 180;
-    obj.rotation.z = originRot_${suffix}.z + rZ * Math.PI / 180;
+  function init() {
+    var canvas = document.getElementById('spline-canvas-${suffix}');
+    // #region agent log
+    console.log('[ELEVIA-3D] canvas:', !!canvas, 'w:', window.innerWidth);
+    // #endregion
+    if (!canvas) return;
+    ${mediaQuery ? `
+    var w = window.innerWidth;
+    if (${minW > 0 ? 'w < ' + minW : 'false'}${nextMin ? ' || w >= ' + nextMin : ''}) return;
+    ` : ''}
+    import('https://unpkg.com/@splinetool/runtime/build/runtime.js').then(function(module) {
+      var Application = module.Application;
+      // #region agent log
+      console.log('[ELEVIA-3D] Spline runtime loaded, initializing...');
+      // #endregion
+      app = new Application(canvas);
+      app.load('${splineUrl}').then(function() {
+        // #region agent log
+        console.log('[ELEVIA-3D] Scene loaded! ORIGIN_POS:', ORIGIN_POS);
+        // #endregion
+        window.addEventListener('scroll', onScroll);
+        onScroll();
+        startLoop();
+      });
+    }).catch(function(err) {
+      console.error('[ELEVIA-3D] Failed to load:', err);
+    });
   }
-}
 
-init_${suffix}();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
 <\/script>`;
             return code;
         }
