@@ -2079,30 +2079,38 @@
         
         // Smooth interpolation state — object glides toward target instead of snapping
         let smoothTransform = null;
-        const SMOOTH_FACTOR = 0.035;
+        let lastLiveTime = null;
+        const SMOOTH_SPEED = 0.10;
 
         function startLiveLoop() {
             if (liveRAF) return;
-            function liveTick() {
+            lastLiveTime = null;
+            function liveTick(timestamp) {
                 if (!currentConfig.livePreview) {
                     liveRAF = null;
                     smoothTransform = null;
+                    lastLiveTime = null;
                     return;
                 }
                 if (activeTransform) {
                     if (!smoothTransform) {
                         smoothTransform = { ...activeTransform };
                     } else {
-                        smoothTransform.posX += (activeTransform.posX - smoothTransform.posX) * SMOOTH_FACTOR;
-                        smoothTransform.posY += (activeTransform.posY - smoothTransform.posY) * SMOOTH_FACTOR;
-                        smoothTransform.posZ += (activeTransform.posZ - smoothTransform.posZ) * SMOOTH_FACTOR;
-                        smoothTransform.rotX += (activeTransform.rotX - smoothTransform.rotX) * SMOOTH_FACTOR;
-                        smoothTransform.rotY += (activeTransform.rotY - smoothTransform.rotY) * SMOOTH_FACTOR;
-                        smoothTransform.rotZ += (activeTransform.rotZ - smoothTransform.rotZ) * SMOOTH_FACTOR;
+                        if (!lastLiveTime) lastLiveTime = timestamp;
+                        const dt = Math.min((timestamp - lastLiveTime) / 16.667, 3);
+                        const factor = 1 - Math.pow(1 - SMOOTH_SPEED, dt);
+
+                        smoothTransform.posX += (activeTransform.posX - smoothTransform.posX) * factor;
+                        smoothTransform.posY += (activeTransform.posY - smoothTransform.posY) * factor;
+                        smoothTransform.posZ += (activeTransform.posZ - smoothTransform.posZ) * factor;
+                        smoothTransform.rotX += (activeTransform.rotX - smoothTransform.rotX) * factor;
+                        smoothTransform.rotY += (activeTransform.rotY - smoothTransform.rotY) * factor;
+                        smoothTransform.rotZ += (activeTransform.rotZ - smoothTransform.rotZ) * factor;
                     }
                     const obj = getTargetObject();
                     if (obj) forceApplyTransform(obj, smoothTransform);
                 }
+                lastLiveTime = timestamp;
                 liveRAF = requestAnimationFrame(liveTick);
             }
             liveRAF = requestAnimationFrame(liveTick);
@@ -2358,8 +2366,10 @@
                     rotY: kf.rotY * Math.PI / 180,
                     rotZ: kf.rotZ * Math.PI / 180
                 };
-                forceApplyTransform(obj, activeTransform);
-                startContinuousApply();
+                if (!currentConfig.livePreview) {
+                    forceApplyTransform(obj, activeTransform);
+                    startContinuousApply();
+                }
                 return;
             }
             
@@ -2372,8 +2382,10 @@
                     rotY: kf.rotY * Math.PI / 180,
                     rotZ: kf.rotZ * Math.PI / 180
                 };
-                forceApplyTransform(obj, activeTransform);
-                startContinuousApply();
+                if (!currentConfig.livePreview) {
+                    forceApplyTransform(obj, activeTransform);
+                    startContinuousApply();
+                }
                 return;
             }
             
@@ -2407,8 +2419,10 @@
                 rotZ: lerp(prev.rotZ, next.rotZ) * Math.PI / 180
             };
             
-            forceApplyTransform(obj, activeTransform);
-            startContinuousApply();
+            if (!currentConfig.livePreview) {
+                forceApplyTransform(obj, activeTransform);
+                startContinuousApply();
+            }
         }
 
         window.setBackgroundMode = function(mode) {
@@ -2675,6 +2689,10 @@ ${keyframeObjects.join(',\n')}
     return objRef;
   }
 
+  var targetOffsets = { oX: 0, oY: 0, oZ: 0, rX: 0, rY: 0, rZ: 0 };
+  var SMOOTH_SPEED = 0.10;
+  var lastTickTime = null;
+
   function onScroll() {
     if (!app) return;
     var docH = document.body.scrollHeight - window.innerHeight;
@@ -2700,16 +2718,28 @@ ${keyframeObjects.join(',\n')}
     t = easeFn(Math.max(0, Math.min(1, t)));
     function lerp(a, b) { return a + (b - a) * t; }
 
-    offsets.oX = lerp(prev.pos.x, next.pos.x);
-    offsets.oY = lerp(prev.pos.y, next.pos.y);
-    offsets.oZ = lerp(prev.pos.z, next.pos.z);
-    offsets.rX = lerp(prev.rot.x, next.rot.x);
-    offsets.rY = lerp(prev.rot.y, next.rot.y);
-    offsets.rZ = lerp(prev.rot.z, next.rot.z);
+    targetOffsets.oX = lerp(prev.pos.x, next.pos.x);
+    targetOffsets.oY = lerp(prev.pos.y, next.pos.y);
+    targetOffsets.oZ = lerp(prev.pos.z, next.pos.z);
+    targetOffsets.rX = lerp(prev.rot.x, next.rot.x);
+    targetOffsets.rY = lerp(prev.rot.y, next.rot.y);
+    targetOffsets.rZ = lerp(prev.rot.z, next.rot.z);
   }
 
   function startLoop() {
-    function tick() {
+    function tick(timestamp) {
+      if (!lastTickTime) lastTickTime = timestamp;
+      var dt = Math.min((timestamp - lastTickTime) / 16.667, 3);
+      var factor = 1 - Math.pow(1 - SMOOTH_SPEED, dt);
+      lastTickTime = timestamp;
+
+      offsets.oX += (targetOffsets.oX - offsets.oX) * factor;
+      offsets.oY += (targetOffsets.oY - offsets.oY) * factor;
+      offsets.oZ += (targetOffsets.oZ - offsets.oZ) * factor;
+      offsets.rX += (targetOffsets.rX - offsets.rX) * factor;
+      offsets.rY += (targetOffsets.rY - offsets.rY) * factor;
+      offsets.rZ += (targetOffsets.rZ - offsets.rZ) * factor;
+
       var obj = getObj();
       if (obj) {
         obj.position.x = ORIGIN_POS.x + offsets.oX;
